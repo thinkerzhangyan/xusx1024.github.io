@@ -86,7 +86,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.jpg?v=5.1.1" />
 
 
 
@@ -110,7 +110,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -161,7 +161,7 @@
     
   
 
-  <div class="container sidebar-position-left 
+  <div class="container sidebar-position-right 
    page-home 
  ">
     <div class="headband"></div>
@@ -366,7 +366,10 @@
 需要的类
 com.android.server.wm.WindowManagerService
 android.view.WindowManager
-android.view.Wind
+android.view.Window
+
+  Window是一个抽象类，具体实现是PhoneWindow。不管是Activity、Dialog、Toast它们的视图都是附加在Window上的，因此Window实际上是View的直接管理者。WindowManager是外界访问Window的入口，通过WindowManager可以创建Window，而Window的具体实现位于WindowManagerService中，WindowManager和WindowManagerService的交互是一个IPC过程。
+Window的添加、更
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -507,152 +510,15 @@ android.view.Wind
         
           
           引起build false提示信息
-Proguard Warning: org.jetbrains.anko.internals.AnkoInternals: can’t find referenced method ‘int getThemeResId()’ in library class an
+Proguard Warning: org.jetbrains.anko.internals.AnkoInternals: can’t find referenced method ‘int getThemeResId()’ in library class android.view.ContextThemeWrapper
+
+原因&amp;解决
+原因：This call only works with android.support.v7.view.ContextThemeWrapper because in system framework base ContextThemeWrapper is hide this call and the existence of getThemeResId not guaranteed.
+解决：compile ‘o
           ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/03/01/kotlin-in-project/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/android-system-service-LayoutInflater/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/23/android-system-service-LayoutInflater/" itemprop="url">Android系统服务：LayoutInflater</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-23T00:00:00Z">
-                2017-02-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          起源activity是android中最常用的UI容器。把写好的xml布局通过setContentView(int ResId)，就可以实现页面的绑定，然后我们根据控件的ID，根据业务代码展示UI就可以了。关于xml的解析和绘制，就是系统服务LayoutInflater的工作了。
-追踪android
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/23/android-system-service-LayoutInflater/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -790,11 +656,161 @@ Proguard Warning: org.jetbrains.anko.internals.AnkoInternals: can’t find refer
           
           基础知识第一次与volatile相识，是在单例模式的介绍中，一个DCL的单例，是如何因为非原子性操作而导致在多线程环境下破坏了单例的唯一性。volatile就在此时挺身而出，搞得人对之好感满满。于此时，我又认识到了锁、同步、原子性，这些概念，下面做一个简单的基础知识科普。
 为什么需要锁
-由上图，两颗
+由上图，两颗CPU都在修改内存的变量，导致其计数有误。
+锁(lock)锁是用来做并发最简单的方式，当然其代价也是最高的。内核态的锁的时候需要操作系统进行一次上下文切换，加锁、释放锁会导致比较多的上下文切换和调度延时，等待锁的线程会被挂起直至锁释放。在上下文切换的时候，cpu之前缓存的指令和数据都将失效，对性能有很大的损失。用户态的锁避免了这些问题，但是他们只是在没有真实的竞争时才有效。
+JDK之前，都是靠synchronized关键字保证同步的，这种通过使用一致的锁定协议来协调对共享状态的访问，可以确保无论
           ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/02/23/java-volatile/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/android-system-service-LayoutInflater/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/23/android-system-service-LayoutInflater/" itemprop="url">Android系统服务：LayoutInflater</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-23T00:00:00Z">
+                2017-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          起源activity是android中最常用的UI容器。把写好的xml布局通过setContentView(int ResId)，就可以实现页面的绑定，然后我们根据控件的ID，根据业务代码展示UI就可以了。关于xml的解析和绘制，就是系统服务LayoutInflater的工作了。
+追踪android.app.ActivityActivity源码中有3个setContentView的重载方法。
+public void setContentView(@LayoutRes int layoutResID) {
+    getWindow().setContentView(layoutResID);
+    initWindowDecorActionBar();
+}
+
+public void setContentView(View view) {
+    getWindow().setConten
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/02/23/android-system-service-LayoutInflater/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -934,7 +950,14 @@ Proguard Warning: org.jetbrains.anko.internals.AnkoInternals: can’t find refer
 
 其中核心平台服务包括：
 
-Context.ACTIVITY_SERVICE -&gt
+Context.ACTIVITY_SERVICE -&gt; ActivityManager
+Context.WINDOW_SERVICE -&gt; WindowManager
+PackageManagerService [该服务并非在SystemServiceRegistry中注册]
+
+
+
+对比图一和图二，发现对本地系统服务和java系统服务定义是相反的，由于本地系统服务由C/C++编写，所以判定图一的定义是正确的。保留图二的原因是，图二展示了android系统init后的更多信息。
+再来看图二，android init进程是对各种设备进行初始化，
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1083,7 +1106,12 @@ Context.ACTIVITY_SERVICE -&gt
 与单一职责原则有冲突
 
 根据其特点，我们去看源码或者设计应用就可以做到有据可循了。
-Android系统源码中示例一【饿汉单例】：android.text.Editable.
+Android系统源码中示例一【饿汉单例】：android.text.Editable.Factory.java/**
+  * Factory used by TextView to create new Editables.  You can subclass
+  * it to provide something other than SpannableStringBuilder.
+  */
+ public static class Factory {
+     private static Editable.Factory sInstance = new Editable.F
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1236,7 +1264,19 @@ Uploaded via Site 谁在什么时间上传
 
 
 
-S
+Scenario：Cold StartUp 冷启动场景下
+Slowdowns 速度减缓的地方
+Merm Leaks 内存泄漏的地方
+Time-Real Time 时间花费
+Memory-Max Use 内存占用
+Network-down 下载数据量
+Network-up 上传数据量
+Disk I/O-Read 从磁盘读取数据量
+Disk I/O-Write 写入磁盘的数据量
+
+实例分析-File Sizes
+
+在此，我们看到100kb以上的文件。其中某些lib下的多余库，高清大图片是我们关注的重点
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1383,153 +1423,24 @@ public class Node {
     public Node right;
 
     public Node(int data) {
-        t
+        this.value = data;
+    }
+}
+一个数组的MaxTree定义如下。
+
+数组必须没有重复元素。
+MaxTree是一颗二叉树，数组的每一个值对应一个二叉树节点。
+包括MaxTree树在内且在其中的每一颗树上，值最大的节点都是树的头。
+
+给定一个没有重复元素的数组arr，写出生成这个数组的MaxTree的函数，要求如果数组长度为N，则时间复杂度为O(n)、额外空间复杂度为O(n).
+难度校 ★★★☆
+解答下面举例说明如何在满足空间和时间复杂度的要求下生成MaxTree。
+
+arr 
           ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/02/17/get-max-tree/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/get-max-window/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/16/get-max-window/" itemprop="url">生成窗口最大值数组</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-16T00:00:00Z">
-                2017-02-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          题目生成窗口最大值数组有一个整型数组arr和一个大小为w的窗口从数组的最左边滑倒最右边，窗口每次向右边滑一个位置。例如，数组[4,3,5,4,3,3,6,7]，窗口大小为3时：
-
-[4 3 5] 4 3 3 6 7 窗口中最大值为5 4 [3 5 4] 3 3 6 7 窗口中最大值为5 4 3 [5
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/16/get-max-window/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1669,11 +1580,178 @@ public class Node {
 
 例如，当塔数为两层时，最上层的塔记为1，最下层的塔记为2，则打印：
 
-Move 1 
+Move 1 from left to mid
+Move 1 from mid to right
+Move 2 from left to mid
+Move 1 from right to mid
+Move 1 from mid to left
+Move 2 from mid to right
+Move 1 from left to mid
+Move 1 from mid to right
+用以下两种方法解决
+
+方法一：递归的方法
+方法二：非递归的方法，用栈来模拟汉诺塔的三个塔
+
+难度校 ★★★☆
+解答方法一/
           ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/02/16/hanoi-problom/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/get-max-window/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/16/get-max-window/" itemprop="url">生成窗口最大值数组</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-16T00:00:00Z">
+                2017-02-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          题目生成窗口最大值数组有一个整型数组arr和一个大小为w的窗口从数组的最左边滑倒最右边，窗口每次向右边滑一个位置。例如，数组[4,3,5,4,3,3,6,7]，窗口大小为3时：
+
+[4 3 5] 4 3 3 6 7 窗口中最大值为5 4 [3 5 4] 3 3 6 7 窗口中最大值为5 4 3 [5 4 3] 3 6 7 窗口中最大值为5 4 3 5 [4 3 3] 6 7 窗口中最大值为4 4 3 5 4 [3 3 6] 7 窗口中最大值为6 4 3 5 4 3 [3 6 7] 窗口中最大值为7 
+请实现一个函数：
+
+输入：整型数组arr，窗口大小为w
+输出：一个长度为n-w+1的数组res，res[i]表示每一种窗口状态下的最大值。
+
+
+以上例，结果应为：{5,5,5,4,6,7}.
+难度尉 ★★☆☆
+解答方法一:O(N * w) public class Demo {
+
+    pu
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/02/16/get-max-window/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1808,6 +1886,12 @@ Move 1
 
         
         
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
 
         
         
@@ -1851,6 +1935,14 @@ Move 1
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Muse
   </a>
+</div>
+
+<div class="theme-info">
+
+  <div class="powered-by"></div>
+
+  <span class="post-count">博客共41.5k字</span>
+
 </div>
 
 

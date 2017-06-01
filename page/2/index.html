@@ -86,7 +86,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.jpg?v=5.1.1" />
 
 
 
@@ -110,7 +110,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -161,7 +161,7 @@
     
   
 
-  <div class="container sidebar-position-left 
+  <div class="container sidebar-position-right 
    page-home 
  ">
     <div class="headband"></div>
@@ -366,6 +366,31 @@
 架构设计
 模块化开发
 根据单一职责将系统拆分为不同的小模块模块间通过协议或接口进行通信，以减少耦合
+
+
+组件化开发
+将整个项目划分为多个模块，几个模块或单个模块作为一个组件，开发过程中可分别开发，发布时通过依赖，将组件合并成完整的SDK
+
+
+插件化开发
+SDK 分为宿主和插件。宿主向开发者提供必要的服务接口，并提供自定义的插件加载器，可以热更新，解决方法数64k问题。
+
+
+SDK初始化
+云更新控制
+可以通过服务端的云控服务，关闭某些SDK功能。
+
+
+安全
+appId + appSecret
+核心逻辑采用C/C++
+通讯加密
+https
+对称加密
+非对称加密
+
+
+设备安全[一些开发者会用虚拟机
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -507,7 +532,9 @@
           
           前言 android库很大，开发中会遇到一些不常用的api，记录在此。
 ActionBar相关
-setHomeButtonEnabled这个小于4.0版本的默认值为true的。但是在4.0及其以上是false，该方法的作用：决定左上角的图标是否可以点击。没有向左的小图标。 true 图标可以点击  
+setHomeButtonEnabled这个小于4.0版本的默认值为true的。但是在4.0及其以上是false，该方法的作用：决定左上角的图标是否可以点击。没有向左的小图标。 true 图标可以点击  false 不可以点击
+actionBar.setDisplayHomeAsUpEnabled(true)    // 给左上角图标的左边加上一个返回的图标 。对应ActionBar.DISPLAY_HOME_AS_UP
+actionBar.setDisplayShowHomeEnabled(true)   //使左上角图标是否显示，如果设成false，则没有程序图标，仅仅就个标题，否则，显示应用程序图标，对应id为Android.R.id.home，对应ActionBar.DISPLAY_SH
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -656,7 +683,12 @@ UI自动化测试
 
 重要的类android.accessibilityservice.AccessibilityService
 重要的方法onAccessibilityEventonInterrupt
-清单文件固定配
+清单文件固定配置&lt;service
+    android:name=&quot;.SnatchRedEnvelopeService&quot;
+    android:enabled=&quot;true&quot;
+    android:exported=&quot;true&quot;
+    android:label=&quot;@string/service_name&quot;
+    android:permission=&quot;android.permission.BIND_ACC
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -796,7 +828,23 @@ UI自动化测试
       
         
           
-          简介 DC3算法(Difference Cover mod 3)是J. Kärkkäinen和P. Sanders在2003年发表的论文 “Simple Linear Work Suffix Array Construction”中描述的线性时间内构造后缀数组的算法。相对Prefix Doublin
+          简介 DC3算法(Difference Cover mod 3)是J. Kärkkäinen和P. Sanders在2003年发表的论文 “Simple Linear Work Suffix Array Construction”中描述的线性时间内构造后缀数组的算法。相对Prefix Doubling（前缀倍增）算法而言，虽然它的渐进时间复杂度比较小，但是常数项比较大。DC3算法的思想类似于找中位数的median of medians算法
+算法原理
+先将后缀分成两部分，然后对第一部分的后缀排序;
+利用1的结果，对第二部分的后缀排序;
+将1和2的结果合并，即完成对所有后缀排序;
+
+代码package DC3;
+
+/**
+ * DC3算法构建后缀数组
+ * 
+ * @author sxx.xu
+ *
+ */
+public class DC3 {
+
+    public static final
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -940,7 +988,8 @@ UI自动化测试
 &gt;
 
 子串：字符串S的子串r[i…j],i &lt;= j,表示r串从i到j这一段，就是顺次排列r[i],r[i+1],…,r[j]形成的字符串;
-后缀：从某个位置i开始，到整个字符串末尾结束的一个特殊子串。字符串S的从第i个字符开始的后缀表示suffix(i),
+后缀：从某个位置i开始，到整个字符串末尾结束的一个特殊子串。字符串S的从第i个字符开始的后缀表示suffix(i),也就是suffix(i) = r[i…len(r)];
+大小比较：关于字符串的大小比较，是指通常所说的“字典顺序”比较，也就是对于两个字符串u、v，令从i=1，开始顺次比较u[i]和v[i]，如果u[i]=v[i]，则令i++，否则，若u[i]&gt;v[i]则认为u&gt;v，反之则认为ulen(u)或者i&gt;len(v)仍比较不出结果，那么若len(u)&gt;len(v)，则认为u&gt;v,反之则认为u从大小比较定义来看，S的后缀比较结果是不可能相等，因为u=v的必要条件len(u)
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1088,6 +1137,19 @@ UI自动化测试
 计数排序的优势是对已知数量范围的数组进行排序
 基于比较的排序算法是不能突破O(NlogN)
 
+算法原理
+找出待排序的数组中最大和最小的元素
+统计数组中每个值为i的元素出现的次数，存入数组 C 的第 i 项
+对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）
+反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1
+
+实例分析具体的分步动画演示详见：Data Structure Visualizations
+对于数据2 5 3 0 2 3 0 3程序执行的过程如下图所示：
+
+代码package CountingSort;
+
+/**
+ * 计数排序
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1228,7 +1290,10 @@ UI自动化测试
         
           
           简介探究Tinker的BSDiff算法的过程中，发现用到了后缀排序，就去研究后缀排序，然后发现用到倍增算法的思想。而倍增是排序的一种策略，这种策略要求必须对基数排序有一定的理解 T.T。好，言归正传。基数排序是桶排序的一种特例。 
-比较和非比较的区别常见的快速排序、归并排序、堆排序、冒泡排序等属于比
+比较和非比较的区别常见的快速排序、归并排序、堆排序、冒泡排序等属于比较排序。在排序的最终结果里，元素之间的次序依赖于它们之间的比较。每个数都必须和其他数进行比较，才能确定自己的位置。
+在 冒泡排序 之类的排序中，问题规模为n，又因为需要比较n次，所以平均时间复杂度为O(n²)。在 归并排序、快速排序 之类的排序中，问题规模通过分治法消减为logN次，所以时间复杂度平均 O(nlogn) 。
+比较排序的优势是，适用于各种规模的数据，也不在乎数据的分布，都能进行排序。可以说，比较排序适用于一切需要排序的情况。
+计数排序、基数排序、桶排序则属于非比较排序。非比较排序是
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1370,7 +1435,14 @@ UI自动化测试
           
           简介探究Tinker的BSDiff算法的过程中，发现用到了后缀排序，就去研究后缀排序，然后发现用到倍增算法的思想。而倍增是排序的一种策略，这种策略要求必须对基数排序有一定的理解 T.T，而基数排序是桶排序的一种特例。
 算法原理
-简单暴力的来说，我们有一组数据，该组数据比如说是高数成绩，那么肯定有最大
+简单暴力的来说，我们有一组数据，该组数据比如说是高数成绩，那么肯定有最大值，最小值，申请大小为100的桶数组，数组的下标即分数，数组的值代表相同分数的学生有几个。大概如图所示：
+
+当然，上述只能有一个大概印象和基本理解，如果想要实际使用或者分析问题，还得看正规军。
+
+
+桶排序的思想近乎彻底的分治思想。假设现在需要对一亿个数进行排序。我们可以将其等分到10000个虚拟的桶里，平均每个桶只有10000个数。如果每个桶都有序了，则只需顺次输出桶里的有序序列即可。思路如下：
+
+将待排数据按一个映射函数f(x)分为连续的若干段。理论上最佳的分段方法应该使数据平均分布，实际上通
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1512,7 +1584,11 @@ UI自动化测试
           
           git管理github1，需要有Githb账号，然后新建仓库，此时保留SSH，长这样：git@github.com:xusx1024/codewars.git
 2，pc端安装git工具，git --info-path打印git所在路径；创建本地仓库；
-3，在本地文件中，右键点击 Git Bash H
+3，在本地文件中，右键点击 Git Bash Here，进入git命令行
+4，全局配置     git config --global username &quot;此处定义你的名字&quot;    git config --global useremail xxxxxxx@gmail.com
+5，初始化本地仓库：    git init
+6，创建readme，并上传：    git add readme.txt    git commint -m &quot;upload readme&quot;
+7，生成SSH key，用来和Githu
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1653,7 +1729,12 @@ UI自动化测试
         
           
           ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD
-This instance method writes to a static field. This is tricky to get correct if multiple instances are being m
+This instance method writes to a static field. This is tricky to get correct if multiple instances are being manipulated, and generally bad practice.静态字段被实例方法修改。如果多个实例被操纵，这样获取正确的结果是滑头的，并且通常不是好的实践。
+
+原因：静态私有的成员变量不能在public类里面直接赋值，最好是通过get/set方法进行操作。直接通过类名.常量名获取的方式违背了封装的原则，findbugs不提倡使用。
+解决：通过get/set方法提供操作。
+DM_BOXED_PRIMITIVE_FOR_PARSING
+A boxed primitive is cre
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1792,6 +1873,12 @@ This instance method writes to a static field. This is tricky to get correct if 
 
         
         
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
 
         
         
@@ -1835,6 +1922,14 @@ This instance method writes to a static field. This is tricky to get correct if 
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Muse
   </a>
+</div>
+
+<div class="theme-info">
+
+  <div class="powered-by"></div>
+
+  <span class="post-count">博客共41.5k字</span>
+
 </div>
 
 

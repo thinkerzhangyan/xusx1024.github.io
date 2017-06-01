@@ -86,7 +86,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.jpg?v=5.1.1" />
 
 
 
@@ -110,7 +110,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -161,7 +161,7 @@
     
   
 
-  <div class="container sidebar-position-left 
+  <div class="container sidebar-position-right 
    page-home 
  ">
     <div class="headband"></div>
@@ -362,7 +362,16 @@
 解释
 
 True color: No overdraw
-Blue: Overdrawn o
+Blue: Overdrawn once
+Green: Overdrawn twice
+Pink: Overdrawn three times
+Red: Overdrawn four or more times
+
+how
+
+去掉window默认背景。在Activity中，使用setContentView绑定布局时，android会自动填充一个背景，如果我们App有自己的页面底色，因此不需要默认分配的背景。
+修改页面的主题：
+&lt;item name=&quot;android:windowBackground&quot;&gt
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -504,7 +513,10 @@ Blue: Overdrawn o
           
           引言在android手机中，会发现开发者选项 - GPU呈现模式分析的选项。很多道友用之来测试其手机的流畅度。开启之后大概就是这样子了：
 
-说说这张图片绿横线在android系统中是以每秒60帧为满帧的，所以1000ms / 60 = 16ms/帧。即每帧快于16ms为流畅，这根绿线即16ms线，低
+说说这张图片绿横线在android系统中是以每秒60帧为满帧的，所以1000ms / 60 = 16ms/帧。即每帧快于16ms为流畅，这根绿线即16ms线，低于该绿线为流畅。
+红柱红色代表了“执行时间”，它指的是Android渲染引擎执行绘制命令的时间，为了绘制到屏幕上，Android需要使用OpenGL ES的API接口来绘制Display List。这些API有效地将数据发送到GPU，最后在屏幕上显示出来。假如当前界面的视图越多，那么红色便会“跳”得越高。实际使用中，比如平时刷App遇到许多缩略图需要加载，那么红色会突然跳很高，但是此时你的页面滑动其实是流畅的，虽然等了零点几秒图片才加载出来，但并不意味着你卡住了。
+
+黄柱黄色通常较短，它代表CP
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -647,7 +659,13 @@ Blue: Overdrawn o
           题目设计一个有getMin功能的栈&gt;实现一个特殊的栈，在实现栈的基本功能的基础上，再实现返回栈中最小元素的操作。
 要求&gt;
 
-pop,push,getMin操作的时间复杂度都是O(1)-【注】：pop，push的时间复杂度本来就是O(1)，所以关注点在getMin的时间复杂度上。3/3/2
+pop,push,getMin操作的时间复杂度都是O(1)-【注】：pop，push的时间复杂度本来就是O(1)，所以关注点在getMin的时间复杂度上。3/3/2017 11:16:04 AM 
+设计的栈类型可以使用现成的栈结构-【注】：使用变量是无法达到getMin的O(1)的，eg：2，3，4，1。3/3/2017 11:16:21 AM  
+
+难度&gt;士 ★☆☆☆
+解答&gt;在设计上我们使用两个栈，一个栈用来保存当前栈中的元素，其功能和一个正常的栈没有区别，这个栈记为stackData;另一个栈用于保存每一步的最小值，这个栈记为stackMin。具体的实现方式有两种。
+第一种设计方案 压入数据规则
+假如当前数据为newNum,先将其压入sta
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -944,6 +962,12 @@ AccessibilityManager
 
         
         
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
 
         
         
@@ -987,6 +1011,14 @@ AccessibilityManager
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Muse
   </a>
+</div>
+
+<div class="theme-info">
+
+  <div class="powered-by"></div>
+
+  <span class="post-count">博客共41.5k字</span>
+
 </div>
 
 

@@ -86,7 +86,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.jpg?v=5.1.1" />
 
 
 
@@ -110,7 +110,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -161,7 +161,7 @@
     
   
 
-  <div class="container sidebar-position-left 
+  <div class="container sidebar-position-right 
    page-home 
  ">
     <div class="headband"></div>
@@ -359,7 +359,10 @@
           
           what责任链模式是对象行为型模式
 责任链模式(Chain of Responsibility Pattern)：避免请求发送者与接收者耦合在一起，让多个对象都有可能接收请求，将这些对象连接成一条链，并且沿着这条链传递请求，直到有对象处理它为止。
-客户端无须关心请求的处理细节以及请求的传递，只需将请
+客户端无须关心请求的处理细节以及请求的传递，只需将请求发送到链上即可，实现发送者和接收者耦合解耦。
+模式结构
+Handler(抽象处理者)：它定义了一个处理请求的接口，一般设计为抽象类，由于不同的具体处理者处理请求的方式不同，因此在此定义了抽象方法。因为每一个处理者的下家还是一个处理者，因此在抽象处理者中定义了一个抽象处理者类型的对象，作为其对下家的引用，通过该引用，处理者可以连成一条链
+ConcreteHandler(具体处理者)：它是抽象处理者的子类，可以处理用户请求，在具体处理者类中实现了抽象处理者中定义的抽象请求处理方法，在处理请求之前需
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -503,7 +506,18 @@
 下面是两个例子：
 public interface IConstant {
 String NAME = &quot;&quot;;
-int VALUE =
+int VALUE = 2;
+boolean IS_TEACHER = false;
+}    
+
+public class CConstant {
+    public static final String NAME = &quot;&quot;;
+    public static final int VALUE = 2;
+    public static final boolean IS_TEACHER = false;
+}
+接口的优点
+接口会自动将成员变量设置为static、final的
+使得代码更加简单
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -645,7 +659,15 @@ int VALUE =
           
           过早优化what在你有足够的信息能确定在哪优化、如何优化之前就展开优化。
 why想要知道实践中的确切瓶颈很困难。试图在得到实验数据之前就实行优化，可能会提高代码复杂度，并引发难以察举的bug。 
-Donald Knuth有云：97%的时间里，我们应该忘掉微不足道的效率：过早的优化是万恶之源。然后，在
+Donald Knuth有云：97%的时间里，我们应该忘掉微不足道的效率：过早的优化是万恶之源。然后，在3%的决定性时刻，我们不该错过优化。
+how把整洁的、可读性强的、能运行的代码放在首位，使用已知的和测试过的算法和工具。
+当需要找到瓶颈和决定优化优先级时，使用分析工具。依赖于测量而不是臆想和推断。 
+
+不假思索就动手，还不如不做。——Tim Peter
+总结优化之前分析。避免为了效率而牺牲简洁性，除非效率被验证了的确是有必要的。
+单车车库what花大量时间来辩论和决定琐碎、太主观的问题的趋势。
+why浪费时间。
+how如果你注意到了，那鼓励团队成员意识到这种趋势，并且优先达成决定(投票、抛硬币
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -786,7 +808,19 @@ Donald Knuth有云：97%的时间里，我们应该忘掉微不足道的效率�
         
           
           what状态模式是对象行为型模式
-看完状态模式的模式的类图和时序图，真的，和策略模式一毛一样。但是他们的思想是不同的。策略模式的具体实现类是可以根据选择的策略不同来相互替换的，状态模式是根据当前对象的不同而执行对应的状态实现。策略模式的选择权在于调用者，而状态模式的选择权更多在于用户使用软件操作后的
+看完状态模式的模式的类图和时序图，真的，和策略模式一毛一样。但是他们的思想是不同的。策略模式的具体实现类是可以根据选择的策略不同来相互替换的，状态模式是根据当前对象的不同而执行对应的状态实现。策略模式的选择权在于调用者，而状态模式的选择权更多在于用户使用软件操作后的结果。这是我自己的理解。
+状态模式(State Pattern)：允许一个对象在其内部状态改变时改变它的行为，对象看起来似乎修改了它的类。其别名为状态对象(Object for State).
+模式结构
+Context:环境类
+State：抽象状态类
+ConcreteState：具体状态类
+
+
+时序图
+代码 GitHub
+适用场景
+对象的行为依赖于它的状态(属性)并且可以根据它的状态改变而改变它的相关行为
+代码中包含大量与对象状态有关的条件语句，这些条件语句的出现，会导致代码的可维护性和灵活性变
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -931,7 +965,13 @@ Donald Knuth有云：97%的时间里，我们应该忘掉微不足道的效率�
 模式结构
 Context:环境类
 Strategy：抽象策略类
-Con
+ConcreteStrategy：具体策略类
+
+
+时序图
+代码 GitHub
+分析
+在软件系统中，有许多算法可以实现某一功能，如查找，排序等，一种常用的方法是硬编码在一个类中，如果需要提供多种查找算法，可以将这些算法写到一个类中，在该类中提供多个方法，每一个方法对应一个具体的查找算法，当然也可以将这些查找算法封装在一个统一的方法中，通过if…else…等条件判断语句来进行选择。这两种实现方法我们都可以称之为硬编码，如果需要增加一种新的查找算法，需要修改封装算法类的源代码；更换查找算法，也需要修改客户端
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1073,7 +1113,21 @@ Con
           
           引入概念
 产品等级结构：产品等级结构即产品的继承结构，如一个抽象类是电视机，其子类有海尔电视机、海信电视机、TCL电视机，则抽象电视机与具体品牌的电视机之间构成了一个产品等级结构，抽象电视机是父类，而具体品牌的电视机是其子类。
-产品族： 在抽象工厂模式中，产品族是指由同一个工厂生产的，位于不同产品等
+产品族： 在抽象工厂模式中，产品族是指由同一个工厂生产的，位于不同产品等级结构中的一组产品，如海尔电器工厂生产的海尔电视机、海尔电冰箱、海尔电视机。
+
+
+what 抽象工厂模式(Abstract Factory Pattern)：提供一个创建一系列相关或相互依赖对象的接口，而无须指定它们具体的类。抽象工厂模式又称为kit模式，属于对象创建型模式。
+模式结构
+Factory：抽象工厂
+ConcreteFactory：具体工厂
+Product：抽象产品
+ConcreteProduct：具体产品
+
+
+时序图
+代码 GitHub
+分析
+抽象工厂定义了产品的所有行为，因此增加
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1213,7 +1267,19 @@ Con
       
         
           
-          what 工厂方法模式(Factory Method Pattern)又称为工厂模式，也叫作虚拟构造器(Virtual Constructor)模式或者多态工厂(Polymorphic Factory)模式，它属于类创建型模式。在工厂父类负责定义创建产品对象的公共接口，而工厂子类则负责生成具体的产品
+          what 工厂方法模式(Factory Method Pattern)又称为工厂模式，也叫作虚拟构造器(Virtual Constructor)模式或者多态工厂(Polymorphic Factory)模式，它属于类创建型模式。在工厂父类负责定义创建产品对象的公共接口，而工厂子类则负责生成具体的产品对象，这样做的目的是将产品类的实例化操作延迟到工厂子类中完成，即通过工厂子类来确定究竟应该实例化哪一个具体产品类。
+模式结构
+Factory：抽象工厂
+ConcreteFactory：具体工厂
+Product：抽象产品
+ConcreteProduct：具体产品
+
+
+时序图
+代码 GitHub
+分析
+创建对象和对象本身业务剥离，屏蔽创建对象的细节，降低耦合度，实现了责任的分割
+基于工厂角色和产品角色的多态性设计是工厂方法模式的关键。它能够使工厂可以自主确定创建何种产品对象，而如何创建这个对象的细节
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1357,7 +1423,26 @@ Con
 模式结构
 Factory：工厂角色  工厂角色负责实现创建所有实例
 
-Product:抽象产品角色  抽象产品角色是所创建的所有对象的父类，负
+Product:抽象产品角色  抽象产品角色是所创建的所有对象的父类，负责描述所有实例所共有的公共接口
+
+ConcreteProduct:具体的产品角色  具体产品角色是创建目标，所有创建的对象都充当这个角色的某个具体类的实例。
+
+
+
+时序图
+代码GitHub抽象产品角色：
+package SimpleFactory;
+
+public interface Product {
+    int TYPEA = 1;
+    int TYPEB = 2;
+
+    void use();
+}
+具体的产品角色：
+package SimpleFactory;
+
+public 
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1506,7 +1591,17 @@ Android开发无障碍指南:
 
 设备如何设置google 官方说明
  字幕 
-您可以为设备开
+您可以为设备开启字幕功能以及为字幕选择所需选项（语言、文字和样式）。
+开启字幕功能打开设备的“设置”应用点按无障碍，然后点按字幕点按顶部的开启/关闭开关更改字幕设置开启字幕功能后，您可以在设置 &gt; 无障碍 &gt; 字幕中调整以下设置。
+
+语言：选择您想要以何种语言显示字幕 
+文字大小：选择字幕文字大小 
+字幕样式：为字幕文字和背景选择样式和颜色
+
+您的字幕设置可能不适用于某些应用。
+官方文档简介
+官方文档称之为：隐藏式字幕。4.4版本释出。
+现在播放HTTP Live Steam(HLS)视频时，Vi
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1786,6 +1881,12 @@ Android开发无障碍指南:
 
         
         
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
 
         
         
@@ -1829,6 +1930,14 @@ Android开发无障碍指南:
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Muse
   </a>
+</div>
+
+<div class="theme-info">
+
+  <div class="powered-by"></div>
+
+  <span class="post-count">博客共41.5k字</span>
+
 </div>
 
 
