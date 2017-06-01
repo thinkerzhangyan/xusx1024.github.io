@@ -1,0 +1,996 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="起源activity是android中最常用的UI容器。把写好的xml布局通过setContentView(int ResId)，就可以实现页面的绑定，然后我们根据控件的ID，根据业务代码展示UI就可以了。关于xml的解析和绘制，就是系统服务LayoutInflater的工作了。 追踪android.app.ActivityActivity源码中有3个setContentView的重载方法。 pu">
+<meta name="keywords" content="android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android系统服务：LayoutInflater">
+<meta property="og:url" content="http://yoursite.com/2017/02/23/android-system-service-LayoutInflater/index.html">
+<meta property="og:site_name" content="行次">
+<meta property="og:description" content="起源activity是android中最常用的UI容器。把写好的xml布局通过setContentView(int ResId)，就可以实现页面的绑定，然后我们根据控件的ID，根据业务代码展示UI就可以了。关于xml的解析和绘制，就是系统服务LayoutInflater的工作了。 追踪android.app.ActivityActivity源码中有3个setContentView的重载方法。 pu">
+<meta property="og:image" content="http://yoursite.com/images/activity-window-layer.jpg">
+<meta property="og:updated_time" content="2017-06-01T07:33:45.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android系统服务：LayoutInflater">
+<meta name="twitter:description" content="起源activity是android中最常用的UI容器。把写好的xml布局通过setContentView(int ResId)，就可以实现页面的绑定，然后我们根据控件的ID，根据业务代码展示UI就可以了。关于xml的解析和绘制，就是系统服务LayoutInflater的工作了。 追踪android.app.ActivityActivity源码中有3个setContentView的重载方法。 pu">
+<meta name="twitter:image" content="http://yoursite.com/images/activity-window-layer.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/02/23/android-system-service-LayoutInflater/"/>
+
+
+
+
+
+  <title>Android系统服务：LayoutInflater | 行次</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">行次</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/android-system-service-LayoutInflater/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android系统服务：LayoutInflater</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-23T08:00:00+08:00">
+                2017-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h4><p>activity是android中最常用的UI容器。把写好的xml布局通过<code>setContentView(int ResId)</code>，就可以实现页面的绑定，然后我们根据控件的ID，根据业务代码展示UI就可以了。关于xml的解析和绘制，就是系统服务<code>LayoutInflater</code>的工作了。</p>
+<h5 id="追踪android-app-Activity"><a href="#追踪android-app-Activity" class="headerlink" title="追踪android.app.Activity"></a>追踪android.app.Activity</h5><p>Activity源码中有3个<code>setContentView</code>的重载方法。</p>
+<pre><code>public void setContentView(@LayoutRes int layoutResID) {
+    getWindow().setContentView(layoutResID);
+    initWindowDecorActionBar();
+}
+
+public void setContentView(View view) {
+    getWindow().setContentView(view);
+    initWindowDecorActionBar();
+}
+
+public void setContentView(View view, ViewGroup.LayoutParams params) {
+    getWindow().setContentView(view, params);
+    initWindowDecorActionBar();
+}
+</code></pre><p>可以看到，调用当前Activity的window的<code>setContentView</code>来布局，这里我们上一张图看一下activity，window，view(xml布局)的关系：</p>
+<p><img src="/images/activity-window-layer.jpg" alt="activity、window层级关系图"></p>
+<p>其中<code>com.android.internal.policy.PhoneWindow</code>是<code>android.view.Window</code>的子类。<br><br>DecorView是的PhoneWindow的顶级view，继承自FrameLayout，其内部包含一个竖直的LinearLayout。<br><br>TitleView即ActionBar所在位置，通常使用Theme来配置其状态，一般开发会屏蔽该ActionBar，使用自定义顶部栏。<br><br>ContentView即需要展示在UI上的xml布局文件。<br></p>
+<p>继续看源码，getWindow()方法获取的是一个PhoneWindow的实例。所以setContentView可以去PhoneWindow中去查看其实现。<br><br><code>initWindowDecorActionBar();</code>里面主要是设置ActionBar。</p>
+<h5 id="追踪com-android-internal-policy-PhoneWindow"><a href="#追踪com-android-internal-policy-PhoneWindow" class="headerlink" title="追踪com.android.internal.policy.PhoneWindow"></a>追踪com.android.internal.policy.PhoneWindow</h5><p>先简后繁，看一下现成的view如何添加到ContentView的：</p>
+<pre><code> @Override
+    public void setContentView(View view) {
+        setContentView(view, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+    }
+
+ @Override
+public void setContentView(View view, ViewGroup.LayoutParams params) {
+
+    ...
+
+    mContentParent.addView(view, params);
+
+    ...
+
+ }
+</code></pre><p>把已有的view设置进入<code>ContentView</code>，只需要调用<code>ViewGroup.addView(View view)</code>添加到DecorView即可。<br><br>这里提一句：view都是要添加到父view上的。 </p>
+<pre><code>public static final int ID_ANDROID_CONTENT = com.android.internal.R.id.content;
+</code></pre><p>这个ID对应的ViewGroup，即xml布局的父view。其源码注释：</p>
+<blockquote>
+<p>   This is the view in which the window contents are placed. It is either mDecor itself, or a child of mDecor where the contents go.<br>   这是要放置window内容的view。是DecorView本身，或是DecorView的孩子。</p>
+</blockquote>
+<p>总之，一句话，现成的view，亦或是将来的LayoutInflater生成的view，都要添加到ID_ANDROID_CONTENT之内。</p>
+<p>下面，来看一下xml文件如何变成view的：</p>
+<pre><code>@Override
+    public void setContentView(int layoutResID) {
+
+    ...
+
+            mLayoutInflater.inflate(layoutResID, mContentParent);
+
+    ...
+
+    }
+</code></pre><p>一目了然，调用系统服务LayoutInflater的inflate方法。</p>
+<h4 id="追踪LayoutInflater源码"><a href="#追踪LayoutInflater源码" class="headerlink" title="追踪LayoutInflater源码"></a>追踪LayoutInflater源码</h4><p>关键方法：</p>
+<ul>
+<li>inflate * n</li>
+<li>rInflate</li>
+<li>createViewFromTag</li>
+<li>createView</li>
+</ul>
+<h5 id="inflate"><a href="#inflate" class="headerlink" title="inflate"></a>inflate</h5><pre><code>public View inflate(@LayoutRes int resource, @Nullable ViewGroup root, boolean attachToRoot) {
+    final Resources res = getContext().getResources();
+    if (DEBUG) {
+        Log.d(TAG, &quot;INFLATING from resource: \&quot;&quot; + res.getResourceName(resource) + &quot;\&quot; (&quot;
+                + Integer.toHexString(resource) + &quot;)&quot;);
+    }
+
+    final XmlResourceParser parser = res.getLayout(resource);
+    try {
+        return inflate(parser, root, attachToRoot);
+    } finally {
+        parser.close();
+    }
+}
+</code></pre><p>获取XmlResourceParser(XmlPullParser的子类)的实例，用于待会遍历xml文件结点。</p>
+<pre><code>public View inflate(XmlPullParser parser, @Nullable ViewGroup root, boolean attachToRoot) {
+    synchronized (mConstructorArgs) {
+
+...
+
+ final String name = parser.getName();
+ if (TAG_MERGE.equals(name)) {
+
+...
+
+rInflate(parser, root, inflaterContext, attrs, false);
+
+...
+
+} else {
+
+...
+
+ rInflateChildren(parser, temp, attrs, true);
+
+...
+
+        }
+    }
+}
+</code></pre><p>由于merge标签，只能作为xml根标签使用，所以分开处理。</p>
+<h5 id="rInflate"><a href="#rInflate" class="headerlink" title="rInflate"></a>rInflate</h5><pre><code>void rInflate(XmlPullParser parser, View parent, Context context,
+           AttributeSet attrs, boolean finishInflate) throws XmlPullParserException, IOException {
+
+       final int depth = parser.getDepth();
+       int type;
+
+       while (((type = parser.next()) != XmlPullParser.END_TAG ||
+               parser.getDepth() &gt; depth) &amp;&amp; type != XmlPullParser.END_DOCUMENT) {
+
+           if (type != XmlPullParser.START_TAG) {
+               continue;
+           }
+
+           final String name = parser.getName();
+
+           if (TAG_REQUEST_FOCUS.equals(name)) {
+               parseRequestFocus(parser, parent);
+           } else if (TAG_TAG.equals(name)) {
+               parseViewTag(parser, parent, attrs);
+           } else if (TAG_INCLUDE.equals(name)) {
+               if (parser.getDepth() == 0) {
+                   throw new InflateException(&quot;&lt;include /&gt; cannot be the root element&quot;);
+               }
+               parseInclude(parser, context, parent, attrs);
+           } else if (TAG_MERGE.equals(name)) {
+               throw new InflateException(&quot;&lt;merge /&gt; must be the root element&quot;);
+           } else {
+               final View view = createViewFromTag(parent, name, context, attrs);
+               final ViewGroup viewGroup = (ViewGroup) parent;
+               final ViewGroup.LayoutParams params = viewGroup.generateLayoutParams(attrs);
+               rInflateChildren(parser, view, attrs, true);
+               viewGroup.addView(view, params);
+           }
+       }
+
+       if (finishInflate) {
+           parent.onFinishInflate();
+       }
+   }
+</code></pre><p>深度优先遍历xml树，判断标签类型，循环递归直至<code>XmlPullParser.END_DOCUMENT</code>。</p>
+<h5 id="createViewFromTag"><a href="#createViewFromTag" class="headerlink" title="createViewFromTag"></a>createViewFromTag</h5><pre><code>    View createViewFromTag(View parent, String name, Context context, AttributeSet attrs,
+                boolean ignoreThemeAttr) {
+            if (name.equals(&quot;view&quot;)) {
+                name = attrs.getAttributeValue(null, &quot;class&quot;);
+            }
+
+    ...
+
+                  if (name.equals(TAG_1995)) {
+            // Let&apos;s party like it&apos;s 1995!
+            return new BlinkLayout(context, attrs);
+        }
+
+    ...
+
+try {
+        View view;
+        if (mFactory2 != null) {
+            view = mFactory2.onCreateView(parent, name, context, attrs);
+        } else if (mFactory != null) {
+            view = mFactory.onCreateView(name, context, attrs);
+        } else {
+            view = null;
+        }
+
+        if (view == null &amp;&amp; mPrivateFactory != null) {
+            view = mPrivateFactory.onCreateView(parent, name, context, attrs);
+        }
+
+        if (view == null) {
+            final Object lastContext = mConstructorArgs[0];
+            mConstructorArgs[0] = context;
+            try {
+                if (-1 == name.indexOf(&apos;.&apos;)) {
+                    view = onCreateView(parent, name, attrs);
+                } else {
+                    view = createView(name, null, attrs);
+                }
+            } finally {
+                mConstructorArgs[0] = lastContext;
+            }
+        }
+
+        return view;
+    } 
+
+...
+
+}
+</code></pre><p>如果view为属性标签，那么name就是属性的值。<br><br>如果TAG_1995，做出来的布局会一闪一闪的。<br><br>如果该LayoutInflater被复制过，比如用于做换肤之类的功能，那么通过调用复制后的LayoutInflater的Factory定义的onCreateView——主要是看其定义的view的属性，最后还是调用的createView——生成view<br><br>如果是普通的view，标签名里如果含有“.”，那么说明是自定义view，不需要往createView中添加name的前缀，直接name就带有包名了；否则是系统的view，需要往createView中添加name的前缀，比如<code>android.widget</code>。<br></p>
+<h5 id="createView"><a href="#createView" class="headerlink" title="createView"></a>createView</h5><pre><code>public final View createView(String name, String prefix, AttributeSet attrs)
+        throws ClassNotFoundException, InflateException {
+    Constructor&lt;? extends View&gt; constructor = sConstructorMap.get(name);
+    if (constructor != null &amp;&amp; !verifyClassLoader(constructor)) {
+        constructor = null;
+        sConstructorMap.remove(name);
+    }
+    Class&lt;? extends View&gt; clazz = null;
+
+    try {
+        Trace.traceBegin(Trace.TRACE_TAG_VIEW, name);
+
+        if (constructor == null) {
+            // Class not found in the cache, see if it&apos;s real, and try to add it
+            clazz = mContext.getClassLoader().loadClass(
+                    prefix != null ? (prefix + name) : name).asSubclass(View.class);
+
+            if (mFilter != null &amp;&amp; clazz != null) {
+                boolean allowed = mFilter.onLoadClass(clazz);
+                if (!allowed) {
+                    failNotAllowed(name, prefix, attrs);
+                }
+            }
+            constructor = clazz.getConstructor(mConstructorSignature);
+            constructor.setAccessible(true);
+            sConstructorMap.put(name, constructor);
+        } else {
+            // If we have a filter, apply it to cached constructor
+            if (mFilter != null) {
+                // Have we seen this name before?
+                Boolean allowedState = mFilterMap.get(name);
+                if (allowedState == null) {
+                    // New class -- remember whether it is allowed
+                    clazz = mContext.getClassLoader().loadClass(
+                            prefix != null ? (prefix + name) : name).asSubclass(View.class);
+
+                    boolean allowed = clazz != null &amp;&amp; mFilter.onLoadClass(clazz);
+                    mFilterMap.put(name, allowed);
+                    if (!allowed) {
+                        failNotAllowed(name, prefix, attrs);
+                    }
+                } else if (allowedState.equals(Boolean.FALSE)) {
+                    failNotAllowed(name, prefix, attrs);
+                }
+            }
+        }
+
+        Object[] args = mConstructorArgs;
+        args[1] = attrs;
+
+        final View view = constructor.newInstance(args);
+        if (view instanceof ViewStub) {
+            // Use the same context when inflating ViewStub later.
+            final ViewStub viewStub = (ViewStub) view;
+            viewStub.setLayoutInflater(cloneInContext((Context) args[0]));
+        }
+        return view;
+
+    } 
+}
+</code></pre><ul>
+<li>根据view的名字，缓存的构造器map中是否存在；</li>
+<li>如果不存在或者存在但没通过验证，就重新生成并缓存，生成时如果name有前缀就拼装上，通过反射获取其构造函数；</li>
+<li>通过其构造生成view。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag"># android</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/22/android-system-service-all/" rel="next" title="Android系统服务:服务概览">
+                <i class="fa fa-chevron-left"></i> Android系统服务:服务概览
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/23/java-volatile/" rel="prev" title="Java并发中的关键字：volatile">
+                Java并发中的关键字：volatile <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/favicon.jpg"
+               alt="XuSing" />
+          <p class="site-author-name" itemprop="name">XuSing</p>
+           
+              <p class="site-description motion-element" itemprop="description">博观而约取，厚积而薄发。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xusx1024" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#起源"><span class="nav-number">1.</span> <span class="nav-text">起源</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#追踪android-app-Activity"><span class="nav-number">1.1.</span> <span class="nav-text">追踪android.app.Activity</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#追踪com-android-internal-policy-PhoneWindow"><span class="nav-number">1.2.</span> <span class="nav-text">追踪com.android.internal.policy.PhoneWindow</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#追踪LayoutInflater源码"><span class="nav-number">2.</span> <span class="nav-text">追踪LayoutInflater源码</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#inflate"><span class="nav-number">2.1.</span> <span class="nav-text">inflate</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#rInflate"><span class="nav-number">2.2.</span> <span class="nav-text">rInflate</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#createViewFromTag"><span class="nav-number">2.3.</span> <span class="nav-text">createViewFromTag</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#createView"><span class="nav-number">2.4.</span> <span class="nav-text">createView</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">XuSing</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <!-- 背景动画 -->
+<script type="text/javascript" src="/js/src/particle.js"></script>
+
+</body>
+</html>
