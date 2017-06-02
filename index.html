@@ -364,7 +364,18 @@
 <li>TerminalExpression(终结符表达式)：终结符表达式是抽象表达式的实现，它实现了与文法中的终结符相关联的解释操作，在句子中的每一个终结符都是该类的一个实例。通常在一个解释器模式中只有少数几个终结符表达式，它们的实例可以通过非终结符表达式组成较为复杂的句子。</li>
 <li>NonterminalExpression(非终结符表达式)：非终结符表达式也实现了抽象表达式，它实现的是文法中非终结符的解释操作，由于在非终结符表达式中可以包含终结符表达式，也可以继续包含非终结符表达式，因此其解释操作一般通过递归的方式来完成。</li>
 </ul>
-<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4>
+<p><img src="/images/interpreter_class_diagram.png" alt="类图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/InterpreterPattern" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><ul>
+<li>为自定义语言的设计和实现提供了一种解决方案</li>
+<li>使用频率不高，在正则表达式、xml文档解析等领域广泛应用</li>
+<li>每一条文法规则都可以表示为一个类，因此可以方便地实现一个简单的语言，因此对于复杂的文法，难以维护</li>
+<li>使用了大量的循环和递归，导致执行效率很低</li>
+<li>尽量不要在重要模块使用解释器模式，否则维护是一个大问题，在项目中可以使用shell、JRuby、Groovy等脚本语言来代替解释器模式，弥补Java编译型语言的不足</li>
+<li>一般在大中型的框架型项目能够找到它的身影，比如数据分析工具、报表设计工具、科学计算工具</li>
+<li>如果的确准备使用解释器模式，请参考Expression4J、MESP、Jep等开源的解析工具包的实现</li>
+</ul>
+
           
         
       
@@ -2041,7 +2052,7 @@ public class Test {
 
   <div class="powered-by"></div>
 
-  <span class="post-count">博客共41.9k字</span>
+  <span class="post-count">博客共42.1k字</span>
 
 </div>
 
