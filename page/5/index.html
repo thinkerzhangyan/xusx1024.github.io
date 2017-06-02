@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -109,8 +109,8 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
-    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -161,7 +161,7 @@
     
   
 
-  <div class="container sidebar-position-right 
+  <div class="container sidebar-position-left 
    page-home 
  ">
     <div class="headband"></div>
@@ -357,28 +357,45 @@
       
         
           
-          题目一个栈中的元素的类型为整型，现在想将该栈从顶到底按从大到小的顺序排序，只许申请一个栈。除此之外，可以申请新的变量，但不能申请额外的数据结构。如何完成排序？
-难度士 ★☆☆☆
-解答将要排序的栈记为stack，申请的辅助栈记为help。在stack上执行pop操作，弹出的元素记为cur。
-
-如果cur小于或等于help的栈顶元素，将cur压入help；
-如果cur大于help的栈顶元素，则将help元素逐个弹出，并压入stack，直至cur小于或等于栈顶元素，将cur压入help；
-
-示例代码如下：
-import java.util.Stack;
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>一个栈中的元素的类型为整型，现在想将该栈从顶到底按从大到小的顺序排序，只许申请一个栈。除此之外，可以申请新的变量，但不能申请额外的数据结构。如何完成排序？
+</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>士 ★☆☆☆
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>将要排序的栈记为stack，申请的辅助栈记为help。在stack上执行pop操作，弹出的元素记为cur。
+</code></pre><ul>
+<li>如果cur小于或等于help的栈顶元素，将cur压入help；</li>
+<li>如果cur大于help的栈顶元素，则将help元素逐个弹出，并压入stack，直至cur小于或等于栈顶元素，将cur压入help；</li>
+</ul>
+<p>示例代码如下：</p>
+<pre><code>import java.util.Stack;
 
 public class SortStackByStack {
 
     public static void main(String[] args) {
-        Stack&lt;Integer&gt; ss = new Stack&
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/14/sort-stack-by-stack/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+        Stack&lt;Integer&gt; ss = new Stack&lt;&gt;();
+        ss.push(7);
+        ss.push(2);
+        ss.push(8);
+        ss.push(3);
+        ss.push(9);
+        sortStackByStack(ss);
+
+    }
+
+    public static void sortStackByStack(Stack&lt;Integer&gt; stack) {
+        Stack&lt;Integer&gt; help = new Stack&lt;&gt;();
+        while (!stack.isEmpty()) {
+            int cur = stack.pop();
+            while (!help.isEmpty() &amp;&amp; help.peek() &lt; cur) {
+                stack.push(help.pop());
+            }
+            help.push(cur);
+        }
+        while (!help.isEmpty()) {
+            stack.push(help.pop());
+        }
+    }
+}
+</code></pre>
+          
         
       
     </div>
@@ -510,7 +527,7 @@ public class SortStackByStack {
       
         
           
-          基本概念Android Application与其他移动平台有两个重大不同点：
+            <h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><pre><code>Android Application与其他移动平台有两个重大不同点：
 
 1.每个Android App都在一个独立空间里，意味着其运行在一个单独的进程中，拥有自己的VM，被系统分配一个唯一的user ID.
 
@@ -519,15 +536,88 @@ public class SortStackByStack {
 
 
 Android进程与Linux进程一样。默认情况下，每个apk运行在自己的Linux进程中。另外，默认一个进程里面只有一个线程-主线程。这个主线程中有一个Looper实例，通过调用Looper.loop()从Message队列里面取出Message来做相应的处理。
-进程启动策略简单的说，进程在其需要时被启动。任意时候，当用户或其他组件调取你apk中的任意组件时，如果你的apk没有运行，系统会为其创建一个新
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/13/optimization-app-launch/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+</code></pre><h4 id="进程启动策略"><a href="#进程启动策略" class="headerlink" title="进程启动策略"></a>进程启动策略</h4><pre><code>简单的说，进程在其需要时被启动。任意时候，当用户或其他组件调取你apk中的任意组件时，如果你的apk没有运行，系统会为其创建一个新的进程并启动。通常，这个进程会持续运行直到被系统杀死。关键是：进程是在被需要的时候才创建。
+</code></pre><h4 id="Android系统的启动"><a href="#Android系统的启动" class="headerlink" title="Android系统的启动"></a>Android系统的启动</h4><pre><code>与众多基于Linux内核的系统类似，Android系统启动时，bootloader启动内核和init进程，init进程分裂出更多名为&quot;daemons&quot;的底层的Linux进程(守护进程)。诸如android debug daemon,USB daemon等。这些守护进程处理底层硬件相关的接口。
+
+随后，init进程会启动一个非常有意思的进程：“Zygote”。这是一个Android平台的非常基础的进程。这个进程初始化了第一个VM，并且预加载了framework和众多App所需要的通用资源。然后它开启一个Socket接口来监听请求，一旦收到新的请求，Zygote会根据请求，基于自身预加载的VM来孵化出一个新的VM创建一个新的进程。
+
+启动Zygote之后，init进程会启动runtime进程。Zygote会孵化出一个超级管理进程：System Server。 SystemServer会启动所有系统核心服务，例如Activity Manger Service,硬件相关的Service等。到此，系统准备好启动它的第一个App进程：Home进程了。
+</code></pre><h4 id="App的启动"><a href="#App的启动" class="headerlink" title="App的启动"></a>App的启动</h4><p><img src="/images/Application_launch.jpg" alt="app launch"></p>
+<p>&gt;<br>click事件会调用<code>startActivity(Intent)</code>，会通过Binder IPC机制，最终调用到ActivityManagerService.该Service会执行如下操作：<br>&gt;</p>
+<ul>
+<li>第一步通过PackageManager的resolveIntent()收集这个intent对象的指向信息</li>
+<li>指向信息被存储在一个intent对象中</li>
+<li>下面重要的一步是通过<code>grantUriPermissionLocked()</code>方法来验证用户是否有足够的权限去调用该Intent对象指向的Activity</li>
+<li>如果有权限，ActivityManagerService会检查并在新的task中启动目标activity</li>
+<li>现在，是时候检查这个进程的ProcessRecord是否存在了</li>
+<li>如果PrecessRecord为null，ActivityManagerService会创建新的进程来实例化目标activity。</li>
+</ul>
+<h5 id="创建进程"><a href="#创建进程" class="headerlink" title="创建进程"></a>创建进程</h5><blockquote>
+<p>ActivityManagerService调用<code>startProcessLocked()</code>方法来创建新的进程，该方法通过前面讲到的socket通道传递参数给Zygote进程。Zygote孵化自身，并调用<code>ZygoteInit.main()</code>方法来实例化ActivityThread对象并最终返回新进程的pid.<br>ActivityThread随后依次调用<code>Looper.prepareLoop()</code>和<code>Looper.loop()</code>来开启消息循环。</p>
+</blockquote>
+<p>流程图如下：<br><img src="/images/process_creation.jpg" alt="process creation"></p>
+<h5 id="绑定Application"><a href="#绑定Application" class="headerlink" title="绑定Application"></a>绑定Application</h5><blockquote>
+<p>接下来要做的就是将进程和指定的Application绑定起来。这个是通过上一节的ActivityThread对象中调用<code>bindApplication()</code>方法完成的。该方法发送一个BIND_APPLICATION的消息到消息队列中，最终通过<code>handleBindApplication()</code>处理该消息。然后调用<code>makeApplication()</code>方法来加载App的classes到内存中。<br> 流程如下：</p>
+</blockquote>
+<p><img src="/images/bind_application.jpg" alt="bind application"></p>
+<h5 id="启动Activity"><a href="#启动Activity" class="headerlink" title="启动Activity"></a>启动Activity</h5><blockquote>
+<p>经过前两个步骤之后，系统已经拥有了该application的进程。后面的调用顺序就是普通的从一个已经存在的进程中启动一个新进程的activity了。<br>实际调用方法是<code>realStartActivity()</code>，它会调用application线程对象中的<code>sheduleLaunchActivity()</code>发送一个LAUNCH_ACTIVITY消息到消息队列中，通过<code>handleLaunchActivity()</code>来处理该消息。</p>
+</blockquote>
+<p> 假设点击的是一个视频浏览的App，其流程如下：</p>
+<p><img src="/images/start_activity.jpg" alt="start activity"></p>
+<h5 id="Activity显示"><a href="#Activity显示" class="headerlink" title="Activity显示"></a>Activity显示</h5><blockquote>
+<p>Activity被创建出来后，会依次加载主题样式Theme中的windowBackground等属性，以及配置Activity层级上的一些属性，再inflate布局，当onCreate、onStart、onResume方法都走完，最后才进行setContentView的measure、layout、draw显示在界面上，此时可以看到App的第一帧画面了。</p>
+</blockquote>
+<p>如图：<br><img src="/images/display_activity.png" alt="display activity"></p>
+<h4 id="测量App的启动时间"><a href="#测量App的启动时间" class="headerlink" title="测量App的启动时间"></a>测量App的启动时间</h4><pre><code>activity的启动时执行的方法：onCreat()、onStart()、onResume()的生命周期结束了，应用也不算是完全启动，还需要等View树全部构建完毕，一般认为，setContentView中的View全部显示结束了，算作是应用完全启动了。
+</code></pre><h5 id="Display-Time"><a href="#Display-Time" class="headerlink" title="Display Time"></a>Display Time</h5><pre><code>api19之后，Android系统Log中增加了ActivityManager:Displayed [packageName/activityName]: time。所以，在Android Monitor中使用 ActivityManager:Displayed filter，查看启动首页的时间，这个时间是Activity启动到Layout全部显示的时间。
+</code></pre><p>图为抓取微信开启时间：<br><img src="/images/display_time.png" alt="wechat display time"></p>
+<h5 id="ADB命令查看启动时间"><a href="#ADB命令查看启动时间" class="headerlink" title="ADB命令查看启动时间"></a>ADB命令查看启动时间</h5><p><code>adb shell am start -W [packageName]/[packageName.MainActivity]</code></p>
+<p><img src="/images/adb_launch_time.png" alt="adb see launch time"><br>&gt;</p>
+<ul>
+<li>ThisTime：最后一个启动的Activity的启动耗时；</li>
+<li>TotalTime:到达当前页面的所有Activity的启动耗时；</li>
+<li>WaitTime：ActivityManagerService启动App的Activity时的总时间，包括当前Activity的onPause()和目的Activity的启动。</li>
+</ul>
+<p><code>adb shell screenrecord --bugreport /sdcard/ScreenRecord.mp4</code></p>
+<p>&gt;<br>这是一个录屏命令，和Android Monitor的Screen Recorder Options的功能一样，<code>bugreport</code>参数决定了视屏左上角会增加录制视频的时间和当前画面所在的帧数。个人感觉这玩意儿比较鸡肋。</p>
+<h5 id="代码中自定义上报启动时间"><a href="#代码中自定义上报启动时间" class="headerlink" title="代码中自定义上报启动时间"></a>代码中自定义上报启动时间</h5><p>由于我们在一个App启动的开始，会做一些预操作，比如：</p>
+<ul>
+<li>加载第三方黑盒SDK</li>
+<li>网络、图片等框架的构造</li>
+<li>业务数据预请求</li>
+</ul>
+<p>所以ActivityManager:Displayed并不能精确我们App完全的启动时间。我们可以在API&gt;=19的版本，在这些预操作做完之后手动调用<code>reportFullyDrawn</code>。这样Log中会增加一条日志：</p>
+<p><img src="/images/report_full_drawn.png" alt="reportFullyDrawn time"></p>
+<h4 id="优化点"><a href="#优化点" class="headerlink" title="优化点"></a>优化点</h4><h5 id="背景Theme"><a href="#背景Theme" class="headerlink" title="背景Theme"></a>背景Theme</h5><pre><code>当系统加载一个Activity的时候，onCreate()是一个耗时过程，为增加用户体验，系统会优先绘制一些初始界面：根据当前Activity的Theme来绘制，当Activity加载完毕后，才会替换为真正的界面。代码如下：
+</code></pre><blockquote>
+<pre><code>&lt;layer-list xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+            android:opacity=&quot;opaque&quot;&gt;
+&lt;!-- android:opacity=&quot;opaque&quot;防止在启动的时候出现背景的闪烁 --&gt;
+    &lt;item android:drawable=&quot;@android:color/darker_gray&quot;/&gt;
+    &lt;item&gt;
+        &lt;bitmap
+            android:gravity=&quot;center&quot;
+            android:src=&quot;@mipmap/ic_launcher&quot;/&gt;
+    &lt;/item&gt;
+&lt;/layer-list&gt;
+</code></pre></blockquote>
+<p>&gt;<br>    <style name="StartStyle" parent="AppTheme"><br>        <item name="android:windowBackground">@drawable/start_window</item><br>    </style></p>
+<h5 id="异步初始化"><a href="#异步初始化" class="headerlink" title="异步初始化"></a>异步初始化</h5><pre><code>根据业务，利用多线程，IntentService等来异步和延迟初始化的操作 
+</code></pre><h5 id="资源优化"><a href="#资源优化" class="headerlink" title="资源优化"></a>资源优化</h5><blockquote>
+<ul>
+<li>布局宽而浅，不要窄而深</li>
+<li>使用.9</li>
+<li>tinyPNG</li>
+<li>混淆</li>
+</ul>
+</blockquote>
+<h4 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h4><p><a href="https://developer.android.com/topic/performance/launch-time.html" target="_blank" rel="external">Launch-Time Performance </a></p>
+<p><a href="http://www.jianshu.com/p/a5532ecc8377" target="_blank" rel="external">Android Application启动流程分析</a></p>
+<p><a href="https://segmentfault.com/a/1190000007406875#articleHeader9" target="_blank" rel="external">一触即发 App启动优化最佳实践</a></p>
+<p>在线检测App：<a href="https://nimbledroid.com/" target="_blank" rel="external">nimbledroid</a> </p>
+
+          
         
       
     </div>
@@ -659,21 +749,39 @@ Android进程与Linux进程一样。默认情况下，每个apk运行在自己�
       
         
           
-          what在《单例设计模式(二)真●单例唯一$序列化》中，我们已经分析了序列化和反序列化对单例类的实例唯一性的影响，原因以及解决方法。当我读《effective java》第十一章：序列化，发现readResolve的解决办法，也会有一些问题。
-1.对于实现了Serializable接口的单实例类，只要反序列化就一定会调用readObject方法，产生一个不同于现VM中实例的新对象。
-2.readResolve方法允许你用另一个实例去替代readObject方法创建的实例，如下：
-private Object readResolve() {
+            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><p>在<a href="http://xusx1024.github.io/2017/02/11/design-patterns-singleton-2" target="_blank" rel="external">《单例设计模式(二)真●单例唯一$序列化》</a>中，我们已经分析了序列化和反序列化对单例类的实例唯一性的影响，原因以及解决方法。当我读《effective java》第十一章：序列化，发现readResolve的解决办法，也会有一些问题。</p>
+<p>1.对于实现了Serializable接口的单实例类，只要反序列化就一定会调用readObject方法，产生一个不同于现VM中实例的新对象。</p>
+<p>2.readResolve方法允许你用另一个实例去替代readObject方法创建的实例，如下：</p>
+<pre><code>private Object readResolve() {
         return singleton;
     }
-3.所以说，单例模式在序列化成字节码流后对反序列化根本没有用(被readResolve替换掉了)，所以，不需要将任何域序列化，所以单例中的所有实例域都应该被声明为transient。事实上，
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/12/design-patterns-singleton-4/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+</code></pre><p>3.所以说，单例模式在序列化成字节码流后对反序列化根本没有用(被readResolve替换掉了)，所以，不需要将任何域序列化，所以单例中的所有实例域都应该被声明为transient。<br>事实上，如果依赖readResolve进行实例控制，带有对象引用类型的所有实例域都必须声明为transient。</p>
+<p>4.因此我们的结论是ENUM最佳。但是如果必须编写可序列化的实例受控的类，它的实例在编译时还不知道，那就无法将类表示成一个枚举类型，因此readResolve进行实例控制也并不过时。</p>
+<h4 id="题外话-readObject"><a href="#题外话-readObject" class="headerlink" title="题外话-readObject"></a>题外话-readObject</h4><p>是的，关于反序列时的攻击。</p>
+<p>伪字节流的攻击法：对应的策略是提供一个readObject方法。<br>但是并没有完成足够的保护性拷贝。</p>
+<pre><code>private void readObject(ObjectInputStream s) throws IOException,
+       ClassNotFoundException {
+    s.defaultReadObject();//先调用默认恢复
+    // 再进行状态参数的有效性验证
+    if (start.compareTo(end) &gt; 0)
+       throw new InvalidObjectException(start + &quot; after &quot; + end);
+}
+</code></pre><p>内部私有域盗用攻击法：对应的处理代码如下。</p>
+<pre><code>private void readObject(ObjectInputStream s) throws IOException,
+       ClassNotFoundException {
+    s.defaultReadObject();//先调用默认恢复
+
+    // 对可变组件进行保护性拷贝
+    start = new Date(start.getTime());
+    end = new Date(end.getTime());
+
+    // 进一步检测内部状态参数是否有效
+    if (start.compareTo(end) &gt; 0)
+       throw new InvalidObjectException(start + &quot; after &quot; + end);
+}
+</code></pre><h4 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h4><p><a href="http://www.daimami.com/java-other/356857.htm" target="_blank" rel="external">代码迷</a></p>
+
+          
         
       
     </div>
@@ -805,176 +913,54 @@ private Object readResolve() {
       
         
           
-          题目由两个栈组成的队列编写一个类，使用两个栈实现队列，支持队列的基本操作(add,poll,peek)
-难度尉 ★★☆☆
-解答栈的特点是先进后出，而队列的特点是先进先出。我们用两个栈，互相反序，实现类似队列的操作。
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="由两个栈组成的队列"><a href="#由两个栈组成的队列" class="headerlink" title="由两个栈组成的队列"></a>由两个栈组成的队列</h5><pre><code>编写一个类，使用两个栈实现队列，支持队列的基本操作(add,poll,peek)
+</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>栈的特点是先进后出，而队列的特点是先进先出。我们用两个栈，互相反序，实现类似队列的操作。
 具体实现上是一个栈作为压入栈，在压入数据时只往这个栈中压入，记为stackPush，另一个栈只作为弹出栈，记为stackPop。
 根据栈的特点，循环把stackPush中的数据压入stackPop中，stackPop的栈顶元素即为队列的dequeue元素。
-注意事项1. 如果stackPush要往stackPop中压入数据，必须一次性压入完毕；
+</code></pre><h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><pre><code>1. 如果stackPush要往stackPop中压入数据，必须一次性压入完毕；
 2. 如果stackPop要接收数据，必须保证stackPop为空。
-stackPush压入stackPop的操作时机调用add、poll、peek三种方法中任何一种时发生都是可以，只要满足注意事项提到的两点，就不会出错。下面的例子是在
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/11/two-stacks-makeup-queue/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
+</code></pre><h5 id="stackPush压入stackPop的操作时机"><a href="#stackPush压入stackPop的操作时机" class="headerlink" title="stackPush压入stackPop的操作时机"></a>stackPush压入stackPop的操作时机</h5><pre><code>调用add、poll、peek三种方法中任何一种时发生都是可以，只要满足注意事项提到的两点，就不会出错。下面的例子是在调用poll和peek方法时进行压入数据的。
+</code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>import java.util.Stack;
 
-    <div>
-      
-    </div>
+public class TwoStackQueue {
 
-    <div>
-      
-    </div>
+    public Stack&lt;Integer&gt; stackPush;
+    public Stack&lt;Integer&gt; stackPop;
 
-    <div>
-      
-    </div>
+    public TwoStackQueue() {
+        stackPop = new Stack&lt;&gt;();
+        stackPush = new Stack&lt;&gt;();
+    }
 
-    <footer class="post-footer">
-      
+    public void add(int pushInt) {
+        stackPush.push(pushInt);
+    }
 
-      
+    public int poll() {
+        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
+            throw new RuntimeException(&quot;Queue is empty!&quot;);
+        } else if (stackPop.empty()) {
+            while (!stackPush.empty()) {
+                stackPop.push(stackPush.pop());
+            }
+        }
+        return stackPop.pop();
+    }
 
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/reverse-stack/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/reverse-stack/" itemprop="url">如何仅用递归函数和栈操作逆序一个栈</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
+    public int peek(){
+        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
+            throw new RuntimeException(&quot;Queue is empty!&quot;);
+        } else if (stackPop.empty()) {
+            while (!stackPush.empty()) {
+                stackPop.push(stackPush.pop());
+            }
+        }
+        return stackPop.peek();
+    }
+}
+</code></pre>
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          题目一个栈中一次压入1，2，3，那么从栈顶到栈底依次为3，2，1.将这个栈逆序，从栈顶到栈底依次为1，2，3.但是只能用递归函数来实现，不能用其他数据结构。
-难度尉 ★★☆☆
-解答需要设计两个递归函数。
-1，将stack的栈底元素返回并移除；
-2，将stack逆序；
-代码import java.util.Stack;
-
-public class ReverseStack {
-
-private static int getAndRemoveLastElement(Stack&lt;Integer&gt; stack) {
-    int result = stack.pop();
-    if (stack.empty()) {
-        return result;
-    } else {
-        int last = getAndRemoveLastElement(sta
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/11/reverse-stack/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
@@ -1106,175 +1092,40 @@ private static int getAndRemoveLastElement(Stack&lt;Integer&gt; stack) {
       
         
           
-          数据结构的概念指相互之间存在一种或多种特定关系的数据元素的集合。简单的理解就是：数据结构就是描述对象逻辑关系的学科。比如：队列就是一种先进先出的逻辑结构，栈是一种先进后出的逻辑结构，家谱是一种树形的逻辑结构。
-数据存储结构的概念这是计算机的一个概念，即描述数据在计算机中存储方式的学科；常用的存储方式就两种：顺序存储、非顺序存储。顺序存储就是把数据存储在一块连续的存储介质(硬盘)上，数组就是典型的连续存储。
+            <h4 id="数据结构的概念"><a href="#数据结构的概念" class="headerlink" title="数据结构的概念"></a>数据结构的概念</h4><pre><code>指相互之间存在一种或多种特定关系的数据元素的集合。简单的理解就是：数据结构就是描述对象逻辑关系的学科。比如：队列就是一种先进先出的逻辑结构，栈是一种先进后出的逻辑结构，家谱是一种树形的逻辑结构。
+</code></pre><h4 id="数据存储结构的概念"><a href="#数据存储结构的概念" class="headerlink" title="数据存储结构的概念"></a>数据存储结构的概念</h4><pre><code>这是计算机的一个概念，即描述数据在计算机中存储方式的学科；常用的存储方式就两种：顺序存储、非顺序存储。顺序存储就是把数据存储在一块连续的存储介质(硬盘)上，数组就是典型的连续存储。
 非顺序存储就是各个数据不一定存在一个连续的位置上，只要每个数据知道它前面的数据和后面的数据，就能把所有的数据连续起来，链表就是典型的非顺序存储。
-数组和链表数组属于顺序存储，通过直接访问数组下标即可得到元素的存储位置，所以访问时间都是相同。
-链表属于数据的链接存储，由于每个元素的位置保存在它的前驱或者后继中，所以只有访问到其前驱结点或后继结点后才能够按指针访问到自己，访问元素的时间与该元
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/11/different-between-ADT/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-3/" itemprop="url">单例设计模式(三)真●单例唯一$反射</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
+</code></pre><h5 id="数组和链表"><a href="#数组和链表" class="headerlink" title="数组和链表"></a>数组和链表</h5><pre><code>数组属于顺序存储，通过直接访问数组下标即可得到元素的存储位置，所以访问时间都是相同。
+链表属于数据的链接存储，由于每个元素的位置保存在它的前驱或者后继中，所以只有访问到其前驱结点或后继结点后才能够按指针访问到自己，访问元素的时间与该元素结点在链接存储中的位置有关。
+</code></pre><table>
+<thead>
+<tr>
+<th>类型</th>
+<th style="text-align:center">内存空间</th>
+<th style="text-align:center">长度的可变性</th>
+<th style="text-align:center">对数据的访问</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数组</td>
+<td style="text-align:center">连续的内存空间，相同多数据下占用较小内存</td>
+<td style="text-align:center">需要提前给定</td>
+<td style="text-align:center">移动数据麻烦，访问数据方便</td>
+</tr>
+<tr>
+<td>链表</td>
+<td style="text-align:center">可以连续，也可以不连续，占用较大内存，需要存放前驱和后继的空间</td>
+<td style="text-align:center">可以伸缩</td>
+<td style="text-align:center">移动数据方便，访问数据麻烦</td>
+</tr>
+</tbody>
+</table>
+<h5 id="堆栈和栈"><a href="#堆栈和栈" class="headerlink" title="堆栈和栈"></a>堆栈和栈</h5><pre><code>[堆栈](https://zh.wikipedia.org/wiki/%E5%A0%86%E6%A0%88)（英语：stack），也可直接称栈（港澳台作堆叠）
+</code></pre><h5 id="Java中的堆和栈"><a href="#Java中的堆和栈" class="headerlink" title="Java中的堆和栈"></a>Java中的堆和栈</h5><pre><code>1. 栈具有数据结构中栈的特点，所有存放在它里面的数据都是生命周期很明确，能够快速反应的，所以在Java中使用栈来存放8个基本数据类型和引用变量，用完就马上销毁。
+2. 堆可以理解它就是一个可大可小，任人分配的内存操作单元，因此它的特点就是动态分配内存，适合存放大的数据量，比如一个对象的所有信息，虽然它的引用指向栈中的某个引用变量；所以Java中堆是存放new出来的对象的。
+</code></pre>
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          反射对单例的破坏先看一个DCL单例：
-import java.io.Serializable;
-
-/**
- * double check lock 实现单例
- */
-public class Singleton implements Serializable {
-    private Singleton() {
-    };
-
-    public static volatile Singleton singleton;
-
-    public static Singleton getInstance() {
-        if (singleton == null) {
-            synchronized (Singleton.class) {
-                if (singleton == null) {
-                    si
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/11/design-patterns-singleton-3/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
@@ -1406,7 +1257,93 @@ public class Singleton implements Serializable {
       
         
           
-          序列化对单例的破坏先看一个DCL单例：
+            <h4 id="序列化对单例的破坏"><a href="#序列化对单例的破坏" class="headerlink" title="序列化对单例的破坏"></a>序列化对单例的破坏</h4><p>先看一个DCL单例：</p>
+<pre><code>import java.io.Serializable;
+
+/**
+ * double check lock 实现单例
+ */
+public class Singleton implements Serializable {
+    private Singleton() {
+    };
+
+    public static volatile Singleton singleton;
+
+    public static Singleton getInstance() {
+        if (singleton == null) {
+            synchronized (Singleton.class) {
+                if (singleton == null) {
+                    singleton = new Singleton();
+                }
+            }
+        }
+        return singleton;
+    }
+
+}
+</code></pre><p>然后看我们的测试代码：</p>
+<pre><code>import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+public class SerializableDemo1 {
+    public static void main(String[] args) {
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(
+                    new FileOutputStream(&quot;tempFile&quot;));
+            oos.writeObject(Singleton.getInstance());
+            File file = new File(&quot;tempFile&quot;);
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
+                    file));
+            Singleton instance = (Singleton) ois.readObject();
+            System.out.println(&quot;反序列化后的对象和原来的是否相等？&quot;
+                    + (Singleton.getInstance() == instance));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><blockquote>
+<p>运行后： <figure class="highlight plain"><figcaption><span>```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&gt; 通过对Singleton的序列化与反序列化得到的对象是```一个新的对象```，这就破坏了Singleton的单例性。</div><div class="line"></div><div class="line"></div><div class="line">#### 序列化破坏单例の原因 ####</div><div class="line"></div><div class="line">反序列化后，为什么是一个新的对象？我们从```ObjectInputStream$readObject()```方法追踪,&lt;br/&gt;</div><div class="line">发现：``` Object obj = readObject0(false);```&lt;br/&gt;</div><div class="line">继续：</div><div class="line"></div><div class="line">	 case TC_OBJECT:</div><div class="line">	                    return checkResolve(readOrdinaryObject(unshared));</div><div class="line"></div><div class="line">探究： ```ObjectInputStream$readOrdinaryObject</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>该方法关键代码片段一：</p>
+<pre><code>Object obj;
+       try {
+           obj = desc.isInstantiable() ? desc.newInstance() : null;
+       } catch (Exception ex) {
+           throw (IOException) new InvalidClassException(
+               desc.forClass().getName(),
+               &quot;unable to create instance&quot;).initCause(ex);
+       }
+</code></pre><blockquote>
+<p>该obj,就是我们反序列化要得到的对象，即readObject()返回的对象。<br><br><code>isInstantiable</code>：如果一个Serializable/externalizable的类可以在运行时被实例化，那么该方法就返回true。<br><code>desc.newInstance()</code>：该方法通过反射的方式调用无参构造方法新建一个对象</p>
+</blockquote>
+<p>所以：</p>
+<blockquote>
+<p>反序列化会通过反射调用无参的构造创建一个新的对象</p>
+</blockquote>
+<p>该方法关键代码片段二：</p>
+<pre><code>if (obj != null &amp;&amp;
+           handles.lookupException(passHandle) == null &amp;&amp;
+           desc.hasReadResolveMethod())
+       {
+           Object rep = desc.invokeReadResolve(obj);
+           if (unshared &amp;&amp; rep.getClass().isArray()) {
+               rep = cloneArray(rep);
+           }
+           if (rep != obj) {
+               handles.setObject(passHandle, obj = rep);
+           }
+       }
+</code></pre><blockquote>
+<p><code>hasReadResolveMethod</code>： 如果实现了Serializable或者externalizable接口的类中包含readResolve,则返回true<br><br><code>invokeReadResolve</code>： 通过反射的方式调用要被反序列化的类的readResolve方法<br><br><code>if (rep != obj) {
+                    handles.setObject(passHandle, obj = rep);
+                }</code>：<br>如果readResolve得到的对象和desc.newInstance()调用无参构造得到的对象不同，那么使用readResolve方法中返回的Object。</p>
+</blockquote>
+<h4 id="结论一"><a href="#结论一" class="headerlink" title="结论一"></a>结论一</h4><pre><code>由上可得，我们在自己的单例中增加readResolve方法，返回当前单例的实例，即可防止反序列化得到对象不一致问题。如下：
+
 import java.io.Serializable;
 
 /**
@@ -1422,15 +1359,375 @@ public class Singleton implements Serializable {
         if (singleton == null) {
             synchronized (Singleton.class) {
                 if (singleton == null) {
-                    s
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/11/design-patterns-singleton-2/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+                    singleton = new Singleton();
+                }
+            }
+        }
+        return singleton;
+    }
+
+    private Object readResolve() {
+        return singleton;
+    }
+
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/reverse-stack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/11/reverse-stack/" itemprop="url">如何仅用递归函数和栈操作逆序一个栈</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
+                2017-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>一个栈中一次压入1，2，3，那么从栈顶到栈底依次为3，2，1.将这个栈逆序，从栈顶到栈底依次为1，2，3.但是只能用递归函数来实现，不能用其他数据结构。
+</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>需要设计两个递归函数。
+1，将stack的栈底元素返回并移除；
+2，将stack逆序；
+</code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>import java.util.Stack;
+
+public class ReverseStack {
+
+private static int getAndRemoveLastElement(Stack&lt;Integer&gt; stack) {
+    int result = stack.pop();
+    if (stack.empty()) {
+        return result;
+    } else {
+        int last = getAndRemoveLastElement(stack);
+        stack.push(result);//此处将除栈底外的元素重新压入
+        return last;
+    }
+}
+
+public static void reverse(Stack&lt;Integer&gt; stack) {
+    if (stack.empty()) {
+        return;
+    } else {
+        int i = getAndRemoveLastElement(stack);
+        reverse(stack);
+        stack.push(i);
+    }
+}
+</code></pre><p>}</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-3/" itemprop="url">单例设计模式(三)真●单例唯一$反射</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
+                2017-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="反射对单例的破坏"><a href="#反射对单例的破坏" class="headerlink" title="反射对单例的破坏"></a>反射对单例的破坏</h4><p>先看一个DCL单例：</p>
+<pre><code>import java.io.Serializable;
+
+/**
+ * double check lock 实现单例
+ */
+public class Singleton implements Serializable {
+    private Singleton() {
+    };
+
+    public static volatile Singleton singleton;
+
+    public static Singleton getInstance() {
+        if (singleton == null) {
+            synchronized (Singleton.class) {
+                if (singleton == null) {
+                    singleton = new Singleton();
+                }
+            }
+        }
+        return singleton;
+    }
+
+}
+</code></pre><p>然后看我们的测试代码：</p>
+<pre><code>import java.lang.reflect.Constructor;
+
+public class ReflectAttackSingleton {
+
+    public static void main(String[] args) {
+        try {
+            Class&lt;?&gt; classType = Singleton.class;
+            Constructor&lt;?&gt; c;
+            c = classType.getDeclaredConstructor(null);
+            c.setAccessible(true);
+            Singleton instance1 = (Singleton) c.newInstance();
+            Singleton instance2 = Singleton.getInstance();
+            System.out.println(&quot;反射得到的实例与单例中的实例是否相等？&quot; +(instance1 == instance2));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+}
+</code></pre><blockquote>
+<p>运行后： <code>反射得到的实例与单例中的实例是否相等？false</code></p>
+<p>通过反射获取构造函数，然后调用即可获取新的单例的实例，这就破坏了Singleton的单例性。</p>
+</blockquote>
+<h4 id="修改构造器抵御攻击"><a href="#修改构造器抵御攻击" class="headerlink" title="修改构造器抵御攻击"></a>修改构造器抵御攻击</h4><pre><code>private static boolean flag = false;
+private Singleton() {
+    synchronized (Singleton.class) {
+        if(flag == false)
+            flag = !flag;
+        else
+            throw new RuntimeException(&quot;单例模式被攻击！&quot;);
+    }
+};
+</code></pre><h4 id="终极方法"><a href="#终极方法" class="headerlink" title="终极方法"></a>终极方法</h4><pre><code>使用枚举单例
+</code></pre>
+          
         
       
     </div>
@@ -1562,18 +1859,113 @@ public class Singleton implements Serializable {
       
         
           
-          what来自wiki[单例模式](https://zh.wikipedia.org/wiki/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F)又叫单子模式，是一种常用的软件设计模式。在应用这个模式时，单例对象的类必须保证只有一个实例存在。许多时候整个系统只需要拥有一个全局对象，这样有利于我们协调系统整体的行为。
+            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><h5 id="来自wiki"><a href="#来自wiki" class="headerlink" title="来自wiki"></a>来自wiki</h5><pre><code>[单例模式](https://zh.wikipedia.org/wiki/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F)又叫单子模式，是一种常用的软件设计模式。在应用这个模式时，单例对象的类必须保证只有一个实例存在。许多时候整个系统只需要拥有一个全局对象，这样有利于我们协调系统整体的行为。
 比如：在某个服务器程序中，该服务器的配置信息存放在一个文件中，这些配置数据由一个单例对象统一读取，然后服务进程中的其他对象再通过这个单例对象获取这些配置信息。这种方式简化了在复杂环境下的配置管理。
-来自IBM与wiki相重复的内容，不再摘录。
-[单例模式](http://www.ibm.com/developerworks/cn/java/j-lo-Singleton/)是一种对象创建模式，它用于产生一个对象的具体实例，它可以确保系统中一个类只产生一个实例
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/11/design-patterns-singleton-1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+</code></pre><h5 id="来自IBM"><a href="#来自IBM" class="headerlink" title="来自IBM"></a>来自IBM</h5><pre><code>与wiki相重复的内容，不再摘录。
+[单例模式](http://www.ibm.com/developerworks/cn/java/j-lo-Singleton/)是一种对象创建模式，它用于产生一个对象的具体实例，它可以确保系统中一个类只产生一个实例。Java里面实现单例是一个虚拟机的范围，因为装载类的功能是由虚拟机做的，所以一个虚拟机在通过自己的ClassLoader装载实现单例类的时候就会创建一个类实例。在Java语言中，这样的行为有两大好处：
+1.对于频繁使用的对象，可以省略创建对象所话费的时间，这对于那些重量级对象而言，是非常可观的一笔系统开销；
+2.由于new操作的次数减少，因而对系统内存的使用频率降低，这将减轻GC压力，缩短GC停顿时间。 
+</code></pre><h4 id="how"><a href="#how" class="headerlink" title="how"></a>how</h4><h5 id="饿汉单例"><a href="#饿汉单例" class="headerlink" title="饿汉单例"></a>饿汉单例</h5><pre><code>public class Singleton {
+ private Singleton(){}
+ private static Singleton instance = new Singleton();
+ public static Singleton getInsatnce(){
+ return instance;
+ }
+}
+</code></pre><blockquote>
+<p>上述代码不足之处是无法对instance实例做延时加载，假如单例的创建过程很慢，而由于instance成员变量是static定义的，因此在JVM加载单例类时，单例对象就会被建立，如果此时这个单例类在系统中还扮演其他角色，那么在任何使用这个单例类的地方都会初始化这个单例变量，而不管是否会用到。</p>
+</blockquote>
+<h5 id="懒汉单例"><a href="#懒汉单例" class="headerlink" title="懒汉单例"></a>懒汉单例</h5><pre><code>public class LazySingleton {
+
+    private LazySingleton() {
+    }
+
+    public static LazySingleton instance = null;
+
+    public static synchronized LazySingleton getInstance() {
+        if (instance == null) {
+            instance = new LazySingleton();
+        }
+        return instance;
+    }
+}
+</code></pre><blockquote>
+<p>上述代码首先对于静态成员变量instance初始化复赋值为null，确保系统启动时没有额外的负载；其次在getInstance()工厂方法中判断单例是否已经存在；注意，我们的getInstance()方法中添加了synchronized关键字，这就是注意事项中，在多线程情况下保证单例对象唯一性的手段。因此每次调用都要进行同步，造成不必要的开销，明显增加多线程环境下耗时。<br></p>
+<p>在多线程的应用场合下。如果当唯一实例尚未创建时，有两个线程同时调用创建方法，那么它们同时没有检测到唯一实例的存在，从而同时各自创建了一个实例，这样就有两个实例被构造出来，解决该问题的办法是为指示类是否已经实例化的变量提供一个互斥锁(会降低效率)。</p>
+</blockquote>
+<h5 id="懒汉单例的改进：静态内部类单例"><a href="#懒汉单例的改进：静态内部类单例" class="headerlink" title="懒汉单例的改进：静态内部类单例"></a>懒汉单例的改进：静态内部类单例</h5><pre><code>public class StaticInnerClassSingleton {
+
+    private StaticInnerClassSingleton() {
+    }
+
+    public StaticInnerClassSingleton getInstance() {
+        return SingletonHolder.instance;
+    }
+
+    private static class SingletonHolder {
+        private static final StaticInnerClassSingleton instance = new StaticInnerClassSingleton();
+    }
+}
+</code></pre><blockquote>
+<p>使用内部类来维护单例的实例，第一次加载StaticInnerClassSingleton类时，不会初始化instance，只有在第一次调用getInstance()时，才会加载SingletonHolder，初始化instance。由于实例的建立是在类加载时完成，不仅可以确保线程安全，也无需使用synchronized关键字，因此推荐使用。</p>
+</blockquote>
+<h5 id="DoubleCheckLock-实现单例"><a href="#DoubleCheckLock-实现单例" class="headerlink" title="DoubleCheckLock 实现单例"></a>DoubleCheckLock 实现单例</h5><pre><code>public class DCLSingleton {
+
+    private static DCLSingleton instance = null;
+
+    private DCLSingleton() {
+    }
+
+    public DCLSingleton getInstance() {
+        if (instance == null) {
+            synchronized (DCLSingleton.class) {
+                if (instance == null) {
+                    instance = new DCLSingleton();
+                }
+
+            }
+        }
+        return instance;
+    }
+}
+</code></pre><blockquote>
+<p>同步关键字加载方法上，如懒汉式单例，增加系统开销，影响效率。上述代码，第一次判空，可以避免不必要的同步，第二次判空是避免多线程情况下，instance实例为空，DCL失效。<br>因为<br><code>instance = new DCLSingleton();</code><br>并非原子操作，这句代码最终会被编译成多条汇编命令，大致做了三件事：<br><br>1.给DCLSingleton的实例分配内存<br><br>2.调用DCLSingleton的构造，初始化成员字段<br><br>3.将instance对象指向分配的内存空间<br></p>
+<p>由于Java编译器允许处理器乱序执行，以及JDK1.5之前的JMM(java memory model即Java内存模型)中<em>Cache、寄存器到主内存回写顺序</em>的规定，上面2、3的顺序无法保证先后执行的。<br>如果线程A的3执行完，此时instance不为null，2却没有执行，被切换到线程B上，B可以直接取走instance，使用就会报错，这就是DCL失效。<br><br>解决：JDK1.5之后，<code>private static volatile DCLSingleton instance = null;</code><br>使用volatile关键字，可以保证instance对象<em>每次都是从主内存中读取</em>。</p>
+</blockquote>
+<h5 id="容器维护多个单例"><a href="#容器维护多个单例" class="headerlink" title="容器维护多个单例"></a>容器维护多个单例</h5><pre><code>import java.util.HashMap;
+import java.util.Map;
+
+public class SingletonManager {
+    private static Map&lt;String,Object&gt; objMap = new HashMap&lt;&gt;();
+
+    private SingletonManager(){}
+
+    public static void registerService(String key,Object instance){
+        if(!objMap.containsKey(key)){
+            objMap.put(key, instance);
+        }
+    }
+
+    public static Object getService(String key){
+        return objMap.get(key);
+    }
+
+}
+</code></pre><blockquote>
+<p>根据key,使用map管理多种类型的单例，在使用时可以统一进行获取操作，可降低用户的使用成本。(个人感觉没啥用)</p>
+</blockquote>
+<h5 id="枚举单例"><a href="#枚举单例" class="headerlink" title="枚举单例"></a>枚举单例</h5><pre><code>public enum EnumSingleton {
+
+    INSTANCE;
+
+    public void doSomething() {
+    }
+}
+</code></pre><blockquote>
+<p>写法简单，线程安全，在任何情况下都是单例！</p>
+</blockquote>
+
+          
         
       
     </div>
@@ -1705,26 +2097,26 @@ public class Singleton implements Serializable {
       
         
           
-          问题现象
-如图所示，CTRL + SHIFT + A 输入Android Device Monitor并打开，可以看到连接了两部手机，但都没有显示我想要调试的进程信息。
+            <h4 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h4><p><img src="/images/adm_question.png" alt="ADM现象截图"></p>
+<pre><code>如图所示，CTRL + SHIFT + A 输入Android Device Monitor并打开，可以看到连接了两部手机，但都没有显示我想要调试的进程信息。
+</code></pre><blockquote>
+<p>去查看Hierarchy View，提示如下：        </p>
+<ul>
+<li>Unable to get view server version from device;</li>
+<li>Unable to get view server protocol version from device</li>
+<li>Unable to get the focused window from device</li>
+<li>Unable to debug device</li>
+</ul>
+</blockquote>
+<h4 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h4><pre><code>For security reasons HierarchyViewer does NOT work on production builds. It works only with userdebug and engineering builds (this includes the emulator.)
+</code></pre><h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><h5 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h5><pre><code>使用模拟器，推荐
+</code></pre><h5 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h5><pre><code>app不签名，也可以查看到
+</code></pre><h5 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h5><pre><code>经常会引起OOM等问题，但是还是贴出来，不推荐使用：
 
-去查看Hierarchy View，提示如下：        
-
-Unable to get view server version from device;
-Unable to get view server protocol version from device
-Unable to get the focused window from device
-Unable to debug device
-
-
-原因For security reasons HierarchyViewer does NOT work on production builds. It works only with userdebug and e
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/10/how-use-android-device-monitor/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+[ViewServer](https://github.com/romainguy/ViewServer/blob/master/viewserver/src/main/java/com/android/debug/hv/ViewServer.java)
+</code></pre><h4 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h4><pre><code>DDMS：Dalvik Debug Monitor Server
+</code></pre>
+          
         
       
     </div>
@@ -1902,7 +2294,7 @@ Unable to debug device
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Muse
+    NexT.Mist
   </a>
 </div>
 

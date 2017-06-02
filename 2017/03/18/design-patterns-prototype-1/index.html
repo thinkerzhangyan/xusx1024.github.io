@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -100,13 +100,13 @@
 <meta property="og:url" content="http://yoursite.com/2017/03/18/design-patterns-prototype-1/index.html">
 <meta property="og:site_name" content="行次">
 <meta property="og:description" content="content{:toc}  定义创建型模式的一种。通过复制一个已经存在的实例来返回新的实例，而不是新建实例。  《设计模式》： 使用原型实例指定创建对象的种类，然后通过拷贝这些原型来创建新的对象。  使用场景 创建重复的新对象的成本较大—— 创建复杂，初始化消耗资源过多，初始化耗时，繁琐的数据准备，访问权限 一个对象多个修改者-浅拷贝 一个对象需要提供给其他对象访问，而且各个调用者可能都需要修">
-<meta property="og:image" content="http://yoursite.com/2017/03/18/design-patterns-prototype-1/!--￼0--">
-<meta property="og:image" content="http://yoursite.com/2017/03/18/design-patterns-prototype-1/!--￼1--">
-<meta property="og:updated_time" content="2017-03-20T05:46:18.872Z">
+<meta property="og:image" content="http://yoursite.com/images/prototype_class_uml.png">
+<meta property="og:image" content="http://yoursite.com/images/prototype_sequence_uml.png">
+<meta property="og:updated_time" content="2017-06-02T00:47:35.047Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="原型设计模式(一) 基础知识">
 <meta name="twitter:description" content="content{:toc}  定义创建型模式的一种。通过复制一个已经存在的实例来返回新的实例，而不是新建实例。  《设计模式》： 使用原型实例指定创建对象的种类，然后通过拷贝这些原型来创建新的对象。  使用场景 创建重复的新对象的成本较大—— 创建复杂，初始化消耗资源过多，初始化耗时，繁琐的数据准备，访问权限 一个对象多个修改者-浅拷贝 一个对象需要提供给其他对象访问，而且各个调用者可能都需要修">
-<meta name="twitter:image" content="http://yoursite.com/2017/03/18/design-patterns-prototype-1/!--￼0--">
+<meta name="twitter:image" content="http://yoursite.com/images/prototype_class_uml.png">
 
 
 
@@ -114,8 +114,8 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
-    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -166,7 +166,7 @@
     
   
 
-  <div class="container sidebar-position-right page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -370,8 +370,8 @@
 <li>在实际项目中，原型模式很少单独出现，一般是和工厂方法模式一起出现，通过clone的方法创建一个对象，然后由工厂方法提供给调用者</li>
 <li>如果系统要保存对象的状态，而对象的状态变化很小，或者对象本身占内存不大的时候，也可以使用原型模式配合备忘录模式来应用。相反，如果对象的状态变化很大，或者对象占用的内存很大，那么采用状态模式会比原型模式更好</li>
 </ul>
-<h4 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h4><p><img src="!--￼0--" alt="类图"></p>
-<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="!--￼1--" alt="类图"></p>
+<h4 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h4><p><img src="/images/prototype_class_uml.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/prototype_sequence_uml.png" alt="时序图"></p>
 <h4 id="优点-缺点"><a href="#优点-缺点" class="headerlink" title="优点/缺点"></a>优点/缺点</h4><ul>
 <li>clone并不一定比new一个对象速度快，只有new构造对象耗时或成功高时，clone才有明显的效率提升</li>
 <li>逃避构造函数的约束(既是优点也是缺点)</li>
@@ -426,8 +426,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/18/design-patterns-start/" rel="next" title="设计模式开篇">
-                <i class="fa fa-chevron-left"></i> 设计模式开篇
+              <a href="/2017/03/15/tinker-source-code-1/" rel="next" title="Tinker学习(一)热修复基础知识">
+                <i class="fa fa-chevron-left"></i> Tinker学习(一)热修复基础知识
               </a>
             
           </div>
@@ -436,8 +436,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/19/design-patterns-prototype-2/" rel="prev" title="原型设计模式(二) Android中的应用">
-                原型设计模式(二) Android中的应用 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/03/18/design-patterns-start/" rel="prev" title="设计模式开篇">
+                设计模式开篇 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -622,7 +622,7 @@
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Muse
+    NexT.Mist
   </a>
 </div>
 

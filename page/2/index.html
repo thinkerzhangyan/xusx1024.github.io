@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -109,8 +109,8 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
-    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -161,7 +161,7 @@
     
   
 
-  <div class="container sidebar-position-right 
+  <div class="container sidebar-position-left 
    page-home 
  ">
     <div class="headband"></div>
@@ -357,48 +357,120 @@
       
         
           
-          SDK的实现目标
-简洁易用
-稳定
-高效
+            <h4 id="SDK的实现目标"><a href="#SDK的实现目标" class="headerlink" title="SDK的实现目标"></a>SDK的实现目标</h4><ul>
+<li>简洁易用</li>
+<li>稳定</li>
+<li>高效</li>
+</ul>
+<p>不应该对宿主应用有过多的代码侵入<br><br>不应该有复杂频繁的接入工作[一行代码接入]<br><br><br><br>在不影响宿主稳定的前提下，足够高效；<br><br>更少的内存占用；<br><br>更少的电量消耗；<br><br>更少的流量消耗；<br></p>
+<h4 id="架构设计"><a href="#架构设计" class="headerlink" title="架构设计"></a>架构设计</h4><ul>
+<li>模块化开发<blockquote>
+<p>根据单一职责将系统拆分为不同的小模块<br>模块间通过协议或接口进行通信，以减少耦合</p>
+</blockquote>
+</li>
+<li>组件化开发<blockquote>
+<p>将整个项目划分为多个模块，几个模块或单个模块作为一个组件，开发过程中可分别开发，发布时通过依赖，将组件合并成完整的SDK</p>
+</blockquote>
+</li>
+<li>插件化开发<blockquote>
+<p>SDK 分为宿主和插件。宿主向开发者提供必要的服务接口，并提供自定义的插件加载器，可以热更新，解决方法数64k问题。</p>
+</blockquote>
+</li>
+<li>SDK初始化</li>
+<li>云更新控制<blockquote>
+<p>可以通过服务端的云控服务，关闭某些SDK功能。</p>
+</blockquote>
+</li>
+<li>安全<ul>
+<li>appId + appSecret</li>
+<li>核心逻辑采用C/C++</li>
+<li>通讯加密<ul>
+<li>https</li>
+<li>对称加密</li>
+<li>非对称加密</li>
+</ul>
+</li>
+<li>设备安全[一些开发者会用虚拟机来刷广告]</li>
+</ul>
+</li>
+<li>减少传输数据的大小<ul>
+<li>如果对传输的数据大小有要求，建议对数据压缩</li>
+<li>可采用json/xml/protobuf等协议，也可自定义二进制协议</li>
+</ul>
+</li>
+<li>选择支持最低系统版本</li>
+<li>权限管理<ul>
+<li>最小权限原则</li>
+<li>动态权限申请</li>
+</ul>
+</li>
+<li>日志服务<ul>
+<li>日志要在关键位置上打点，记录有效信息</li>
+<li>上传信息要保证最大的可靠性，不能发生上传失败，抛弃日志的情况发生</li>
+<li>要考虑日志IO带来的开销，不能对正常的流程有过多的性能的影响</li>
+</ul>
+</li>
+</ul>
+<h4 id="API的设计"><a href="#API的设计" class="headerlink" title="API的设计"></a>API的设计</h4><pre><code>1.  方法名能够表明其用途
+2.  参数的合法性检验
+    - 对于公开方法，通过显式检查，抛出异常的方式，并且使用javadoc的@throw来说明抛出异常的原因
+    - 对于私有方法，通过断言的方式来检查参数的合法
+    - 检查构造参数的合法性，以使对象处在统一状态
+    - 如果检查的代价太大，需要综合考量
+3. 方法要明确其单一的功能-单一职责原则
+4. 方法异常问题
+    &gt;对于需要暴露给开发者的方法，要及时地抛出可查异常，来帮助开发者在编译阶段发现的问题，对于运行时异常，必须保证不能导致宿主程序出问题
+5. 方法权限控制
+    &gt;需从安全和业务的角度考虑，方法是公开、非公开、静态
+6. 避免过长参数
+    - Builder模式
+    - 通过静态内部类
+    - 将参数封装成对象
+    - 将参数拆解为多个方法
+7. 谨慎使用方法重载
+8. 谨慎使用变长参数
+9. 避免方法直接返回null，对于返回集合或list，不要返回null，返回长度为0的容器。
+10. 必要时进行保护性拷贝
+</code></pre><h4 id="SDK版本管理策略"><a href="#SDK版本管理策略" class="headerlink" title="SDK版本管理策略"></a>SDK版本管理策略</h4><ul>
+<li><p>版本号命名：V + 主版本号 + 子版本号 + 阶段版本号 + 日期版本号 + 希腊字母版本号</p>
+<blockquote>
+<p>V1_0_0_108_170515_alpha</p>
+</blockquote>
+<p>  希腊字母版本号说明：</p>
+<ul>
+<li>alpha：内部测试版，表示该阶段主要是以实现功能为主，通常只在内部流通而不对外开放</li>
+<li>beat：外部测试版，相对alpha版已有很大改进，需要进一步测试和检查以消除bug</li>
+<li>rc：该版本已相当成熟，与正式版相差无几</li>
+<li>release：最终交付或公开发布版本，该版本发布时，以符号R来代替release</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>版本号修改规则<ul>
+<li>主版本号：功能模块有较大变化或整体架构发生变化</li>
+<li>子版本号：功能有一定变化</li>
+<li>阶段版本号：bug修复或较小变动</li>
+<li>日期版本号：用于记录修改项目的当前日期</li>
+<li>希腊字母版本号：标注软件所处的开发阶段</li>
+</ul>
+</li>
+<li><p>API 版本管理</p>
+<ol>
+<li>原则上SDK API一旦发布不可变</li>
+<li>特殊情况下变更，要遵守开闭原则即对扩展开放对修改关闭</li>
+<li>优先选择添加新方法并尽量兼容原始方法</li>
+<li>需要废弃某些方法是，使用@deprecated标识，并给出替代方案和废弃时间(通常是版本号)</li>
+</ol>
+</li>
+<li><p>API 文档</p>
+<ul>
+<li>分为内部版和公开版</li>
+<li>与SDK的改变要同步更新</li>
+</ul>
+</li>
+</ul>
 
-不应该对宿主应用有过多的代码侵入不应该有复杂频繁的接入工作[一行代码接入]在不影响宿主稳定的前提下，足够高效；更少的内存占用；更少的电量消耗；更少的流量消耗；
-架构设计
-模块化开发
-根据单一职责将系统拆分为不同的小模块模块间通过协议或接口进行通信，以减少耦合
-
-
-组件化开发
-将整个项目划分为多个模块，几个模块或单个模块作为一个组件，开发过程中可分别开发，发布时通过依赖，将组件合并成完整的SDK
-
-
-插件化开发
-SDK 分为宿主和插件。宿主向开发者提供必要的服务接口，并提供自定义的插件加载器，可以热更新，解决方法数64k问题。
-
-
-SDK初始化
-云更新控制
-可以通过服务端的云控服务，关闭某些SDK功能。
-
-
-安全
-appId + appSecret
-核心逻辑采用C/C++
-通讯加密
-https
-对称加密
-非对称加密
-
-
-设备安全[一些开发者会用虚拟机
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/09/android-develop-sdk-tips/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -530,19 +602,19 @@ https
       
         
           
-          前言 android库很大，开发中会遇到一些不常用的api，记录在此。
-ActionBar相关
-setHomeButtonEnabled这个小于4.0版本的默认值为true的。但是在4.0及其以上是false，该方法的作用：决定左上角的图标是否可以点击。没有向左的小图标。 true 图标可以点击  false 不可以点击
-actionBar.setDisplayHomeAsUpEnabled(true)    // 给左上角图标的左边加上一个返回的图标 。对应ActionBar.DISPLAY_HOME_AS_UP
-actionBar.setDisplayShowHomeEnabled(true)   //使左上角图标是否显示，如果设成false，则没有程序图标，仅仅就个标题，否则，显示应用程序图标，对应id为Android.R.id.home，对应ActionBar.DISPLAY_SH
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/21/android-special-api/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p> android库很大，开发中会遇到一些不常用的api，记录在此。</p>
+<h4 id="ActionBar相关"><a href="#ActionBar相关" class="headerlink" title="ActionBar相关"></a>ActionBar相关</h4><ul>
+<li>setHomeButtonEnabled这个小于4.0版本的默认值为true的。但是在4.0及其以上是false，该方法的作用：决定左上角的图标是否可以点击。没有向左的小图标。 true 图标可以点击  false 不可以点击</li>
+<li>actionBar.setDisplayHomeAsUpEnabled(true)    // 给左上角图标的左边加上一个返回的图标 。对应ActionBar.DISPLAY_HOME_AS_UP</li>
+<li>actionBar.setDisplayShowHomeEnabled(true)   //使左上角图标是否显示，如果设成false，则没有程序图标，仅仅就个标题，否则，显示应用程序图标，对应id为Android.R.id.home，对应ActionBar.DISPLAY_SHOW_HOME</li>
+<li>actionBar.setDisplayShowCustomEnabled(true)  // 使自定义的普通View能在title栏显示，即actionBar.setCustomView能起作用，对应ActionBar.DISPLAY_SHOW_CUSTOM</li>
+<li>actionBar.setDisplayShowTitleEnabled(true)   //对应去掉ActionBar是否显示</li>
+</ul>
+<h4 id="判断Activity是否仍在运行"><a href="#判断Activity是否仍在运行" class="headerlink" title="判断Activity是否仍在运行"></a>判断Activity是否仍在运行</h4><pre><code>if (activity == null || activity.isDestroyed() || activity.isFinishing()) {
+    return;
+}
+</code></pre><h4 id="开关使用ToggleButton或者Switch"><a href="#开关使用ToggleButton或者Switch" class="headerlink" title="开关使用ToggleButton或者Switch"></a>开关使用ToggleButton或者Switch</h4>
+          
         
       
     </div>
@@ -674,29 +746,52 @@ actionBar.setDisplayShowHomeEnabled(true)   //使左上角图标是否显示，�
       
         
           
-          能做什么
-抢红包
-自动安装apk(偷装流氓软件)
-UI自动化测试
-监听短信内容
-帮助有障碍人士(…)
-
-重要的类android.accessibilityservice.AccessibilityService
-重要的方法onAccessibilityEventonInterrupt
-清单文件固定配置&lt;service
+            <h4 id="能做什么"><a href="#能做什么" class="headerlink" title="能做什么"></a>能做什么</h4><ul>
+<li>抢红包</li>
+<li>自动安装apk(偷装流氓软件)</li>
+<li>UI自动化测试</li>
+<li>监听短信内容</li>
+<li>帮助有障碍人士(…)</li>
+</ul>
+<h4 id="重要的类"><a href="#重要的类" class="headerlink" title="重要的类"></a>重要的类</h4><p><code>android.accessibilityservice.AccessibilityService</code></p>
+<h5 id="重要的方法"><a href="#重要的方法" class="headerlink" title="重要的方法"></a>重要的方法</h5><p><code>onAccessibilityEvent</code><br><br><code>onInterrupt</code></p>
+<h4 id="清单文件固定配置"><a href="#清单文件固定配置" class="headerlink" title="清单文件固定配置"></a>清单文件固定配置</h4><pre><code>&lt;service
     android:name=&quot;.SnatchRedEnvelopeService&quot;
     android:enabled=&quot;true&quot;
     android:exported=&quot;true&quot;
     android:label=&quot;@string/service_name&quot;
-    android:permission=&quot;android.permission.BIND_ACC
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/20/android-system-service-AccessibilityManager/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+    android:permission=&quot;android.permission.BIND_ACCESSIBILITY_SERVICE&quot;&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;android.accessibilityservice.AccessibilityService&quot;/&gt;
+    &lt;/intent-filter&gt;
+
+    &lt;meta-data
+        android:name=&quot;android.accessibilityservice&quot;
+        android:resource=&quot;@xml/snatch_red_envelope_service_config&quot;/&gt;
+&lt;/service&gt;
+</code></pre><h5 id="4-0之后配置服务参数-meta-data"><a href="#4-0之后配置服务参数-meta-data" class="headerlink" title="4.0之后配置服务参数 meta-data"></a>4.0之后配置服务参数 meta-data</h5><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;accessibility-service
+xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+android:description=&quot;@string/accessibility_description&quot;
+android:accessibilityEventTypes=&quot;typeNotificationStateChanged|typeWindowStateChanged|typeWindowContentChanged|typeWindowsChanged&quot;
+android:packageNames=&quot;com.tencent.mm,com.tencent.mobileqq&quot;
+android:accessibilityFeedbackType=&quot;feedbackGeneric&quot;
+android:notificationTimeout=&quot;100&quot;
+android:accessibilityFlags=&quot;flagDefault&quot;
+android:canRetrieveWindowContent=&quot;true&quot;/&gt;
+</code></pre><p>此处相当于配置一个<code>AccessibilityServiceInfo</code>,代码如下：<br></p>
+<pre><code>@Override
+protected void onServiceConnected() {
+    AccessibilityServiceInfo serviceInfo = new AccessibilityServiceInfo();
+    serviceInfo.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
+    serviceInfo.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC;
+    serviceInfo.packageNames = new String[]{&quot;com.tencent.mm&quot;,&quot;com.tencent.mobileqq&quot;}; 
+    serviceInfo.notificationTimeout=100;
+    setServiceInfo(serviceInfo);
+}
+</code></pre><h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p><a href="https://github.com/xusx1024/SnatchRedEnvelope" target="_blank" rel="external">Github:SnatchRedEnvelope</a></p>
+
+          
         
       
     </div>
@@ -828,13 +923,13 @@ UI自动化测试
       
         
           
-          简介 DC3算法(Difference Cover mod 3)是J. Kärkkäinen和P. Sanders在2003年发表的论文 “Simple Linear Work Suffix Array Construction”中描述的线性时间内构造后缀数组的算法。相对Prefix Doubling（前缀倍增）算法而言，虽然它的渐进时间复杂度比较小，但是常数项比较大。DC3算法的思想类似于找中位数的median of medians算法
-算法原理
-先将后缀分成两部分，然后对第一部分的后缀排序;
-利用1的结果，对第二部分的后缀排序;
-将1和2的结果合并，即完成对所有后缀排序;
-
-代码package DC3;
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p> DC3算法(Difference Cover mod 3)是J. Kärkkäinen和P. Sanders在2003年发表的论文 “Simple Linear Work Suffix Array Construction”中描述的线性时间内构造后缀数组的算法。相对Prefix Doubling（前缀倍增）算法而言，虽然它的渐进时间复杂度比较小，但是常数项比较大。DC3算法的思想类似于找中位数的median of medians算法</p>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><ol>
+<li>先将后缀分成两部分，然后对第一部分的后缀排序;</li>
+<li>利用1的结果，对第二部分的后缀排序;</li>
+<li>将1和2的结果合并，即完成对所有后缀排序;</li>
+</ol>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>package DC3;
 
 /**
  * DC3算法构建后缀数组
@@ -844,15 +939,355 @@ UI自动化测试
  */
 public class DC3 {
 
-    public static final
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/13/suffix-sort-baseon-dc3/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+    public static final char MAX_CHAR = &apos;\u00FF&apos;;
+
+    class Suffix {
+        int[] sa;
+        int[] rank;
+        boolean done;
+
+        public Suffix(int[] sa, int[] rank) {
+            this.sa = sa;
+            this.rank = rank;
+        }
+    }
+
+    class Tuple {
+        int iSuffix;
+        int[] digits;
+
+        public Tuple(int iSuffix, int[] digits) {
+            this.iSuffix = iSuffix;
+            this.digits = digits;
+        }
+
+        public String toString() {
+            StringBuffer sb = new StringBuffer();
+            sb.append(iSuffix);
+            sb.append(&quot;(&quot;);
+            for (int i = 0; i &lt; digits.length; i++) {
+                sb.append(digits[i]);
+                if (i &lt; digits.length - 1)
+                    sb.append(&quot;-&quot;);
+            }
+            sb.append(&quot;)&quot;);
+            return sb.toString();
+        }
+    }
+
+    private void countingSort(int d, Tuple[] tA, Tuple[] tB, int max) {
+
+        int[] C = new int[max + 1];
+        for (int i = 0; i &lt;= max; i++) {
+            C[i] = 0;
+        }
+
+        for (int i = 0; i &lt; tA.length; i++) {
+            C[tA[i].digits[d]]++;
+        }
+
+        for (int i = 1; i &lt;= max; i++) {
+            C[i] += C[i - 1];
+        }
+
+        for (int i = tA.length - 1; i &gt;= 0; i--) {
+            tB[--C[tA[i].digits[d]]] = tA[i];
+        }
+    }
+
+    private void radixSort(Tuple[] tA, Tuple[] tB, int max, int digitsLen) {
+        int len = tA.length;
+        int digitsTotalLen = tA[0].digits.length;
+
+        for (int i = digitsTotalLen - 1, j = 0; j &lt; digitsLen; i--, j++) {
+            this.countingSort(i, tA, tB, max);
+            if (j &lt; digitsLen - 1) {
+                for (int k = 0; k &lt; len; k++) {
+                    tA[k] = tB[k];
+                }
+            }
+        }
+    }
+
+    private Suffix rank(Tuple[] tA, Tuple[] tB, int max, int digitsLen) {
+        int len = tA.length;
+        radixSort(tA, tB, max, digitsLen);
+
+        int digitsTotalLen = tA[0].digits.length;
+
+        int[] sa = new int[len];
+        sa[0] = tB[0].iSuffix;
+
+        int[] rank = new int[len + 2];
+        rank[len] = 1;
+        rank[len + 1] = 1;
+
+        int r = 1;
+
+        rank[tB[0].iSuffix] = r;
+
+        for (int i = 1; i &lt; len; i++) {
+            sa[i] = tB[i].iSuffix;
+
+            boolean equalLast = true;
+
+            for (int j = digitsTotalLen - digitsLen; j &lt; digitsTotalLen; j++) {
+                if (tB[i].digits[j] != tB[i - 1].digits[j]) {
+                    equalLast = false;
+                    break;
+                }
+            }
+
+            if (!equalLast)
+                r++;
+
+            rank[tB[i].iSuffix] = r;
+
+        }
+
+        Suffix suffix = new Suffix(sa, rank);
+        if (r == len) {
+            suffix.done = true;
+        } else {
+            suffix.done = false;
+        }
+
+        return suffix;
+    }
+
+    private int[] orderSuffix(Tuple[] tA, Tuple[] tB, int max, int digitsLen) {
+
+        int len = tA.length;
+        radixSort(tA, tB, max, digitsLen);
+        int[] sa = new int[len];
+        for (int i = 0; i &lt; sa.length; i++)
+            sa[i] = tB[i].iSuffix;
+
+        return sa;
+
+    }
+
+    public Suffix reduce(int[] rank, int max) {
+
+        int len = rank.length - 2;
+        int n1 = (len + 1) / 3;
+        int n2 = len / 3;
+
+        Tuple[] tA = new Tuple[n1 + n2];
+        Tuple[] tB = new Tuple[n1 + n2];
+
+        for (int i = 0, j = 1; i &lt; n1; i++, j += 3) {
+
+            int r1 = rank[j];
+            int r2 = rank[j + 1];
+            int r3 = rank[j + 2];
+
+            tA[i] = new Tuple(i, new int[] { r1, r2, r3 });
+        }
+
+        for (int i = n1, j = 2; i &lt; n1 + n2; i++, j += 3) {
+
+            int r1 = rank[j];
+            int r2 = rank[j + 1];
+            int r3 = rank[j + 2];
+
+            tA[i] = new Tuple(i, new int[] { r1, r2, r3 });
+        }
+
+        return rank(tA, tB, max, 3);
+    }
+
+    public int[] skew(int[] rank, int max) {
+        int len = rank.length - 2;
+
+        Suffix suffixT12 = reduce(rank, max);
+
+        int[] sa12 = null;
+
+        // 1.caculate sa12
+        if (!suffixT12.done) {
+            int[] rankT12 = suffixT12.rank;
+            int maxT12 = rankT12[suffixT12.sa[suffixT12.sa.length - 1]];
+            sa12 = skew(rankT12, maxT12);
+        } else {
+            sa12 = suffixT12.sa;
+        }
+
+        // index conversion for sa12
+        int n1 = (len + 1) / 3;
+        for (int i = 0; i &lt; sa12.length; i++) {
+            if (sa12[i] &lt; n1) {
+                sa12[i] = 1 + 3 * sa12[i];
+            } else {
+                sa12[i] = 2 + 3 * (sa12[i]-n1);
+            }
+        }
+
+        // recaculate rank for sa12
+        int[] rank12 = new int[len + 2];
+
+        rank12[len] = 1;
+        rank12[len + 1] = 1;
+
+        for (int i = 0; i &lt; sa12.length; i++) {
+            rank12[sa12[i]] = i + 1;
+        }
+
+        // 2.caculate sa0
+
+        int n0 = (len + 2) / 3;
+        Tuple[] tA = new Tuple[n0];
+        Tuple[] tB = new Tuple[n0];
+
+        for (int i = 0, j = 0; i &lt; n0; i++, j += 3) {
+            int r1 = rank[j];
+            int r2 = rank12[j + 1];
+            tA[i] = new Tuple(i, new int[] { r1, r2 });
+        }
+
+        int max12 = rank12[sa12[sa12.length - 1]];
+        int[] sa0 = orderSuffix(tA, tB, max &lt; max12 ? max12 : max, 2);
+
+        for (int i = 0; i &lt; n0; i++) {
+            sa0[i] = 3 * sa0[i];
+        }
+
+        // 3.merge sa12 and sa0
+
+        int[] sa = new int[len];
+        int i = 0, j = 0, k = 0;
+
+        while (i &lt; sa12.length &amp;&amp; j &lt; sa0.length) {
+            int p = sa12[i];
+            int q = sa0[j];
+
+            if (p % 3 == 1) {
+
+                if (rank[p] &lt; rank[q]) {
+                    sa[k++] = p;
+                    i++;
+                } else if (rank[p] &gt; rank[q]) {
+                    sa[k++] = q;
+                    j++;
+                } else {
+                    if (rank12[p + 1] &lt; rank12[q + 1]) {
+                        sa[k++] = p;
+                        i++;
+                    } else {
+                        sa[k++] = q;
+                        j++;
+                    }
+                }
+            } else {
+                if (rank[p] &lt; rank[q]) {
+                    sa[k++] = p;
+                    i++;
+                } else if (rank[p] &gt; rank[q]) {
+                    sa[k++] = q;
+                    j++;
+                } else {
+                    if (rank[p + 1] &lt; rank[q + 1]) {
+                        sa[k++] = p;
+                        i++;
+                    } else if (rank[p + 1] &gt; rank[q + 1]) {
+                        sa[k++] = q;
+                        j++;
+                    } else {
+                        if (rank12[p + 2] &lt; rank12[q + 2]) {
+                            sa[k++] = p;
+                            i++;
+                        } else {
+                            sa[k++] = q;
+                            j++;
+                        }
+                    }
+                }
+            }
+        }
+        for (int m = i; m &lt; sa12.length; m++) {
+            sa[k++] = sa12[m];
+        }
+        for (int m = j; m &lt; sa0.length; m++) {
+            sa[k++] = sa0[m];
+        }
+        return sa;
+
+    }
+
+     public Suffix solve(String text){  
+            if(text == null)return null;  
+            int len = text.length();  
+            if(len == 0) return null;  
+
+            char base = text.charAt(len-1); //the smallest char  
+            Tuple[] tA = new Tuple[len];  
+            Tuple[] tB = new Tuple[len]; //placeholder  
+            for(int i=0;i&lt;len;i++){  
+                tA[i] = new Tuple(i,new int[]{0,text.charAt(i)-base});  
+            }  
+            Suffix suffix = rank(tA,tB,MAX_CHAR-base,1);  
+
+            int max = suffix.rank[suffix.sa[len-1]];  
+            int[] sa  = skew(suffix.rank,max);  
+
+            //caculate rank for result suffix array  
+            int[] r = new int[len];       
+            for(int k=0;k&lt;sa.length;k++){  
+                r[sa[k]] = k+1;  
+            }  
+            return new Suffix(sa,r);  
+
+        }  
+        public void report(Suffix suffix){  
+            int[] sa = suffix.sa;  
+            int[] rank = suffix.rank;  
+            int len = sa.length;  
+
+            System.out.println(&quot;suffix array:&quot;);  
+            for(int i=0;i&lt;len;i++){  
+                System.out.format(&quot; %s&quot;, sa[i]);              
+            }  
+            System.out.println();  
+            System.out.println(&quot;rank array:&quot;);  
+            for(int i=0;i&lt;len;i++){  
+                System.out.format(&quot; %s&quot;, rank[i]);            
+            }         
+            System.out.println();  
+        }  
+        public static void main(String[] args) {  
+            String text = &quot;GACCCACCACC#&quot;;  
+            DC3 dc3 = new DC3();  
+            Suffix suffix = dc3.solve(text);  
+            System.out.format(&quot;Text: %s%n&quot;,text);  
+            dc3.report(suffix);  
+
+            text = &quot;mississippi#&quot;;  
+            dc3 = new DC3();  
+            suffix = dc3.solve(text);  
+            System.out.format(&quot;Text: %s%n&quot;,text);  
+            dc3.report(suffix);  
+
+            text = &quot;abcdefghijklmmnopqrstuvwxyz#&quot;;  
+            dc3 = new DC3();  
+            suffix = dc3.solve(text);  
+            System.out.format(&quot;Text: %s%n&quot;,text);  
+            dc3.report(suffix);  
+
+            text = &quot;yabbadabbado#&quot;;  
+            dc3 = new DC3();  
+            suffix = dc3.solve(text);  
+            System.out.format(&quot;Text: %s%n&quot;,text);  
+            dc3.report(suffix);  
+
+            text = &quot;DFDLKJLJldfasdlfjasdfkldjasfldafjdajfdsfjalkdsfaewefsdafdsfa#&quot;;  
+            dc3 = new DC3();  
+            suffix = dc3.solve(text);  
+            System.out.format(&quot;Text: %s%n&quot;,text);  
+            dc3.report(suffix);  
+        }  
+}
+</code></pre>
+          
         
       
     </div>
@@ -984,20 +1419,243 @@ public class DC3 {
       
         
           
-          简介有几个基本概念需要知道。
-&gt;
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>有几个基本概念需要知道。<br></p>
+<p>&gt;</p>
+<ol>
+<li><strong>子串：</strong>字符串S的子串r[i…j],i &lt;= j,表示r串从i到j这一段，就是顺次排列r[i],r[i+1],…,r[j]形成的字符串;</li>
+<li><strong>后缀：</strong>从某个位置i开始，到整个字符串末尾结束的一个特殊子串。字符串S的从第i个字符开始的后缀表示suffix(i),也就是suffix(i) = r[i…len(r)];<br></li>
+<li><strong>大小比较：</strong>关于字符串的大小比较，是指通常所说的“字典顺序”比较，也就是对于两个字符串u、v，令从i=1，开始顺次比较u[i]和v[i]，如果u[i]=v[i]，则令i++，否则，若u[i]&gt;v[i]则认为u&gt;v，反之则认为u<v，比较结束。如果i>len(u)或者i&gt;len(v)仍比较不出结果，那么若len(u)&gt;len(v)，则认为u&gt;v,反之则认为u<v.<br>从大小比较定义来看，S的后缀比较结果是不可能相等，因为u=v的必要条件len(u)=len(v)无法满足。</v.<br></v，比较结束。如果i></li>
+<li><strong>后缀数组：</strong>后缀数组SA是一个一维数组，它保存1…n的某个排列SA[1],SA[2],…,SA[n],并且保证suffix(SA[i])&lt;suffix(SA[i+1]), 1 &lt;= i &lt; n。也就是将S的n个后缀从小到大进行排序之后，把有序的后缀的开头位置顺次放入SA中。</li>
+<li><strong>名次数组：</strong>名字数组rank[i]保存的是suffix(i)在所有后缀中从小到大排列的“名次”。简单的说，后缀数组SA是“排第几的是谁？”，名次数组rank是“你排第几？”。容易看出，后缀数组和名次数组互为逆运算。</li>
+<li><strong>height数组：</strong>定义height[i]=suffix(SA[i-1])和suffix(SA[i])的最长公共前缀，也就是排名相邻的两个后缀的最长公共前缀，h[i]=height[rank[i]],也就是suffix(i)和在它前一名的后缀的最长公共前缀</li>
+<li><strong>LCP(i,j):</strong>对正整数i,j定义LCP(i,j)=lcp(Suffix(SA[i]),Suffix(SA[j]),其中i,j均为1至n的整数。LCP(i,j)也就是后缀数组中第i个和第j个后缀的最长公共前缀的长度。其中，函数lcp(u,v)=max{i|u=v},也就是从头开始顺次比较u和v的对应字符，对应字符持续相等的最大位置，称为这两个字符串的最长公共前缀。</li>
+</ol>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><p> Prefix Doubling算法(前缀倍增法)是构造后缀数组一个比较实用的算法。其基本思想是先计算出每个后缀的k-前缀的rank值，然后在此基础上计算每个后缀的2k-前缀rank值，k从1开始。直到每个后缀都排出先后顺序为止(后缀必有先后顺序，原因见上面的解释)。在处理2k-前缀时，只需要使用<a href="http://xusx1024.com/2017/04/10/radix-sort/" target="_blank" rel="external">基数排序(radix sort)</a>算法，先后对两位数字排序，可以采用<a href="http://xusx1024.com/2017/04/11/counting-sort/" target="_blank" rel="external">计数排序算法(counting sort)</a>对每一位数字排序。在最坏情况下，需要做lgn次基数排序，每一次基数排序的操作次数为2*O(n),因此它的时间复杂是O(nlgn)。倍增法虽然没有达到想DC3算法的线性复杂度，但是它的优点是实现比较简单，因此常常被采用。</p>
+<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p><img src="/images/prefix_doubleing_demo_1.png" alt="示例图"><br><br> </p>
+<p><img src="/images/SA&amp;rank.png" alt="示例图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p>java语言实现：<br></p>
+<pre><code>package PrefixDoubling;
 
-子串：字符串S的子串r[i…j],i &lt;= j,表示r串从i到j这一段，就是顺次排列r[i],r[i+1],…,r[j]形成的字符串;
-后缀：从某个位置i开始，到整个字符串末尾结束的一个特殊子串。字符串S的从第i个字符开始的后缀表示suffix(i),也就是suffix(i) = r[i…len(r)];
-大小比较：关于字符串的大小比较，是指通常所说的“字典顺序”比较，也就是对于两个字符串u、v，令从i=1，开始顺次比较u[i]和v[i]，如果u[i]=v[i]，则令i++，否则，若u[i]&gt;v[i]则认为u&gt;v，反之则认为ulen(u)或者i&gt;len(v)仍比较不出结果，那么若len(u)&gt;len(v)，则认为u&gt;v,反之则认为u从大小比较定义来看，S的后缀比较结果是不可能相等，因为u=v的必要条件len(u)
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/11/suffix-sort-baseon-prefix-doubleing/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+import java.util.Arrays;
+
+/**
+ * 倍增算法实现后缀数组
+ * 
+ * @author sxx.xu
+ *
+ */
+public class PrefixDoubling {
+
+    public static final char MAX_CHAR = &apos;\u00FF&apos;;
+
+    /**
+     * sa中第i个后缀：SA[rank[i]-1];&lt;br&gt;
+     * i是rank数组的下标;&lt;br&gt;
+     * 串S的第i个后缀是S[i...n],n=S.length-1.
+     * 
+     * @author sxx.xu
+     *
+     */
+    class Suffix {
+        int[] sa;
+        int[] rank;
+        boolean done;
+    }
+
+    class Tuple {
+        int iSuffix;
+        int[] digits;
+
+        public Tuple(int suffix, int[] digits) {
+            this.iSuffix = suffix;
+            this.digits = digits;
+        }
+
+        public String toString() {
+            StringBuffer sb = new StringBuffer();
+            sb.append(iSuffix);
+            sb.append(&quot;(&quot;);
+            for (int i = 0; i &lt; digits.length; i++) {
+                sb.append(digits[i]);
+                if (i &lt; digits.length - 1)
+                    sb.append(&quot;-&quot;);
+            }
+            sb.append(&quot;)&quot;);
+            return sb.toString();
+        }
+    }
+
+
+    private void countingSort(int d, Tuple[] tA, Tuple[] tB, int max) {
+        int[] C = new int[max + 1];
+        for (int i : C)
+            i = 0;
+
+        for (int j = 0; j &lt; tA.length; j++) {
+            C[tA[j].digits[d]]++;
+        }
+
+        for (int i = 1; i &lt;= max; i++)
+            C[i] += C[i - 1];
+
+        for (int j = tA.length - 1; j &gt;= 0; j--) {
+
+            tB[--C[tA[j].digits[d]]] = tA[j];
+
+        }
+    }
+
+    private void radixSort(Tuple[] tA, Tuple[] tB, int max, int digitsLen) {
+        int len = tA.length;
+        int digitsTotalLen = tA[0].digits.length;
+
+        for (int d = digitsTotalLen - 1, j = 0; j &lt; digitsLen; d--, j++) {
+            this.countingSort(d, tA, tB, max);
+            if (j &lt; digitsLen - 1) {
+                for (int i = 0; i &lt; len; i++) {
+                    tA[i] = tB[i];
+                }
+            }
+        }
+
+    }
+
+    private Suffix rank(Tuple[] tA, Tuple[] tB, int max, int digitsLen) {
+        int len = tA.length;
+        radixSort(tA, tB, max, digitsLen);
+
+        int digitsTotalLen = tA[0].digits.length;
+
+        int[] sa = new int[len];
+        sa[0] = tB[0].iSuffix;
+
+        int[] rank = new int[len];
+        int r = 1;
+        rank[tB[0].iSuffix] = r;
+        for (int i = 1; i &lt; len; i++) {
+            sa[i] = tB[i].iSuffix;
+
+            boolean equalLast = true;
+
+            for (int j = digitsTotalLen - digitsLen; j &lt; digitsTotalLen; j++) {
+                if (tB[i].digits[j] != tB[i - 1].digits[j]) {
+                    equalLast = false;
+                    break;
+                }
+            }
+
+            if (!equalLast) {
+                r++;
+            }
+            rank[tB[i].iSuffix] = r;
+        }
+
+        Suffix suffix = new Suffix();
+        suffix.rank = rank;
+        suffix.sa = sa;
+        if (r == len) {
+            suffix.done = true;
+        } else {
+            suffix.done = false;
+        }
+
+        return suffix;
+    }
+
+    public Suffix solve(String text) {
+        if (text == null)
+            return null;
+        int len = text.length();
+        if (len == 0)
+            return null;
+
+        int k = 1;
+        char base = text.charAt(len - 1);
+        Tuple[] tA = new Tuple[len];
+        Tuple[] tB = new Tuple[len];
+
+        for (int i = 0; i &lt; len; i++) {
+            tA[i] = new Tuple(i, new int[] { 0, text.charAt(i) - base });
+        }
+
+        Suffix suffix = rank(tA, tB, MAX_CHAR - base, 1);
+        while (!suffix.done) {
+            k &lt;&lt;= 1;
+            int offset = k &gt;&gt; 1;
+            for (int i = 0, j = i + offset; i &lt; len; i++, j++) {
+                tA[i].iSuffix = i;
+                tA[i].digits = new int[] { suffix.rank[i], (j &lt; len) ? suffix.rank[i + offset] : 0 };
+            }
+            int max = suffix.rank[suffix.sa[len - 1]];
+            suffix = rank(tA, tB, max, 2);
+        }
+        return suffix;
+    }
+
+    public void report(Suffix suffix) {
+        int[] sa = suffix.sa;
+        int[] rank = suffix.rank;
+        int len = sa.length;
+        System.out.println(&quot;suffix array:&quot;);
+        for (int i = 0; i &lt; len; i++)
+            System.out.format(&quot; %s&quot;, sa[i]);
+
+        System.out.println();
+        System.out.println(&quot;rank array:&quot;);
+        for (int i = 0; i &lt; len; i++)
+            System.out.format(&quot; %s&quot;, rank[i]);
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        /*
+         * //plain counting sort test:
+         * 
+         * int[] A= {2,5,3,0,2,3,0,3}; PrefixDoubling pd = new PrefixDoubling();
+         * int[] B = new int[A.length]; pd.countingSort(A,B,5); for(int
+         * i=0;i&lt;B.length;i++) System.out.format(&quot; %d&quot;, B[i]);
+         * System.out.println();
+         */
+
+        String text = &quot;GACCCACCACC#&quot;;
+        PrefixDoubling pd = new PrefixDoubling();
+        Suffix suffix = pd.solve(text);
+        System.out.format(&quot;Text: %s%n&quot;, text);
+        pd.report(suffix);
+
+        System.out.println(&quot;********************************&quot;);
+        text = &quot;mississippi#&quot;;
+        pd = new PrefixDoubling();
+        suffix = pd.solve(text);
+        System.out.format(&quot;Text: %s%n&quot;, text);
+        pd.report(suffix);
+
+        System.out.println(&quot;********************************&quot;);
+        text = &quot;abcdefghijklmmnopqrstuvwxyz#&quot;;
+        pd = new PrefixDoubling();
+        suffix = pd.solve(text);
+        System.out.format(&quot;Text: %s%n&quot;, text);
+        pd.report(suffix);
+
+        System.out.println(&quot;********************************&quot;);
+        text = &quot;yabbadabbado#&quot;;
+        pd = new PrefixDoubling();
+        suffix = pd.solve(text);
+        System.out.format(&quot;Text: %s%n&quot;, text);
+        pd.report(suffix);
+
+        System.out.println(&quot;********************************&quot;);
+        text = &quot;DFDLKJLJldfasdlfjasdfkldjasfldafjdajfdsfjalkdsfaewefsdafdsfa#&quot;;
+        pd = new PrefixDoubling();
+        suffix = pd.solve(text);
+        System.out.format(&quot;Text: %s%n&quot;, text);
+        pd.report(suffix);
+
+    }
+
+}
+</code></pre>
+          
         
       
     </div>
@@ -1129,35 +1787,129 @@ public class DC3 {
       
         
           
-          简介计数排序wiki 
-
-计数排序是用来排序0到100之间的数字的最好的算法
-计数排序可以用在基数排序中的算法来排序数据范围很大的数组
-计数排序是一种算法复杂度 O(n) 的排序方法，适合于小范围集合的排序
-计数排序的优势是对已知数量范围的数组进行排序
-基于比较的排序算法是不能突破O(NlogN)
-
-算法原理
-找出待排序的数组中最大和最小的元素
-统计数组中每个值为i的元素出现的次数，存入数组 C 的第 i 项
-对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）
-反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1
-
-实例分析具体的分步动画演示详见：Data Structure Visualizations
-对于数据2 5 3 0 2 3 0 3程序执行的过程如下图所示：
-
-代码package CountingSort;
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><a href="https://zh.wikipedia.org/wiki/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F" target="_blank" rel="external">计数排序wiki</a> <br></p>
+<ul>
+<li>计数排序是用来排序0到100之间的数字的最好的算法</li>
+<li>计数排序可以用在基数排序中的算法来排序数据范围很大的数组</li>
+<li>计数排序是一种算法复杂度 O(n) 的排序方法，适合于小范围集合的排序</li>
+<li>计数排序的优势是对已知数量范围的数组进行排序</li>
+<li>基于比较的排序算法是不能突破O(NlogN)</li>
+</ul>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><ol>
+<li>找出待排序的数组中最大和最小的元素</li>
+<li>统计数组中每个值为i的元素出现的次数，存入数组 C 的第 i 项</li>
+<li>对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）</li>
+<li>反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1</li>
+</ol>
+<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>具体的分步动画演示详见：<a href="http://www.cs.usfca.edu/~galles/visualization/CountingSort.html" target="_blank" rel="external">Data Structure Visualizations</a></p>
+<p><br><br>对于数据2 5 3 0 2 3 0 3程序执行的过程如下图所示：</p>
+<p><img src="/images/counting_sort_1.png" alt="示例图"><br><br><img src="/images/counting_sort_2.png" alt="示例图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>package CountingSort;
 
 /**
  * 计数排序
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/11/counting-sort/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+ * 
+ * @author sxx.xu
+ *
+ */
+public class CountingSort {
+
+    private static void countingSort(int[] array) {
+        int min = array[0], max = array[0];
+        for (int i : array) {
+            if (i &lt; min)
+                min = i;
+            if (i &gt; max)
+                max = i;
+        }
+
+        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
+        int[] countArray = new int[max + 1];// 此处使用max+1太粗暴，见countingSort2
+        int[] countResult = new int[array.length];
+
+        for (int i : array) {
+            countArray[i]++;
+        }
+
+        for (int i = 1; i &lt; countArray.length; i++) {
+            countArray[i] += countArray[i - 1];
+        }
+
+        for (int i = array.length - 1; i &gt;= 0; i--) {
+            int elem = array[i];
+            int index = countArray[elem] - 1;
+            countResult[index] = elem;
+            System.out.println(&quot;当前元素为：&quot; + elem + &quot;;在排序数组中的位置是：&quot; + index);
+            countArray[elem]--;
+        }
+
+        for (int i : countResult) {
+            System.out.println(i);
+        }
+
+        // 桶排序
+        // int[][] resultArray = new int[countArray.length][countArray.length];
+        // for (int i = 0; i &lt; countArray.length; i++) {
+        // for (int j = 0; j &lt; countArray[i]; j++) {
+        // resultArray[i][j] = i;
+        // }
+        // }
+        //
+        // for (int i = 0; i &lt; resultArray.length; i++) {
+        // for (int j = 0; j &lt; resultArray[i].length; j++) {
+        // if (resultArray[i][j] != 0)
+        // System.out.println(resultArray[i][j]);// 这里直接输出，属于桶排序
+        // }
+        // }
+    }
+
+    /**
+     * 优化后的，减少中间数组大小
+     * @param array
+     */
+    private static void countingSort2(int[] array) {
+
+        int min = array[0], max = array[0];
+        for (int i : array) {
+            if (i &lt; min)
+                min = i;
+            if (i &gt; max)
+                max = i;
+        }
+
+        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
+        int[] countArray = new int[max - min + 1];
+        int[] countResult = new int[array.length];
+
+        for (int i : array) {
+            countArray[i - min]++;
+        }
+
+        for (int i = 1; i &lt; countArray.length; i++) {
+            countArray[i] += countArray[i - 1];
+        }
+
+        for (int i = array.length - 1; i &gt;= 0; i--) {
+            int elem = array[i] - min;
+            int index = countArray[array[i] - min] - 1;
+            countResult[index] = array[i];
+            countArray[elem]--;
+        }
+
+        for (int i : countResult) {
+            System.out.println(i);
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] array = { 8, 2, 3, 4, 3, 6, 6, 3, 9 };
+        int[] array2 = { 2, 8, 5, 1, 10, 5, 9, 9, 3, 5, 6, 6, 2, 8, 2 };
+        countingSort(array);
+        countingSort2(array);
+    }
+}
+</code></pre>
+          
         
       
     </div>
@@ -1289,19 +2041,125 @@ public class DC3 {
       
         
           
-          简介探究Tinker的BSDiff算法的过程中，发现用到了后缀排序，就去研究后缀排序，然后发现用到倍增算法的思想。而倍增是排序的一种策略，这种策略要求必须对基数排序有一定的理解 T.T。好，言归正传。基数排序是桶排序的一种特例。 
-比较和非比较的区别常见的快速排序、归并排序、堆排序、冒泡排序等属于比较排序。在排序的最终结果里，元素之间的次序依赖于它们之间的比较。每个数都必须和其他数进行比较，才能确定自己的位置。
-在 冒泡排序 之类的排序中，问题规模为n，又因为需要比较n次，所以平均时间复杂度为O(n²)。在 归并排序、快速排序 之类的排序中，问题规模通过分治法消减为logN次，所以时间复杂度平均 O(nlogn) 。
-比较排序的优势是，适用于各种规模的数据，也不在乎数据的分布，都能进行排序。可以说，比较排序适用于一切需要排序的情况。
-计数排序、基数排序、桶排序则属于非比较排序。非比较排序是
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/10/radix-sort/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>探究Tinker的BSDiff算法的过程中，发现用到了<code>后缀排序</code>，就去研究后缀排序，然后发现用到<code>倍增算法</code>的思想。而倍增是排序的一种策略，这种策略要求必须对<code>基数排序</code>有一定的理解 T.T。<br><br>好，言归正传。基数排序是<a href="http://xusx1024.com/2017/04/10/bucket-sort/" target="_blank" rel="external">桶排序</a>的一种特例。 </p>
+<h4 id="比较和非比较的区别"><a href="#比较和非比较的区别" class="headerlink" title="比较和非比较的区别"></a>比较和非比较的区别</h4><p>常见的快速排序、归并排序、堆排序、冒泡排序等属于比较排序。在排序的最终结果里，元素之间的次序依赖于它们之间的比较。每个数都必须和其他数进行比较，才能确定自己的位置。</p>
+<p>在 冒泡排序 之类的排序中，问题规模为n，又因为需要比较n次，所以平均时间复杂度为O(n²)。在 归并排序、快速排序 之类的排序中，问题规模通过分治法消减为logN次，所以时间复杂度平均 O(nlogn) 。</p>
+<p>比较排序的优势是，适用于各种规模的数据，也不在乎数据的分布，都能进行排序。可以说，比较排序适用于一切需要排序的情况。</p>
+<p>计数排序、基数排序、桶排序则属于非比较排序。非比较排序是通过确定每个元素之前，应该有多少个元素来排序。针对数组arr，计算arr[i]之前有多少个元素，则唯一确定了arr[i]在排序后数组中的位置。</p>
+<p>非比较排序只要确定每个元素之前的已有的元素个数即可，所有一次遍历即可解决。算法时间复杂度 O(n) 。</p>
+<p>非比较排序时间复杂度底，但由于非比较排序需要占用空间来确定唯一位置。所以对数据规模和数据分布有一定的要求。</p>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><blockquote>
+<p>基数排序是一种非比较型、整数排序算法，其原理是将整数按位数切割成不同的数字，然后按照每个位数分别比较。<br><br></p>
+</blockquote>
+<p>排序过程：<br><br>将所有待比较数值(正整数)统一为同样的数位长度，数位较短的数前面补零。然后从最地位开始，依次进行一次排序。<br></p>
+<p>基数排序法会使用到桶，即把要比较的个、十、百、千。。。位的对应的元素分配到0~9个桶中，借以达到排序的作用，在某些时候，基数排序法的效率高于其他的比较性算法。具体的分步动画演示详见：<a href="http://www.cs.usfca.edu/~galles/visualization/RadixSort.html" target="_blank" rel="external">Data Structure Visualizations</a>。</p>
+<p><br><br>基数排序的方式可以采用LSD（Least significant digital）或MSD（Most significant digital），LSD的排序方式由键值的最右边开始，而MSD则相反，由键值的最左边开始。</p>
+<h4 id="效率"><a href="#效率" class="headerlink" title="效率"></a>效率</h4><p>基数排序的时间复杂度是 <strong>O(k·n)</strong>，其中<strong>n</strong>是排序元素个数， <strong>k</strong>是数字位数。注意这不是说这个时间复杂度一定优于 <strong>O(n·log(n))</strong>， <strong>k</strong>的大小取决于数字位的选择（比如比特位数），和待排序数据所属数据类型的全集的大小； <strong>k</strong>决定了进行多少轮处理，而 <strong>n</strong>是每轮处理的操作数目。</p>
+<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>对数组{53, 542, 63, 3, 63, 14, 214, 154, 748, 616}，它的示意图如下：</p>
+<p><img src="/images/radix_sort.png" alt="示例图"><br>Java代码如下：</p>
+<pre><code>package RadixSort;
+
+/**
+ * 基数排序
+ * 
+ * @author sxx.xu
+ *
+ */
+public class RadixSort {
+
+    private static int getMax(int[] array) {
+        int max = array[0];
+        for (int i : array) {
+            max = i &gt; max ? i : max;
+        }
+        return max;
+    }
+
+    public static void radixSort(int[] array) {
+        int exp = 1;// 个、十、百、千。。。位
+        int max = getMax(array);
+
+        for (exp = 1; max / exp &gt; 0; exp *= 10)
+            countSort(array, exp);
+    }
+
+    private static void countSort(int[] array, int exp) {
+
+        int[] outputs = new int[array.length];
+        int[] buckets = new int[10];// 0-9
+
+        //统计array中对应位数的元素的个数
+        for (int i : array) {
+            buckets[(i / exp) % 10]++;
+        }
+        //统计array中，小于该位的元素的个数，相当于排序
+        for (int i = 1; i &lt; buckets.length; i++) {
+            buckets[i] += buckets[i - 1];
+        }
+        //赋值
+        for (int i = array.length - 1; i &gt;= 0; i--) {
+            outputs[buckets[(array[i] / exp) % 10] - 1] = array[i];
+            buckets[(array[i] / exp) % 10]--;
+        }
+
+        for (int i = 0; i &lt; outputs.length; i++) {
+            array[i] = outputs[i];
+        }
+        outputs = null;
+        buckets = null;
+    }
+
+    private static void radixSort(int[] array, int d) {
+        int n = 1;// 个、十、百、千。。。位
+        int k = 0;// 保存每一位排序后的结果用于下一位的排序输入
+        int length = array.length;
+        int[][] bucket = new int[10][length];// 排序桶用于保存每次排序后的结果，这一位上排序结果相同的数字放在同一个桶里
+        int[] order = new int[length];// 用于保存每个桶里有多少个数字
+        while (n &lt; d) {
+            for (int num : array) // 将数组array里的每个数字放在相应的桶里
+            {
+                int digit = (num / n) % 10;
+                bucket[digit][order[digit]] = num;
+                order[digit]++;
+            }
+            for (int i = 0; i &lt; length; i++)// 将前一个循环生成的桶里的数据覆盖到原数组中用于保存这一位的排序结果
+            {
+                if (order[i] != 0)// 这个桶里有数据，从上到下遍历这个桶并将数据保存到原数组中
+                {
+                    for (int j = 0; j &lt; order[i]; j++) {
+                        array[k] = bucket[i][j];
+                        k++;
+                    }
+                }
+                order[i] = 0;// 将桶里计数器置0，用于下一次位排序
+            }
+            n *= 10;
+            k = 0;// 将k置0，用于下一轮保存位排序结果
+        }
+
+    }
+
+    public static void main(String[] args) {
+        int array[] = { 53, 3, 542, 748, 14, 214, 154, 63, 616, 70 };
+        for (int i : array) {
+            System.out.print(i + &quot;  &quot;);
+        }
+        System.out.println(&quot;&quot;);
+        System.out.println(&quot;before===================================after&quot;);
+        radixSort(array);
+        for (int i : array) {
+            System.out.print(i + &quot;  &quot;);
+        }
+        int[] A = new int[] { 53, 3, 542, 748, 14, 214, 154, 63, 616, 70 };
+        radixSort(A, 100);
+        System.out.println(&quot;&quot;);
+        for (int i : A) {
+            System.out.print(i + &quot;  &quot;);
+        }
+    }
+}
+</code></pre>
+          
         
       
     </div>
@@ -1433,24 +2291,165 @@ public class DC3 {
       
         
           
-          简介探究Tinker的BSDiff算法的过程中，发现用到了后缀排序，就去研究后缀排序，然后发现用到倍增算法的思想。而倍增是排序的一种策略，这种策略要求必须对基数排序有一定的理解 T.T，而基数排序是桶排序的一种特例。
-算法原理
-简单暴力的来说，我们有一组数据，该组数据比如说是高数成绩，那么肯定有最大值，最小值，申请大小为100的桶数组，数组的下标即分数，数组的值代表相同分数的学生有几个。大概如图所示：
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>探究Tinker的BSDiff算法的过程中，发现用到了<code>后缀排序</code>，就去研究后缀排序，然后发现用到<code>倍增算法</code>的思想。而倍增是排序的一种策略，这种策略要求必须对<a href="http://xusx1024.com/2017/04/10/radix-sort/" target="_blank" rel="external">基数排序</a>有一定的理解 T.T，而基数排序是<code>桶排序</code>的一种特例。<br></p>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><blockquote>
+<p>简单暴力的来说，我们有一组数据，该组数据比如说是高数成绩，那么肯定有最大值，最小值，申请大小为100的桶数组，数组的下标即分数，数组的值代表相同分数的学生有几个。大概如图所示：</p>
+<p><img src="/images/buckets_sort.png" alt="示例图"></p>
+<p>当然，上述只能有一个大概印象和基本理解，如果想要实际使用或者分析问题，还得看正规军。</p>
+</blockquote>
+<p><br></p>
+<p>桶排序的思想近乎彻底的分治思想。假设现在需要对一亿个数进行排序。我们可以将其等分到10000个虚拟的桶里，平均每个桶只有10000个数。如果每个桶都有序了，则只需顺次输出桶里的有序序列即可。思路如下：<br></p>
+<ol>
+<li>将待排数据按一个映射函数f(x)分为连续的若干段。理论上最佳的分段方法应该使数据平均分布，实际上通常采用的方法都做不到这一点。显然，对于一个已知输入范围在[0,10000]的数组，最简单的分段莫过于x/m,例如f(x) = x/100.“连续的”这个条件非常重要，它是后面数据按顺序输出的理论保证。</li>
+<li>分配足够的桶，按照f(x)从数组起始处向后扫描，并把数据放到合适的桶中。对于上面的例子，如果数据有10000个，则我们需要分配101个桶（因为要考虑边界条件：f(x)=x/100会产生【0，100】共101种情况），理想情况下，每个桶有大约100个数据。</li>
+<li>对每个桶进行内部排序，例如，使用快速排序。注意，如果数据足够大，这里可以继续递归使用桶排序，直到数据大小降到合适的范围。</li>
+<li>按顺序从每个桶输出数据,排序完成。</li>
+</ol>
+<p><a href="http://www.cs.usfca.edu/~galles/visualization/BucketSort.html" target="_blank" rel="external">Data Structure Visualizations</a> 提供了一个桶排序的分步动画演示。</p>
+<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>设有数组 array = [29, 25, 3, 49, 9, 37, 21, 43]，那么数组中最大数为 49，先设置 5 个桶，那么每个桶可存放数的范围为：0~9、10~19、20~29、30~39、40~49，然后分别将这些数放人自己所属的桶，如下图：</p>
+<p><img src="/images/bucket-sort-1.png" alt="示例图"></p>
+<p>然后，分别对每个桶里面的数进行排序，或者在将数放入桶的同时用插入排序进行排序。最后，将各个桶中的数据有序的合并起来，如下图：</p>
+<p><img src="/images/bucket-sort-2.png" alt="示例图"></p>
+<h4 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h4><pre><code>package BuketsSort;
 
-当然，上述只能有一个大概印象和基本理解，如果想要实际使用或者分析问题，还得看正规军。
+import java.util.Arrays;
+
+/**
+ * 桶排序
+ * 
+ * @author sxx.xu
+ *
+ */
+public class BuketsSort {
+
+    /*
+     * 桶排序
+     *
+     * 参数说明： a -- 待排序数组 max -- 数组a中最大值的范围
+     */
+    public static void bucketSort(int[] a, int max) {
+        int[] buckets;
+
+        if (a == null || max &lt; 1)
+            return;
+
+        // 创建一个容量为max的数组buckets，并且将buckets中的所有数据都初始化为0。
+        buckets = new int[max];
+
+        // 1. 计数
+        for (int i = 0; i &lt; a.length; i++)
+            buckets[a[i]]++;
+
+        // 2. 排序
+        for (int i = 0, j = 0; i &lt; max; i++) {
+            while ((buckets[i]--) &gt; 0) {
+                a[j++] = i;
+            }
+        }
+
+        buckets = null;
+    }
+
+    public static void bucketSort(int[] arr) {
+        // 分桶，这里采用映射函数f(x)=x/10。
+        // 输入数据为0~99之间的数字
+        int bucketCount = 10;
+        Integer[][] bucket = new Integer[bucketCount][arr.length]; // Integer初始为null,以与数字0区别。
+        for (int i = 0; i &lt; arr.length; i++) {
+            int quotient = arr[i] / 10; // 这里即是使用f(x)
+            for (int j = 0; j &lt; arr.length; j++) {
+                if (bucket[quotient][j] == null) {
+                    bucket[quotient][j] = arr[i];
+                    break;
+                }
+            }
+        }
+        // 小桶排序
+        for (int i = 0; i &lt; bucket.length; i++) {
+            // insertion sort
+            for (int j = 1; j &lt; bucket[i].length; ++j) {
+                if (bucket[i][j] == null) {
+                    break;
+                }
+                int value = bucket[i][j];
+                int position = j;
+                while (position &gt; 0 &amp;&amp; bucket[i][position - 1] &gt; value) {
+                    bucket[i][position] = bucket[i][position - 1];
+                    position--;
+                }
+                bucket[i][position] = value;
+            }
+
+        }
+        // 输出
+        for (int i = 0, index = 0; i &lt; bucket.length; i++) {
+            for (int j = 0; j &lt; bucket[i].length; j++) {
+                if (bucket[i][j] != null) {
+                    arr[index] = bucket[i][j];
+                    index++;
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+ public static void bucketSort2(int [] arr){  
+        //寻找数组中min，max，用于建桶  
+        int min = 0, max = 0;  
+        for(int i = 0; i &lt;= arr.length - 1; i++){  
+            if(arr[i] &lt; min){  
+                min = arr[i];  
+            }  
+            if(arr[i] &gt; max){  
+                max = arr[i];  
+            }  
+        }  
+        //开始建桶，注意桶的数量等于max - min + 1  
+        int bucketCount = max - min + 1;  
+        int[] bucket = new int[bucketCount];  
+        for(int i = 0; i &lt;= arr.length - 1; i++){  
+            bucket[arr[i] - min]++;  
+        }  
+        for(int i = 1; i &lt; bucketCount; i++){  
+            bucket[i] = bucket[i] + bucket[i - 1];  
+        }  
+        //开始排序  
+        int [] copy = new int[arr.length];  
+        System.arraycopy(arr, 0, copy, 0, arr.length);  
+
+        //从后往前排序，保持元素相对位置，保证算法稳定性。  
+        for(int i = arr.length - 1; i &gt;= 0; i--){  
+            arr[--bucket[copy[i] - min]] = copy[i];  
+        }  
+        //若从前往后排序，虽然排序结果相同，但会破坏元素相对位置和算法稳定性  
+//      for(int i = 0; i &lt;= arr.length - 1; i++){  
+//          arr[--bucket[copy[i] - min]] = copy[i];  
+//      }  
+    }  
 
 
-桶排序的思想近乎彻底的分治思想。假设现在需要对一亿个数进行排序。我们可以将其等分到10000个虚拟的桶里，平均每个桶只有10000个数。如果每个桶都有序了，则只需顺次输出桶里的有序序列即可。思路如下：
+    public static void main(String[] args) {
+        int i;
+        int a[] = { 8, 2, 3, 4, 3, 6, 6, 3, 9 };
 
-将待排数据按一个映射函数f(x)分为连续的若干段。理论上最佳的分段方法应该使数据平均分布，实际上通
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/10/bucket-sort/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+        System.out.printf(&quot;before sort:&quot;);
+        for (i = 0; i &lt; a.length; i++)
+            System.out.printf(&quot;%d &quot;, a[i]);
+        System.out.printf(&quot;\n&quot;);
+
+//        bucketSort(a, 10); // 桶排序
+//        bucketSort(a); // 桶排序
+        bucketSort2(a); // 桶排序
+
+        System.out.printf(&quot;after  sort:&quot;);
+        for (i = 0; i &lt; a.length; i++)
+            System.out.printf(&quot;%d &quot;, a[i]);
+        System.out.printf(&quot;\n&quot;);
+    }
+}
+</code></pre>
+          
         
       
     </div>
@@ -1582,21 +2581,22 @@ public class DC3 {
       
         
           
-          git管理github1，需要有Githb账号，然后新建仓库，此时保留SSH，长这样：git@github.com:xusx1024/codewars.git
-2，pc端安装git工具，git --info-path打印git所在路径；创建本地仓库；
-3，在本地文件中，右键点击 Git Bash Here，进入git命令行
-4，全局配置     git config --global username &quot;此处定义你的名字&quot;    git config --global useremail xxxxxxx@gmail.com
-5，初始化本地仓库：    git init
-6，创建readme，并上传：    git add readme.txt    git commint -m &quot;upload readme&quot;
-7，生成SSH key，用来和Githu
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/07/git-command/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h4 id="git管理github"><a href="#git管理github" class="headerlink" title="git管理github"></a>git管理github</h4><p>1，需要有Githb账号，然后新建仓库，此时保留SSH，长这样：<code>git@github.com:xusx1024/codewars.git</code></p>
+<p>2，pc端安装git工具，<code>git --info-path</code>打印git所在路径；创建本地仓库；</p>
+<p>3，在本地文件中，右键点击 Git Bash Here，进入git命令行</p>
+<p>4，全局配置 <br><br>    <code>git config --global username &quot;此处定义你的名字&quot;</code><br><br>    <code>git config --global useremail xxxxxxx@gmail.com</code></p>
+<p>5，初始化本地仓库：<br>    <code>git init</code></p>
+<p>6，创建readme，并上传：<br><br>    <code>git add readme.txt</code><br><br>    <code>git commint -m &quot;upload readme&quot;</code><br></p>
+<p>7，生成SSH key，用来和Github连接：<br>    <code>ssh-keygen -C &#39;这里填你刚才配置的email地址&#39; -t rsa</code>然后一路点击enter，最后，得到usr/.ssh中的SSH key</p>
+<p>8，把SSH key配置到 GitHub中<br>    在用户名上，<code>setting -  SSH and GPG keys</code></p>
+<p>9，用到 第一步的那个串了<br><br>    <code>git remote add origin git@github.com:xusx1024/codewars.git</code><br><br>    <code>git push origin master</code><br></p>
+<p>10，以后如果添加的话：<br><br>    <code>git add sth</code><br><br>    <code>git commint -m &quot;文件说明&quot;</code><br><br>    <code>git push origin master</code><br></p>
+<p>11.<code>git add -A .</code><br>添加所有文件，注意后面有个点。</p>
+<p>12.<br><code>git pull</code>  抓取远程仓库所有分支更新并合并到本地</p>
+<p>13.<code>git config -l</code> 查看git的配置信息</p>
+<h4 id="git-提交空目录"><a href="#git-提交空目录" class="headerlink" title="git 提交空目录"></a>git 提交空目录</h4><p>git与svn不同，git只跟踪文件的变化，不跟踪目录，如果想要提交一个空目录，我们可以在该目录添加一个文件，命名为.gitignore，这是一个变通的方法。</p>
+
+          
         
       
     </div>
@@ -1728,21 +2728,45 @@ public class DC3 {
       
         
           
-          ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD
-This instance method writes to a static field. This is tricky to get correct if multiple instances are being manipulated, and generally bad practice.静态字段被实例方法修改。如果多个实例被操纵，这样获取正确的结果是滑头的，并且通常不是好的实践。
+            <h4 id="ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD"><a href="#ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD" class="headerlink" title="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"></a>ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD</h4><blockquote>
+<p>This instance method writes to a static field. This is tricky to get correct if multiple instances are being manipulated, and generally bad practice.<br>静态字段被实例方法修改。如果多个实例被操纵，这样获取正确的结果是滑头的，并且通常不是好的实践。</p>
+</blockquote>
+<p>原因：静态私有的成员变量不能在public类里面直接赋值，最好是通过get/set方法进行操作。直接通过类名.常量名获取的方式违背了封装的原则，findbugs不提倡使用。<br><br></p>
+<p>解决：通过get/set方法提供操作。</p>
+<h4 id="DM-BOXED-PRIMITIVE-FOR-PARSING"><a href="#DM-BOXED-PRIMITIVE-FOR-PARSING" class="headerlink" title="DM_BOXED_PRIMITIVE_FOR_PARSING"></a>DM_BOXED_PRIMITIVE_FOR_PARSING</h4><blockquote>
+<p>A boxed primitive is created from a String, just to extract the unboxed primitive value. It is more efficient to just call the static parseXXX method.<br>一个装箱的原语是由字符串创建，只是为了拆箱获取原始值。使用parseXXX方法更加有效。</p>
+</blockquote>
+<p>原因：</p>
+<ul>
+<li>static int parseInt(String s):       将字符串参数作为有符号的十进制整数进行分析，返回一个int值。</li>
+<li>static Integer valueOf(int i) :      返回一个表示指定的 int 值的 Integer 实例。</li>
+<li>static Integer valueOf(String s) :      返回保持指定的 String 的值的 Integer 对象（实例）。</li>
+</ul>
+<p>解决：parseXXX方法代替valueOf</p>
+<h4 id="SS-SHOULD-BE-STATIC"><a href="#SS-SHOULD-BE-STATIC" class="headerlink" title="SS_SHOULD_BE_STATIC"></a>SS_SHOULD_BE_STATIC</h4><blockquote>
+<p>This class contains an instance final field that is initialized to a compile-time static value. Consider making the field static.<br>类包含一个初始化于编译期静态值的不可变实例字段。考虑使用static修饰该字段。</p>
+</blockquote>
+<p>解决方法：final的字段可以定义为static类型</p>
+<h4 id="DLS-DEAD-LOCAL-STORE"><a href="#DLS-DEAD-LOCAL-STORE" class="headerlink" title="DLS_DEAD_LOCAL_STORE"></a>DLS_DEAD_LOCAL_STORE</h4><blockquote>
+<p>This instruction assigns a value to a local variable, but the value is not read or used in any subsequent instruction. Often, this indicates an error, because the value computed is never used.<br><br>Note that Sun’s javac compiler often generates dead stores for final local variables. Because FindBugs is a bytecode-based tool, there is no easy way to eliminate these false positives.<br>该指令把一个值分配给本地变量，但是值并没有被读取或使用。通常这表示错误，因为这个值从来没有被用到过。<br><br>请注意，Sun公司的javac编译器通常为本地final变量生成死存储。因为FindBugs是基于字节码的工具，因此没有简单的方法可以消除这些误报。</p>
+</blockquote>
+<p>解决方法：注释掉。</p>
+<h4 id="SF-SWITCH-NO-DEFAULT"><a href="#SF-SWITCH-NO-DEFAULT" class="headerlink" title="SF_SWITCH_NO_DEFAULT"></a>SF_SWITCH_NO_DEFAULT</h4><blockquote>
+<p>This method contains a switch statement where default case is missing. Usually you need to provide a default case.<br>Because the analysis only looks at the generated bytecode, this warning can be incorrect triggered if the default case is at the end of the switch statement and the switch statement doesn’t contain break statements for other cases.<br>此方法包含一个缺省情况下的switch语句。通常你需要提供一个默认的情况。<br><br><br>因为分析仅查看生成的字节码，这个警告可能会被错误除法。如果默认的情况下是switch语句结尾并且switch语句不包含其他情况的break语句。</p>
+</blockquote>
+<p>解决方法：加上default。</p>
+<h4 id="RV-RETURN-VALUE-IGNORED-BAD-PRACTICE"><a href="#RV-RETURN-VALUE-IGNORED-BAD-PRACTICE" class="headerlink" title="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"></a>RV_RETURN_VALUE_IGNORED_BAD_PRACTICE</h4><blockquote>
+<p>This method returns a value that is not checked.The return value should be checked since it can indicate an unusual or unexpected function. For example, the <code>File.delete()</code> method returns false if the file could not be successfully deleted(rather than throwing an Exception).if you don’t check the result, you won’t notice if the method invocation signals unexpected behavior by returning an a typical return value.<br>此方法返回了一个boolean，但没有去检查。这个值应该被检查，因为他可以指示异常或意外的功能。例如，<code>File.dlete()</code>方法返回false，如果这个文件可以被成功删除，而不是抛出异常。如果你没有检查，你就不会注意到这个方法通过返回一个典型错误，调用出现不可期的行为。</p>
+</blockquote>
+<h4 id="DC-DOUBLECHECK"><a href="#DC-DOUBLECHECK" class="headerlink" title="DC_DOUBLECHECK"></a>DC_DOUBLECHECK</h4><blockquote>
+<p>This method may contain an instance of double-checked locking. This idion is not correct according to the semantics of the Java memory model.</p>
+</blockquote>
+<p>see more:<a href="http://www.infoq.com/cn/articles/double-checked-locking-with-delay-initialization#" target="_blank" rel="external">双重检查锁定与延迟初始化</a></p>
+<h4 id="NM-METHOD-NAMING-CONVENTION"><a href="#NM-METHOD-NAMING-CONVENTION" class="headerlink" title="NM_METHOD_NAMING_CONVENTION"></a>NM_METHOD_NAMING_CONVENTION</h4><blockquote>
+<p>Methods should be verbs, in mixed case with the first letter lowercase, with the first letter of each internal word capitalized.<br>方法名开头要小写。</p>
+</blockquote>
 
-原因：静态私有的成员变量不能在public类里面直接赋值，最好是通过get/set方法进行操作。直接通过类名.常量名获取的方式违背了封装的原则，findbugs不提倡使用。
-解决：通过get/set方法提供操作。
-DM_BOXED_PRIMITIVE_FOR_PARSING
-A boxed primitive is cre
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/01/findbug-notes/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -1920,7 +2944,7 @@ A boxed primitive is cre
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Muse
+    NexT.Mist
   </a>
 </div>
 

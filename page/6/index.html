@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -109,8 +109,8 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
-    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -161,7 +161,7 @@
     
   
 
-  <div class="container sidebar-position-right 
+  <div class="container sidebar-position-left 
    page-home 
  ">
     <div class="headband"></div>
@@ -357,29 +357,72 @@
       
         
           
-          what过渡绘制过渡绘制(OverDraw)，屏幕上的某个像素，在同一帧内被重绘多次。如果App中过渡绘制问题严重，会浪费大量CPU、GPU资源，直接表现为App卡顿。
-开启开发者选项 - 调试GPU过渡绘制
-解释
+            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><h5 id="过渡绘制"><a href="#过渡绘制" class="headerlink" title="过渡绘制"></a>过渡绘制</h5><pre><code>过渡绘制(OverDraw)，屏幕上的某个像素，在同一帧内被重绘多次。如果App中过渡绘制问题严重，会浪费大量CPU、GPU资源，直接表现为App卡顿。
+</code></pre><h5 id="开启"><a href="#开启" class="headerlink" title="开启"></a>开启</h5><pre><code>开发者选项 - 调试GPU过渡绘制
+</code></pre><h5 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h5><p><img src="/images/color-key-for-debug-GPU-overdraw-output.png" alt="示例图"></p>
+<ul>
+<li>True color: No overdraw</li>
+<li>Blue: Overdrawn once</li>
+<li>Green: Overdrawn twice</li>
+<li>Pink: Overdrawn three times</li>
+<li>Red: Overdrawn four or more times</li>
+</ul>
+<h4 id="how"><a href="#how" class="headerlink" title="how"></a>how</h4><ol>
+<li><blockquote>
+<p>去掉window默认背景。在Activity中，使用setContentView绑定布局时，android会自动填充一个背景，如果我们App有自己的页面底色，因此不需要默认分配的背景。</p>
+<pre><code>修改页面的主题：
+&lt;item name=&quot;android:windowBackground&quot;&gt;@android:color/transparent&lt;/item&gt;
+&lt;item name=&quot;android:windowBackground&quot;&gt;@null&lt;/item&gt;
 
-True color: No overdraw
-Blue: Overdrawn once
-Green: Overdrawn twice
-Pink: Overdrawn three times
-Red: Overdrawn four or more times
+代码中修改：
+getWindow().setBackgroundDrawable(null)
+getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-how
+null和transparent差别不大，如果有activity右滑返回功能，null,在某些机型(Nexus6p)上，会出现错乱, 建议使用transparent。 
+</code></pre></blockquote>
+</li>
+<li><blockquote>
+<p>移除不必要的背景，xml布局编码时，防止背景重复，比如ListView的背景和item的背景都是白色，那么可以选择去掉其中一个。一般情况下，背景重复会引起大部分重绘问题。</p>
+</blockquote>
+</li>
+<li><blockquote>
+<p>选择适当父布局。LinearLayout、ReleativeLayout，最常用的两种布局。RL表达能力强，LL易用，层级多，所以在层级相同的情况下，使用LL，尽量不要使用AbsoluteLayout。</p>
+</blockquote>
+</li>
+<li><blockquote>
+<p>对于那些过于复杂的自定义的View(通常重写了onDraw方法)，我们可以通过<a href="https://developer.android.com/reference/android/graphics/Canvas.html" target="_blank" rel="external">canvas.clipRect()</a>来帮助系统识别那些可见的区域。这个方法可以指定一块矩形区域，只有在这个区域内才会被绘制，其他的区域会被忽视。我们还可以使用<a href="https://developer.android.com/reference/android/graphics/Canvas.html" target="_blank" rel="external">canvas.quickreject()</a>来判断是否没和某个矩形相交，从而跳过那些非矩形区域内的绘制操作。</p>
+</blockquote>
+</li>
+<li><blockquote>
+<p>使用merge标签，减少布局嵌套层次。</p>
+</blockquote>
+</li>
+<li><blockquote>
+<p>使用动态inflate或者ViewStub替代setVisibility。</p>
+</blockquote>
+</li>
+<li><blockquote>
+<p>对于使用Selector当背景的Layout(比如ListView的Item,会使用Selector来标记点击,选择等不同的状态),可以将normal状态的color设置为”@android:color/transparent”,来解决对应的问题。</p>
+</blockquote>
+</li>
+<li><blockquote>
+<p>使用.9图，透明区域会被android的2D渲染器优化。</p>
+</blockquote>
+</li>
+<li><blockquote>
+<p>好的展示设计和交互。使UI宽而浅而不是浅而深。</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="标准"><a href="#标准" class="headerlink" title="标准"></a>标准</h4><pre><code>过度绘制不可避免
 
-去掉window默认背景。在Activity中，使用setContentView绑定布局时，android会自动填充一个背景，如果我们App有自己的页面底色，因此不需要默认分配的背景。
-修改页面的主题：
-&lt;item name=&quot;android:windowBackground&quot;&gt
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/09/Debug-GPU-Overdraw-Walkthrough/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+尽量控制在绿色及其以下
+
+尽可能避免出现粉红及以上，如果不可避免，尽可能减少
+
+不允许出现超过屏幕1/4的红色区域
+</code></pre>
+          
         
       
     </div>
@@ -511,20 +554,17 @@ how
       
         
           
-          引言在android手机中，会发现开发者选项 - GPU呈现模式分析的选项。很多道友用之来测试其手机的流畅度。开启之后大概就是这样子了：
-
-说说这张图片绿横线在android系统中是以每秒60帧为满帧的，所以1000ms / 60 = 16ms/帧。即每帧快于16ms为流畅，这根绿线即16ms线，低于该绿线为流畅。
-红柱红色代表了“执行时间”，它指的是Android渲染引擎执行绘制命令的时间，为了绘制到屏幕上，Android需要使用OpenGL ES的API接口来绘制Display List。这些API有效地将数据发送到GPU，最后在屏幕上显示出来。假如当前界面的视图越多，那么红色便会“跳”得越高。实际使用中，比如平时刷App遇到许多缩略图需要加载，那么红色会突然跳很高，但是此时你的页面滑动其实是流畅的，虽然等了零点几秒图片才加载出来，但并不意味着你卡住了。
-
-黄柱黄色通常较短，它代表CP
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/09/Profile-Gpu-rendering/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><pre><code>在android手机中，会发现开发者选项 - GPU呈现模式分析的选项。很多道友用之来测试其手机的流畅度。开启之后大概就是这样子了：
+</code></pre><p><img src="/images/profileGPURendering.png" alt="玄学曲线"></p>
+<h4 id="说说这张图片"><a href="#说说这张图片" class="headerlink" title="说说这张图片"></a>说说这张图片</h4><h5 id="绿横线"><a href="#绿横线" class="headerlink" title="绿横线"></a>绿横线</h5><pre><code>在android系统中是以每秒60帧为满帧的，所以1000ms / 60 = 16ms/帧。即每帧快于16ms为流畅，这根绿线即16ms线，低于该绿线为流畅。
+</code></pre><h5 id="红柱"><a href="#红柱" class="headerlink" title="红柱"></a>红柱</h5><pre><code>红色代表了“执行时间”，它指的是Android渲染引擎执行绘制命令的时间，为了绘制到屏幕上，Android需要使用OpenGL ES的API接口来绘制Display List。这些API有效地将数据发送到GPU，最后在屏幕上显示出来。假如当前界面的视图越多，那么红色便会“跳”得越高。实际使用中，比如平时刷App遇到许多缩略图需要加载，那么红色会突然跳很高，但是此时你的页面滑动其实是流畅的，虽然等了零点几秒图片才加载出来，但并不意味着你卡住了。
+</code></pre><p><img src="/images/executePhase.png" alt="绘图执行图"></p>
+<h5 id="黄柱"><a href="#黄柱" class="headerlink" title="黄柱"></a>黄柱</h5><pre><code>黄色通常较短，它代表CPU通知GPU“你已经完成一帧视图的渲染了”，不过这是一个阻塞调用，CPU会等待GPU的回话，当GPU说“好了，知道了”，才算完事儿。假如黄色很高，说明当前GPU过于忙碌，有很多命令需要去处理。
+</code></pre><h5 id="蓝柱"><a href="#蓝柱" class="headerlink" title="蓝柱"></a>蓝柱</h5><pre><code>假如通过蓝色来判断流畅度，参考意义比较大。蓝色代表了视图测量绘制所花费的时间，或者说它代表需要多长时间去创建和更新你的DisplayList。
+在Android中，一个视图在可以实际的进行渲染之前，它必须被转换成GPU所熟悉的格式，简单来说就是几条绘图命令，即执行每一个View的onDraw方法，创建或者更新每一个View的DisplayList对象。
+所以蓝色越短，体验越流畅，当你看到蓝色很高，可能是因为你的一堆视图突然变得无效了，需要重新绘制，或者你的几个自定义视图的onDraw方法过于复杂。
+</code></pre>
+          
         
       
     </div>
@@ -656,24 +696,220 @@ how
       
         
           
-          题目设计一个有getMin功能的栈&gt;实现一个特殊的栈，在实现栈的基本功能的基础上，再实现返回栈中最小元素的操作。
-要求&gt;
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a><strong>题目</strong></h4><h5 id="设计一个有getMin功能的栈"><a href="#设计一个有getMin功能的栈" class="headerlink" title="设计一个有getMin功能的栈"></a>设计一个有getMin功能的栈</h5><p>&gt;<br>实现一个特殊的栈，在实现栈的基本功能的基础上，再实现返回栈中最小元素的操作。</p>
+<h4 id="要求"><a href="#要求" class="headerlink" title="要求"></a><strong>要求</strong></h4><p>&gt;</p>
+<ol>
+<li>pop,push,getMin操作的时间复杂度都是O(1)-【注】：<em>pop，push的时间复杂度本来就是O(1)，所以关注点在getMin的时间复杂度上。3/3/2017 11:16:04 AM </em></li>
+<li>设计的栈类型可以使用现成的栈结构-【注】：<em>使用变量是无法达到getMin的O(1)的，eg：2，3，4，1。3/3/2017 11:16:21 AM </em> </li>
+</ol>
+<h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a><strong>难度</strong></h4><p>&gt;<br>士 ★☆☆☆</p>
+<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a><strong>解答</strong></h4><p>&gt;<br>在设计上我们使用两个栈，一个栈用来保存当前栈中的元素，其功能和一个正常的栈没有区别，这个栈记为stackData;另一个栈用于保存每一步的最小值，这个栈记为stackMin。具体的实现方式有两种。</p>
+<h5 id="第一种设计方案"><a href="#第一种设计方案" class="headerlink" title="第一种设计方案"></a><strong>第一种设计方案</strong></h5><p> 压入数据规则</p>
+<p>假如当前数据为newNum,先将其压入stackData。然后判断stackMin是否为空；</p>
+<ul>
+<li>如果为空，则newNum也压入stackMin</li>
+<li>如果不为空，则比较nuwNum和stackMin的栈顶元素哪一个更小</li>
+<li>如果newNum更小或两者相等，则newNum也压入stackMin</li>
+<li>如果stackMin中栈顶元素小，则stackMin不压入任何内容</li>
+</ul>
+<p> 弹出数据规则</p>
+<p>先在stackData中弹出栈顶元素，记为value。然后比较当前stackMin的栈顶元素和value哪一个更小。</p>
+<p>通过上文的压入规则可知，stackMin中存在的元素是从栈底到栈顶逐渐变小的，stackMin栈顶的元素及时stackMin栈的最小值，也是stackData栈的最小值。所以不会出现value小于stackMin栈顶元素的情况，value只可能大于或等于stackMin的栈顶元素。</p>
+<p>当value等于stackMin的栈顶元素时，stackMin弹出栈顶元素【保证stackMin的栈顶始终为最小元素的值 3/3/2017 11:51:24 AM 】；当value大于stackMin的栈顶元素时，stackMin不弹出栈顶元素；返回value。</p>
+<p><strong>查询当前栈中最小值的操作</strong></p>
+<p>即stackMin的栈顶元素</p>
+<pre><code>public class MyStack1 {
+private Stack&lt;Integer&gt; stackData;
+private Stack&lt;Integer&gt; stackMin;
 
-pop,push,getMin操作的时间复杂度都是O(1)-【注】：pop，push的时间复杂度本来就是O(1)，所以关注点在getMin的时间复杂度上。3/3/2017 11:16:04 AM 
-设计的栈类型可以使用现成的栈结构-【注】：使用变量是无法达到getMin的O(1)的，eg：2，3，4，1。3/3/2017 11:16:21 AM  
+public MyStack1() {
+    this.stackData = new Stack&lt;&gt;();
+    this.stackMin = new Stack&lt;&gt;();
+}
 
-难度&gt;士 ★☆☆☆
-解答&gt;在设计上我们使用两个栈，一个栈用来保存当前栈中的元素，其功能和一个正常的栈没有区别，这个栈记为stackData;另一个栈用于保存每一步的最小值，这个栈记为stackMin。具体的实现方式有两种。
-第一种设计方案 压入数据规则
-假如当前数据为newNum,先将其压入sta
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/07/stack-with-getmin-fun/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+public void push(int newNum) {
+    if (this.stackMin.isEmpty()) {
+        stackMin.push(newNum);
+    } else if (newNum &lt;= this.getmin()) {
+        stackMin.push(newNum);
+    }
+
+    this.stackData.push(newNum);
+}
+
+public int pop() {
+    if (this.stackData.isEmpty()) {
+        throw new RuntimeException(&quot;Your stack is Empty.&quot;);
+    }
+    int value = stackData.peek();
+    if (value == this.getmin()) {
+        stackMin.pop();
+    }
+    return value;
+}
+
+public int getmin() {
+    if (this.stackMin.isEmpty()) {
+        throw new RuntimeException(&quot;Your stack is empty.&quot;);
+    }
+    return stackMin.peek();
+}
+
+}
+</code></pre><h5 id="第二种设计方案"><a href="#第二种设计方案" class="headerlink" title="第二种设计方案"></a><strong>第二种设计方案</strong></h5><ul>
+<li>压入数据规则</li>
+</ul>
+<p>&gt;<br>假设当前数据为newNum，先将其压入stackData。然后判断stackMin是否为空。<br>如果为空，则newNum也压入stackMin；如果不为空，则判断newNum和stackMin的栈顶元素大小：<br>如果newNum比较小，则压入stackMin；否则再次将stackMin栈顶元素压入stackMin。</p>
+<ul>
+<li>弹出数据规则</li>
+</ul>
+<p>&gt;<br>在stackData中弹出数据记为value；弹出stackMin的栈顶；返回value</p>
+<ul>
+<li>查询当前栈中最小值的操作</li>
+</ul>
+<p>&gt;<br>即stackMin的栈顶元素</p>
+<pre><code>public class MyStack2 {
+
+    private Stack&lt;Integer&gt; stackData;
+    private Stack&lt;Integer&gt; stackMin;
+
+    public MyStack2() {
+        this.stackData = new Stack&lt;&gt;();
+        this.stackMin = new Stack&lt;&gt;();
+    }
+
+    public void push(int newNum) {
+        if (this.stackMin.isEmpty()) {
+            stackMin.push(newNum);
+        } else if (newNum &lt; this.getmin()) {
+            stackMin.push(newNum);
+        } else {
+            int newMin = stackMin.peek();
+            stackMin.push(newMin);
+        }
+
+        this.stackData.push(newNum);
+    }
+
+    public int pop() {
+        if (this.stackData.isEmpty()) {
+            throw new RuntimeException(&quot;Your stack is Empty.&quot;);
+        }
+
+        int value = stackData.peek();
+        stackMin.pop();
+        stackData.pop();
+        return value;
+    }
+
+    public int getmin() {
+        if (this.stackMin.isEmpty()) {
+            throw new RuntimeException(&quot;Your stack is empty.&quot;);
+        }
+        return stackMin.peek();
+    }
+}
+</code></pre><h4 id="点评"><a href="#点评" class="headerlink" title="点评"></a><strong>点评</strong></h4><pre><code>方案一和方案二其实都是用stackMin栈保存着stackData每一步的最小值。共同点是所有操作的时间复杂度都为O(1)、空间复杂度都为O(n).
+区别是：方案一中stackMin压入时稍省空间，但是弹出操作稍费时间；方案二中stackMin压入时稍费时间，但是弹出操作稍省时间。
+</code></pre><h4 id="java-util-stack"><a href="#java-util-stack" class="headerlink" title="java.util.stack"></a><strong>java.util.stack</strong></h4><pre><code>package java.util;
+
+public class Stack&lt;E&gt; extends Vector&lt;E&gt; {
+    /**
+     * Creates an empty Stack.
+     */
+    public Stack() {
+    }
+
+    /**
+     * Pushes an item onto the top of this stack. This has exactly
+     * the same effect as:
+     * &lt;blockquote&gt;&lt;pre&gt;
+     * addElement(item)&lt;/pre&gt;&lt;/blockquote&gt;
+     *
+     * @param   item   the item to be pushed onto this stack.
+     * @return  the &lt;code&gt;item&lt;/code&gt; argument.
+     * @see     java.util.Vector#addElement
+     */
+    public E push(E item) {
+        addElement(item);
+
+        return item;
+    }
+
+    /**
+     * Removes the object at the top of this stack and returns that
+     * object as the value of this function.
+     *
+     * @return  The object at the top of this stack (the last item
+     *          of the &lt;tt&gt;Vector&lt;/tt&gt; object).
+     * @throws  EmptyStackException  if this stack is empty.
+     */
+    public synchronized E pop() {
+        E       obj;
+        int     len = size();
+
+        obj = peek();
+        removeElementAt(len - 1);
+
+        return obj;
+    }
+
+    /**
+     * Looks at the object at the top of this stack without removing it
+     * from the stack.
+     *
+     * @return  the object at the top of this stack (the last item
+     *          of the &lt;tt&gt;Vector&lt;/tt&gt; object).
+     * @throws  EmptyStackException  if this stack is empty.
+     */
+    public synchronized E peek() {
+        int     len = size();
+
+        if (len == 0)
+            throw new EmptyStackException();
+        return elementAt(len - 1);
+    }
+
+    /**
+     * Tests if this stack is empty.
+     *
+     * @return  &lt;code&gt;true&lt;/code&gt; if and only if this stack contains
+     *          no items; &lt;code&gt;false&lt;/code&gt; otherwise.
+     */
+    public boolean empty() {
+        return size() == 0;
+    }
+
+    /**
+     * Returns the 1-based position where an object is on this stack.
+     * If the object &lt;tt&gt;o&lt;/tt&gt; occurs as an item in this stack, this
+     * method returns the distance from the top of the stack of the
+     * occurrence nearest the top of the stack; the topmost item on the
+     * stack is considered to be at distance &lt;tt&gt;1&lt;/tt&gt;. The &lt;tt&gt;equals&lt;/tt&gt;
+     * method is used to compare &lt;tt&gt;o&lt;/tt&gt; to the
+     * items in this stack.
+     *
+     * @param   o   the desired object.
+     * @return  the 1-based position from the top of the stack where
+     *          the object is located; the return value &lt;code&gt;-1&lt;/code&gt;
+     *          indicates that the object is not on the stack.
+     */
+    public synchronized int search(Object o) {
+        int i = lastIndexOf(o);
+
+        if (i &gt;= 0) {
+            return size() - i;
+        }
+        return -1;
+    }
+
+    /** use serialVersionUID from JDK 1.0.2 for interoperability */
+    private static final long serialVersionUID = 1224463164541339165L;
+}
+</code></pre><h4 id="栈的简单概念"><a href="#栈的简单概念" class="headerlink" title="栈的简单概念"></a><strong>栈的简单概念</strong></h4><p>&gt;<br>栈是限制插入和删除只能在一个位置上进行的表，该位置是表的末端，叫做栈顶。对栈的基本操作有push(进栈)和pop(出栈)，前者相当于插入，后者则是删除最后插入的元素。栈又叫做后进先出表。</p>
+<p>【注】<em>栈在java中有<a href="http://xusx1024.com/2017/02/11/different-between-ADT/" target="_blank" rel="external">数据结构和数据存储结构</a>两种功能。即stack是数据结构概念，但是java语言中实现了stack功能的容器，也命名为stack。比较特殊和容易让人迷惑。</em>3/3/2017 11:13:33 AM </p>
+
+          
         
       
     </div>
@@ -805,33 +1041,26 @@ pop,push,getMin操作的时间复杂度都是O(1)-【注】：pop，push的时�
       
         
           
-          目录1正文标题表格：
-
-
-
-name
-class
-note
-
-
-
-
-ACCESSIBILITY_SERVICE
-AccessibilityManager
-无障碍辅助服务
-
-
-
-图片：
+            <h4 id="目录1"><a href="#目录1" class="headerlink" title="目录1"></a>目录1</h4><h5 id="正文标题"><a href="#正文标题" class="headerlink" title="正文标题"></a>正文标题</h5><p>表格：</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th style="text-align:center">class</th>
+<th style="text-align:right">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACCESSIBILITY_SERVICE</td>
+<td style="text-align:center">AccessibilityManager</td>
+<td style="text-align:right">无障碍辅助服务</td>
+</tr>
+</tbody>
+</table>
+<p>图片：<br><img src="/images/SA&amp;rank.png" alt="test"></p>
 
           
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/06/first-post/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
@@ -1009,7 +1238,7 @@ AccessibilityManager
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Muse
+    NexT.Mist
   </a>
 </div>
 
