@@ -397,7 +397,7 @@ private val mMessenger = Messenger(object : Handler() {
 </code></pre><p>根据代码，可以看到SDK和service是双向通信，授权页和service是单向通信。因此授权页通信完成后立刻unbind即可。</p>
 <h5 id="单向双向"><a href="#单向双向" class="headerlink" title="单向双向"></a>单向双向</h5><pre><code>msgFromLocalClient.replyTo = mMessenger//单向通信,不需要回传信使
 </code></pre><p>这句话决定了是否需要信使带回结果，如果需要，在mMessenger 里处理。在示例blog中类似代码可以参考。</p>
-<h5 id="多向通信"><a href="#多向通信" class="headerlink" title="多向通信"></a>多向通信</h5><p>在这个里<a href="https://developer.android.com/reference/android/app/Service.html#RemoteMessengerServiceSample" target="_blank" rel="external">Remote Messenger Service Sample</a>可以看到多个客户端互相通信的官方示例。</p>
+<h5 id="多向通信"><a href="#多向通信" class="headerlink" title="多向通信"></a>多向通信</h5><p>在这个里<a href="https://developer.android.com/reference/android/app/Service.html#RemoteMessengerServiceSample" target="_blank" rel="external">Remote Messenger Service Sample</a>可以看到多个客户端互相通信的官方示例。<br>官方示例应该只适应于多对一，如果多对多的话，自个儿实现AIDL比较靠谱。</p>
 <h5 id="隐式启动service"><a href="#隐式启动service" class="headerlink" title="隐式启动service"></a>隐式启动service</h5><p> 5.0之后需要：</p>
 <pre><code>Intent intent = new Intent();
 intent.setAction(action);
