@@ -100,12 +100,12 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/08/android-ipc-messenger-tips/index.html">
 <meta property="og:site_name" content="行次">
 <meta property="og:description" content="需求 看时序图比较简单，进程间通信，把APPID传过去，把授权码带回来本来懒得费事，一个startActivityForResult即可结束战斗后来发现，我的SDK里没有UI，也就没有处理onActivityResult的地方了，我想过开启一个no ui的Activity，后来还是不要这么简单粗暴了。 Messenger的使用此处不是我想略，网上教程很多，看个比较完善简单的：Android 基于M">
-<meta property="og:image" content="http://yoursite.com/iamges/auth_sequence_diagram.png">
-<meta property="og:updated_time" content="2017-06-08T08:46:58.169Z">
+<meta property="og:image" content="http://yoursite.com/images/auth_sequence_diagram.png">
+<meta property="og:updated_time" content="2017-06-08T08:49:26.606Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Messenger进行进程间通信注意事项">
 <meta name="twitter:description" content="需求 看时序图比较简单，进程间通信，把APPID传过去，把授权码带回来本来懒得费事，一个startActivityForResult即可结束战斗后来发现，我的SDK里没有UI，也就没有处理onActivityResult的地方了，我想过开启一个no ui的Activity，后来还是不要这么简单粗暴了。 Messenger的使用此处不是我想略，网上教程很多，看个比较完善简单的：Android 基于M">
-<meta name="twitter:image" content="http://yoursite.com/iamges/auth_sequence_diagram.png">
+<meta name="twitter:image" content="http://yoursite.com/images/auth_sequence_diagram.png">
 
 
 
@@ -355,7 +355,7 @@
       
 
       
-        <h4 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h4><p><img src="/iamges/auth_sequence_diagram.png" alt="需求示意图"></p>
+        <h4 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h4><p><img src="/images/auth_sequence_diagram.png" alt="需求示意图"></p>
 <p>看时序图比较简单，进程间通信，把APPID传过去，把授权码带回来<br>本来懒得费事，一个<code>startActivityForResult</code>即可结束战斗<br>后来发现，我的SDK里没有UI，也就没有处理<code>onActivityResult</code>的地方了，我想过开启一个no ui的Activity，后来还是不要这么简单粗暴了。</p>
 <h4 id="Messenger的使用"><a href="#Messenger的使用" class="headerlink" title="Messenger的使用"></a>Messenger的使用</h4><p>此处不是我想略，网上教程很多，看个比较完善简单的：<a href="http://blog.csdn.net/lmj623565791/article/details/47017485" target="_blank" rel="external">Android 基于Message的进程间通信 Messenger完全解析</a><br>代码有些地方不适合新的Android版本，但是也够用了。</p>
 <h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><h5 id="需求问题解决"><a href="#需求问题解决" class="headerlink" title="需求问题解决"></a>需求问题解决</h5><p>SDK发送至目标app的一个远程服务，该服务启动授权activity，获取code后，也绑定式启动该服务，找到SDK的信使，把code回传。<br>其中，通信双方其实是SDK和授权页，远程服务在授权app中，起到一个中间桥梁的作用。<br>kotlin代码如下：</p>
