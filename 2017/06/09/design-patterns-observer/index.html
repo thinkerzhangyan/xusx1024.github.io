@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="算法," />
+  <meta name="keywords" content="设计模式," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="题目由两个栈组成的队列编写一个类，使用两个栈实现队列，支持队列的基本操作(add,poll,peek) 难度尉 ★★☆☆ 解答栈的特点是先进后出，而队列的特点是先进先出。我们用两个栈，互相反序，实现类似队列的操作。 具体实现上是一个栈作为压入栈，在压入数据时只往这个栈中压入，记为stackPush，另一个栈只作为弹出栈，记为stackPop。 根据栈的特点，循环把stackPush中的数据压入st">
-<meta name="keywords" content="算法">
+<meta name="description" content="同学们，敲黑板，划重点了！">
+<meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="由两个栈组成的队列">
-<meta property="og:url" content="http://yoursite.com/2017/02/11/two-stacks-makeup-queue/index.html">
+<meta property="og:title" content="观察者设计模式">
+<meta property="og:url" content="http://yoursite.com/2017/06/09/design-patterns-observer/index.html">
 <meta property="og:site_name" content="行次">
-<meta property="og:description" content="题目由两个栈组成的队列编写一个类，使用两个栈实现队列，支持队列的基本操作(add,poll,peek) 难度尉 ★★☆☆ 解答栈的特点是先进后出，而队列的特点是先进先出。我们用两个栈，互相反序，实现类似队列的操作。 具体实现上是一个栈作为压入栈，在压入数据时只往这个栈中压入，记为stackPush，另一个栈只作为弹出栈，记为stackPop。 根据栈的特点，循环把stackPush中的数据压入st">
-<meta property="og:updated_time" content="2017-06-01T07:45:13.396Z">
+<meta property="og:description" content="同学们，敲黑板，划重点了！">
+<meta property="og:updated_time" content="2017-06-09T07:11:22.815Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="由两个栈组成的队列">
-<meta name="twitter:description" content="题目由两个栈组成的队列编写一个类，使用两个栈实现队列，支持队列的基本操作(add,poll,peek) 难度尉 ★★☆☆ 解答栈的特点是先进后出，而队列的特点是先进先出。我们用两个栈，互相反序，实现类似队列的操作。 具体实现上是一个栈作为压入栈，在压入数据时只往这个栈中压入，记为stackPush，另一个栈只作为弹出栈，记为stackPop。 根据栈的特点，循环把stackPush中的数据压入st">
+<meta name="twitter:title" content="观察者设计模式">
+<meta name="twitter:description" content="同学们，敲黑板，划重点了！">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/02/11/two-stacks-makeup-queue/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/09/design-patterns-observer/"/>
 
 
 
 
 
-  <title>由两个栈组成的队列 | 行次</title>
+  <title>观察者设计模式 | 行次</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -267,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/two-stacks-makeup-queue/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/09/design-patterns-observer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuSing">
@@ -284,7 +284,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">由两个栈组成的队列</h1>
+          <h1 class="post-title" itemprop="name headline">观察者设计模式</h1>
         
 
         <div class="post-meta">
@@ -296,8 +296,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T08:00:00+08:00">
-                2017-02-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-09T15:10:47Z">
+                2017-06-09
               </time>
             
 
@@ -353,53 +353,7 @@
       
 
       
-        <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="由两个栈组成的队列"><a href="#由两个栈组成的队列" class="headerlink" title="由两个栈组成的队列"></a>由两个栈组成的队列</h5><pre><code>编写一个类，使用两个栈实现队列，支持队列的基本操作(add,poll,peek)
-</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>栈的特点是先进后出，而队列的特点是先进先出。我们用两个栈，互相反序，实现类似队列的操作。
-具体实现上是一个栈作为压入栈，在压入数据时只往这个栈中压入，记为stackPush，另一个栈只作为弹出栈，记为stackPop。
-根据栈的特点，循环把stackPush中的数据压入stackPop中，stackPop的栈顶元素即为队列的dequeue元素。
-</code></pre><h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><pre><code>1. 如果stackPush要往stackPop中压入数据，必须一次性压入完毕；
-2. 如果stackPop要接收数据，必须保证stackPop为空。
-</code></pre><h5 id="stackPush压入stackPop的操作时机"><a href="#stackPush压入stackPop的操作时机" class="headerlink" title="stackPush压入stackPop的操作时机"></a>stackPush压入stackPop的操作时机</h5><pre><code>调用add、poll、peek三种方法中任何一种时发生都是可以，只要满足注意事项提到的两点，就不会出错。下面的例子是在调用poll和peek方法时进行压入数据的。
-</code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>import java.util.Stack;
-
-public class TwoStackQueue {
-
-    public Stack&lt;Integer&gt; stackPush;
-    public Stack&lt;Integer&gt; stackPop;
-
-    public TwoStackQueue() {
-        stackPop = new Stack&lt;&gt;();
-        stackPush = new Stack&lt;&gt;();
-    }
-
-    public void add(int pushInt) {
-        stackPush.push(pushInt);
-    }
-
-    public int poll() {
-        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
-            throw new RuntimeException(&quot;Queue is empty!&quot;);
-        } else if (stackPop.empty()) {
-            while (!stackPush.empty()) {
-                stackPop.push(stackPush.pop());
-            }
-        }
-        return stackPop.pop();
-    }
-
-    public int peek(){
-        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
-            throw new RuntimeException(&quot;Queue is empty!&quot;);
-        } else if (stackPop.empty()) {
-            while (!stackPush.empty()) {
-                stackPop.push(stackPush.pop());
-            }
-        }
-        return stackPop.peek();
-    }
-}
-</code></pre>
+        <h4 id="同学们，敲黑板，划重点了！"><a href="#同学们，敲黑板，划重点了！" class="headerlink" title="同学们，敲黑板，划重点了！"></a>同学们，敲黑板，划重点了！</h4>
       
     </div>
 
@@ -428,7 +382,7 @@ public class TwoStackQueue {
       
         <div class="post-tags">
           
-            <a href="/tags/算法/" rel="tag"># 算法</a>
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
           
         </div>
       
@@ -441,8 +395,8 @@ public class TwoStackQueue {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/02/11/different-between-ADT/" rel="next" title="队列、堆栈与数组链表的关系">
-                <i class="fa fa-chevron-left"></i> 队列、堆栈与数组链表的关系
+              <a href="/2017/06/08/android-ipc-messenger-tips - 副本/" rel="next" title="使用Messenger进行进程间通信注意事项">
+                <i class="fa fa-chevron-left"></i> 使用Messenger进行进程间通信注意事项
               </a>
             
           </div>
@@ -450,10 +404,6 @@ public class TwoStackQueue {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/02/11/reverse-stack/" rel="prev" title="如何仅用递归函数和栈操作逆序一个栈">
-                如何仅用递归函数和栈操作逆序一个栈 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -599,7 +549,7 @@ public class TwoStackQueue {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#由两个栈组成的队列"><span class="nav-number">1.1.</span> <span class="nav-text">由两个栈组成的队列</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#难度"><span class="nav-number">2.</span> <span class="nav-text">难度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解答"><span class="nav-number">3.</span> <span class="nav-text">解答</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注意事项"><span class="nav-number">3.1.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#stackPush压入stackPop的操作时机"><span class="nav-number">3.2.</span> <span class="nav-text">stackPush压入stackPop的操作时机</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">4.</span> <span class="nav-text">代码</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#同学们，敲黑板，划重点了！"><span class="nav-number">1.</span> <span class="nav-text">同学们，敲黑板，划重点了！</span></a></li></ol></div>
             
 
           </div>
