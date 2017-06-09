@@ -1,0 +1,828 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.jpg?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="在线检测 在线分析APK：NimbleDroid  实例分析-Summary我们上传一个apk，看看这款App的分析结果。   File Name 我们上传的App名字 File Size 文件大小 Method Count 方法总数 Uploaded via Site 谁在什么时间上传     Scenario：Cold StartUp 冷启动场景下 Slowdowns 速度减缓的地方 Merm">
+<meta name="keywords" content="android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="APK瘦身">
+<meta property="og:url" content="http://yoursite.com/2017/02/20/decrease-apk-size/index.html">
+<meta property="og:site_name" content="行次">
+<meta property="og:description" content="在线检测 在线分析APK：NimbleDroid  实例分析-Summary我们上传一个apk，看看这款App的分析结果。   File Name 我们上传的App名字 File Size 文件大小 Method Count 方法总数 Uploaded via Site 谁在什么时间上传     Scenario：Cold StartUp 冷启动场景下 Slowdowns 速度减缓的地方 Merm">
+<meta property="og:image" content="http://yoursite.com/images/nimabledroid-1.png">
+<meta property="og:image" content="http://yoursite.com/images/nimabledroid-2.png">
+<meta property="og:image" content="http://yoursite.com/images/nimabledroid-3.png">
+<meta property="og:image" content="http://yoursite.com/images/nimabledroid-4.png">
+<meta property="og:image" content="http://yoursite.com/images/nimabledroid-5.png">
+<meta property="og:image" content="http://yoursite.com/images/nimabledroid-6.png">
+<meta property="og:image" content="http://yoursite.com/images/nimabledroid-7.png">
+<meta property="og:image" content="http://yoursite.com/images/nimabledroid-8.png">
+<meta property="og:updated_time" content="2017-06-01T07:39:16.310Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="APK瘦身">
+<meta name="twitter:description" content="在线检测 在线分析APK：NimbleDroid  实例分析-Summary我们上传一个apk，看看这款App的分析结果。   File Name 我们上传的App名字 File Size 文件大小 Method Count 方法总数 Uploaded via Site 谁在什么时间上传     Scenario：Cold StartUp 冷启动场景下 Slowdowns 速度减缓的地方 Merm">
+<meta name="twitter:image" content="http://yoursite.com/images/nimabledroid-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/02/20/decrease-apk-size/"/>
+
+
+
+
+
+  <title>APK瘦身 | 行次</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">行次</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/20/decrease-apk-size/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">APK瘦身</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-20T08:00:00+08:00">
+                2017-02-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="在线检测"><a href="#在线检测" class="headerlink" title="在线检测"></a>在线检测</h4><blockquote>
+<p>在线分析APK：<a href="https://nimbledroid.com/" target="_blank" rel="external">NimbleDroid</a></p>
+</blockquote>
+<h5 id="实例分析-Summary"><a href="#实例分析-Summary" class="headerlink" title="实例分析-Summary"></a>实例分析-Summary</h5><pre><code>我们上传一个apk，看看这款App的分析结果。
+</code></pre><p><img src="/images/nimabledroid-1.png" alt="Summary"></p>
+<ul>
+<li>File Name 我们上传的App名字</li>
+<li>File Size 文件大小</li>
+<li>Method Count 方法总数</li>
+<li>Uploaded via Site 谁在什么时间上传 </li>
+</ul>
+<p><img src="/images/nimabledroid-2.png" alt="Summary"></p>
+<ul>
+<li>Scenario：Cold StartUp 冷启动场景下</li>
+<li>Slowdowns 速度减缓的地方</li>
+<li>Merm Leaks 内存泄漏的地方</li>
+<li>Time-Real Time 时间花费</li>
+<li>Memory-Max Use 内存占用</li>
+<li>Network-down 下载数据量</li>
+<li>Network-up 上传数据量</li>
+<li>Disk I/O-Read 从磁盘读取数据量</li>
+<li>Disk I/O-Write 写入磁盘的数据量</li>
+</ul>
+<h5 id="实例分析-File-Sizes"><a href="#实例分析-File-Sizes" class="headerlink" title="实例分析-File Sizes"></a>实例分析-File Sizes</h5><p><img src="/images/nimabledroid-3.png" alt="Summary"></p>
+<blockquote>
+<p>在此，我们看到100kb以上的文件。其中某些lib下的多余库，高清大图片是我们关注的重点。</p>
+</blockquote>
+<p><img src="/images/nimabledroid-4.png" alt="Summary"></p>
+<blockquote>
+<p>不同类型的文件所占体积大小。</p>
+</blockquote>
+<h5 id="实例分析-Method-Count"><a href="#实例分析-Method-Count" class="headerlink" title="实例分析-Method Count"></a>实例分析-Method Count</h5><p><img src="/images/nimabledroid-5.png" alt="Summary"></p>
+<blockquote>
+<p>各SDK方法数统计。</p>
+</blockquote>
+<h5 id="实例分析-具体Scenario分析"><a href="#实例分析-具体Scenario分析" class="headerlink" title="实例分析-具体Scenario分析"></a>实例分析-具体Scenario分析</h5><p>我们考察冷启动从欢迎页启动到主页这个场景。看到时间为<code>4.8s</code>,感觉有些长了。我们使用Android Monitor的日志，过滤<code>ActivityManager:Displayed</code>，看到欢迎页是<code>569ms</code>，主页是<code>613ms</code>。</p>
+<p><img src="/images/nimabledroid-6.png" alt="Summary"><br>如图：</p>
+<ul>
+<li>Speed - Hung CPU Methods 挂起CPU方法使UI落后，反应延迟。对用户来说是长于32ms。方法在该条目下因为此时正在使用CPU。</li>
+<li>Speed - Hung Wait Methods 挂起CPU方法使UI落后，反应延迟。对用户来说是长于32ms。方法在此条目下因为正在等待可用的资源，尽管没有使用CPU。</li>
+<li>Speed - Hot Methods 热方法即执行其调用的CPU时间长于100ms。</li>
+<li><p>Speed - Dependencies 有时应用中的依赖关系会影响性能。</p>
+</li>
+<li><p>BaseActivity、BaseFragment的初始化操作</p>
+</li>
+<li>PushAgent.onAppStart 推送服务启动</li>
+<li>ClassUtil.getGenericSuperclass fastjson的方法</li>
+<li>ViewPager.onMeasure 欢迎页的测量</li>
+<li>Jackson JSON Parser jackjson的解析</li>
+</ul>
+<p>我们选取一个方法点击进入详细，如图：</p>
+<p><img src="/images/nimabledroid-7.png" alt="Summary"></p>
+<p>在此我们可以看到，Umeng推送，百度定位，检查版本更新，检查热修复包版本，retrofitmanager初始化。</p>
+<p><img src="/images/nimabledroid-8.png" alt="Summary"></p>
+<blockquote>
+<p>看到这个对比图，还是老脸微红的。现在的SDK都要求在Application里初始化，搞的定位，推送，热修复，网络框架，图片框架都在这里了，皮，真的皮！</p>
+</blockquote>
+<h4 id="优化注意点"><a href="#优化注意点" class="headerlink" title="优化注意点"></a>优化注意点</h4><h5 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h5><ul>
+<li>清除未使用的资源，Android lint analyze &amp; shrinkResource</li>
+<li>大图片使用tinyPNG</li>
+<li>png转webp</li>
+<li><a href="https://github.com/shwenzhang/AndResGuard" target="_blank" rel="external">AndResGuard</a></li>
+</ul>
+<h5 id="第三方库"><a href="#第三方库" class="headerlink" title="第三方库"></a>第三方库</h5><ul>
+<li>清除不必须的第三方jar，尤其是Android support </li>
+</ul>
+<h5 id="冗余代码"><a href="#冗余代码" class="headerlink" title="冗余代码"></a>冗余代码</h5><ul>
+<li>inspect code</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag"># android</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/17/get-max-tree/" rel="next" title="构造数组的MaxTree">
+                <i class="fa fa-chevron-left"></i> 构造数组的MaxTree
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/21/design-patterns-singleton-5/" rel="prev" title="单例设计模式(五) Android中单例的应用">
+                单例设计模式(五) Android中单例的应用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/favicon.jpg"
+               alt="XuSing" />
+          <p class="site-author-name" itemprop="name">XuSing</p>
+           
+              <p class="site-description motion-element" itemprop="description">博观而约取，厚积而薄发。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xusx1024" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#在线检测"><span class="nav-number">1.</span> <span class="nav-text">在线检测</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#实例分析-Summary"><span class="nav-number">1.1.</span> <span class="nav-text">实例分析-Summary</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#实例分析-File-Sizes"><span class="nav-number">1.2.</span> <span class="nav-text">实例分析-File Sizes</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#实例分析-Method-Count"><span class="nav-number">1.3.</span> <span class="nav-text">实例分析-Method Count</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#实例分析-具体Scenario分析"><span class="nav-number">1.4.</span> <span class="nav-text">实例分析-具体Scenario分析</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优化注意点"><span class="nav-number">2.</span> <span class="nav-text">优化注意点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#资源"><span class="nav-number">2.1.</span> <span class="nav-text">资源</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第三方库"><span class="nav-number">2.2.</span> <span class="nav-text">第三方库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#冗余代码"><span class="nav-number">2.3.</span> <span class="nav-text">冗余代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">XuSing</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<div class="theme-info">
+
+  <div class="powered-by"></div>
+
+  <span class="post-count">博客共字</span>
+
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <!-- 背景动画 -->
+<script type="text/javascript" src="/js/src/particle.js"></script>
+
+</body>
+</html>
