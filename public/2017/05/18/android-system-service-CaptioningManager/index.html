@@ -1,0 +1,774 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.jpg?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="CaptioningManager是什么 看名字：字幕管理 Android开发无障碍指南: 如果应用程序提供视频播放，必须为聋人和重听用户提供字幕和注释来帮助他们理解。视频播放控件必须明确说明字幕是否可用，并提供简单的方式启用字幕。    设备如何设置google 官方说明  字幕  您可以为设备开启字幕功能以及为字幕选择所需选项（语言、文字和样式）。 开启字幕功能打开设备的“设置”应用点按无障碍">
+<meta name="keywords" content="android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android系统服务：CaptioningManager">
+<meta property="og:url" content="http://yoursite.com/2017/05/18/android-system-service-CaptioningManager/index.html">
+<meta property="og:site_name" content="行次">
+<meta property="og:description" content="CaptioningManager是什么 看名字：字幕管理 Android开发无障碍指南: 如果应用程序提供视频播放，必须为聋人和重听用户提供字幕和注释来帮助他们理解。视频播放控件必须明确说明字幕是否可用，并提供简单的方式启用字幕。    设备如何设置google 官方说明  字幕  您可以为设备开启字幕功能以及为字幕选择所需选项（语言、文字和样式）。 开启字幕功能打开设备的“设置”应用点按无障碍">
+<meta property="og:updated_time" content="2017-06-01T06:53:18.813Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android系统服务：CaptioningManager">
+<meta name="twitter:description" content="CaptioningManager是什么 看名字：字幕管理 Android开发无障碍指南: 如果应用程序提供视频播放，必须为聋人和重听用户提供字幕和注释来帮助他们理解。视频播放控件必须明确说明字幕是否可用，并提供简单的方式启用字幕。    设备如何设置google 官方说明  字幕  您可以为设备开启字幕功能以及为字幕选择所需选项（语言、文字和样式）。 开启字幕功能打开设备的“设置”应用点按无障碍">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/18/android-system-service-CaptioningManager/"/>
+
+
+
+
+
+  <title>Android系统服务：CaptioningManager | 行次</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">行次</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/18/android-system-service-CaptioningManager/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android系统服务：CaptioningManager</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-18T08:00:00+08:00">
+                2017-05-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="CaptioningManager是什么"><a href="#CaptioningManager是什么" class="headerlink" title="CaptioningManager是什么"></a>CaptioningManager是什么</h4><ul>
+<li>看名字：字幕管理</li>
+<li><a href="http://informationaccessibilityassociation.github.io/androidAccessibility/checklist.htm" target="_blank" rel="external">Android开发无障碍指南</a>:<blockquote>
+<p>如果应用程序提供视频播放，必须为聋人和重听用户提供字幕和注释来帮助他们理解。视频播放控件必须明确说明字幕是否可用，并提供简单的方式启用字幕。</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="设备如何设置"><a href="#设备如何设置" class="headerlink" title="设备如何设置"></a>设备如何设置</h4><p><a href="https://support.google.com/accessibility/android/answer/6006554" target="_blank" rel="external">google 官方说明</a></p>
+<p> <strong>字幕</strong> </p>
+<p>您可以为设备开启字幕功能以及为字幕选择所需选项（语言、文字和样式）。</p>
+<p>开启字幕功能<br><br>打开设备的“设置”应用<br><br>点按<code>无障碍</code>，然后点按<code>字幕</code><br><br>点按顶部的<code>开启/关闭</code>开关<br><br><br><br><strong>更改字幕设置</strong><br><br>开启字幕功能后，您可以在<code>设置</code> &gt; <code>无障碍</code> &gt; <code>字幕</code>中调整以下设置。<br></p>
+<ul>
+<li>语言：选择您想要以何种语言显示字幕 </li>
+<li>文字大小：选择字幕文字大小 </li>
+<li>字幕样式：为字幕文字和背景选择样式和颜色<br><br></li>
+</ul>
+<p>您的字幕设置可能不适用于某些应用。<br></p>
+<h4 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h4><p><a href="https://developer.android.google.cn/about/versions/android-4.4.html?hl=zh-cn" target="_blank" rel="external">简介</a></p>
+<p>官方文档称之为：隐藏式字幕。4.4版本释出。<br></p>
+<p>现在播放HTTP Live Steam(HLS)视频时，<code>VideoView</code>支持<code>WebVTT</code>字幕跟踪，根据用户在系统设置中定义的隐藏式字幕首选项显示字幕跟踪。<br><br>您也可以使用<code>addSubtitleSource()</code>方法为<code>VideoView</code>提供<code>WebVTT</code>字幕跟踪。此方法接受一个<code>InputStream</code>,其携带字幕数据和指定该字幕数据格式的<code>MediaFormat</code>对象，您可以使用<code>createSubtitleFormat()</code>指定该对象。这些字幕也会按照用户的首选项显示在视频上。<br><br>如果您不使用<code>VideoView</code>显示您的视频内容，则应尽可能使您的字幕叠加层与用户的隐藏式字幕首选项匹配。新的<code>CaptioningManager API</code>允许您查询用户的隐藏式字幕首选项，包括<code>CaptioningManager.CaptionStyle</code>定义的样式，如字体和颜色。如果用户在视频已开始后调整部分首选项，您应侦听首选项的变化，方法是注册一个<code>CaptioningManager.CaptioningChangeListener</code>实例以在任意首选项发生变化时接收回调，然后根据需要更新您的字幕。<br></p>
+<p><a href="https://dev.opera.com/articles/zh-cn/an-introduction-to-webvtt-and-track/" target="_blank" rel="external">WebVTT 及 HTML5 <track> 元素简介</a><br><br><a href="https://www.zhihu.com/question/29789259" target="_blank" rel="external">WebVTT与srt格式转换</a></p>
+<h4 id="题外话：视频弹幕"><a href="#题外话：视频弹幕" class="headerlink" title="题外话：视频弹幕"></a>题外话：视频弹幕</h4><p><a href="http://blog.csdn.net/zhangphil/article/details/52021055" target="_blank" rel="external">基础原理</a><br></p>
+<p><a href="https://github.com/linsea/OpenDanmaku/blob/master/opendanmaku/src/main/java/com/opendanmaku/DanmakuItem.java" target="_blank" rel="external">简单封装</a><br></p>
+<p><a href="https://github.com/Bilibili/DanmakuFlameMaster" target="_blank" rel="external">成熟的B站</a><br></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag"># android</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/17/javaee-tips/" rel="next" title="JavaEE学习路线图">
+                <i class="fa fa-chevron-left"></i> JavaEE学习路线图
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/23/design-patterns-simple-factory/" rel="prev" title="简单工厂模式">
+                简单工厂模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/favicon.jpg"
+               alt="XuSing" />
+          <p class="site-author-name" itemprop="name">XuSing</p>
+           
+              <p class="site-description motion-element" itemprop="description">博观而约取，厚积而薄发。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xusx1024" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#CaptioningManager是什么"><span class="nav-number">1.</span> <span class="nav-text">CaptioningManager是什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设备如何设置"><span class="nav-number">2.</span> <span class="nav-text">设备如何设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#官方文档"><span class="nav-number">3.</span> <span class="nav-text">官方文档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#题外话：视频弹幕"><span class="nav-number">4.</span> <span class="nav-text">题外话：视频弹幕</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">XuSing</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<div class="theme-info">
+
+  <div class="powered-by"></div>
+
+  <span class="post-count">博客共字</span>
+
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <!-- 背景动画 -->
+<script type="text/javascript" src="/js/src/particle.js"></script>
+
+</body>
+</html>
