@@ -267,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/radix-sort/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/bucket-sort/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuSing">
@@ -286,7 +286,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/04/10/radix-sort/" itemprop="url">非比较排序之基数排序</a></h1>
+                <a class="post-title-link" href="/2017/04/10/bucket-sort/" itemprop="url">非比较排序之桶/箱排序</a></h1>
         
 
         <div class="post-meta">
@@ -357,121 +357,161 @@
       
         
           
-            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>探究Tinker的BSDiff算法的过程中，发现用到了<code>后缀排序</code>，就去研究后缀排序，然后发现用到<code>倍增算法</code>的思想。而倍增是排序的一种策略，这种策略要求必须对<code>基数排序</code>有一定的理解 T.T。<br><br>好，言归正传。基数排序是<a href="http://xusx1024.com/2017/04/10/bucket-sort/" target="_blank" rel="external">桶排序</a>的一种特例。 </p>
-<h4 id="比较和非比较的区别"><a href="#比较和非比较的区别" class="headerlink" title="比较和非比较的区别"></a>比较和非比较的区别</h4><p>常见的快速排序、归并排序、堆排序、冒泡排序等属于比较排序。在排序的最终结果里，元素之间的次序依赖于它们之间的比较。每个数都必须和其他数进行比较，才能确定自己的位置。</p>
-<p>在 冒泡排序 之类的排序中，问题规模为n，又因为需要比较n次，所以平均时间复杂度为O(n²)。在 归并排序、快速排序 之类的排序中，问题规模通过分治法消减为logN次，所以时间复杂度平均 O(nlogn) 。</p>
-<p>比较排序的优势是，适用于各种规模的数据，也不在乎数据的分布，都能进行排序。可以说，比较排序适用于一切需要排序的情况。</p>
-<p>计数排序、基数排序、桶排序则属于非比较排序。非比较排序是通过确定每个元素之前，应该有多少个元素来排序。针对数组arr，计算arr[i]之前有多少个元素，则唯一确定了arr[i]在排序后数组中的位置。</p>
-<p>非比较排序只要确定每个元素之前的已有的元素个数即可，所有一次遍历即可解决。算法时间复杂度 O(n) 。</p>
-<p>非比较排序时间复杂度底，但由于非比较排序需要占用空间来确定唯一位置。所以对数据规模和数据分布有一定的要求。</p>
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>探究Tinker的BSDiff算法的过程中，发现用到了<code>后缀排序</code>，就去研究后缀排序，然后发现用到<code>倍增算法</code>的思想。而倍增是排序的一种策略，这种策略要求必须对<a href="http://xusx1024.com/2017/04/10/radix-sort/" target="_blank" rel="external">基数排序</a>有一定的理解 T.T，而基数排序是<code>桶排序</code>的一种特例。<br></p>
 <h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><blockquote>
-<p>基数排序是一种非比较型、整数排序算法，其原理是将整数按位数切割成不同的数字，然后按照每个位数分别比较。<br><br></p>
+<p>简单暴力的来说，我们有一组数据，该组数据比如说是高数成绩，那么肯定有最大值，最小值，申请大小为100的桶数组，数组的下标即分数，数组的值代表相同分数的学生有几个。大概如图所示：</p>
+<p><img src="/images/buckets_sort.png" alt="示例图"></p>
+<p>当然，上述只能有一个大概印象和基本理解，如果想要实际使用或者分析问题，还得看正规军。</p>
 </blockquote>
-<p>排序过程：<br><br>将所有待比较数值(正整数)统一为同样的数位长度，数位较短的数前面补零。然后从最地位开始，依次进行一次排序。<br></p>
-<p>基数排序法会使用到桶，即把要比较的个、十、百、千。。。位的对应的元素分配到0~9个桶中，借以达到排序的作用，在某些时候，基数排序法的效率高于其他的比较性算法。具体的分步动画演示详见：<a href="http://www.cs.usfca.edu/~galles/visualization/RadixSort.html" target="_blank" rel="external">Data Structure Visualizations</a>。</p>
-<p><br><br>基数排序的方式可以采用LSD（Least significant digital）或MSD（Most significant digital），LSD的排序方式由键值的最右边开始，而MSD则相反，由键值的最左边开始。</p>
-<h4 id="效率"><a href="#效率" class="headerlink" title="效率"></a>效率</h4><p>基数排序的时间复杂度是 <strong>O(k·n)</strong>，其中<strong>n</strong>是排序元素个数， <strong>k</strong>是数字位数。注意这不是说这个时间复杂度一定优于 <strong>O(n·log(n))</strong>， <strong>k</strong>的大小取决于数字位的选择（比如比特位数），和待排序数据所属数据类型的全集的大小； <strong>k</strong>决定了进行多少轮处理，而 <strong>n</strong>是每轮处理的操作数目。</p>
-<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>对数组{53, 542, 63, 3, 63, 14, 214, 154, 748, 616}，它的示意图如下：</p>
-<p><img src="/images/radix_sort.png" alt="示例图"><br>Java代码如下：</p>
-<pre><code>package RadixSort;
+<p><br></p>
+<p>桶排序的思想近乎彻底的分治思想。假设现在需要对一亿个数进行排序。我们可以将其等分到10000个虚拟的桶里，平均每个桶只有10000个数。如果每个桶都有序了，则只需顺次输出桶里的有序序列即可。思路如下：<br></p>
+<ol>
+<li>将待排数据按一个映射函数f(x)分为连续的若干段。理论上最佳的分段方法应该使数据平均分布，实际上通常采用的方法都做不到这一点。显然，对于一个已知输入范围在[0,10000]的数组，最简单的分段莫过于x/m,例如f(x) = x/100.“连续的”这个条件非常重要，它是后面数据按顺序输出的理论保证。</li>
+<li>分配足够的桶，按照f(x)从数组起始处向后扫描，并把数据放到合适的桶中。对于上面的例子，如果数据有10000个，则我们需要分配101个桶（因为要考虑边界条件：f(x)=x/100会产生【0，100】共101种情况），理想情况下，每个桶有大约100个数据。</li>
+<li>对每个桶进行内部排序，例如，使用快速排序。注意，如果数据足够大，这里可以继续递归使用桶排序，直到数据大小降到合适的范围。</li>
+<li>按顺序从每个桶输出数据,排序完成。</li>
+</ol>
+<p><a href="http://www.cs.usfca.edu/~galles/visualization/BucketSort.html" target="_blank" rel="external">Data Structure Visualizations</a> 提供了一个桶排序的分步动画演示。</p>
+<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>设有数组 array = [29, 25, 3, 49, 9, 37, 21, 43]，那么数组中最大数为 49，先设置 5 个桶，那么每个桶可存放数的范围为：0~9、10~19、20~29、30~39、40~49，然后分别将这些数放人自己所属的桶，如下图：</p>
+<p><img src="/images/bucket-sort-1.png" alt="示例图"></p>
+<p>然后，分别对每个桶里面的数进行排序，或者在将数放入桶的同时用插入排序进行排序。最后，将各个桶中的数据有序的合并起来，如下图：</p>
+<p><img src="/images/bucket-sort-2.png" alt="示例图"></p>
+<h4 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h4><pre><code>package BuketsSort;
+
+import java.util.Arrays;
 
 /**
- * 基数排序
+ * 桶排序
  * 
  * @author sxx.xu
  *
  */
-public class RadixSort {
+public class BuketsSort {
 
-    private static int getMax(int[] array) {
-        int max = array[0];
-        for (int i : array) {
-            max = i &gt; max ? i : max;
-        }
-        return max;
-    }
+    /*
+     * 桶排序
+     *
+     * 参数说明： a -- 待排序数组 max -- 数组a中最大值的范围
+     */
+    public static void bucketSort(int[] a, int max) {
+        int[] buckets;
 
-    public static void radixSort(int[] array) {
-        int exp = 1;// 个、十、百、千。。。位
-        int max = getMax(array);
+        if (a == null || max &lt; 1)
+            return;
 
-        for (exp = 1; max / exp &gt; 0; exp *= 10)
-            countSort(array, exp);
-    }
+        // 创建一个容量为max的数组buckets，并且将buckets中的所有数据都初始化为0。
+        buckets = new int[max];
 
-    private static void countSort(int[] array, int exp) {
+        // 1. 计数
+        for (int i = 0; i &lt; a.length; i++)
+            buckets[a[i]]++;
 
-        int[] outputs = new int[array.length];
-        int[] buckets = new int[10];// 0-9
-
-        //统计array中对应位数的元素的个数
-        for (int i : array) {
-            buckets[(i / exp) % 10]++;
-        }
-        //统计array中，小于该位的元素的个数，相当于排序
-        for (int i = 1; i &lt; buckets.length; i++) {
-            buckets[i] += buckets[i - 1];
-        }
-        //赋值
-        for (int i = array.length - 1; i &gt;= 0; i--) {
-            outputs[buckets[(array[i] / exp) % 10] - 1] = array[i];
-            buckets[(array[i] / exp) % 10]--;
+        // 2. 排序
+        for (int i = 0, j = 0; i &lt; max; i++) {
+            while ((buckets[i]--) &gt; 0) {
+                a[j++] = i;
+            }
         }
 
-        for (int i = 0; i &lt; outputs.length; i++) {
-            array[i] = outputs[i];
-        }
-        outputs = null;
         buckets = null;
     }
 
-    private static void radixSort(int[] array, int d) {
-        int n = 1;// 个、十、百、千。。。位
-        int k = 0;// 保存每一位排序后的结果用于下一位的排序输入
-        int length = array.length;
-        int[][] bucket = new int[10][length];// 排序桶用于保存每次排序后的结果，这一位上排序结果相同的数字放在同一个桶里
-        int[] order = new int[length];// 用于保存每个桶里有多少个数字
-        while (n &lt; d) {
-            for (int num : array) // 将数组array里的每个数字放在相应的桶里
-            {
-                int digit = (num / n) % 10;
-                bucket[digit][order[digit]] = num;
-                order[digit]++;
-            }
-            for (int i = 0; i &lt; length; i++)// 将前一个循环生成的桶里的数据覆盖到原数组中用于保存这一位的排序结果
-            {
-                if (order[i] != 0)// 这个桶里有数据，从上到下遍历这个桶并将数据保存到原数组中
-                {
-                    for (int j = 0; j &lt; order[i]; j++) {
-                        array[k] = bucket[i][j];
-                        k++;
-                    }
+    public static void bucketSort(int[] arr) {
+        // 分桶，这里采用映射函数f(x)=x/10。
+        // 输入数据为0~99之间的数字
+        int bucketCount = 10;
+        Integer[][] bucket = new Integer[bucketCount][arr.length]; // Integer初始为null,以与数字0区别。
+        for (int i = 0; i &lt; arr.length; i++) {
+            int quotient = arr[i] / 10; // 这里即是使用f(x)
+            for (int j = 0; j &lt; arr.length; j++) {
+                if (bucket[quotient][j] == null) {
+                    bucket[quotient][j] = arr[i];
+                    break;
                 }
-                order[i] = 0;// 将桶里计数器置0，用于下一次位排序
             }
-            n *= 10;
-            k = 0;// 将k置0，用于下一轮保存位排序结果
         }
+        // 小桶排序
+        for (int i = 0; i &lt; bucket.length; i++) {
+            // insertion sort
+            for (int j = 1; j &lt; bucket[i].length; ++j) {
+                if (bucket[i][j] == null) {
+                    break;
+                }
+                int value = bucket[i][j];
+                int position = j;
+                while (position &gt; 0 &amp;&amp; bucket[i][position - 1] &gt; value) {
+                    bucket[i][position] = bucket[i][position - 1];
+                    position--;
+                }
+                bucket[i][position] = value;
+            }
 
+        }
+        // 输出
+        for (int i = 0, index = 0; i &lt; bucket.length; i++) {
+            for (int j = 0; j &lt; bucket[i].length; j++) {
+                if (bucket[i][j] != null) {
+                    arr[index] = bucket[i][j];
+                    index++;
+                } else {
+                    break;
+                }
+            }
+        }
     }
 
+ public static void bucketSort2(int [] arr){  
+        //寻找数组中min，max，用于建桶  
+        int min = 0, max = 0;  
+        for(int i = 0; i &lt;= arr.length - 1; i++){  
+            if(arr[i] &lt; min){  
+                min = arr[i];  
+            }  
+            if(arr[i] &gt; max){  
+                max = arr[i];  
+            }  
+        }  
+        //开始建桶，注意桶的数量等于max - min + 1  
+        int bucketCount = max - min + 1;  
+        int[] bucket = new int[bucketCount];  
+        for(int i = 0; i &lt;= arr.length - 1; i++){  
+            bucket[arr[i] - min]++;  
+        }  
+        for(int i = 1; i &lt; bucketCount; i++){  
+            bucket[i] = bucket[i] + bucket[i - 1];  
+        }  
+        //开始排序  
+        int [] copy = new int[arr.length];  
+        System.arraycopy(arr, 0, copy, 0, arr.length);  
+
+        //从后往前排序，保持元素相对位置，保证算法稳定性。  
+        for(int i = arr.length - 1; i &gt;= 0; i--){  
+            arr[--bucket[copy[i] - min]] = copy[i];  
+        }  
+        //若从前往后排序，虽然排序结果相同，但会破坏元素相对位置和算法稳定性  
+//      for(int i = 0; i &lt;= arr.length - 1; i++){  
+//          arr[--bucket[copy[i] - min]] = copy[i];  
+//      }  
+    }  
+
+
     public static void main(String[] args) {
-        int array[] = { 53, 3, 542, 748, 14, 214, 154, 63, 616, 70 };
-        for (int i : array) {
-            System.out.print(i + &quot;  &quot;);
-        }
-        System.out.println(&quot;&quot;);
-        System.out.println(&quot;before===================================after&quot;);
-        radixSort(array);
-        for (int i : array) {
-            System.out.print(i + &quot;  &quot;);
-        }
-        int[] A = new int[] { 53, 3, 542, 748, 14, 214, 154, 63, 616, 70 };
-        radixSort(A, 100);
-        System.out.println(&quot;&quot;);
-        for (int i : A) {
-            System.out.print(i + &quot;  &quot;);
-        }
+        int i;
+        int a[] = { 8, 2, 3, 4, 3, 6, 6, 3, 9 };
+
+        System.out.printf(&quot;before sort:&quot;);
+        for (i = 0; i &lt; a.length; i++)
+            System.out.printf(&quot;%d &quot;, a[i]);
+        System.out.printf(&quot;\n&quot;);
+
+//        bucketSort(a, 10); // 桶排序
+//        bucketSort(a); // 桶排序
+        bucketSort2(a); // 桶排序
+
+        System.out.printf(&quot;after  sort:&quot;);
+        for (i = 0; i &lt; a.length; i++)
+            System.out.printf(&quot;%d &quot;, a[i]);
+        System.out.printf(&quot;\n&quot;);
     }
 }
 </code></pre>
@@ -1793,6 +1833,167 @@ public Object clone() {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/18/design-patterns-prototype-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/18/design-patterns-prototype-1/" itemprop="url">原型设计模式(一) 基础知识</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-18T00:00:00Z">
+                2017-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>content<br>{:toc}</li>
+</ul>
+<h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>创建型模式的一种。通过复制一个已经存在的实例来返回新的实例，而不是新建实例。</p>
+<blockquote>
+<p>《设计模式》：<br> 使用原型实例指定创建对象的种类，然后通过拷贝这些原型来创建新的对象。</p>
+</blockquote>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li>创建重复的新对象的成本较大—— 创建复杂，初始化消耗资源过多，初始化耗时，繁琐的数据准备，访问权限</li>
+<li>一个对象多个修改者-浅拷贝</li>
+<li>一个对象需要提供给其他对象访问，而且各个调用者可能都需要修改其值</li>
+<li>在实际项目中，原型模式很少单独出现，一般是和工厂方法模式一起出现，通过clone的方法创建一个对象，然后由工厂方法提供给调用者</li>
+<li>如果系统要保存对象的状态，而对象的状态变化很小，或者对象本身占内存不大的时候，也可以使用原型模式配合备忘录模式来应用。相反，如果对象的状态变化很大，或者对象占用的内存很大，那么采用状态模式会比原型模式更好</li>
+</ul>
+<h4 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h4><p><img src="/images/prototype_class_uml.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/prototype_sequence_uml.png" alt="时序图"></p>
+<h4 id="优点-缺点"><a href="#优点-缺点" class="headerlink" title="优点/缺点"></a>优点/缺点</h4><ul>
+<li>clone并不一定比new一个对象速度快，只有new构造对象耗时或成功高时，clone才有明显的效率提升</li>
+<li>逃避构造函数的约束(既是优点也是缺点)</li>
+<li>配备克隆方法需要对类的功能进行通盘考虑，这对于全新的类不是很难，但对于已有的类不一定很容易，特别当一个类引用不支持串行化的间接对象，或者引用含有循环结构的时候</li>
+<li>必须实现cloneable接口(java)</li>
+</ul>
+<h4 id="深-浅复制"><a href="#深-浅复制" class="headerlink" title="深/浅复制"></a>深/浅复制</h4><p> 浅复制：<br><br>复制了值类型对象，对于引用类型对象，只复制了引用，它指向原来引用的对象。<br><br><br>深复制：<br><br>对值类型和引用类型的对象都生成一份新的拷贝，java中可以通过串行化来进行深复制，前提是对象以及其内部所引用的对象都是可串行化的，否则需要考虑把不可串行话的对象设为transient，排除在复制过程之外。<br><br>被复制对象的任何变量都含有和原来的对象相同的值，除去那些引用其他对象的变量。那些引用其他对象的变量将指向被复制过的新对象，而不再是原有的那些被引用的对象。换言之，深复制把要复制的对象所引用的对象都复制了一遍。</p>
+<h4 id="来自《effective-java》的建议"><a href="#来自《effective-java》的建议" class="headerlink" title="来自《effective java》的建议"></a>来自《effective java》的建议</h4><blockquote>
+<p>第11条：谨慎地覆盖clone</p>
+</blockquote>
+<p>克隆复杂对象，可以使用deep copy，也可以先调用super.clone，然后把结果对象中的所有域都设置成它们的空白状态，然后调用高层的方法来重新产生对象的状态。</p>
+<p>建议使用拷贝构造器/拷贝工厂，确切地说是转换构造器/转换工厂。<br></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/18/design-patterns-start/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1931,167 +2132,6 @@ public Object clone() {
 </ul>
 </li>
 </ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/18/design-patterns-prototype-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/18/design-patterns-prototype-1/" itemprop="url">原型设计模式(一) 基础知识</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-18T00:00:00Z">
-                2017-03-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>content<br>{:toc}</li>
-</ul>
-<h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>创建型模式的一种。通过复制一个已经存在的实例来返回新的实例，而不是新建实例。</p>
-<blockquote>
-<p>《设计模式》：<br> 使用原型实例指定创建对象的种类，然后通过拷贝这些原型来创建新的对象。</p>
-</blockquote>
-<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
-<li>创建重复的新对象的成本较大—— 创建复杂，初始化消耗资源过多，初始化耗时，繁琐的数据准备，访问权限</li>
-<li>一个对象多个修改者-浅拷贝</li>
-<li>一个对象需要提供给其他对象访问，而且各个调用者可能都需要修改其值</li>
-<li>在实际项目中，原型模式很少单独出现，一般是和工厂方法模式一起出现，通过clone的方法创建一个对象，然后由工厂方法提供给调用者</li>
-<li>如果系统要保存对象的状态，而对象的状态变化很小，或者对象本身占内存不大的时候，也可以使用原型模式配合备忘录模式来应用。相反，如果对象的状态变化很大，或者对象占用的内存很大，那么采用状态模式会比原型模式更好</li>
-</ul>
-<h4 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h4><p><img src="/images/prototype_class_uml.png" alt="类图"></p>
-<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/prototype_sequence_uml.png" alt="时序图"></p>
-<h4 id="优点-缺点"><a href="#优点-缺点" class="headerlink" title="优点/缺点"></a>优点/缺点</h4><ul>
-<li>clone并不一定比new一个对象速度快，只有new构造对象耗时或成功高时，clone才有明显的效率提升</li>
-<li>逃避构造函数的约束(既是优点也是缺点)</li>
-<li>配备克隆方法需要对类的功能进行通盘考虑，这对于全新的类不是很难，但对于已有的类不一定很容易，特别当一个类引用不支持串行化的间接对象，或者引用含有循环结构的时候</li>
-<li>必须实现cloneable接口(java)</li>
-</ul>
-<h4 id="深-浅复制"><a href="#深-浅复制" class="headerlink" title="深/浅复制"></a>深/浅复制</h4><p> 浅复制：<br><br>复制了值类型对象，对于引用类型对象，只复制了引用，它指向原来引用的对象。<br><br><br>深复制：<br><br>对值类型和引用类型的对象都生成一份新的拷贝，java中可以通过串行化来进行深复制，前提是对象以及其内部所引用的对象都是可串行化的，否则需要考虑把不可串行话的对象设为transient，排除在复制过程之外。<br><br>被复制对象的任何变量都含有和原来的对象相同的值，除去那些引用其他对象的变量。那些引用其他对象的变量将指向被复制过的新对象，而不再是原有的那些被引用的对象。换言之，深复制把要复制的对象所引用的对象都复制了一遍。</p>
-<h4 id="来自《effective-java》的建议"><a href="#来自《effective-java》的建议" class="headerlink" title="来自《effective java》的建议"></a>来自《effective java》的建议</h4><blockquote>
-<p>第11条：谨慎地覆盖clone</p>
-</blockquote>
-<p>克隆复杂对象，可以使用deep copy，也可以先调用super.clone，然后把结果对象中的所有域都设置成它们的空白状态，然后调用高层的方法来重新产生对象的状态。</p>
-<p>建议使用拷贝构造器/拷贝工厂，确切地说是转换构造器/转换工厂。<br></p>
 
           
         

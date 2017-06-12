@@ -93,17 +93,20 @@
 
 
 
-<meta name="description" content="同学们，敲黑板，划重点了！">
+<meta name="description" content="定义建立一种对象与对象之间的依赖关系，一个对象发生改变时将自动通知其他对象，其他对象将相应做出反应。在此，发生改变的对象称为观察目标，而被通知的对象称为观察者。一个观察目标可以对应多个观察者，而且这些观察者之间没有相互联系，可以根据需要增加和删除观察者，使得系统更易于扩展。 观察者模式(Observer Pattern)：定义对象间的一种一对多的依赖关系，使得每当一个对象状态发生改变时，其相关依赖">
 <meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="观察者设计模式">
 <meta property="og:url" content="http://yoursite.com/2017/06/09/design-patterns-observer/index.html">
 <meta property="og:site_name" content="行次">
-<meta property="og:description" content="同学们，敲黑板，划重点了！">
-<meta property="og:updated_time" content="2017-06-09T07:11:22.815Z">
+<meta property="og:description" content="定义建立一种对象与对象之间的依赖关系，一个对象发生改变时将自动通知其他对象，其他对象将相应做出反应。在此，发生改变的对象称为观察目标，而被通知的对象称为观察者。一个观察目标可以对应多个观察者，而且这些观察者之间没有相互联系，可以根据需要增加和删除观察者，使得系统更易于扩展。 观察者模式(Observer Pattern)：定义对象间的一种一对多的依赖关系，使得每当一个对象状态发生改变时，其相关依赖">
+<meta property="og:image" content="http://yoursite.com/images/observer_pattern_class_diagram.png">
+<meta property="og:image" content="http://yoursite.com/images/observer_pattern_sequence_diagram.png">
+<meta property="og:updated_time" content="2017-06-12T08:22:02.824Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="观察者设计模式">
-<meta name="twitter:description" content="同学们，敲黑板，划重点了！">
+<meta name="twitter:description" content="定义建立一种对象与对象之间的依赖关系，一个对象发生改变时将自动通知其他对象，其他对象将相应做出反应。在此，发生改变的对象称为观察目标，而被通知的对象称为观察者。一个观察目标可以对应多个观察者，而且这些观察者之间没有相互联系，可以根据需要增加和删除观察者，使得系统更易于扩展。 观察者模式(Observer Pattern)：定义对象间的一种一对多的依赖关系，使得每当一个对象状态发生改变时，其相关依赖">
+<meta name="twitter:image" content="http://yoursite.com/images/observer_pattern_class_diagram.png">
 
 
 
@@ -353,7 +356,17 @@
       
 
       
-        <h4 id="同学们，敲黑板，划重点了！"><a href="#同学们，敲黑板，划重点了！" class="headerlink" title="同学们，敲黑板，划重点了！"></a>同学们，敲黑板，划重点了！</h4>
+        <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>建立一种对象与对象之间的依赖关系，一个对象发生改变时将自动通知其他对象，其他对象将相应做出反应。在此，发生改变的对象称为观察目标，而被通知的对象称为观察者。一个观察目标可以对应多个观察者，而且这些观察者之间没有相互联系，可以根据需要增加和删除观察者，使得系统更易于扩展。</p>
+<p>观察者模式(Observer Pattern)：定义对象间的一种一对多的依赖关系，使得每当一个对象状态发生改变时，其相关依赖对象皆得到通知并被自动更新。观察者模式又叫做发布-订阅(publish/subscribe)模式、模型-视图(model/view)模式、源-监听器(source/listener)模式或从属者(dependents)模式。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li>Subject：目标</li>
+<li>ConcreteSubject：具体目标</li>
+<li>Observer：观察者</li>
+<li>ConcreteObserver：具体观察者</li>
+</ul>
+<p><img src="/images/observer_pattern_class_diagram.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/observer_pattern_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4>
       
     </div>
 
@@ -549,7 +562,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#同学们，敲黑板，划重点了！"><span class="nav-number">1.</span> <span class="nav-text">同学们，敲黑板，划重点了！</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式结构"><span class="nav-number">2.</span> <span class="nav-text">模式结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#时序图"><span class="nav-number">3.</span> <span class="nav-text">时序图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">4.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析"><span class="nav-number">5.</span> <span class="nav-text">分析</span></a></li></ol></div>
             
 
           </div>
