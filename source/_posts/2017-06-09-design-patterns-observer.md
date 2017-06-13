@@ -24,5 +24,18 @@ categories: work
 ![时序图](/images/observer_pattern_sequence_diagram.png)
 
 #### 代码 ####
-
+[GitHub](https://github.com/xusx1024/DesignPatternDemoCode/tree/master/ObserverPattern)
 #### 分析 ####
+##### 优点 #####
+- 可以实现表示层和数据逻辑层分离，并定义了稳定的消息更新传递机制
+- 观察者和目标之间是一个抽象的耦合
+- 支持广播通信
+- 符合开闭原则
+
+##### 缺点 #####
+- 如果目标有许多观察者，通知所有观察者会花费许多时间
+- 如果观察者和目标之间有循环依赖的话，目标会触发他们之间的循环调用
+- 观察者无法知道目标是如何发生变化的，只是知道目标发生了变化
+
+#### 扩展 ####
+MVC模式可以用观察者模式来实现，其中观察目标就是Model，观察者就是View，中介者就是Controller。当Model数据发生改变，View将自动改变其显示内容。
