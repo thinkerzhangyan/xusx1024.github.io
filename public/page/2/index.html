@@ -267,6 +267,319 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/25/design-patterns-abstract-factory/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/05/25/design-patterns-abstract-factory/" itemprop="url">抽象工厂模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-25T00:00:00Z">
+                2017-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="引入概念"><a href="#引入概念" class="headerlink" title="引入概念"></a>引入概念</h4><ul>
+<li><strong>产品等级结构：</strong>产品等级结构即产品的继承结构，如一个抽象类是电视机，其子类有海尔电视机、海信电视机、TCL电视机，则抽象电视机与具体品牌的电视机之间构成了一个产品等级结构，抽象电视机是父类，而具体品牌的电视机是其子类。</li>
+<li><strong>产品族：</strong> 在抽象工厂模式中，产品族是指由同一个工厂生产的，位于不同产品等级结构中的一组产品，如海尔电器工厂生产的海尔电视机、海尔电冰箱、海尔电视机。</li>
+</ul>
+<p><img src="/images/abstract_factory_product_level.png" alt="示例图"></p>
+<h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><p> 抽象工厂模式(Abstract Factory Pattern)：提供一个创建一系列相关或相互依赖对象的接口，而无须指定它们具体的类。抽象工厂模式又称为kit模式，属于对象创建型模式。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li>Factory：抽象工厂</li>
+<li>ConcreteFactory：具体工厂</li>
+<li>Product：抽象产品</li>
+<li>ConcreteProduct：具体产品</li>
+</ul>
+<p><img src="/images/abstract_factory_class_diagram.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/abstract_factory_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p> <a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/AbstractFactory" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><ul>
+<li>抽象工厂定义了产品的所有行为，因此增加产品族很方便，增加产品等级类别需要改动抽象工厂(开闭原则的倾斜性)</li>
+<li>当一个产品族中的多个对象被设计成一起工作时，它能保证客户端始终只使用同一个产品族中的对象。这对一些需要根据当前环境来决定其行为的软件系统来说，是一种非常实用的设计模式</li>
+<li></li>
+</ul>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li>适用于产品确定，但是产品线不确定的场景，比如要生产汽车，但是汽车的配置不确定</li>
+<li>比如app换肤，整体的颜色，字体，背景，按钮，文本框。。。</li>
+</ul>
+<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><p>当抽象工厂模式中每一个具体工厂类只创建一个产品对象，也就是只存在一个产品等级结构时，抽象工厂模式退化成工厂方法模式；当工厂方法模式中抽象工厂与具体工厂合并，提供一个统一的工厂来创建产品对象，并将创建对象的工厂方法设计为静态方法时，工厂方法模式退化成简单工厂模式。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/25/design-patterns-strategy-pattern/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/05/25/design-patterns-strategy-pattern/" itemprop="url">策略模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-25T00:00:00Z">
+                2017-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><p>策略模式是对象行为型模式<br></p>
+<p>策略模式(Strategy Pattern):定义一系列算法，将每一个算法封装起来，并让它们可以相互替换。策略模式让算法独立于使用它的客户而变化，也称为政策模式(Policy Pattern).</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li>Context:环境类</li>
+<li>Strategy：抽象策略类</li>
+<li>ConcreteStrategy：具体策略类</li>
+</ul>
+<p><img src="/images/strategy_pattern_class_diagram.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/strategy_pattern_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p> <a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/StrategyPattern" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><ul>
+<li>在软件系统中，有许多算法可以实现某一功能，如查找，排序等，一种常用的方法是硬编码在一个类中，如果需要提供多种查找算法，可以将这些算法写到一个类中，在该类中提供多个方法，每一个方法对应一个具体的查找算法，当然也可以将这些查找算法封装在一个统一的方法中，通过if…else…等条件判断语句来进行选择。这两种实现方法我们都可以称之为硬编码，如果需要增加一种新的查找算法，需要修改封装算法类的源代码；更换查找算法，也需要修改客户端调用代码。在这个算法类中封装了大量查找算法，该类代码将比较复杂，维护困难</li>
+<li>为了解决这些问题，可以定义一些独立的类来封装不同的算法，每一个类封装一个具体的算法，在这里，每一个封装算法的类我们都可以称之为策略，为了保证这些策略的一致性，一般会用一个抽象的策略类来做算法的定义，而具体每种算法则对应于一个具体的策略类。</li>
+</ul>
+<h4 id="优劣"><a href="#优劣" class="headerlink" title="优劣"></a>优劣</h4><ul>
+<li>对开闭原则完美支持，用户自由切换算法，易于扩展</li>
+<li><p>可以避免使用多重条件转移语句</p>
+</li>
+<li><p>必须对调用者暴露所有的策略类，客户端必须知道有什么策略，及其区别，这有悖于迪米特法则</p>
+</li>
+<li>需要维护许多策略类</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/24/design-patterns-factory-method/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1977,628 +2290,6 @@ public class DC3 {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/11/suffix-sort-baseon-prefix-doubleing/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/04/11/suffix-sort-baseon-prefix-doubleing/" itemprop="url">基于(前缀)倍增算法实现后缀数组</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-11T00:00:00Z">
-                2017-04-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>有几个基本概念需要知道。<br></p>
-<p>&gt;</p>
-<ol>
-<li><strong>子串：</strong>字符串S的子串r[i…j],i &lt;= j,表示r串从i到j这一段，就是顺次排列r[i],r[i+1],…,r[j]形成的字符串;</li>
-<li><strong>后缀：</strong>从某个位置i开始，到整个字符串末尾结束的一个特殊子串。字符串S的从第i个字符开始的后缀表示suffix(i),也就是suffix(i) = r[i…len(r)];<br></li>
-<li><strong>大小比较：</strong>关于字符串的大小比较，是指通常所说的“字典顺序”比较，也就是对于两个字符串u、v，令从i=1，开始顺次比较u[i]和v[i]，如果u[i]=v[i]，则令i++，否则，若u[i]&gt;v[i]则认为u&gt;v，反之则认为u<v，比较结束。如果i>len(u)或者i&gt;len(v)仍比较不出结果，那么若len(u)&gt;len(v)，则认为u&gt;v,反之则认为u<v.<br>从大小比较定义来看，S的后缀比较结果是不可能相等，因为u=v的必要条件len(u)=len(v)无法满足。</v.<br></v，比较结束。如果i></li>
-<li><strong>后缀数组：</strong>后缀数组SA是一个一维数组，它保存1…n的某个排列SA[1],SA[2],…,SA[n],并且保证suffix(SA[i])&lt;suffix(SA[i+1]), 1 &lt;= i &lt; n。也就是将S的n个后缀从小到大进行排序之后，把有序的后缀的开头位置顺次放入SA中。</li>
-<li><strong>名次数组：</strong>名字数组rank[i]保存的是suffix(i)在所有后缀中从小到大排列的“名次”。简单的说，后缀数组SA是“排第几的是谁？”，名次数组rank是“你排第几？”。容易看出，后缀数组和名次数组互为逆运算。</li>
-<li><strong>height数组：</strong>定义height[i]=suffix(SA[i-1])和suffix(SA[i])的最长公共前缀，也就是排名相邻的两个后缀的最长公共前缀，h[i]=height[rank[i]],也就是suffix(i)和在它前一名的后缀的最长公共前缀</li>
-<li><strong>LCP(i,j):</strong>对正整数i,j定义LCP(i,j)=lcp(Suffix(SA[i]),Suffix(SA[j]),其中i,j均为1至n的整数。LCP(i,j)也就是后缀数组中第i个和第j个后缀的最长公共前缀的长度。其中，函数lcp(u,v)=max{i|u=v},也就是从头开始顺次比较u和v的对应字符，对应字符持续相等的最大位置，称为这两个字符串的最长公共前缀。</li>
-</ol>
-<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><p> Prefix Doubling算法(前缀倍增法)是构造后缀数组一个比较实用的算法。其基本思想是先计算出每个后缀的k-前缀的rank值，然后在此基础上计算每个后缀的2k-前缀rank值，k从1开始。直到每个后缀都排出先后顺序为止(后缀必有先后顺序，原因见上面的解释)。在处理2k-前缀时，只需要使用<a href="http://xusx1024.com/2017/04/10/radix-sort/" target="_blank" rel="external">基数排序(radix sort)</a>算法，先后对两位数字排序，可以采用<a href="http://xusx1024.com/2017/04/11/counting-sort/" target="_blank" rel="external">计数排序算法(counting sort)</a>对每一位数字排序。在最坏情况下，需要做lgn次基数排序，每一次基数排序的操作次数为2*O(n),因此它的时间复杂是O(nlgn)。倍增法虽然没有达到想DC3算法的线性复杂度，但是它的优点是实现比较简单，因此常常被采用。</p>
-<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p><img src="/images/prefix_doubleing_demo_1.png" alt="示例图"><br><br> </p>
-<p><img src="/images/SA&amp;rank.png" alt="示例图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p>java语言实现：<br></p>
-<pre><code>package PrefixDoubling;
-
-import java.util.Arrays;
-
-/**
- * 倍增算法实现后缀数组
- * 
- * @author sxx.xu
- *
- */
-public class PrefixDoubling {
-
-    public static final char MAX_CHAR = &apos;\u00FF&apos;;
-
-    /**
-     * sa中第i个后缀：SA[rank[i]-1];&lt;br&gt;
-     * i是rank数组的下标;&lt;br&gt;
-     * 串S的第i个后缀是S[i...n],n=S.length-1.
-     * 
-     * @author sxx.xu
-     *
-     */
-    class Suffix {
-        int[] sa;
-        int[] rank;
-        boolean done;
-    }
-
-    class Tuple {
-        int iSuffix;
-        int[] digits;
-
-        public Tuple(int suffix, int[] digits) {
-            this.iSuffix = suffix;
-            this.digits = digits;
-        }
-
-        public String toString() {
-            StringBuffer sb = new StringBuffer();
-            sb.append(iSuffix);
-            sb.append(&quot;(&quot;);
-            for (int i = 0; i &lt; digits.length; i++) {
-                sb.append(digits[i]);
-                if (i &lt; digits.length - 1)
-                    sb.append(&quot;-&quot;);
-            }
-            sb.append(&quot;)&quot;);
-            return sb.toString();
-        }
-    }
-
-
-    private void countingSort(int d, Tuple[] tA, Tuple[] tB, int max) {
-        int[] C = new int[max + 1];
-        for (int i : C)
-            i = 0;
-
-        for (int j = 0; j &lt; tA.length; j++) {
-            C[tA[j].digits[d]]++;
-        }
-
-        for (int i = 1; i &lt;= max; i++)
-            C[i] += C[i - 1];
-
-        for (int j = tA.length - 1; j &gt;= 0; j--) {
-
-            tB[--C[tA[j].digits[d]]] = tA[j];
-
-        }
-    }
-
-    private void radixSort(Tuple[] tA, Tuple[] tB, int max, int digitsLen) {
-        int len = tA.length;
-        int digitsTotalLen = tA[0].digits.length;
-
-        for (int d = digitsTotalLen - 1, j = 0; j &lt; digitsLen; d--, j++) {
-            this.countingSort(d, tA, tB, max);
-            if (j &lt; digitsLen - 1) {
-                for (int i = 0; i &lt; len; i++) {
-                    tA[i] = tB[i];
-                }
-            }
-        }
-
-    }
-
-    private Suffix rank(Tuple[] tA, Tuple[] tB, int max, int digitsLen) {
-        int len = tA.length;
-        radixSort(tA, tB, max, digitsLen);
-
-        int digitsTotalLen = tA[0].digits.length;
-
-        int[] sa = new int[len];
-        sa[0] = tB[0].iSuffix;
-
-        int[] rank = new int[len];
-        int r = 1;
-        rank[tB[0].iSuffix] = r;
-        for (int i = 1; i &lt; len; i++) {
-            sa[i] = tB[i].iSuffix;
-
-            boolean equalLast = true;
-
-            for (int j = digitsTotalLen - digitsLen; j &lt; digitsTotalLen; j++) {
-                if (tB[i].digits[j] != tB[i - 1].digits[j]) {
-                    equalLast = false;
-                    break;
-                }
-            }
-
-            if (!equalLast) {
-                r++;
-            }
-            rank[tB[i].iSuffix] = r;
-        }
-
-        Suffix suffix = new Suffix();
-        suffix.rank = rank;
-        suffix.sa = sa;
-        if (r == len) {
-            suffix.done = true;
-        } else {
-            suffix.done = false;
-        }
-
-        return suffix;
-    }
-
-    public Suffix solve(String text) {
-        if (text == null)
-            return null;
-        int len = text.length();
-        if (len == 0)
-            return null;
-
-        int k = 1;
-        char base = text.charAt(len - 1);
-        Tuple[] tA = new Tuple[len];
-        Tuple[] tB = new Tuple[len];
-
-        for (int i = 0; i &lt; len; i++) {
-            tA[i] = new Tuple(i, new int[] { 0, text.charAt(i) - base });
-        }
-
-        Suffix suffix = rank(tA, tB, MAX_CHAR - base, 1);
-        while (!suffix.done) {
-            k &lt;&lt;= 1;
-            int offset = k &gt;&gt; 1;
-            for (int i = 0, j = i + offset; i &lt; len; i++, j++) {
-                tA[i].iSuffix = i;
-                tA[i].digits = new int[] { suffix.rank[i], (j &lt; len) ? suffix.rank[i + offset] : 0 };
-            }
-            int max = suffix.rank[suffix.sa[len - 1]];
-            suffix = rank(tA, tB, max, 2);
-        }
-        return suffix;
-    }
-
-    public void report(Suffix suffix) {
-        int[] sa = suffix.sa;
-        int[] rank = suffix.rank;
-        int len = sa.length;
-        System.out.println(&quot;suffix array:&quot;);
-        for (int i = 0; i &lt; len; i++)
-            System.out.format(&quot; %s&quot;, sa[i]);
-
-        System.out.println();
-        System.out.println(&quot;rank array:&quot;);
-        for (int i = 0; i &lt; len; i++)
-            System.out.format(&quot; %s&quot;, rank[i]);
-        System.out.println();
-    }
-
-    public static void main(String[] args) {
-        /*
-         * //plain counting sort test:
-         * 
-         * int[] A= {2,5,3,0,2,3,0,3}; PrefixDoubling pd = new PrefixDoubling();
-         * int[] B = new int[A.length]; pd.countingSort(A,B,5); for(int
-         * i=0;i&lt;B.length;i++) System.out.format(&quot; %d&quot;, B[i]);
-         * System.out.println();
-         */
-
-        String text = &quot;GACCCACCACC#&quot;;
-        PrefixDoubling pd = new PrefixDoubling();
-        Suffix suffix = pd.solve(text);
-        System.out.format(&quot;Text: %s%n&quot;, text);
-        pd.report(suffix);
-
-        System.out.println(&quot;********************************&quot;);
-        text = &quot;mississippi#&quot;;
-        pd = new PrefixDoubling();
-        suffix = pd.solve(text);
-        System.out.format(&quot;Text: %s%n&quot;, text);
-        pd.report(suffix);
-
-        System.out.println(&quot;********************************&quot;);
-        text = &quot;abcdefghijklmmnopqrstuvwxyz#&quot;;
-        pd = new PrefixDoubling();
-        suffix = pd.solve(text);
-        System.out.format(&quot;Text: %s%n&quot;, text);
-        pd.report(suffix);
-
-        System.out.println(&quot;********************************&quot;);
-        text = &quot;yabbadabbado#&quot;;
-        pd = new PrefixDoubling();
-        suffix = pd.solve(text);
-        System.out.format(&quot;Text: %s%n&quot;, text);
-        pd.report(suffix);
-
-        System.out.println(&quot;********************************&quot;);
-        text = &quot;DFDLKJLJldfasdlfjasdfkldjasfldafjdajfdsfjalkdsfaewefsdafdsfa#&quot;;
-        pd = new PrefixDoubling();
-        suffix = pd.solve(text);
-        System.out.format(&quot;Text: %s%n&quot;, text);
-        pd.report(suffix);
-
-    }
-
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/11/counting-sort/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/04/11/counting-sort/" itemprop="url">非比较排序之计数排序</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-11T00:00:00Z">
-                2017-04-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><a href="https://zh.wikipedia.org/wiki/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F" target="_blank" rel="external">计数排序wiki</a> <br></p>
-<ul>
-<li>计数排序是用来排序0到100之间的数字的最好的算法</li>
-<li>计数排序可以用在基数排序中的算法来排序数据范围很大的数组</li>
-<li>计数排序是一种算法复杂度 O(n) 的排序方法，适合于小范围集合的排序</li>
-<li>计数排序的优势是对已知数量范围的数组进行排序</li>
-<li>基于比较的排序算法是不能突破O(NlogN)</li>
-</ul>
-<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><ol>
-<li>找出待排序的数组中最大和最小的元素</li>
-<li>统计数组中每个值为i的元素出现的次数，存入数组 C 的第 i 项</li>
-<li>对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）</li>
-<li>反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1</li>
-</ol>
-<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>具体的分步动画演示详见：<a href="http://www.cs.usfca.edu/~galles/visualization/CountingSort.html" target="_blank" rel="external">Data Structure Visualizations</a></p>
-<p><br><br>对于数据2 5 3 0 2 3 0 3程序执行的过程如下图所示：</p>
-<p><img src="/images/counting_sort_1.png" alt="示例图"><br><br><img src="/images/counting_sort_2.png" alt="示例图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>package CountingSort;
-
-/**
- * 计数排序
- * 
- * @author sxx.xu
- *
- */
-public class CountingSort {
-
-    private static void countingSort(int[] array) {
-        int min = array[0], max = array[0];
-        for (int i : array) {
-            if (i &lt; min)
-                min = i;
-            if (i &gt; max)
-                max = i;
-        }
-
-        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
-        int[] countArray = new int[max + 1];// 此处使用max+1太粗暴，见countingSort2
-        int[] countResult = new int[array.length];
-
-        for (int i : array) {
-            countArray[i]++;
-        }
-
-        for (int i = 1; i &lt; countArray.length; i++) {
-            countArray[i] += countArray[i - 1];
-        }
-
-        for (int i = array.length - 1; i &gt;= 0; i--) {
-            int elem = array[i];
-            int index = countArray[elem] - 1;
-            countResult[index] = elem;
-            System.out.println(&quot;当前元素为：&quot; + elem + &quot;;在排序数组中的位置是：&quot; + index);
-            countArray[elem]--;
-        }
-
-        for (int i : countResult) {
-            System.out.println(i);
-        }
-
-        // 桶排序
-        // int[][] resultArray = new int[countArray.length][countArray.length];
-        // for (int i = 0; i &lt; countArray.length; i++) {
-        // for (int j = 0; j &lt; countArray[i]; j++) {
-        // resultArray[i][j] = i;
-        // }
-        // }
-        //
-        // for (int i = 0; i &lt; resultArray.length; i++) {
-        // for (int j = 0; j &lt; resultArray[i].length; j++) {
-        // if (resultArray[i][j] != 0)
-        // System.out.println(resultArray[i][j]);// 这里直接输出，属于桶排序
-        // }
-        // }
-    }
-
-    /**
-     * 优化后的，减少中间数组大小
-     * @param array
-     */
-    private static void countingSort2(int[] array) {
-
-        int min = array[0], max = array[0];
-        for (int i : array) {
-            if (i &lt; min)
-                min = i;
-            if (i &gt; max)
-                max = i;
-        }
-
-        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
-        int[] countArray = new int[max - min + 1];
-        int[] countResult = new int[array.length];
-
-        for (int i : array) {
-            countArray[i - min]++;
-        }
-
-        for (int i = 1; i &lt; countArray.length; i++) {
-            countArray[i] += countArray[i - 1];
-        }
-
-        for (int i = array.length - 1; i &gt;= 0; i--) {
-            int elem = array[i] - min;
-            int index = countArray[array[i] - min] - 1;
-            countResult[index] = array[i];
-            countArray[elem]--;
-        }
-
-        for (int i : countResult) {
-            System.out.println(i);
-        }
-    }
-
-    public static void main(String[] args) {
-        int[] array = { 8, 2, 3, 4, 3, 6, 6, 3, 9 };
-        int[] array2 = { 2, 8, 5, 1, 10, 5, 9, 9, 3, 5, 6, 6, 2, 8, 2 };
-        countingSort(array);
-        countingSort2(array);
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2648,7 +2339,7 @@ public class CountingSort {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-count">60</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2659,7 +2350,7 @@ public class CountingSort {
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2670,7 +2361,7 @@ public class CountingSort {
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
