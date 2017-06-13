@@ -267,6 +267,208 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/20/decrease-apk-size/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/20/decrease-apk-size/" itemprop="url">APK瘦身</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-20T00:00:00Z">
+                2017-02-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="在线检测"><a href="#在线检测" class="headerlink" title="在线检测"></a>在线检测</h4><blockquote>
+<p>在线分析APK：<a href="https://nimbledroid.com/" target="_blank" rel="external">NimbleDroid</a></p>
+</blockquote>
+<h5 id="实例分析-Summary"><a href="#实例分析-Summary" class="headerlink" title="实例分析-Summary"></a>实例分析-Summary</h5><pre><code>我们上传一个apk，看看这款App的分析结果。
+</code></pre><p><img src="/images/nimabledroid-1.png" alt="Summary"></p>
+<ul>
+<li>File Name 我们上传的App名字</li>
+<li>File Size 文件大小</li>
+<li>Method Count 方法总数</li>
+<li>Uploaded via Site 谁在什么时间上传 </li>
+</ul>
+<p><img src="/images/nimabledroid-2.png" alt="Summary"></p>
+<ul>
+<li>Scenario：Cold StartUp 冷启动场景下</li>
+<li>Slowdowns 速度减缓的地方</li>
+<li>Merm Leaks 内存泄漏的地方</li>
+<li>Time-Real Time 时间花费</li>
+<li>Memory-Max Use 内存占用</li>
+<li>Network-down 下载数据量</li>
+<li>Network-up 上传数据量</li>
+<li>Disk I/O-Read 从磁盘读取数据量</li>
+<li>Disk I/O-Write 写入磁盘的数据量</li>
+</ul>
+<h5 id="实例分析-File-Sizes"><a href="#实例分析-File-Sizes" class="headerlink" title="实例分析-File Sizes"></a>实例分析-File Sizes</h5><p><img src="/images/nimabledroid-3.png" alt="Summary"></p>
+<blockquote>
+<p>在此，我们看到100kb以上的文件。其中某些lib下的多余库，高清大图片是我们关注的重点。</p>
+</blockquote>
+<p><img src="/images/nimabledroid-4.png" alt="Summary"></p>
+<blockquote>
+<p>不同类型的文件所占体积大小。</p>
+</blockquote>
+<h5 id="实例分析-Method-Count"><a href="#实例分析-Method-Count" class="headerlink" title="实例分析-Method Count"></a>实例分析-Method Count</h5><p><img src="/images/nimabledroid-5.png" alt="Summary"></p>
+<blockquote>
+<p>各SDK方法数统计。</p>
+</blockquote>
+<h5 id="实例分析-具体Scenario分析"><a href="#实例分析-具体Scenario分析" class="headerlink" title="实例分析-具体Scenario分析"></a>实例分析-具体Scenario分析</h5><p>我们考察冷启动从欢迎页启动到主页这个场景。看到时间为<code>4.8s</code>,感觉有些长了。我们使用Android Monitor的日志，过滤<code>ActivityManager:Displayed</code>，看到欢迎页是<code>569ms</code>，主页是<code>613ms</code>。</p>
+<p><img src="/images/nimabledroid-6.png" alt="Summary"><br>如图：</p>
+<ul>
+<li>Speed - Hung CPU Methods 挂起CPU方法使UI落后，反应延迟。对用户来说是长于32ms。方法在该条目下因为此时正在使用CPU。</li>
+<li>Speed - Hung Wait Methods 挂起CPU方法使UI落后，反应延迟。对用户来说是长于32ms。方法在此条目下因为正在等待可用的资源，尽管没有使用CPU。</li>
+<li>Speed - Hot Methods 热方法即执行其调用的CPU时间长于100ms。</li>
+<li><p>Speed - Dependencies 有时应用中的依赖关系会影响性能。</p>
+</li>
+<li><p>BaseActivity、BaseFragment的初始化操作</p>
+</li>
+<li>PushAgent.onAppStart 推送服务启动</li>
+<li>ClassUtil.getGenericSuperclass fastjson的方法</li>
+<li>ViewPager.onMeasure 欢迎页的测量</li>
+<li>Jackson JSON Parser jackjson的解析</li>
+</ul>
+<p>我们选取一个方法点击进入详细，如图：</p>
+<p><img src="/images/nimabledroid-7.png" alt="Summary"></p>
+<p>在此我们可以看到，Umeng推送，百度定位，检查版本更新，检查热修复包版本，retrofitmanager初始化。</p>
+<p><img src="/images/nimabledroid-8.png" alt="Summary"></p>
+<blockquote>
+<p>看到这个对比图，还是老脸微红的。现在的SDK都要求在Application里初始化，搞的定位，推送，热修复，网络框架，图片框架都在这里了，皮，真的皮！</p>
+</blockquote>
+<h4 id="优化注意点"><a href="#优化注意点" class="headerlink" title="优化注意点"></a>优化注意点</h4><h5 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h5><ul>
+<li>清除未使用的资源，Android lint analyze &amp; shrinkResource</li>
+<li>大图片使用tinyPNG</li>
+<li>png转webp</li>
+<li><a href="https://github.com/shwenzhang/AndResGuard" target="_blank" rel="external">AndResGuard</a></li>
+</ul>
+<h5 id="第三方库"><a href="#第三方库" class="headerlink" title="第三方库"></a>第三方库</h5><ul>
+<li>清除不必须的第三方jar，尤其是Android support </li>
+</ul>
+<h5 id="冗余代码"><a href="#冗余代码" class="headerlink" title="冗余代码"></a>冗余代码</h5><ul>
+<li>inspect code</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/17/get-max-tree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1538,171 +1740,6 @@ Android进程与Linux进程一样。默认情况下，每个apk运行在自己�
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/different-between-ADT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/different-between-ADT/" itemprop="url">队列、堆栈与数组链表的关系</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="数据结构的概念"><a href="#数据结构的概念" class="headerlink" title="数据结构的概念"></a>数据结构的概念</h4><pre><code>指相互之间存在一种或多种特定关系的数据元素的集合。简单的理解就是：数据结构就是描述对象逻辑关系的学科。比如：队列就是一种先进先出的逻辑结构，栈是一种先进后出的逻辑结构，家谱是一种树形的逻辑结构。
-</code></pre><h4 id="数据存储结构的概念"><a href="#数据存储结构的概念" class="headerlink" title="数据存储结构的概念"></a>数据存储结构的概念</h4><pre><code>这是计算机的一个概念，即描述数据在计算机中存储方式的学科；常用的存储方式就两种：顺序存储、非顺序存储。顺序存储就是把数据存储在一块连续的存储介质(硬盘)上，数组就是典型的连续存储。
-非顺序存储就是各个数据不一定存在一个连续的位置上，只要每个数据知道它前面的数据和后面的数据，就能把所有的数据连续起来，链表就是典型的非顺序存储。
-</code></pre><h5 id="数组和链表"><a href="#数组和链表" class="headerlink" title="数组和链表"></a>数组和链表</h5><pre><code>数组属于顺序存储，通过直接访问数组下标即可得到元素的存储位置，所以访问时间都是相同。
-链表属于数据的链接存储，由于每个元素的位置保存在它的前驱或者后继中，所以只有访问到其前驱结点或后继结点后才能够按指针访问到自己，访问元素的时间与该元素结点在链接存储中的位置有关。
-</code></pre><table>
-<thead>
-<tr>
-<th>类型</th>
-<th style="text-align:center">内存空间</th>
-<th style="text-align:center">长度的可变性</th>
-<th style="text-align:center">对数据的访问</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>数组</td>
-<td style="text-align:center">连续的内存空间，相同多数据下占用较小内存</td>
-<td style="text-align:center">需要提前给定</td>
-<td style="text-align:center">移动数据麻烦，访问数据方便</td>
-</tr>
-<tr>
-<td>链表</td>
-<td style="text-align:center">可以连续，也可以不连续，占用较大内存，需要存放前驱和后继的空间</td>
-<td style="text-align:center">可以伸缩</td>
-<td style="text-align:center">移动数据方便，访问数据麻烦</td>
-</tr>
-</tbody>
-</table>
-<h5 id="堆栈和栈"><a href="#堆栈和栈" class="headerlink" title="堆栈和栈"></a>堆栈和栈</h5><pre><code>[堆栈](https://zh.wikipedia.org/wiki/%E5%A0%86%E6%A0%88)（英语：stack），也可直接称栈（港澳台作堆叠）
-</code></pre><h5 id="Java中的堆和栈"><a href="#Java中的堆和栈" class="headerlink" title="Java中的堆和栈"></a>Java中的堆和栈</h5><pre><code>1. 栈具有数据结构中栈的特点，所有存放在它里面的数据都是生命周期很明确，能够快速反应的，所以在Java中使用栈来存放8个基本数据类型和引用变量，用完就马上销毁。
-2. 堆可以理解它就是一个可大可小，任人分配的内存操作单元，因此它的特点就是动态分配内存，适合存放大的数据量，比如一个对象的所有信息，虽然它的引用指向栈中的某个引用变量；所以Java中堆是存放new出来的对象的。
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/two-stacks-makeup-queue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1882,7 +1919,7 @@ public class TwoStackQueue {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-2/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/different-between-ADT/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuSing">
@@ -1901,7 +1938,7 @@ public class TwoStackQueue {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-2/" itemprop="url">单例设计模式(二)真●单例唯一$序列化</a></h1>
+                <a class="post-title-link" href="/2017/02/11/different-between-ADT/" itemprop="url">队列、堆栈与数组链表的关系</a></h1>
         
 
         <div class="post-meta">
@@ -1972,120 +2009,38 @@ public class TwoStackQueue {
       
         
           
-            <h4 id="序列化对单例的破坏"><a href="#序列化对单例的破坏" class="headerlink" title="序列化对单例的破坏"></a>序列化对单例的破坏</h4><p>先看一个DCL单例：</p>
-<pre><code>import java.io.Serializable;
-
-/**
- * double check lock 实现单例
- */
-public class Singleton implements Serializable {
-    private Singleton() {
-    };
-
-    public static volatile Singleton singleton;
-
-    public static Singleton getInstance() {
-        if (singleton == null) {
-            synchronized (Singleton.class) {
-                if (singleton == null) {
-                    singleton = new Singleton();
-                }
-            }
-        }
-        return singleton;
-    }
-
-}
-</code></pre><p>然后看我们的测试代码：</p>
-<pre><code>import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
-public class SerializableDemo1 {
-    public static void main(String[] args) {
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(
-                    new FileOutputStream(&quot;tempFile&quot;));
-            oos.writeObject(Singleton.getInstance());
-            File file = new File(&quot;tempFile&quot;);
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
-                    file));
-            Singleton instance = (Singleton) ois.readObject();
-            System.out.println(&quot;反序列化后的对象和原来的是否相等？&quot;
-                    + (Singleton.getInstance() == instance));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}
-</code></pre><blockquote>
-<p>运行后： <figure class="highlight plain"><figcaption><span>```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&gt; 通过对Singleton的序列化与反序列化得到的对象是```一个新的对象```，这就破坏了Singleton的单例性。</div><div class="line"></div><div class="line"></div><div class="line">#### 序列化破坏单例の原因 ####</div><div class="line"></div><div class="line">反序列化后，为什么是一个新的对象？我们从```ObjectInputStream$readObject()```方法追踪,&lt;br/&gt;</div><div class="line">发现：``` Object obj = readObject0(false);```&lt;br/&gt;</div><div class="line">继续：</div><div class="line"></div><div class="line">	 case TC_OBJECT:</div><div class="line">	                    return checkResolve(readOrdinaryObject(unshared));</div><div class="line"></div><div class="line">探究： ```ObjectInputStream$readOrdinaryObject</div></pre></td></tr></table></figure></p>
-</blockquote>
-<p>该方法关键代码片段一：</p>
-<pre><code>Object obj;
-       try {
-           obj = desc.isInstantiable() ? desc.newInstance() : null;
-       } catch (Exception ex) {
-           throw (IOException) new InvalidClassException(
-               desc.forClass().getName(),
-               &quot;unable to create instance&quot;).initCause(ex);
-       }
-</code></pre><blockquote>
-<p>该obj,就是我们反序列化要得到的对象，即readObject()返回的对象。<br><br><code>isInstantiable</code>：如果一个Serializable/externalizable的类可以在运行时被实例化，那么该方法就返回true。<br><code>desc.newInstance()</code>：该方法通过反射的方式调用无参构造方法新建一个对象</p>
-</blockquote>
-<p>所以：</p>
-<blockquote>
-<p>反序列化会通过反射调用无参的构造创建一个新的对象</p>
-</blockquote>
-<p>该方法关键代码片段二：</p>
-<pre><code>if (obj != null &amp;&amp;
-           handles.lookupException(passHandle) == null &amp;&amp;
-           desc.hasReadResolveMethod())
-       {
-           Object rep = desc.invokeReadResolve(obj);
-           if (unshared &amp;&amp; rep.getClass().isArray()) {
-               rep = cloneArray(rep);
-           }
-           if (rep != obj) {
-               handles.setObject(passHandle, obj = rep);
-           }
-       }
-</code></pre><blockquote>
-<p><code>hasReadResolveMethod</code>： 如果实现了Serializable或者externalizable接口的类中包含readResolve,则返回true<br><br><code>invokeReadResolve</code>： 通过反射的方式调用要被反序列化的类的readResolve方法<br><br><code>if (rep != obj) {
-                    handles.setObject(passHandle, obj = rep);
-                }</code>：<br>如果readResolve得到的对象和desc.newInstance()调用无参构造得到的对象不同，那么使用readResolve方法中返回的Object。</p>
-</blockquote>
-<h4 id="结论一"><a href="#结论一" class="headerlink" title="结论一"></a>结论一</h4><pre><code>由上可得，我们在自己的单例中增加readResolve方法，返回当前单例的实例，即可防止反序列化得到对象不一致问题。如下：
-
-import java.io.Serializable;
-
-/**
- * double check lock 实现单例
- */
-public class Singleton implements Serializable {
-    private Singleton() {
-    };
-
-    public static volatile Singleton singleton;
-
-    public static Singleton getInstance() {
-        if (singleton == null) {
-            synchronized (Singleton.class) {
-                if (singleton == null) {
-                    singleton = new Singleton();
-                }
-            }
-        }
-        return singleton;
-    }
-
-    private Object readResolve() {
-        return singleton;
-    }
-
-}
+            <h4 id="数据结构的概念"><a href="#数据结构的概念" class="headerlink" title="数据结构的概念"></a>数据结构的概念</h4><pre><code>指相互之间存在一种或多种特定关系的数据元素的集合。简单的理解就是：数据结构就是描述对象逻辑关系的学科。比如：队列就是一种先进先出的逻辑结构，栈是一种先进后出的逻辑结构，家谱是一种树形的逻辑结构。
+</code></pre><h4 id="数据存储结构的概念"><a href="#数据存储结构的概念" class="headerlink" title="数据存储结构的概念"></a>数据存储结构的概念</h4><pre><code>这是计算机的一个概念，即描述数据在计算机中存储方式的学科；常用的存储方式就两种：顺序存储、非顺序存储。顺序存储就是把数据存储在一块连续的存储介质(硬盘)上，数组就是典型的连续存储。
+非顺序存储就是各个数据不一定存在一个连续的位置上，只要每个数据知道它前面的数据和后面的数据，就能把所有的数据连续起来，链表就是典型的非顺序存储。
+</code></pre><h5 id="数组和链表"><a href="#数组和链表" class="headerlink" title="数组和链表"></a>数组和链表</h5><pre><code>数组属于顺序存储，通过直接访问数组下标即可得到元素的存储位置，所以访问时间都是相同。
+链表属于数据的链接存储，由于每个元素的位置保存在它的前驱或者后继中，所以只有访问到其前驱结点或后继结点后才能够按指针访问到自己，访问元素的时间与该元素结点在链接存储中的位置有关。
+</code></pre><table>
+<thead>
+<tr>
+<th>类型</th>
+<th style="text-align:center">内存空间</th>
+<th style="text-align:center">长度的可变性</th>
+<th style="text-align:center">对数据的访问</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数组</td>
+<td style="text-align:center">连续的内存空间，相同多数据下占用较小内存</td>
+<td style="text-align:center">需要提前给定</td>
+<td style="text-align:center">移动数据麻烦，访问数据方便</td>
+</tr>
+<tr>
+<td>链表</td>
+<td style="text-align:center">可以连续，也可以不连续，占用较大内存，需要存放前驱和后继的空间</td>
+<td style="text-align:center">可以伸缩</td>
+<td style="text-align:center">移动数据方便，访问数据麻烦</td>
+</tr>
+</tbody>
+</table>
+<h5 id="堆栈和栈"><a href="#堆栈和栈" class="headerlink" title="堆栈和栈"></a>堆栈和栈</h5><pre><code>[堆栈](https://zh.wikipedia.org/wiki/%E5%A0%86%E6%A0%88)（英语：stack），也可直接称栈（港澳台作堆叠）
+</code></pre><h5 id="Java中的堆和栈"><a href="#Java中的堆和栈" class="headerlink" title="Java中的堆和栈"></a>Java中的堆和栈</h5><pre><code>1. 栈具有数据结构中栈的特点，所有存放在它里面的数据都是生命周期很明确，能够快速反应的，所以在Java中使用栈来存放8个基本数据类型和引用变量，用完就马上销毁。
+2. 堆可以理解它就是一个可大可小，任人分配的内存操作单元，因此它的特点就是动态分配内存，适合存放大的数据量，比如一个对象的所有信息，虽然它的引用指向栈中的某个引用变量；所以Java中堆是存放new出来的对象的。
 </code></pre>
           
         
@@ -2129,7 +2084,7 @@ public class Singleton implements Serializable {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/reverse-stack/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuSing">
@@ -2148,7 +2103,7 @@ public class Singleton implements Serializable {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/11/reverse-stack/" itemprop="url">如何仅用递归函数和栈操作逆序一个栈</a></h1>
+                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-3/" itemprop="url">单例设计模式(三)真●单例唯一$反射</a></h1>
         
 
         <div class="post-meta">
@@ -2219,37 +2174,66 @@ public class Singleton implements Serializable {
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>一个栈中一次压入1，2，3，那么从栈顶到栈底依次为3，2，1.将这个栈逆序，从栈顶到栈底依次为1，2，3.但是只能用递归函数来实现，不能用其他数据结构。
-</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>需要设计两个递归函数。
-1，将stack的栈底元素返回并移除；
-2，将stack逆序；
-</code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>import java.util.Stack;
+            <h4 id="反射对单例的破坏"><a href="#反射对单例的破坏" class="headerlink" title="反射对单例的破坏"></a>反射对单例的破坏</h4><p>先看一个DCL单例：</p>
+<pre><code>import java.io.Serializable;
 
-public class ReverseStack {
+/**
+ * double check lock 实现单例
+ */
+public class Singleton implements Serializable {
+    private Singleton() {
+    };
 
-private static int getAndRemoveLastElement(Stack&lt;Integer&gt; stack) {
-    int result = stack.pop();
-    if (stack.empty()) {
-        return result;
-    } else {
-        int last = getAndRemoveLastElement(stack);
-        stack.push(result);//此处将除栈底外的元素重新压入
-        return last;
+    public static volatile Singleton singleton;
+
+    public static Singleton getInstance() {
+        if (singleton == null) {
+            synchronized (Singleton.class) {
+                if (singleton == null) {
+                    singleton = new Singleton();
+                }
+            }
+        }
+        return singleton;
+    }
+
+}
+</code></pre><p>然后看我们的测试代码：</p>
+<pre><code>import java.lang.reflect.Constructor;
+
+public class ReflectAttackSingleton {
+
+    public static void main(String[] args) {
+        try {
+            Class&lt;?&gt; classType = Singleton.class;
+            Constructor&lt;?&gt; c;
+            c = classType.getDeclaredConstructor(null);
+            c.setAccessible(true);
+            Singleton instance1 = (Singleton) c.newInstance();
+            Singleton instance2 = Singleton.getInstance();
+            System.out.println(&quot;反射得到的实例与单例中的实例是否相等？&quot; +(instance1 == instance2));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 }
-
-public static void reverse(Stack&lt;Integer&gt; stack) {
-    if (stack.empty()) {
-        return;
-    } else {
-        int i = getAndRemoveLastElement(stack);
-        reverse(stack);
-        stack.push(i);
+</code></pre><blockquote>
+<p>运行后： <code>反射得到的实例与单例中的实例是否相等？false</code></p>
+<p>通过反射获取构造函数，然后调用即可获取新的单例的实例，这就破坏了Singleton的单例性。</p>
+</blockquote>
+<h4 id="修改构造器抵御攻击"><a href="#修改构造器抵御攻击" class="headerlink" title="修改构造器抵御攻击"></a>修改构造器抵御攻击</h4><pre><code>private static boolean flag = false;
+private Singleton() {
+    synchronized (Singleton.class) {
+        if(flag == false)
+            flag = !flag;
+        else
+            throw new RuntimeException(&quot;单例模式被攻击！&quot;);
     }
-}
-</code></pre><p>}</p>
-
+};
+</code></pre><h4 id="终极方法"><a href="#终极方法" class="headerlink" title="终极方法"></a>终极方法</h4><pre><code>使用枚举单例
+</code></pre>
           
         
       
@@ -2332,7 +2316,7 @@ public static void reverse(Stack&lt;Integer&gt; stack) {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-count">58</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2354,7 +2338,7 @@ public static void reverse(Stack&lt;Integer&gt; stack) {
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
