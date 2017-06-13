@@ -102,7 +102,7 @@
 <meta property="og:description" content="定义建立一种对象与对象之间的依赖关系，一个对象发生改变时将自动通知其他对象，其他对象将相应做出反应。在此，发生改变的对象称为观察目标，而被通知的对象称为观察者。一个观察目标可以对应多个观察者，而且这些观察者之间没有相互联系，可以根据需要增加和删除观察者，使得系统更易于扩展。 观察者模式(Observer Pattern)：定义对象间的一种一对多的依赖关系，使得每当一个对象状态发生改变时，其相关依赖">
 <meta property="og:image" content="http://yoursite.com/images/observer_pattern_class_diagram.png">
 <meta property="og:image" content="http://yoursite.com/images/observer_pattern_sequence_diagram.png">
-<meta property="og:updated_time" content="2017-06-13T01:06:17.174Z">
+<meta property="og:updated_time" content="2017-06-13T01:54:39.316Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="观察者设计模式">
 <meta name="twitter:description" content="定义建立一种对象与对象之间的依赖关系，一个对象发生改变时将自动通知其他对象，其他对象将相应做出反应。在此，发生改变的对象称为观察目标，而被通知的对象称为观察者。一个观察目标可以对应多个观察者，而且这些观察者之间没有相互联系，可以根据需要增加和删除观察者，使得系统更易于扩展。 观察者模式(Observer Pattern)：定义对象间的一种一对多的依赖关系，使得每当一个对象状态发生改变时，其相关依赖">
@@ -366,7 +366,20 @@
 </ul>
 <p><img src="/images/observer_pattern_class_diagram.png" alt="类图"></p>
 <h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/observer_pattern_sequence_diagram.png" alt="时序图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/ObserverPattern" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
+<li>可以实现表示层和数据逻辑层分离，并定义了稳定的消息更新传递机制</li>
+<li>观察者和目标之间是一个抽象的耦合</li>
+<li>支持广播通信</li>
+<li>符合开闭原则</li>
+</ul>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
+<li>如果目标有许多观察者，通知所有观察者会花费许多时间</li>
+<li>如果观察者和目标之间有循环依赖的话，目标会触发他们之间的循环调用</li>
+<li>观察者无法知道目标是如何发生变化的，只是知道目标发生了变化</li>
+</ul>
+<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><p>MVC模式可以用观察者模式来实现，其中观察目标就是Model，观察者就是View，中介者就是Controller。当Model数据发生改变，View将自动改变其显示内容。</p>
+
       
     </div>
 
@@ -566,7 +579,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式结构"><span class="nav-number">2.</span> <span class="nav-text">模式结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#时序图"><span class="nav-number">3.</span> <span class="nav-text">时序图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">4.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析"><span class="nav-number">5.</span> <span class="nav-text">分析</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式结构"><span class="nav-number">2.</span> <span class="nav-text">模式结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#时序图"><span class="nav-number">3.</span> <span class="nav-text">时序图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">4.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析"><span class="nav-number">5.</span> <span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#优点"><span class="nav-number">5.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点"><span class="nav-number">5.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#扩展"><span class="nav-number">6.</span> <span class="nav-text">扩展</span></a></li></ol></div>
             
 
           </div>
