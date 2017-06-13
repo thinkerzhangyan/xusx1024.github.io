@@ -1,6 +1,6 @@
 ---
 title: HttpRequest学习笔记
-date: 2017-6-12 20:13:51
+date: 2017-06-12 20:13:51 
 tags: javaEE
 categories: work
 ---
@@ -11,7 +11,7 @@ categories: work
 
 通常是由于标签位置，标签DTD的校验规则所影响的。
 
-删除“http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd”即不采用该校验规则 
+删除 `http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd` 即不采用该校验规则 
  
 
 #### request 重要方法 ####
