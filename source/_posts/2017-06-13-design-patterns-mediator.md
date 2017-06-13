@@ -23,7 +23,7 @@ categories: work
 ![时序图](/images/mediator_pattern_sequence_diagram.png)
 
 #### 代码 ####
-[GitHub](https://github.com/xusx1024/DesignPatternDemoCode/tree/master/ObserverPattern)
+[GitHub](https://github.com/xusx1024/DesignPatternDemoCode/tree/master/MediatorPattern)
 #### 分析 ####
 ##### 优点 #####
 - 可以使对象的关系数量急剧减少，简化了对象之间的交互
