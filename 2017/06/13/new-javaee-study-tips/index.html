@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="android," />
+  <meta name="keywords" content="javaEE," />
 
 
 
@@ -93,19 +93,17 @@
 
 
 
-<meta name="description" content="需求 看时序图比较简单，进程间通信，把APPID传过去，把授权码带回来本来懒得费事，一个startActivityForResult即可结束战斗后来发现，我的SDK里没有UI，也就没有处理onActivityResult的地方了，我想过开启一个no ui的Activity，后来还是不要这么简单粗暴了。 Messenger的使用此处不是我想略，网上教程很多，看个比较完善简单的：Android 基于M">
-<meta name="keywords" content="android">
+<meta name="description" content="cvc-complex-type.2.4.a: Invalid content was found starting with element ‘display-name’web.xml在自动生成servlet的时候出现的提示。 通常是由于标签位置，标签DTD的校验规则所影响的。 删除“http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd”即不采用该">
+<meta name="keywords" content="javaEE">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Messenger进行进程间通信注意事项">
-<meta property="og:url" content="http://yoursite.com/2017/06/08/android-ipc-messenger-tips - 副本/index.html">
+<meta property="og:title" content="HttpRequest学习笔记">
+<meta property="og:url" content="http://yoursite.com/2017/06/13/new-javaee-study-tips/index.html">
 <meta property="og:site_name" content="行次">
-<meta property="og:description" content="需求 看时序图比较简单，进程间通信，把APPID传过去，把授权码带回来本来懒得费事，一个startActivityForResult即可结束战斗后来发现，我的SDK里没有UI，也就没有处理onActivityResult的地方了，我想过开启一个no ui的Activity，后来还是不要这么简单粗暴了。 Messenger的使用此处不是我想略，网上教程很多，看个比较完善简单的：Android 基于M">
-<meta property="og:image" content="http://yoursite.com/images/auth_sequence_diagram.png">
-<meta property="og:updated_time" content="2017-06-08T08:53:34.054Z">
+<meta property="og:description" content="cvc-complex-type.2.4.a: Invalid content was found starting with element ‘display-name’web.xml在自动生成servlet的时候出现的提示。 通常是由于标签位置，标签DTD的校验规则所影响的。 删除“http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd”即不采用该">
+<meta property="og:updated_time" content="2017-06-13T00:57:38.906Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Messenger进行进程间通信注意事项">
-<meta name="twitter:description" content="需求 看时序图比较简单，进程间通信，把APPID传过去，把授权码带回来本来懒得费事，一个startActivityForResult即可结束战斗后来发现，我的SDK里没有UI，也就没有处理onActivityResult的地方了，我想过开启一个no ui的Activity，后来还是不要这么简单粗暴了。 Messenger的使用此处不是我想略，网上教程很多，看个比较完善简单的：Android 基于M">
-<meta name="twitter:image" content="http://yoursite.com/images/auth_sequence_diagram.png">
+<meta name="twitter:title" content="HttpRequest学习笔记">
+<meta name="twitter:description" content="cvc-complex-type.2.4.a: Invalid content was found starting with element ‘display-name’web.xml在自动生成servlet的时候出现的提示。 通常是由于标签位置，标签DTD的校验规则所影响的。 删除“http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd”即不采用该">
 
 
 
@@ -133,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/08/android-ipc-messenger-tips - 副本/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/13/new-javaee-study-tips/"/>
 
 
 
 
 
-  <title>使用Messenger进行进程间通信注意事项 | 行次</title>
+  <title>HttpRequest学习笔记 | 行次</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -269,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/08/android-ipc-messenger-tips - 副本/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/new-javaee-study-tips/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuSing">
@@ -286,7 +284,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">使用Messenger进行进程间通信注意事项</h1>
+          <h1 class="post-title" itemprop="name headline">HttpRequest学习笔记</h1>
         
 
         <div class="post-meta">
@@ -298,8 +296,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-08T23:49:35+08:00">
-                2017-06-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-12T20:13:51Z">
+                2017-06-12
               </time>
             
 
@@ -355,55 +353,34 @@
       
 
       
-        <h4 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h4><p><img src="/images/auth_sequence_diagram.png" alt="需求示意图"></p>
-<p>看时序图比较简单，进程间通信，把APPID传过去，把授权码带回来<br>本来懒得费事，一个<code>startActivityForResult</code>即可结束战斗<br>后来发现，我的SDK里没有UI，也就没有处理<code>onActivityResult</code>的地方了，我想过开启一个no ui的Activity，后来还是不要这么简单粗暴了。</p>
-<h4 id="Messenger的使用"><a href="#Messenger的使用" class="headerlink" title="Messenger的使用"></a>Messenger的使用</h4><p>此处不是我想略，网上教程很多，看个比较完善简单的：<a href="http://blog.csdn.net/lmj623565791/article/details/47017485" target="_blank" rel="external">Android 基于Message的进程间通信 Messenger完全解析</a><br>代码有些地方不适合新的Android版本，但是也够用了。</p>
-<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><h5 id="需求问题解决"><a href="#需求问题解决" class="headerlink" title="需求问题解决"></a>需求问题解决</h5><p>SDK发送至目标app的一个远程服务，该服务启动授权activity，获取code后，也绑定式启动该服务，找到SDK的信使，把code回传。<br>其中，通信双方其实是SDK和授权页，远程服务在授权app中，起到一个中间桥梁的作用。<br>kotlin代码如下：</p>
-<pre><code>var remoteMsg: Messenger? = null//全局变量，用于保存SDK端的信使，等待授权页的结果回来后，使用其发送msg
-private val mMessenger = Messenger(object : Handler() {
-    override fun handleMessage(msgfromClient: Message) {
-        val msgToClient = Message.obtain(msgfromClient)//返回给客户端的消息
-        try {
-            when (msgfromClient.what) {
-                REMOTE_CLIENT -&gt; {//远程访问-SDK
-                    remoteMsg = msgfromClient.replyTo
-                    var intent: Intent = Intent()
-                    val bundle: Bundle = msgfromClient.obj as Bundle
-                    val appID: String = bundle.get(&quot;APPID&quot;) as String
-
-                    //开启授权页Activity
-                    intent.setClass(this@AuthMessengerService, AuthActivity::class.java)
-                    intent.putExtra(&quot;appID&quot;, appID)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                }
-                LOCAL_CLIENT -&gt; {//本地访问-授权页
-                    val bundle: Bundle = msgfromClient.obj as Bundle
-                    msgToClient.obj = bundle//拿到授权页信使带来的code
-                    remoteMsg!!.send(msgToClient)//使用SDK端的信使发送，即发送给SDK端
-                }
-            }
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        } catch (e: RemoteException) {
-            e.printStackTrace()
-        }
-
-        super.handleMessage(msgfromClient)
-    }
-})
-</code></pre><p>根据代码，可以看到SDK和service是双向通信，授权页和service是单向通信。因此授权页通信完成后立刻unbind即可。</p>
-<h5 id="单向双向"><a href="#单向双向" class="headerlink" title="单向双向"></a>单向双向</h5><pre><code>msgFromLocalClient.replyTo = mMessenger//单向通信,不需要回传信使
-</code></pre><p>这句话决定了是否需要信使带回结果，如果需要，在mMessenger 里处理。在示例blog中类似代码可以参考。</p>
-<h5 id="多向通信"><a href="#多向通信" class="headerlink" title="多向通信"></a>多向通信</h5><p>在这个里<a href="https://developer.android.com/reference/android/app/Service.html#RemoteMessengerServiceSample" target="_blank" rel="external">Remote Messenger Service Sample</a>可以看到多个客户端互相通信的官方示例。<br>官方示例应该只适应于多对一，如果多对多的话，自个儿实现AIDL比较靠谱。</p>
-<h5 id="隐式启动service"><a href="#隐式启动service" class="headerlink" title="隐式启动service"></a>隐式启动service</h5><p> 5.0之后需要：</p>
-<pre><code>Intent intent = new Intent();
-intent.setAction(action);
-intent.setPackage(pkgName);
-context.bindService(intent, mConn, Context.BIND_AUTO_CREATE);
-</code></pre><h5 id="魅族手机无法启动"><a href="#魅族手机无法启动" class="headerlink" title="魅族手机无法启动"></a>魅族手机无法启动</h5><p>设置app权限，允许后台运行即可。话说这手机牌子坑爹。</p>
-<h5 id="Can’t-marshal-non-Parcelable-objects-across-processes"><a href="#Can’t-marshal-non-Parcelable-objects-across-processes" class="headerlink" title="Can’t marshal non-Parcelable objects across processes"></a>Can’t marshal non-Parcelable objects across processes</h5><p>msg里没几个参数，如果要传的东西多，就放入Bundle里面，然后赋值给msg.obj。或者你的自定义对象是Parcelable的也可以直接放入msg.obj。</p>
-<h5 id="MainActivity-has-leaked-ServiceConnection"><a href="#MainActivity-has-leaked-ServiceConnection" class="headerlink" title="MainActivity has leaked ServiceConnection"></a>MainActivity has leaked ServiceConnection</h5><p>页面关闭时，记得unbind</p>
+        <h4 id="cvc-complex-type-2-4-a-Invalid-content-was-found-starting-with-element-‘display-name’"><a href="#cvc-complex-type-2-4-a-Invalid-content-was-found-starting-with-element-‘display-name’" class="headerlink" title="cvc-complex-type.2.4.a: Invalid content was found starting with element ‘display-name’"></a>cvc-complex-type.2.4.a: Invalid content was found starting with element ‘display-name’</h4><p><code>web.xml</code>在自动生成servlet的时候出现的提示。</p>
+<p>通常是由于标签位置，标签DTD的校验规则所影响的。</p>
+<p>删除“<a href="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd”即不采用该校验规则" target="_blank" rel="external">http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd”即不采用该校验规则</a> </p>
+<h4 id="request-重要方法"><a href="#request-重要方法" class="headerlink" title="request 重要方法"></a>request 重要方法</h4><ul>
+<li>获取IP</li>
+<li>获取请求方法</li>
+<li>获取请求参数</li>
+<li>获取浏览器类型</li>
+<li>获取协议</li>
+<li>获取服务器名</li>
+<li>获取服务器端口</li>
+<li>获取项目名</li>
+<li>获取servlet路径</li>
+<li>获取GET参数</li>
+<li>获取URI</li>
+<li>获取URL</li>
+</ul>
+<h4 id="使用referer完成防盗链"><a href="#使用referer完成防盗链" class="headerlink" title="使用referer完成防盗链"></a>使用referer完成防盗链</h4><ul>
+<li>在浏览器地址栏直接输入ip，referer为空</li>
+<li>从百度输入ip，referer为百度</li>
+</ul>
+<h4 id="获取request参数"><a href="#获取request参数" class="headerlink" title="获取request参数"></a>获取request参数</h4><ul>
+<li>获取get参数</li>
+<li>获取post参数</li>
+<li>获取单值</li>
+<li>获取多值</li>
+<li>获取map</li>
+</ul>
 
       
     </div>
@@ -433,7 +410,7 @@ context.bindService(intent, mConn, Context.BIND_AUTO_CREATE);
       
         <div class="post-tags">
           
-            <a href="/tags/android/" rel="tag"># android</a>
+            <a href="/tags/javaEE/" rel="tag"># javaEE</a>
           
         </div>
       
@@ -446,8 +423,8 @@ context.bindService(intent, mConn, Context.BIND_AUTO_CREATE);
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/02/design-patterns-interpreter/" rel="next" title="解释器模式">
-                <i class="fa fa-chevron-left"></i> 解释器模式
+              <a href="/2017/06/09/design-patterns-observer/" rel="next" title="观察者设计模式">
+                <i class="fa fa-chevron-left"></i> 观察者设计模式
               </a>
             
           </div>
@@ -455,10 +432,6 @@ context.bindService(intent, mConn, Context.BIND_AUTO_CREATE);
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/06/09/design-patterns-observer/" rel="prev" title="观察者设计模式">
-                观察者设计模式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -530,7 +503,7 @@ context.bindService(intent, mConn, Context.BIND_AUTO_CREATE);
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-count">58</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -552,7 +525,7 @@ context.bindService(intent, mConn, Context.BIND_AUTO_CREATE);
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -604,7 +577,7 @@ context.bindService(intent, mConn, Context.BIND_AUTO_CREATE);
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#需求"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Messenger的使用"><span class="nav-number">2.</span> <span class="nav-text">Messenger的使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意事项"><span class="nav-number">3.</span> <span class="nav-text">注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#需求问题解决"><span class="nav-number">3.1.</span> <span class="nav-text">需求问题解决</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#单向双向"><span class="nav-number">3.2.</span> <span class="nav-text">单向双向</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#多向通信"><span class="nav-number">3.3.</span> <span class="nav-text">多向通信</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#隐式启动service"><span class="nav-number">3.4.</span> <span class="nav-text">隐式启动service</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#魅族手机无法启动"><span class="nav-number">3.5.</span> <span class="nav-text">魅族手机无法启动</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Can’t-marshal-non-Parcelable-objects-across-processes"><span class="nav-number">3.6.</span> <span class="nav-text">Can’t marshal non-Parcelable objects across processes</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MainActivity-has-leaked-ServiceConnection"><span class="nav-number">3.7.</span> <span class="nav-text">MainActivity has leaked ServiceConnection</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#cvc-complex-type-2-4-a-Invalid-content-was-found-starting-with-element-‘display-name’"><span class="nav-number">1.</span> <span class="nav-text">cvc-complex-type.2.4.a: Invalid content was found starting with element ‘display-name’</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#request-重要方法"><span class="nav-number">2.</span> <span class="nav-text">request 重要方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用referer完成防盗链"><span class="nav-number">3.</span> <span class="nav-text">使用referer完成防盗链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取request参数"><span class="nav-number">4.</span> <span class="nav-text">获取request参数</span></a></li></ol></div>
             
 
           </div>
