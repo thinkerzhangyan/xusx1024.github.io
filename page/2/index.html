@@ -267,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/25/design-patterns-abstract-factory/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/26/design-patterns-state-pattern/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuSing">
@@ -286,7 +286,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/05/25/design-patterns-abstract-factory/" itemprop="url">抽象工厂模式</a></h1>
+                <a class="post-title-link" href="/2017/05/26/design-patterns-state-pattern/" itemprop="url">状态模式</a></h1>
         
 
         <div class="post-meta">
@@ -298,8 +298,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-25T00:00:00Z">
-                2017-05-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-26T00:00:00Z">
+                2017-05-26
               </time>
             
 
@@ -357,31 +357,25 @@
       
         
           
-            <h4 id="引入概念"><a href="#引入概念" class="headerlink" title="引入概念"></a>引入概念</h4><ul>
-<li><strong>产品等级结构：</strong>产品等级结构即产品的继承结构，如一个抽象类是电视机，其子类有海尔电视机、海信电视机、TCL电视机，则抽象电视机与具体品牌的电视机之间构成了一个产品等级结构，抽象电视机是父类，而具体品牌的电视机是其子类。</li>
-<li><strong>产品族：</strong> 在抽象工厂模式中，产品族是指由同一个工厂生产的，位于不同产品等级结构中的一组产品，如海尔电器工厂生产的海尔电视机、海尔电冰箱、海尔电视机。</li>
-</ul>
-<p><img src="/images/abstract_factory_product_level.png" alt="示例图"></p>
-<h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><p> 抽象工厂模式(Abstract Factory Pattern)：提供一个创建一系列相关或相互依赖对象的接口，而无须指定它们具体的类。抽象工厂模式又称为kit模式，属于对象创建型模式。</p>
+            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><p>状态模式是对象行为型模式<br></p>
+<p>看完状态模式的模式的类图和时序图，真的，和策略模式一毛一样。但是他们的思想是不同的。策略模式的具体实现类是可以根据选择的策略不同来相互替换的，状态模式是根据当前对象的不同而执行对应的状态实现。策略模式的选择权在于调用者，而状态模式的选择权更多在于用户使用软件操作后的结果。这是我自己的理解。<br></p>
+<p>状态模式(State Pattern)：允许一个对象在其内部状态改变时改变它的行为，对象看起来似乎修改了它的类。其别名为状态对象(Object for State).</p>
 <h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
-<li>Factory：抽象工厂</li>
-<li>ConcreteFactory：具体工厂</li>
-<li>Product：抽象产品</li>
-<li>ConcreteProduct：具体产品</li>
+<li>Context:环境类</li>
+<li>State：抽象状态类</li>
+<li>ConcreteState：具体状态类</li>
 </ul>
-<p><img src="/images/abstract_factory_class_diagram.png" alt="类图"></p>
-<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/abstract_factory_sequence_diagram.png" alt="时序图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p> <a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/AbstractFactory" target="_blank" rel="external">GitHub</a></p>
+<p><img src="/images/state_pattern_class_diagram.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/state_pattern_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p> <a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/StatePattern" target="_blank" rel="external">GitHub</a></p>
+<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><ul>
+<li>对象的行为依赖于它的状态(属性)并且可以根据它的状态改变而改变它的相关行为</li>
+<li>代码中包含大量与对象状态有关的条件语句，这些条件语句的出现，会导致代码的可维护性和灵活性变差，不能方便地增加和删除状态，是客户类与类库之间的耦合性增强。在这些条件语句中包含了对象的行为，而且这些条件对应于对象的各种状态。</li>
+</ul>
 <h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><ul>
-<li>抽象工厂定义了产品的所有行为，因此增加产品族很方便，增加产品等级类别需要改动抽象工厂(开闭原则的倾斜性)</li>
-<li>当一个产品族中的多个对象被设计成一起工作时，它能保证客户端始终只使用同一个产品族中的对象。这对一些需要根据当前环境来决定其行为的软件系统来说，是一种非常实用的设计模式</li>
-<li></li>
+<li>在有些情况下多个环境对象需要共享同一个状态，如果希望在系统中实现多个环境对象实例共享一个或多个状态对象，那么需要将这些状态对象定义为环境的静态成员对象</li>
+<li>简单状态模式和可切换状态的状态模式</li>
 </ul>
-<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
-<li>适用于产品确定，但是产品线不确定的场景，比如要生产汽车，但是汽车的配置不确定</li>
-<li>比如app换肤，整体的颜色，字体，背景，按钮，文本框。。。</li>
-</ul>
-<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><p>当抽象工厂模式中每一个具体工厂类只创建一个产品对象，也就是只存在一个产品等级结构时，抽象工厂模式退化成工厂方法模式；当工厂方法模式中抽象工厂与具体工厂合并，提供一个统一的工厂来创建产品对象，并将创建对象的工厂方法设计为静态方法时，工厂方法模式退化成简单工厂模式。</p>
 
           
         
@@ -537,6 +531,164 @@
 </li>
 <li>需要维护许多策略类</li>
 </ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/25/design-patterns-abstract-factory/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/05/25/design-patterns-abstract-factory/" itemprop="url">抽象工厂模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-25T00:00:00Z">
+                2017-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="引入概念"><a href="#引入概念" class="headerlink" title="引入概念"></a>引入概念</h4><ul>
+<li><strong>产品等级结构：</strong>产品等级结构即产品的继承结构，如一个抽象类是电视机，其子类有海尔电视机、海信电视机、TCL电视机，则抽象电视机与具体品牌的电视机之间构成了一个产品等级结构，抽象电视机是父类，而具体品牌的电视机是其子类。</li>
+<li><strong>产品族：</strong> 在抽象工厂模式中，产品族是指由同一个工厂生产的，位于不同产品等级结构中的一组产品，如海尔电器工厂生产的海尔电视机、海尔电冰箱、海尔电视机。</li>
+</ul>
+<p><img src="/images/abstract_factory_product_level.png" alt="示例图"></p>
+<h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><p> 抽象工厂模式(Abstract Factory Pattern)：提供一个创建一系列相关或相互依赖对象的接口，而无须指定它们具体的类。抽象工厂模式又称为kit模式，属于对象创建型模式。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li>Factory：抽象工厂</li>
+<li>ConcreteFactory：具体工厂</li>
+<li>Product：抽象产品</li>
+<li>ConcreteProduct：具体产品</li>
+</ul>
+<p><img src="/images/abstract_factory_class_diagram.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/abstract_factory_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p> <a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/AbstractFactory" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><ul>
+<li>抽象工厂定义了产品的所有行为，因此增加产品族很方便，增加产品等级类别需要改动抽象工厂(开闭原则的倾斜性)</li>
+<li>当一个产品族中的多个对象被设计成一起工作时，它能保证客户端始终只使用同一个产品族中的对象。这对一些需要根据当前环境来决定其行为的软件系统来说，是一种非常实用的设计模式</li>
+<li></li>
+</ul>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li>适用于产品确定，但是产品线不确定的场景，比如要生产汽车，但是汽车的配置不确定</li>
+<li>比如app换肤，整体的颜色，字体，背景，按钮，文本框。。。</li>
+</ul>
+<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><p>当抽象工厂模式中每一个具体工厂类只创建一个产品对象，也就是只存在一个产品等级结构时，抽象工厂模式退化成工厂方法模式；当工厂方法模式中抽象工厂与具体工厂合并，提供一个统一的工厂来创建产品对象，并将创建对象的工厂方法设计为静态方法时，工厂方法模式退化成简单工厂模式。</p>
 
           
         
@@ -1794,507 +1946,11 @@ protected void onServiceConnected() {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/13/suffix-sort-baseon-dc3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/04/13/suffix-sort-baseon-dc3/" itemprop="url">基于DC3算法实现后缀数组</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-13T00:00:00Z">
-                2017-04-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p> DC3算法(Difference Cover mod 3)是J. Kärkkäinen和P. Sanders在2003年发表的论文 “Simple Linear Work Suffix Array Construction”中描述的线性时间内构造后缀数组的算法。相对Prefix Doubling（前缀倍增）算法而言，虽然它的渐进时间复杂度比较小，但是常数项比较大。DC3算法的思想类似于找中位数的median of medians算法</p>
-<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><ol>
-<li>先将后缀分成两部分，然后对第一部分的后缀排序;</li>
-<li>利用1的结果，对第二部分的后缀排序;</li>
-<li>将1和2的结果合并，即完成对所有后缀排序;</li>
-</ol>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>package DC3;
-
-/**
- * DC3算法构建后缀数组
- * 
- * @author sxx.xu
- *
- */
-public class DC3 {
-
-    public static final char MAX_CHAR = &apos;\u00FF&apos;;
-
-    class Suffix {
-        int[] sa;
-        int[] rank;
-        boolean done;
-
-        public Suffix(int[] sa, int[] rank) {
-            this.sa = sa;
-            this.rank = rank;
-        }
-    }
-
-    class Tuple {
-        int iSuffix;
-        int[] digits;
-
-        public Tuple(int iSuffix, int[] digits) {
-            this.iSuffix = iSuffix;
-            this.digits = digits;
-        }
-
-        public String toString() {
-            StringBuffer sb = new StringBuffer();
-            sb.append(iSuffix);
-            sb.append(&quot;(&quot;);
-            for (int i = 0; i &lt; digits.length; i++) {
-                sb.append(digits[i]);
-                if (i &lt; digits.length - 1)
-                    sb.append(&quot;-&quot;);
-            }
-            sb.append(&quot;)&quot;);
-            return sb.toString();
-        }
-    }
-
-    private void countingSort(int d, Tuple[] tA, Tuple[] tB, int max) {
-
-        int[] C = new int[max + 1];
-        for (int i = 0; i &lt;= max; i++) {
-            C[i] = 0;
-        }
-
-        for (int i = 0; i &lt; tA.length; i++) {
-            C[tA[i].digits[d]]++;
-        }
-
-        for (int i = 1; i &lt;= max; i++) {
-            C[i] += C[i - 1];
-        }
-
-        for (int i = tA.length - 1; i &gt;= 0; i--) {
-            tB[--C[tA[i].digits[d]]] = tA[i];
-        }
-    }
-
-    private void radixSort(Tuple[] tA, Tuple[] tB, int max, int digitsLen) {
-        int len = tA.length;
-        int digitsTotalLen = tA[0].digits.length;
-
-        for (int i = digitsTotalLen - 1, j = 0; j &lt; digitsLen; i--, j++) {
-            this.countingSort(i, tA, tB, max);
-            if (j &lt; digitsLen - 1) {
-                for (int k = 0; k &lt; len; k++) {
-                    tA[k] = tB[k];
-                }
-            }
-        }
-    }
-
-    private Suffix rank(Tuple[] tA, Tuple[] tB, int max, int digitsLen) {
-        int len = tA.length;
-        radixSort(tA, tB, max, digitsLen);
-
-        int digitsTotalLen = tA[0].digits.length;
-
-        int[] sa = new int[len];
-        sa[0] = tB[0].iSuffix;
-
-        int[] rank = new int[len + 2];
-        rank[len] = 1;
-        rank[len + 1] = 1;
-
-        int r = 1;
-
-        rank[tB[0].iSuffix] = r;
-
-        for (int i = 1; i &lt; len; i++) {
-            sa[i] = tB[i].iSuffix;
-
-            boolean equalLast = true;
-
-            for (int j = digitsTotalLen - digitsLen; j &lt; digitsTotalLen; j++) {
-                if (tB[i].digits[j] != tB[i - 1].digits[j]) {
-                    equalLast = false;
-                    break;
-                }
-            }
-
-            if (!equalLast)
-                r++;
-
-            rank[tB[i].iSuffix] = r;
-
-        }
-
-        Suffix suffix = new Suffix(sa, rank);
-        if (r == len) {
-            suffix.done = true;
-        } else {
-            suffix.done = false;
-        }
-
-        return suffix;
-    }
-
-    private int[] orderSuffix(Tuple[] tA, Tuple[] tB, int max, int digitsLen) {
-
-        int len = tA.length;
-        radixSort(tA, tB, max, digitsLen);
-        int[] sa = new int[len];
-        for (int i = 0; i &lt; sa.length; i++)
-            sa[i] = tB[i].iSuffix;
-
-        return sa;
-
-    }
-
-    public Suffix reduce(int[] rank, int max) {
-
-        int len = rank.length - 2;
-        int n1 = (len + 1) / 3;
-        int n2 = len / 3;
-
-        Tuple[] tA = new Tuple[n1 + n2];
-        Tuple[] tB = new Tuple[n1 + n2];
-
-        for (int i = 0, j = 1; i &lt; n1; i++, j += 3) {
-
-            int r1 = rank[j];
-            int r2 = rank[j + 1];
-            int r3 = rank[j + 2];
-
-            tA[i] = new Tuple(i, new int[] { r1, r2, r3 });
-        }
-
-        for (int i = n1, j = 2; i &lt; n1 + n2; i++, j += 3) {
-
-            int r1 = rank[j];
-            int r2 = rank[j + 1];
-            int r3 = rank[j + 2];
-
-            tA[i] = new Tuple(i, new int[] { r1, r2, r3 });
-        }
-
-        return rank(tA, tB, max, 3);
-    }
-
-    public int[] skew(int[] rank, int max) {
-        int len = rank.length - 2;
-
-        Suffix suffixT12 = reduce(rank, max);
-
-        int[] sa12 = null;
-
-        // 1.caculate sa12
-        if (!suffixT12.done) {
-            int[] rankT12 = suffixT12.rank;
-            int maxT12 = rankT12[suffixT12.sa[suffixT12.sa.length - 1]];
-            sa12 = skew(rankT12, maxT12);
-        } else {
-            sa12 = suffixT12.sa;
-        }
-
-        // index conversion for sa12
-        int n1 = (len + 1) / 3;
-        for (int i = 0; i &lt; sa12.length; i++) {
-            if (sa12[i] &lt; n1) {
-                sa12[i] = 1 + 3 * sa12[i];
-            } else {
-                sa12[i] = 2 + 3 * (sa12[i]-n1);
-            }
-        }
-
-        // recaculate rank for sa12
-        int[] rank12 = new int[len + 2];
-
-        rank12[len] = 1;
-        rank12[len + 1] = 1;
-
-        for (int i = 0; i &lt; sa12.length; i++) {
-            rank12[sa12[i]] = i + 1;
-        }
-
-        // 2.caculate sa0
-
-        int n0 = (len + 2) / 3;
-        Tuple[] tA = new Tuple[n0];
-        Tuple[] tB = new Tuple[n0];
-
-        for (int i = 0, j = 0; i &lt; n0; i++, j += 3) {
-            int r1 = rank[j];
-            int r2 = rank12[j + 1];
-            tA[i] = new Tuple(i, new int[] { r1, r2 });
-        }
-
-        int max12 = rank12[sa12[sa12.length - 1]];
-        int[] sa0 = orderSuffix(tA, tB, max &lt; max12 ? max12 : max, 2);
-
-        for (int i = 0; i &lt; n0; i++) {
-            sa0[i] = 3 * sa0[i];
-        }
-
-        // 3.merge sa12 and sa0
-
-        int[] sa = new int[len];
-        int i = 0, j = 0, k = 0;
-
-        while (i &lt; sa12.length &amp;&amp; j &lt; sa0.length) {
-            int p = sa12[i];
-            int q = sa0[j];
-
-            if (p % 3 == 1) {
-
-                if (rank[p] &lt; rank[q]) {
-                    sa[k++] = p;
-                    i++;
-                } else if (rank[p] &gt; rank[q]) {
-                    sa[k++] = q;
-                    j++;
-                } else {
-                    if (rank12[p + 1] &lt; rank12[q + 1]) {
-                        sa[k++] = p;
-                        i++;
-                    } else {
-                        sa[k++] = q;
-                        j++;
-                    }
-                }
-            } else {
-                if (rank[p] &lt; rank[q]) {
-                    sa[k++] = p;
-                    i++;
-                } else if (rank[p] &gt; rank[q]) {
-                    sa[k++] = q;
-                    j++;
-                } else {
-                    if (rank[p + 1] &lt; rank[q + 1]) {
-                        sa[k++] = p;
-                        i++;
-                    } else if (rank[p + 1] &gt; rank[q + 1]) {
-                        sa[k++] = q;
-                        j++;
-                    } else {
-                        if (rank12[p + 2] &lt; rank12[q + 2]) {
-                            sa[k++] = p;
-                            i++;
-                        } else {
-                            sa[k++] = q;
-                            j++;
-                        }
-                    }
-                }
-            }
-        }
-        for (int m = i; m &lt; sa12.length; m++) {
-            sa[k++] = sa12[m];
-        }
-        for (int m = j; m &lt; sa0.length; m++) {
-            sa[k++] = sa0[m];
-        }
-        return sa;
-
-    }
-
-     public Suffix solve(String text){  
-            if(text == null)return null;  
-            int len = text.length();  
-            if(len == 0) return null;  
-
-            char base = text.charAt(len-1); //the smallest char  
-            Tuple[] tA = new Tuple[len];  
-            Tuple[] tB = new Tuple[len]; //placeholder  
-            for(int i=0;i&lt;len;i++){  
-                tA[i] = new Tuple(i,new int[]{0,text.charAt(i)-base});  
-            }  
-            Suffix suffix = rank(tA,tB,MAX_CHAR-base,1);  
-
-            int max = suffix.rank[suffix.sa[len-1]];  
-            int[] sa  = skew(suffix.rank,max);  
-
-            //caculate rank for result suffix array  
-            int[] r = new int[len];       
-            for(int k=0;k&lt;sa.length;k++){  
-                r[sa[k]] = k+1;  
-            }  
-            return new Suffix(sa,r);  
-
-        }  
-        public void report(Suffix suffix){  
-            int[] sa = suffix.sa;  
-            int[] rank = suffix.rank;  
-            int len = sa.length;  
-
-            System.out.println(&quot;suffix array:&quot;);  
-            for(int i=0;i&lt;len;i++){  
-                System.out.format(&quot; %s&quot;, sa[i]);              
-            }  
-            System.out.println();  
-            System.out.println(&quot;rank array:&quot;);  
-            for(int i=0;i&lt;len;i++){  
-                System.out.format(&quot; %s&quot;, rank[i]);            
-            }         
-            System.out.println();  
-        }  
-        public static void main(String[] args) {  
-            String text = &quot;GACCCACCACC#&quot;;  
-            DC3 dc3 = new DC3();  
-            Suffix suffix = dc3.solve(text);  
-            System.out.format(&quot;Text: %s%n&quot;,text);  
-            dc3.report(suffix);  
-
-            text = &quot;mississippi#&quot;;  
-            dc3 = new DC3();  
-            suffix = dc3.solve(text);  
-            System.out.format(&quot;Text: %s%n&quot;,text);  
-            dc3.report(suffix);  
-
-            text = &quot;abcdefghijklmmnopqrstuvwxyz#&quot;;  
-            dc3 = new DC3();  
-            suffix = dc3.solve(text);  
-            System.out.format(&quot;Text: %s%n&quot;,text);  
-            dc3.report(suffix);  
-
-            text = &quot;yabbadabbado#&quot;;  
-            dc3 = new DC3();  
-            suffix = dc3.solve(text);  
-            System.out.format(&quot;Text: %s%n&quot;,text);  
-            dc3.report(suffix);  
-
-            text = &quot;DFDLKJLJldfasdlfjasdfkldjasfldafjdajfdsfjalkdsfaewefsdafdsfa#&quot;;  
-            dc3 = new DC3();  
-            suffix = dc3.solve(text);  
-            System.out.format(&quot;Text: %s%n&quot;,text);  
-            dc3.report(suffix);  
-        }  
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2339,7 +1995,7 @@ public class DC3 {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-count">61</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
