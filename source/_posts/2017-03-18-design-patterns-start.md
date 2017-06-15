@@ -25,6 +25,7 @@ tag: 设计模式
 - 灵活运用至项目中
 
 在线画图工具安利：[https://www.processon.com/diagrams](https://www.processon.com/diagrams)
+winPC画图工具安利：[http://astah.net/](http://astah.net/)
 
 
 #### 设计模式分类 ####
@@ -46,14 +47,14 @@ tag: 设计模式
 - 行为型模式(11)
 	- [策略模式](http://xusx1024.com/2017/05/25/design-patterns-strategy-pattern/)
 	- 模版方法模式
-	- 观察者模式
+	- [观察者模式](http://xusx1024.com/2017/06/09/design-patterns-observer/)
 	- 迭代子模式
 	- [责任链模式](http://xusx1024.com/2017/05/31/design-patterns-chain-of-responsibility/)
-	- 命令模式
+	- [命令模式](http://xusx1024.com/2017/06/14/design-patterns-command/)
 	- 备忘录模式
 	- [状态模式](http://xusx1024.com/2017/05/26/design-patterns-state-pattern/)
 	- 访问者模式
-	- 中介者模式
-	- 解释器模式
+	- [中介者模式](http://xusx1024.com/2017/06/13/design-patterns-mediator/)
+	- [解释器模式](http://xusx1024.com/2017/06/02/design-patterns-interpreter/)
 
  

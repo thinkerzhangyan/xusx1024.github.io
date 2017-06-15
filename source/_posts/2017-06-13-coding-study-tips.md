@@ -26,6 +26,10 @@ categories: work
 - Tomcat8 之后默认UTF-8了
 
 #### URL编码 ####
+
 - 不是字符编码，是用来在客户端与服务端之间传递参数用的一种方式
 - 服务器可自动识别URL编码
+- URLEncoder.encode
+
+
 
