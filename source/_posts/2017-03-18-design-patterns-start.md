@@ -20,13 +20,13 @@ tag: 设计模式
 
 
 #### 学习设计模式的层次 ####
+
 - 能在白纸上画出所有的模式结构和时序图
 - 能用代码实现；如果代码都没有写过，是用不出来的，即看得懂不会用
 - 灵活运用至项目中
 
 在线画图工具安利：[https://www.processon.com/diagrams](https://www.processon.com/diagrams)
 winPC画图工具安利：[http://astah.net/](http://astah.net/)
-
 
 #### 设计模式分类 ####
 
@@ -48,7 +48,7 @@ winPC画图工具安利：[http://astah.net/](http://astah.net/)
 	- [策略模式](http://xusx1024.com/2017/05/25/design-patterns-strategy-pattern/)
 	- 模版方法模式
 	- [观察者模式](http://xusx1024.com/2017/06/09/design-patterns-observer/)
-	- 迭代子模式
+	- [迭代器模式](http://xusx1024.com/2017/06/15/design-patterns-iterator/)
 	- [责任链模式](http://xusx1024.com/2017/05/31/design-patterns-chain-of-responsibility/)
 	- [命令模式](http://xusx1024.com/2017/06/14/design-patterns-command/)
 	- 备忘录模式
