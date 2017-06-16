@@ -57,4 +57,11 @@ winPC画图工具安利：[http://astah.net/](http://astah.net/)
 	- [中介者模式](http://xusx1024.com/2017/06/13/design-patterns-mediator/)
 	- [解释器模式](http://xusx1024.com/2017/06/02/design-patterns-interpreter/)
 
- 
+
+#### 参考 ####
+
+- [图说设计模式](http://design-patterns.readthedocs.io/zh_CN/latest/) 
+- [设计模式](https://quanke.gitbooks.io/design-pattern-java/)
+- 《Android源码设计模式解析与实战》
+- [工匠若水](http://blog.csdn.net/yanbober/article/category/3148699)
+- [卡奴达摩](http://blog.csdn.net/zhengzhb/article/category/926691)

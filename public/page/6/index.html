@@ -267,6 +267,176 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/14/sort-stack-by-stack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/14/sort-stack-by-stack/" itemprop="url">用一个栈实现另一个栈的排序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-14T00:00:00Z">
+                2017-02-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>一个栈中的元素的类型为整型，现在想将该栈从顶到底按从大到小的顺序排序，只许申请一个栈。除此之外，可以申请新的变量，但不能申请额外的数据结构。如何完成排序？
+</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>士 ★☆☆☆
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>将要排序的栈记为stack，申请的辅助栈记为help。在stack上执行pop操作，弹出的元素记为cur。
+</code></pre><ul>
+<li>如果cur小于或等于help的栈顶元素，将cur压入help；</li>
+<li>如果cur大于help的栈顶元素，则将help元素逐个弹出，并压入stack，直至cur小于或等于栈顶元素，将cur压入help；</li>
+</ul>
+<p>示例代码如下：</p>
+<pre><code>import java.util.Stack;
+
+public class SortStackByStack {
+
+    public static void main(String[] args) {
+        Stack&lt;Integer&gt; ss = new Stack&lt;&gt;();
+        ss.push(7);
+        ss.push(2);
+        ss.push(8);
+        ss.push(3);
+        ss.push(9);
+        sortStackByStack(ss);
+
+    }
+
+    public static void sortStackByStack(Stack&lt;Integer&gt; stack) {
+        Stack&lt;Integer&gt; help = new Stack&lt;&gt;();
+        while (!stack.isEmpty()) {
+            int cur = stack.pop();
+            while (!help.isEmpty() &amp;&amp; help.peek() &lt; cur) {
+                stack.push(help.pop());
+            }
+            help.push(cur);
+        }
+        while (!help.isEmpty()) {
+            stack.push(help.pop());
+        }
+    }
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/13/optimization-app-launch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -653,6 +823,244 @@ Android进程与Linux进程一样。默认情况下，每个apk运行在自己�
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-1/" itemprop="url">单例设计模式(一)基础知识</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
+                2017-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><h5 id="来自wiki"><a href="#来自wiki" class="headerlink" title="来自wiki"></a>来自wiki</h5><pre><code>[单例模式](https://zh.wikipedia.org/wiki/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F)又叫单子模式，是一种常用的软件设计模式。在应用这个模式时，单例对象的类必须保证只有一个实例存在。许多时候整个系统只需要拥有一个全局对象，这样有利于我们协调系统整体的行为。
+比如：在某个服务器程序中，该服务器的配置信息存放在一个文件中，这些配置数据由一个单例对象统一读取，然后服务进程中的其他对象再通过这个单例对象获取这些配置信息。这种方式简化了在复杂环境下的配置管理。
+</code></pre><h5 id="来自IBM"><a href="#来自IBM" class="headerlink" title="来自IBM"></a>来自IBM</h5><pre><code>与wiki相重复的内容，不再摘录。
+[单例模式](http://www.ibm.com/developerworks/cn/java/j-lo-Singleton/)是一种对象创建模式，它用于产生一个对象的具体实例，它可以确保系统中一个类只产生一个实例。Java里面实现单例是一个虚拟机的范围，因为装载类的功能是由虚拟机做的，所以一个虚拟机在通过自己的ClassLoader装载实现单例类的时候就会创建一个类实例。在Java语言中，这样的行为有两大好处：
+1.对于频繁使用的对象，可以省略创建对象所话费的时间，这对于那些重量级对象而言，是非常可观的一笔系统开销；
+2.由于new操作的次数减少，因而对系统内存的使用频率降低，这将减轻GC压力，缩短GC停顿时间。 
+</code></pre><h4 id="how"><a href="#how" class="headerlink" title="how"></a>how</h4><h5 id="饿汉单例"><a href="#饿汉单例" class="headerlink" title="饿汉单例"></a>饿汉单例</h5><pre><code>public class Singleton {
+ private Singleton(){}
+ private static Singleton instance = new Singleton();
+ public static Singleton getInsatnce(){
+ return instance;
+ }
+}
+</code></pre><blockquote>
+<p>上述代码不足之处是无法对instance实例做延时加载，假如单例的创建过程很慢，而由于instance成员变量是static定义的，因此在JVM加载单例类时，单例对象就会被建立，如果此时这个单例类在系统中还扮演其他角色，那么在任何使用这个单例类的地方都会初始化这个单例变量，而不管是否会用到。</p>
+</blockquote>
+<h5 id="懒汉单例"><a href="#懒汉单例" class="headerlink" title="懒汉单例"></a>懒汉单例</h5><pre><code>public class LazySingleton {
+
+    private LazySingleton() {
+    }
+
+    public static LazySingleton instance = null;
+
+    public static synchronized LazySingleton getInstance() {
+        if (instance == null) {
+            instance = new LazySingleton();
+        }
+        return instance;
+    }
+}
+</code></pre><blockquote>
+<p>上述代码首先对于静态成员变量instance初始化复赋值为null，确保系统启动时没有额外的负载；其次在getInstance()工厂方法中判断单例是否已经存在；注意，我们的getInstance()方法中添加了synchronized关键字，这就是注意事项中，在多线程情况下保证单例对象唯一性的手段。因此每次调用都要进行同步，造成不必要的开销，明显增加多线程环境下耗时。<br></p>
+<p>在多线程的应用场合下。如果当唯一实例尚未创建时，有两个线程同时调用创建方法，那么它们同时没有检测到唯一实例的存在，从而同时各自创建了一个实例，这样就有两个实例被构造出来，解决该问题的办法是为指示类是否已经实例化的变量提供一个互斥锁(会降低效率)。</p>
+</blockquote>
+<h5 id="懒汉单例的改进：静态内部类单例"><a href="#懒汉单例的改进：静态内部类单例" class="headerlink" title="懒汉单例的改进：静态内部类单例"></a>懒汉单例的改进：静态内部类单例</h5><pre><code>public class StaticInnerClassSingleton {
+
+    private StaticInnerClassSingleton() {
+    }
+
+    public StaticInnerClassSingleton getInstance() {
+        return SingletonHolder.instance;
+    }
+
+    private static class SingletonHolder {
+        private static final StaticInnerClassSingleton instance = new StaticInnerClassSingleton();
+    }
+}
+</code></pre><blockquote>
+<p>使用内部类来维护单例的实例，第一次加载StaticInnerClassSingleton类时，不会初始化instance，只有在第一次调用getInstance()时，才会加载SingletonHolder，初始化instance。由于实例的建立是在类加载时完成，不仅可以确保线程安全，也无需使用synchronized关键字，因此推荐使用。</p>
+</blockquote>
+<h5 id="DoubleCheckLock-实现单例"><a href="#DoubleCheckLock-实现单例" class="headerlink" title="DoubleCheckLock 实现单例"></a>DoubleCheckLock 实现单例</h5><pre><code>public class DCLSingleton {
+
+    private static DCLSingleton instance = null;
+
+    private DCLSingleton() {
+    }
+
+    public DCLSingleton getInstance() {
+        if (instance == null) {
+            synchronized (DCLSingleton.class) {
+                if (instance == null) {
+                    instance = new DCLSingleton();
+                }
+
+            }
+        }
+        return instance;
+    }
+}
+</code></pre><blockquote>
+<p>同步关键字加载方法上，如懒汉式单例，增加系统开销，影响效率。上述代码，第一次判空，可以避免不必要的同步，第二次判空是避免多线程情况下，instance实例为空，DCL失效。<br>因为<br><code>instance = new DCLSingleton();</code><br>并非原子操作，这句代码最终会被编译成多条汇编命令，大致做了三件事：<br><br>1.给DCLSingleton的实例分配内存<br><br>2.调用DCLSingleton的构造，初始化成员字段<br><br>3.将instance对象指向分配的内存空间<br></p>
+<p>由于Java编译器允许处理器乱序执行，以及JDK1.5之前的JMM(java memory model即Java内存模型)中<em>Cache、寄存器到主内存回写顺序</em>的规定，上面2、3的顺序无法保证先后执行的。<br>如果线程A的3执行完，此时instance不为null，2却没有执行，被切换到线程B上，B可以直接取走instance，使用就会报错，这就是DCL失效。<br><br>解决：JDK1.5之后，<code>private static volatile DCLSingleton instance = null;</code><br>使用volatile关键字，可以保证instance对象<em>每次都是从主内存中读取</em>。</p>
+</blockquote>
+<h5 id="容器维护多个单例"><a href="#容器维护多个单例" class="headerlink" title="容器维护多个单例"></a>容器维护多个单例</h5><pre><code>import java.util.HashMap;
+import java.util.Map;
+
+public class SingletonManager {
+    private static Map&lt;String,Object&gt; objMap = new HashMap&lt;&gt;();
+
+    private SingletonManager(){}
+
+    public static void registerService(String key,Object instance){
+        if(!objMap.containsKey(key)){
+            objMap.put(key, instance);
+        }
+    }
+
+    public static Object getService(String key){
+        return objMap.get(key);
+    }
+
+}
+</code></pre><blockquote>
+<p>根据key,使用map管理多种类型的单例，在使用时可以统一进行获取操作，可降低用户的使用成本。(个人感觉没啥用)</p>
+</blockquote>
+<h5 id="枚举单例"><a href="#枚举单例" class="headerlink" title="枚举单例"></a>枚举单例</h5><pre><code>public enum EnumSingleton {
+
+    INSTANCE;
+
+    public void doSomething() {
+    }
+}
+</code></pre><blockquote>
+<p>写法简单，线程安全，在任何情况下都是单例！</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -857,198 +1265,6 @@ public class Singleton implements Serializable {
     }
 
 }
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-3/" itemprop="url">单例设计模式(三)真●单例唯一$反射</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="反射对单例的破坏"><a href="#反射对单例的破坏" class="headerlink" title="反射对单例的破坏"></a>反射对单例的破坏</h4><p>先看一个DCL单例：</p>
-<pre><code>import java.io.Serializable;
-
-/**
- * double check lock 实现单例
- */
-public class Singleton implements Serializable {
-    private Singleton() {
-    };
-
-    public static volatile Singleton singleton;
-
-    public static Singleton getInstance() {
-        if (singleton == null) {
-            synchronized (Singleton.class) {
-                if (singleton == null) {
-                    singleton = new Singleton();
-                }
-            }
-        }
-        return singleton;
-    }
-
-}
-</code></pre><p>然后看我们的测试代码：</p>
-<pre><code>import java.lang.reflect.Constructor;
-
-public class ReflectAttackSingleton {
-
-    public static void main(String[] args) {
-        try {
-            Class&lt;?&gt; classType = Singleton.class;
-            Constructor&lt;?&gt; c;
-            c = classType.getDeclaredConstructor(null);
-            c.setAccessible(true);
-            Singleton instance1 = (Singleton) c.newInstance();
-            Singleton instance2 = Singleton.getInstance();
-            System.out.println(&quot;反射得到的实例与单例中的实例是否相等？&quot; +(instance1 == instance2));
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-    }
-}
-</code></pre><blockquote>
-<p>运行后： <code>反射得到的实例与单例中的实例是否相等？false</code></p>
-<p>通过反射获取构造函数，然后调用即可获取新的单例的实例，这就破坏了Singleton的单例性。</p>
-</blockquote>
-<h4 id="修改构造器抵御攻击"><a href="#修改构造器抵御攻击" class="headerlink" title="修改构造器抵御攻击"></a>修改构造器抵御攻击</h4><pre><code>private static boolean flag = false;
-private Singleton() {
-    synchronized (Singleton.class) {
-        if(flag == false)
-            flag = !flag;
-        else
-            throw new RuntimeException(&quot;单例模式被攻击！&quot;);
-    }
-};
-</code></pre><h4 id="终极方法"><a href="#终极方法" class="headerlink" title="终极方法"></a>终极方法</h4><pre><code>使用枚举单例
 </code></pre>
           
         
@@ -1434,7 +1650,7 @@ public static void reverse(Stack&lt;Integer&gt; stack) {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuSing">
@@ -1453,7 +1669,7 @@ public static void reverse(Stack&lt;Integer&gt; stack) {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-1/" itemprop="url">单例设计模式(一)基础知识</a></h1>
+                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-3/" itemprop="url">单例设计模式(三)真●单例唯一$反射</a></h1>
         
 
         <div class="post-meta">
@@ -1524,112 +1740,66 @@ public static void reverse(Stack&lt;Integer&gt; stack) {
       
         
           
-            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><h5 id="来自wiki"><a href="#来自wiki" class="headerlink" title="来自wiki"></a>来自wiki</h5><pre><code>[单例模式](https://zh.wikipedia.org/wiki/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F)又叫单子模式，是一种常用的软件设计模式。在应用这个模式时，单例对象的类必须保证只有一个实例存在。许多时候整个系统只需要拥有一个全局对象，这样有利于我们协调系统整体的行为。
-比如：在某个服务器程序中，该服务器的配置信息存放在一个文件中，这些配置数据由一个单例对象统一读取，然后服务进程中的其他对象再通过这个单例对象获取这些配置信息。这种方式简化了在复杂环境下的配置管理。
-</code></pre><h5 id="来自IBM"><a href="#来自IBM" class="headerlink" title="来自IBM"></a>来自IBM</h5><pre><code>与wiki相重复的内容，不再摘录。
-[单例模式](http://www.ibm.com/developerworks/cn/java/j-lo-Singleton/)是一种对象创建模式，它用于产生一个对象的具体实例，它可以确保系统中一个类只产生一个实例。Java里面实现单例是一个虚拟机的范围，因为装载类的功能是由虚拟机做的，所以一个虚拟机在通过自己的ClassLoader装载实现单例类的时候就会创建一个类实例。在Java语言中，这样的行为有两大好处：
-1.对于频繁使用的对象，可以省略创建对象所话费的时间，这对于那些重量级对象而言，是非常可观的一笔系统开销；
-2.由于new操作的次数减少，因而对系统内存的使用频率降低，这将减轻GC压力，缩短GC停顿时间。 
-</code></pre><h4 id="how"><a href="#how" class="headerlink" title="how"></a>how</h4><h5 id="饿汉单例"><a href="#饿汉单例" class="headerlink" title="饿汉单例"></a>饿汉单例</h5><pre><code>public class Singleton {
- private Singleton(){}
- private static Singleton instance = new Singleton();
- public static Singleton getInsatnce(){
- return instance;
- }
-}
-</code></pre><blockquote>
-<p>上述代码不足之处是无法对instance实例做延时加载，假如单例的创建过程很慢，而由于instance成员变量是static定义的，因此在JVM加载单例类时，单例对象就会被建立，如果此时这个单例类在系统中还扮演其他角色，那么在任何使用这个单例类的地方都会初始化这个单例变量，而不管是否会用到。</p>
-</blockquote>
-<h5 id="懒汉单例"><a href="#懒汉单例" class="headerlink" title="懒汉单例"></a>懒汉单例</h5><pre><code>public class LazySingleton {
+            <h4 id="反射对单例的破坏"><a href="#反射对单例的破坏" class="headerlink" title="反射对单例的破坏"></a>反射对单例的破坏</h4><p>先看一个DCL单例：</p>
+<pre><code>import java.io.Serializable;
 
-    private LazySingleton() {
-    }
+/**
+ * double check lock 实现单例
+ */
+public class Singleton implements Serializable {
+    private Singleton() {
+    };
 
-    public static LazySingleton instance = null;
+    public static volatile Singleton singleton;
 
-    public static synchronized LazySingleton getInstance() {
-        if (instance == null) {
-            instance = new LazySingleton();
-        }
-        return instance;
-    }
-}
-</code></pre><blockquote>
-<p>上述代码首先对于静态成员变量instance初始化复赋值为null，确保系统启动时没有额外的负载；其次在getInstance()工厂方法中判断单例是否已经存在；注意，我们的getInstance()方法中添加了synchronized关键字，这就是注意事项中，在多线程情况下保证单例对象唯一性的手段。因此每次调用都要进行同步，造成不必要的开销，明显增加多线程环境下耗时。<br></p>
-<p>在多线程的应用场合下。如果当唯一实例尚未创建时，有两个线程同时调用创建方法，那么它们同时没有检测到唯一实例的存在，从而同时各自创建了一个实例，这样就有两个实例被构造出来，解决该问题的办法是为指示类是否已经实例化的变量提供一个互斥锁(会降低效率)。</p>
-</blockquote>
-<h5 id="懒汉单例的改进：静态内部类单例"><a href="#懒汉单例的改进：静态内部类单例" class="headerlink" title="懒汉单例的改进：静态内部类单例"></a>懒汉单例的改进：静态内部类单例</h5><pre><code>public class StaticInnerClassSingleton {
-
-    private StaticInnerClassSingleton() {
-    }
-
-    public StaticInnerClassSingleton getInstance() {
-        return SingletonHolder.instance;
-    }
-
-    private static class SingletonHolder {
-        private static final StaticInnerClassSingleton instance = new StaticInnerClassSingleton();
-    }
-}
-</code></pre><blockquote>
-<p>使用内部类来维护单例的实例，第一次加载StaticInnerClassSingleton类时，不会初始化instance，只有在第一次调用getInstance()时，才会加载SingletonHolder，初始化instance。由于实例的建立是在类加载时完成，不仅可以确保线程安全，也无需使用synchronized关键字，因此推荐使用。</p>
-</blockquote>
-<h5 id="DoubleCheckLock-实现单例"><a href="#DoubleCheckLock-实现单例" class="headerlink" title="DoubleCheckLock 实现单例"></a>DoubleCheckLock 实现单例</h5><pre><code>public class DCLSingleton {
-
-    private static DCLSingleton instance = null;
-
-    private DCLSingleton() {
-    }
-
-    public DCLSingleton getInstance() {
-        if (instance == null) {
-            synchronized (DCLSingleton.class) {
-                if (instance == null) {
-                    instance = new DCLSingleton();
+    public static Singleton getInstance() {
+        if (singleton == null) {
+            synchronized (Singleton.class) {
+                if (singleton == null) {
+                    singleton = new Singleton();
                 }
-
             }
         }
-        return instance;
+        return singleton;
     }
+
 }
-</code></pre><blockquote>
-<p>同步关键字加载方法上，如懒汉式单例，增加系统开销，影响效率。上述代码，第一次判空，可以避免不必要的同步，第二次判空是避免多线程情况下，instance实例为空，DCL失效。<br>因为<br><code>instance = new DCLSingleton();</code><br>并非原子操作，这句代码最终会被编译成多条汇编命令，大致做了三件事：<br><br>1.给DCLSingleton的实例分配内存<br><br>2.调用DCLSingleton的构造，初始化成员字段<br><br>3.将instance对象指向分配的内存空间<br></p>
-<p>由于Java编译器允许处理器乱序执行，以及JDK1.5之前的JMM(java memory model即Java内存模型)中<em>Cache、寄存器到主内存回写顺序</em>的规定，上面2、3的顺序无法保证先后执行的。<br>如果线程A的3执行完，此时instance不为null，2却没有执行，被切换到线程B上，B可以直接取走instance，使用就会报错，这就是DCL失效。<br><br>解决：JDK1.5之后，<code>private static volatile DCLSingleton instance = null;</code><br>使用volatile关键字，可以保证instance对象<em>每次都是从主内存中读取</em>。</p>
-</blockquote>
-<h5 id="容器维护多个单例"><a href="#容器维护多个单例" class="headerlink" title="容器维护多个单例"></a>容器维护多个单例</h5><pre><code>import java.util.HashMap;
-import java.util.Map;
+</code></pre><p>然后看我们的测试代码：</p>
+<pre><code>import java.lang.reflect.Constructor;
 
-public class SingletonManager {
-    private static Map&lt;String,Object&gt; objMap = new HashMap&lt;&gt;();
+public class ReflectAttackSingleton {
 
-    private SingletonManager(){}
-
-    public static void registerService(String key,Object instance){
-        if(!objMap.containsKey(key)){
-            objMap.put(key, instance);
+    public static void main(String[] args) {
+        try {
+            Class&lt;?&gt; classType = Singleton.class;
+            Constructor&lt;?&gt; c;
+            c = classType.getDeclaredConstructor(null);
+            c.setAccessible(true);
+            Singleton instance1 = (Singleton) c.newInstance();
+            Singleton instance2 = Singleton.getInstance();
+            System.out.println(&quot;反射得到的实例与单例中的实例是否相等？&quot; +(instance1 == instance2));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-    }
 
-    public static Object getService(String key){
-        return objMap.get(key);
-    }
-
-}
-</code></pre><blockquote>
-<p>根据key,使用map管理多种类型的单例，在使用时可以统一进行获取操作，可降低用户的使用成本。(个人感觉没啥用)</p>
-</blockquote>
-<h5 id="枚举单例"><a href="#枚举单例" class="headerlink" title="枚举单例"></a>枚举单例</h5><pre><code>public enum EnumSingleton {
-
-    INSTANCE;
-
-    public void doSomething() {
     }
 }
 </code></pre><blockquote>
-<p>写法简单，线程安全，在任何情况下都是单例！</p>
+<p>运行后： <code>反射得到的实例与单例中的实例是否相等？false</code></p>
+<p>通过反射获取构造函数，然后调用即可获取新的单例的实例，这就破坏了Singleton的单例性。</p>
 </blockquote>
-
+<h4 id="修改构造器抵御攻击"><a href="#修改构造器抵御攻击" class="headerlink" title="修改构造器抵御攻击"></a>修改构造器抵御攻击</h4><pre><code>private static boolean flag = false;
+private Singleton() {
+    synchronized (Singleton.class) {
+        if(flag == false)
+            flag = !flag;
+        else
+            throw new RuntimeException(&quot;单例模式被攻击！&quot;);
+    }
+};
+</code></pre><h4 id="终极方法"><a href="#终极方法" class="headerlink" title="终极方法"></a>终极方法</h4><pre><code>使用枚举单例
+</code></pre>
           
         
       
@@ -1979,148 +2149,6 @@ public class SingletonManager {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/Profile-Gpu-rendering/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/09/Profile-Gpu-rendering/" itemprop="url">Gpu呈现模式分析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-09T00:00:00Z">
-                2017-02-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><pre><code>在android手机中，会发现开发者选项 - GPU呈现模式分析的选项。很多道友用之来测试其手机的流畅度。开启之后大概就是这样子了：
-</code></pre><p><img src="/images/profileGPURendering.png" alt="玄学曲线"></p>
-<h4 id="说说这张图片"><a href="#说说这张图片" class="headerlink" title="说说这张图片"></a>说说这张图片</h4><h5 id="绿横线"><a href="#绿横线" class="headerlink" title="绿横线"></a>绿横线</h5><pre><code>在android系统中是以每秒60帧为满帧的，所以1000ms / 60 = 16ms/帧。即每帧快于16ms为流畅，这根绿线即16ms线，低于该绿线为流畅。
-</code></pre><h5 id="红柱"><a href="#红柱" class="headerlink" title="红柱"></a>红柱</h5><pre><code>红色代表了“执行时间”，它指的是Android渲染引擎执行绘制命令的时间，为了绘制到屏幕上，Android需要使用OpenGL ES的API接口来绘制Display List。这些API有效地将数据发送到GPU，最后在屏幕上显示出来。假如当前界面的视图越多，那么红色便会“跳”得越高。实际使用中，比如平时刷App遇到许多缩略图需要加载，那么红色会突然跳很高，但是此时你的页面滑动其实是流畅的，虽然等了零点几秒图片才加载出来，但并不意味着你卡住了。
-</code></pre><p><img src="/images/executePhase.png" alt="绘图执行图"></p>
-<h5 id="黄柱"><a href="#黄柱" class="headerlink" title="黄柱"></a>黄柱</h5><pre><code>黄色通常较短，它代表CPU通知GPU“你已经完成一帧视图的渲染了”，不过这是一个阻塞调用，CPU会等待GPU的回话，当GPU说“好了，知道了”，才算完事儿。假如黄色很高，说明当前GPU过于忙碌，有很多命令需要去处理。
-</code></pre><h5 id="蓝柱"><a href="#蓝柱" class="headerlink" title="蓝柱"></a>蓝柱</h5><pre><code>假如通过蓝色来判断流畅度，参考意义比较大。蓝色代表了视图测量绘制所花费的时间，或者说它代表需要多长时间去创建和更新你的DisplayList。
-在Android中，一个视图在可以实际的进行渲染之前，它必须被转换成GPU所熟悉的格式，简单来说就是几条绘图命令，即执行每一个View的onDraw方法，创建或者更新每一个View的DisplayList对象。
-所以蓝色越短，体验越流畅，当你看到蓝色很高，可能是因为你的一堆视图突然变得无效了，需要重新绘制，或者你的几个自定义视图的onDraw方法过于复杂。
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2170,7 +2198,7 @@ public class SingletonManager {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">63</span>
+                <span class="site-state-item-count">64</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
