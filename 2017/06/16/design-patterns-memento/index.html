@@ -93,19 +93,20 @@
 
 
 
-<meta name="description" content="定义备忘录模式(Memento Pattern):在不破坏封装的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态，这样可以在以后将对象恢复到原先保存的状态。这是一种对象行为型模式，别名为Token。 在软件开发中，我们经常需要使用聚合对象来存储一系列数据。聚合对象用于两个职责：一是存数据；二是取数据。从依赖性来看，前者是聚合对象的基本职责；而后者既是可变化的，又是可分离的。因此，可以将遍">
+<meta name="description" content="定义备忘录模式(Memento Pattern):在不破坏封装的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态，这样可以在以后将对象恢复到原先保存的状态。这是一种对象行为型模式，别名为Token，又称作Snapshot。 模式结构 Originator(原发器):它是一个普通类，可以创建一个备忘录，并存储它的当前内部状态(比如象棋的某一步)，也可以使用备忘录来恢复其内部状态，一般将需要">
 <meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="备忘录模式">
 <meta property="og:url" content="http://yoursite.com/2017/06/16/design-patterns-memento/index.html">
 <meta property="og:site_name" content="行次">
-<meta property="og:description" content="定义备忘录模式(Memento Pattern):在不破坏封装的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态，这样可以在以后将对象恢复到原先保存的状态。这是一种对象行为型模式，别名为Token。 在软件开发中，我们经常需要使用聚合对象来存储一系列数据。聚合对象用于两个职责：一是存数据；二是取数据。从依赖性来看，前者是聚合对象的基本职责；而后者既是可变化的，又是可分离的。因此，可以将遍">
-<meta property="og:image" content="http://yoursite.com/images/iterator_pattern_class_diagram.png">
-<meta property="og:updated_time" content="2017-06-16T06:04:42.711Z">
+<meta property="og:description" content="定义备忘录模式(Memento Pattern):在不破坏封装的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态，这样可以在以后将对象恢复到原先保存的状态。这是一种对象行为型模式，别名为Token，又称作Snapshot。 模式结构 Originator(原发器):它是一个普通类，可以创建一个备忘录，并存储它的当前内部状态(比如象棋的某一步)，也可以使用备忘录来恢复其内部状态，一般将需要">
+<meta property="og:image" content="http://yoursite.com/images/memento_pattern_class_diagram.png">
+<meta property="og:image" content="http://yoursite.com/images/memento_pattern_sequence_diagram.png">
+<meta property="og:updated_time" content="2017-06-19T05:59:04.401Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="备忘录模式">
-<meta name="twitter:description" content="定义备忘录模式(Memento Pattern):在不破坏封装的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态，这样可以在以后将对象恢复到原先保存的状态。这是一种对象行为型模式，别名为Token。 在软件开发中，我们经常需要使用聚合对象来存储一系列数据。聚合对象用于两个职责：一是存数据；二是取数据。从依赖性来看，前者是聚合对象的基本职责；而后者既是可变化的，又是可分离的。因此，可以将遍">
-<meta name="twitter:image" content="http://yoursite.com/images/iterator_pattern_class_diagram.png">
+<meta name="twitter:description" content="定义备忘录模式(Memento Pattern):在不破坏封装的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态，这样可以在以后将对象恢复到原先保存的状态。这是一种对象行为型模式，别名为Token，又称作Snapshot。 模式结构 Originator(原发器):它是一个普通类，可以创建一个备忘录，并存储它的当前内部状态(比如象棋的某一步)，也可以使用备忘录来恢复其内部状态，一般将需要">
+<meta name="twitter:image" content="http://yoursite.com/images/memento_pattern_class_diagram.png">
 
 
 
@@ -355,24 +356,53 @@
       
 
       
-        <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>备忘录模式(Memento Pattern):在不破坏封装的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态，这样可以在以后将对象恢复到原先保存的状态。这是一种对象行为型模式，别名为Token。</p>
-<p>在软件开发中，我们经常需要使用聚合对象来存储一系列数据。聚合对象用于两个职责：一是存数据；二是取数据。从依赖性来看，前者是聚合对象的基本职责；而后者既是可变化的，又是可分离的。因此，可以将遍历数据的行为从聚合对象中分离出来，封装在一个被称之为“迭代器”的对象中，由迭代器来提供遍历聚合对象内部数据的行为，这将简化聚合对象的设计，更符合“单一职责”的要求。</p>
+        <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>备忘录模式(Memento Pattern):在不破坏封装的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态，这样可以在以后将对象恢复到原先保存的状态。这是一种对象行为型模式，别名为Token，又称作Snapshot。</p>
 <h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
-<li>Iterator(抽象迭代器):它定义了访问和遍历元素的接口，声明了用于遍历数据元素的方法。</li>
-<li>ConcreteIterator(具体迭代器):迭代器的具体实现类。通过游标来记录在聚合对象中所处的位置。</li>
-<li>Aggregate(抽象聚合类):存储和管理元素对象，createIterator()方法充当了抽象迭代器工厂角色。</li>
-<li>ConcreteAggregate(具体聚合类):具体实现类。</li>
+<li>Originator(原发器):它是一个普通类，可以创建一个备忘录，并存储它的当前内部状态(比如象棋的某一步)，也可以使用备忘录来恢复其内部状态，一般将需要保存内部状态的类设计为原发器</li>
+<li>Memento(备忘录):存储原发器的内部状态，根据原发器来决定保存哪些内部状态。备忘录的设计一般可以参考原发器的设计，根据实际需要确定备忘录类中的属性。需要注意的是，除了原发器本身与负责人类之外，备忘录对象不能直接供其他类使用</li>
+<li>Caretaker(负责人):负责人又称为管理者，它负责保存备忘录，但是不能对备忘录的内容进行操作或检查。在负责人类中可以存储一个或多个备忘录对象，它只负责存储对象，而不能修改对象，也无须知道对象的实现细节。</li>
 </ul>
-<p><img src="/images/iterator_pattern_class_diagram.png" alt="类图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/IteratorPattern" target="_blank" rel="external">GitHub</a></p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>迭代器和聚合类是密不可分的，所以大多数语言在实现容器的同时都提供了迭代器，所以我想说的是：这些语言提供的容器和迭代器大多数情况下可以满足需要的。同样的，如果我们需要自定义容器，那么我们一定要提供迭代器。</p>
+<p><img src="/images/memento_pattern_class_diagram.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/memento_pattern_sequence_diagram.png" alt="类图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/MementoPattern" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>应用领域包括：文字处理 、图像编辑、数据库管理系统等软件中。</p>
 <h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
-<li>更换聚合类非常方便</li>
-<li>支持以不同方式遍历一个聚合类，更换迭代器即可</li>
+<li>提供了一种状态恢复的实现机制</li>
+<li>备忘录实现了对信息的封装，一个备忘录对象是一种原发器对象状态的表示，不会被其他代码改动</li>
 </ul>
 <h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
-<li>迭代器的设计难度较大，尤其是扩展</li>
-<li>对于比较简单的遍历，迭代器有些繁琐，比如我们平时用for代替Iterator遍历一个数组</li>
+<li>如果原发器的类成员变量过多，会占用大量空间</li>
+</ul>
+<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><ul>
+<li>备忘录做成原发器的内部类</li>
+<li>备忘录的生成使用<a href="http://xusx1024.com/2017/03/18/design-patterns-prototype-1/" target="_blank" rel="external">原型设计模式</a></li>
+<li>备忘录模式通常与命令模式和迭代子模式一同使用</li>
+<li><p>保证负责人不能对备忘录修改的方法，使用标识接口</p>
+<pre><code>package MementoPattern;
+
+/**
+ *  备忘录模式中，管理者只负责管理，是不可以修改备忘录的&lt;br/&gt;
+ *  
+ *  所以，使用标识接口{@link MementoIF}}，管理者便不能修改备忘录的内容
+ * 
+ * @author sxx.xu
+ *
+ */
+public class MementoCaretaker3 {
+    private MementoIF memento;
+
+    public MementoIF getMemento() {
+        return memento;
+    }
+
+    public void setMemento(MementoIF memento) {
+        this.memento = memento;
+    }
+
+}  
+</code></pre></li>
+<li><p>“自述历史”模式（History-On-Self Pattern），备忘录模式的特殊实现形式。Demo:<a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/HistoryOnSelfPattern" target="_blank" rel="external">GitHub</a></p>
+</li>
 </ul>
 
       
@@ -570,7 +600,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式结构"><span class="nav-number">2.</span> <span class="nav-text">模式结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">3.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析"><span class="nav-number">4.</span> <span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#优点"><span class="nav-number">4.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点"><span class="nav-number">4.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式结构"><span class="nav-number">2.</span> <span class="nav-text">模式结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#时序图"><span class="nav-number">3.</span> <span class="nav-text">时序图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">4.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析"><span class="nav-number">5.</span> <span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#优点"><span class="nav-number">5.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点"><span class="nav-number">5.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#扩展"><span class="nav-number">6.</span> <span class="nav-text">扩展</span></a></li></ol></div>
             
 
           </div>

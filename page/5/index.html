@@ -267,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/design-patterns-builder-2/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/design-patterns-builder-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuSing">
@@ -286,7 +286,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/03/03/design-patterns-builder-2/" itemprop="url">建造者设计模式(二) Android中的应用</a></h1>
+                <a class="post-title-link" href="/2017/03/03/design-patterns-builder-1/" itemprop="url">建造者设计模式(一) 基础知识</a></h1>
         
 
         <div class="post-meta">
@@ -357,12 +357,167 @@
       
         
           
-            <h4 id="AlertDialog-Builder"><a href="#AlertDialog-Builder" class="headerlink" title="AlertDialog.Builder"></a>AlertDialog.Builder</h4><p>如何应用窗口主题，各种参数合法性检查，上下文切换，窗口创建内部流程，我们都略过，只看其参数的构建即可。<br><br>那么AlertDialog中的参数，如何传递？<br></p>
-<p>AlertDialog 中有一个AlertController的实例。<br><br>AlertController中有个AlertParams的静态类。<br><br>在AlertDialog中有一个静态类Builder，该Builder中持有AlertParams的一个实例。<br><br>Builder中的方法都把属性传入了AlertParams。<br><br>在Builder的create()方法，调用了AlertParams的applay，把参数传回了AlertController中。而AlertController的实例被AlertDialog持有。<br></p>
-<p>示意图如下：</p>
-<p><img src="/images/alertDialog.png" alt="示例图"></p>
-<h4 id="Uri-Builder"><a href="#Uri-Builder" class="headerlink" title="Uri.Builder"></a>Uri.Builder</h4><p>Uri.Builder;<br>Notification.Builder;<br>ContentProviderOperation.Builder;</p>
+            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><p>一步一步创建一个复杂对象的创建型模式，它允许用户在不知道内部构建细节的情况下，可以更精细地控制对象的构造流程。<br><br></p>
+<p>将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。</p>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ol>
+<li>相同的方法，不同的执行顺序，产生不同的事件结果时；</li>
+<li>多个部件或零件，都可以装配到一个对象中，但是产生的运行结果又不相同时；</li>
+<li>当初始化一个对象特别复杂，如参数多，且很多参数都具有默认值。</li>
+</ol>
+<p>记住一句话:<code>遇到多个构造器参数时要考虑用构建器。</code></p>
+<h4 id="为什么是builder模式"><a href="#为什么是builder模式" class="headerlink" title="为什么是builder模式"></a>为什么是builder模式</h4><p>在创建一个对象时，如果有多个构造器参数，可选的方式有以下几种：</p>
+<ol>
+<li>重叠构造器-telescoping constructor</li>
+<li>JavaBeans模式</li>
+<li>构造器模式</li>
+</ol>
+<h5 id="重叠构造器"><a href="#重叠构造器" class="headerlink" title="重叠构造器"></a>重叠构造器</h5><ul>
+<li>随着参数数目的增加，很难控制</li>
+<li>代码很难编写，难以阅读</li>
+<li>如果参数的类型相同，那么调用时如果不小心颠倒了其中的俩。。</li>
+</ul>
+<pre><code>/**
+ * 重叠构造器Demo
+ * 
+ * @author Administrator
+ * 
+ */
+public class TeleScopDemo {
 
+    private final int param1;
+    private final int param2;
+    private final int param3;
+    private final int param4;
+    private final int param5;
+
+    public TeleScopDemo(int param1) {
+        this(param1, 0);
+    }
+
+    public TeleScopDemo(int param1, int param2) {
+        this(param1, param2, 0);
+    }
+
+    public TeleScopDemo(int param1, int param2, int param3) {
+        this(param1, param2, param3, 0);
+    }
+
+    public TeleScopDemo(int param1, int param2, int param3, int param4) {
+        this(param1, param2, param3, param4, 0);
+    }
+
+    public TeleScopDemo(int param1, int param2, int param3, int param4,
+            int param5) {
+        this.param1 = param1;
+        this.param2 = param2;
+        this.param3 = param3;
+        this.param4 = param4;
+        this.param5 = param5;
+    }
+
+}
+</code></pre><h5 id="JavaBeans"><a href="#JavaBeans" class="headerlink" title="JavaBeans"></a>JavaBeans</h5><p>由于其构造过程被分到了几个调用中，在构造过程中可能处于不一致的状态。需要同步来保证其线程安全。 </p>
+<pre><code>/**
+ * JavaBeans模式Demo
+ * 
+ * @author Administrator
+ * 
+ */
+public class JavaBeansDemo {
+
+    private int param1;
+    private int param2;
+    private int param3;
+    private int param4;
+    private int param5;
+
+    public JavaBeansDemo() {
+    }
+
+    public void setParam1(int param1) {
+        this.param1 = param1;
+    }
+
+    public void setParam2(int param2) {
+        this.param2 = param2;
+    }
+
+    public void setParam3(int param3) {
+        this.param3 = param3;
+    }
+
+    public void setParam4(int param4) {
+        this.param4 = param4;
+    }
+
+    public void setParam5(int param5) {
+        this.param5 = param5;
+    }
+
+}
+</code></pre><h5 id="Builder模式"><a href="#Builder模式" class="headerlink" title="Builder模式"></a>Builder模式</h5><p>既有重叠构造器的安全性，也有JavaBeans的可读性。</p>
+<pre><code>/**
+ * 构建器模式Demo
+ * 
+ * @author Administrator
+ * 
+ */
+public class BuilderPatternDemo {
+
+    private final int param1;
+    private final int param2;
+    private final int param3;
+    private final int param4;
+    private final int param5;
+
+    private BuilderPatternDemo(Builder builder) {
+        param1 = builder.param1;
+        param2 = builder.param2;
+        param3 = builder.param3;
+        param4 = builder.param4;
+        param5 = builder.param5;
+    }
+
+    public static class Builder {
+        // 必需的参数
+        private final int param1;
+
+        // 可选的参数，带有初始值
+        private int param2 = 0;
+        private int param3 = 0;
+        private int param4 = 0;
+        private int param5 = 0;
+
+        public Builder(int param1) {
+            this.param1 = param1;
+        }
+
+        public Builder param2(int val) {
+            param2 = val;
+            return this;
+        }
+
+        public Builder param3(int val) {
+            param3 = val;
+            return this;
+        }
+
+        public Builder param4(int val) {
+            param4 = val;
+            return this;
+        }
+
+        public Builder param5(int val) {
+            param5 = val;
+            return this;
+        }
+
+        public BuilderPatternDemo build(){
+            return new BuilderPatternDemo(this);
+        }
+    }
+}
+</code></pre>
           
         
       
@@ -2776,7 +2931,7 @@ public class MaxTree {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/hanoi-problom/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/get-max-window/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuSing">
@@ -2795,7 +2950,7 @@ public class MaxTree {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/16/hanoi-problom/" itemprop="url">用栈来求解汉诺塔的问题</a></h1>
+                <a class="post-title-link" href="/2017/02/16/get-max-window/" itemprop="url">生成窗口最大值数组</a></h1>
         
 
         <div class="post-meta">
@@ -2866,142 +3021,77 @@ public class MaxTree {
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="用栈来求解汉诺塔问题"><a href="#用栈来求解汉诺塔问题" class="headerlink" title="用栈来求解汉诺塔问题"></a>用栈来求解汉诺塔问题</h5><pre><code>汉诺塔问题比较经典，这里修改一下游戏规则：现在限制不能从最左侧的塔直接移动到最右侧，也不能从最右侧直接移动到最左侧，而是必须经过中间。求当塔有N层的时候，打印最优移动过程和最优移动总步数。
-
-例如，当塔数为两层时，最上层的塔记为1，最下层的塔记为2，则打印：
-
-Move 1 from left to mid
-Move 1 from mid to right
-Move 2 from left to mid
-Move 1 from right to mid
-Move 1 from mid to left
-Move 2 from mid to right
-Move 1 from left to mid
-Move 1 from mid to right
-</code></pre><p>用以下两种方法解决</p>
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="生成窗口最大值数组"><a href="#生成窗口最大值数组" class="headerlink" title="生成窗口最大值数组"></a>生成窗口最大值数组</h5><p>有一个整型数组arr和一个大小为w的窗口从数组的最左边滑倒最右边，窗口每次向右边滑一个位置。<br>例如，数组[4,3,5,4,3,3,6,7]，窗口大小为3时：</p>
+<blockquote>
+<p>[4 3 5] 4 3 3 6 7 窗口中最大值为5 <br><br>4 [3 5 4] 3 3 6 7 窗口中最大值为5 <br><br>4 3 [5 4 3] 3 6 7 窗口中最大值为5 <br><br>4 3 5 [4 3 3] 6 7 窗口中最大值为4 <br><br>4 3 5 4 [3 3 6] 7 窗口中最大值为6 <br><br>4 3 5 4 3 [3 6 7] 窗口中最大值为7 <br></p>
+<p>请实现一个函数：</p>
 <ul>
-<li>方法一：递归的方法</li>
-<li>方法二：非递归的方法，用栈来模拟汉诺塔的三个塔</li>
+<li>输入：整型数组arr，窗口大小为w</li>
+<li>输出：一个长度为n-w+1的数组res，res[i]表示每一种窗口状态下的最大值。</li>
 </ul>
-<h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>校 ★★★☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><h5 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h5><pre><code>/**
- * 递归的方法： 首先，如果只剩最上层(递归的终止条件)的塔需要移动，则有如下处理： 
- * 1.如果希望从“左”移到“中”，打印“Move 1 from left to mid” 
- * 2.如果希望从“中”移到“右”，打印“Move 1 from mid to right” 
- * 3.如果希望从“右”移到“中”，打印“Move 1 from right to mid” 
- * 4.如果希望从“中”移到“左”，打印“Move 1 from mind to left”
- * 5.如果希望从“右”移到“左”，打印“Move 1 from right to mid” 和 “Move 1 from mind to left”
- * 6.如果希望从“左”移到“右”，打印“Move 1 from left to mid” 和 “Move 1 from mid to right”
- * 
- */
-public class HanoiProblem {
+</blockquote>
+<p>以上例，结果应为：{5,5,5,4,6,7}.</p>
+<h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><h5 id="方法一-O-N-w"><a href="#方法一-O-N-w" class="headerlink" title="方法一:O(N * w)"></a>方法一:O(N * w)</h5><pre><code> public class Demo {
 
     public static void main(String[] args) {
-        System.out.println(process(7, &quot;left&quot;, &quot;mid&quot;, &quot;right&quot;, &quot;left&quot;, &quot;right&quot;));
+        int[] arr = getMaxWindow(new int[] { 4, 3, 5, 4, 3, 3, 6, 7 }, 3);
+        for (int i = 0; i &lt; arr.length; i++) {
+            System.out.println(arr[i]);
+        }
     }
 
-    public static int hanoiProblem1(int num, String left, String mid, String right) {
-        if (num &lt; 1)
-            return 0;
-
-        return process(num, left, mid, right, left, right);
-
-    }
-
-    public static int process(int num, String left, String mid, String right, String from, String to) {
-        if (num == 1) {
-            if (from.equals(mid) || to.equals(mid)) {
-                System.out.println(&quot;Move 1 from &quot; + from + &quot; to &quot; + to);
-                return 1;
-            } else {
-                System.out.println(&quot;Move 1 from &quot; + from + &quot; to &quot; + mid);
-                System.out.println(&quot;Move 1 from &quot; + mid + &quot; to &quot; + to);
-                return 1;
+    public static int[] getMaxWindow(int[] arr, int w) {
+        int[] result = new int[arr.length - w + 1];
+        for (int i = 0; i &lt; arr.length - w + 1; i++) {
+            int x = arr[i];
+            for (int j = 0; j &lt; w; j++) {
+                if (arr[i + j] &gt;= x)
+                    x = arr[i + j];
             }
+            result[i] = x;
         }
-        if (from.equals(mid) || to.equals(mid)) {
-            String another = (from.equals(left) || to.equals(left)) ? right : left;
-            int part1 = process(num, left, mid, right, from, another);
-            int part2 = 1;// what&apos;s this?
-            System.out.println(&quot;Move &quot; + num + &quot; from &quot; + from + &quot; to &quot; + to);
-            int part3 = process(num - 1, left, mid, right, another, to);
-            return part1 + part2 + part3;
-        } else {
-            int part1 = process(num - 1, left, mid, right, from, to);
-            int part2 = 1;
-            System.out.println(&quot;Move &quot; + num + &quot; from &quot; + from + &quot; to &quot; + mid);
-            int part3 = process(num - 1, left, mid, right, to, from);
-            int part4 = 1;
-            System.out.println(&quot;Move &quot; + num + &quot; from &quot; + mid + &quot; to &quot; + to);
-            int part5 = process(num - 1, left, mid, right, from, to);
-            return part1 + part2 + part3 + part4 + part5;
-        }
+        return result;
     }
 }
-</code></pre><h5 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h5><pre><code>import java.util.Stack;
+</code></pre><h5 id="方法二-O-N"><a href="#方法二-O-N" class="headerlink" title="方法二:O(N)"></a>方法二:O(N)</h5><blockquote>
+<p>本题的关键在于利用双端队列来实现窗口最大值的更新。生成双端队列qmax存放数组arr中的下标。<br>放入规则：</p>
+<ol>
+<li>如果qmax为空，直接把下标i放入；</li>
+<li>如果qmax不为空，比较arr[i]和qmax队尾下标对应的数组元素，如果arr[i]比较大，则持续弹出qmax中的元素，直至arr[i]小于qmax下标对应的元素或者qmax符合第一条；</li>
+</ol>
+<p>弹出规则：<br>如果qmax对头的下标等于i-w，说明当前qmax队头的下标已过期，弹出队头。</p>
+<p>上述过程，每个下标最多进入qmax一次，出qmax一次，所以遍历的过程中进出双端队列的操作时间复杂度是O(n).</p>
+<p>注意，我们的目的数组的大小为：n-w+1，在arr的循环过程中，录入数据进入目的数组时，注意过滤其边界，否则<code>java.lang.ArrayIndexOutOfBoundsException</code>.</p>
+</blockquote>
+<pre><code>public static int[] getMaxWindow2(int[] arr, int w) {
+        int[] result = new int[arr.length - w + 1];
+        LinkedList&lt;Integer&gt; qmax = new LinkedList&lt;&gt;();
+        int index = 0;
+        for (int i = 0; i &lt; arr.length; i++) {
 
-/**
- * 非递归方法 —— 用栈来模拟整个过程 修改后的汉诺塔问题不能让任何塔从“左”直接移动到“右”，也不能从“右”直接移动到“左”，而是要经过
- * 中间。也就是说，实际动作只有4个：“左”到“中”、“中”到“左”、“中”到“右”、“右”到“中”。
- * 
- * 现在我们把左、中、右三个地点抽象成栈，依次记为LS,MS,RS。最初所有的塔都在LS上。
- * 那么如上4个动作就可以看作是：某一个栈(from)把栈顶元素弹出，然后压入另一个栈(to)，做为该栈的栈顶。
- * 
- * 第一原则：小压大的原则；每个栈的栈顶-栈底元素，从小到大。
- * 第二原则：相邻不可逆原则；比如L-&gt;M发生了，那么下一步一定不可为：M-&gt;L这样的操作，没意义。
- * 
- * 非递归方法结论： &lt;br/&gt;
- * 1.第一个动作一定是L-&gt;M；&lt;br/&gt;
- * 2.在走出最少步数过程中的任何时刻，四个动作中只有一个动作不违反小压大和相邻不可逆原则，另外三个动作一定都会违反。
- * 
- * @author sxx.xu
- *
- */
-public class HanoiProblem2 {
+            while (!qmax.isEmpty() &amp;&amp; arr[qmax.peekLast()] &lt;= arr[i]) {
+                qmax.pollLast();
+            }
+            qmax.addLast(i);
+            if (qmax.peekFirst() == i - w) {
+                qmax.pollFirst();
+            }
+            if (i &gt;= w - 1)
+                result[index++] = arr[qmax.peekFirst()];
 
-    public static void main(String[] args) {
-        System.out.println(hanoi(4, &quot;L&quot;, &quot;M&quot;, &quot;R&quot;));
-    }
-    public static int hanoi(int num, String left, String mid, String right) {
-        Stack&lt;Integer&gt; lS = new Stack&lt;&gt;();
-        Stack&lt;Integer&gt; mS = new Stack&lt;&gt;();
-        Stack&lt;Integer&gt; rS = new Stack&lt;&gt;();
-        lS.push(Integer.MAX_VALUE);
-        mS.push(Integer.MAX_VALUE);
-        rS.push(Integer.MAX_VALUE);
-        for (int i = num; i &gt; 0; i--) {
-            lS.push(i);
         }
-
-        Action[] record = { Action.No };
-        int step = 0;
-        while (rS.size() != num + 1) {
-            step += fStackToStack(record, Action.MToL, Action.LToM, lS, mS, left, mid);
-            step += fStackToStack(record, Action.LToM, Action.MToL, mS, lS, mid, left);
-            step += fStackToStack(record, Action.RToM, Action.MToR, mS, rS, mid, right);
-            step += fStackToStack(record, Action.MToR, Action.RToM, rS, mS, right, mid);
-        }
-        return step;
+        return result;
     }
+</code></pre><h6 id="双端队列的实现类"><a href="#双端队列的实现类" class="headerlink" title="双端队列的实现类"></a>双端队列的实现类</h6><pre><code>public class LinkedList&lt;E&gt; extends AbstractSequentialList&lt;E&gt;
+    implements List&lt;E&gt;, Deque&lt;E&gt;, Cloneable, java.io.Serializable
 
-    public static int fStackToStack(Action[] record, Action preNoAct, Action nowAct, Stack&lt;Integer&gt; fStack,
-            Stack&lt;Integer&gt; tStack, String from, String to) {
-        if (record[0] != preNoAct &amp;&amp; fStack.peek() &lt; tStack.peek()) {
-            tStack.push(fStack.pop());
-            System.out.println(&quot;Move &quot; + tStack.peek() + &quot; from &quot; + from + &quot; to &quot; + to);
-            record[0] = nowAct;
-            return 1;
-        }
-        return 0;
-    }
 
-}
 
-enum Action {
-    No, LToM, MToL, MToR, RToM
+public class ArrayDeque&lt;E&gt; extends AbstractCollection&lt;E&gt;
+                           implements Deque&lt;E&gt;, Cloneable, Serializable
+</code></pre><p><a href="http://shmilyaw-hotmail-com.iteye.com/blog/1700599" target="_blank" rel="external">java集合类深入分析之Queue篇</a></p>
 
-} 
-</code></pre>
           
         
       
