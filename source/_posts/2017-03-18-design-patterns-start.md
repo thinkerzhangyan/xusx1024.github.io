@@ -51,7 +51,7 @@ winPC画图工具安利：[http://astah.net/](http://astah.net/)
 	- [迭代器模式](http://xusx1024.com/2017/06/15/design-patterns-iterator/)
 	- [责任链模式](http://xusx1024.com/2017/05/31/design-patterns-chain-of-responsibility/)
 	- [命令模式](http://xusx1024.com/2017/06/14/design-patterns-command/)
-	- 备忘录模式
+	- [备忘录模式](http://xusx1024.com/2017/06/16/design-patterns-memento/)
 	- [状态模式](http://xusx1024.com/2017/05/26/design-patterns-state-pattern/)
 	- 访问者模式
 	- [中介者模式](http://xusx1024.com/2017/06/13/design-patterns-mediator/)
@@ -65,3 +65,4 @@ winPC画图工具安利：[http://astah.net/](http://astah.net/)
 - 《Android源码设计模式解析与实战》
 - [工匠若水](http://blog.csdn.net/yanbober/article/category/3148699)
 - [卡奴达摩](http://blog.csdn.net/zhengzhb/article/category/926691)
+- [特种兵—AK47](http://blog.csdn.net/column/details/loveyun.html)

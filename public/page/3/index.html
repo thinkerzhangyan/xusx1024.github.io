@@ -267,6 +267,163 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/18/android-system-service-CaptioningManager/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/05/18/android-system-service-CaptioningManager/" itemprop="url">Android系统服务：CaptioningManager</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-18T00:00:00Z">
+                2017-05-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="CaptioningManager是什么"><a href="#CaptioningManager是什么" class="headerlink" title="CaptioningManager是什么"></a>CaptioningManager是什么</h4><ul>
+<li>看名字：字幕管理</li>
+<li><a href="http://informationaccessibilityassociation.github.io/androidAccessibility/checklist.htm" target="_blank" rel="external">Android开发无障碍指南</a>:<blockquote>
+<p>如果应用程序提供视频播放，必须为聋人和重听用户提供字幕和注释来帮助他们理解。视频播放控件必须明确说明字幕是否可用，并提供简单的方式启用字幕。</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="设备如何设置"><a href="#设备如何设置" class="headerlink" title="设备如何设置"></a>设备如何设置</h4><p><a href="https://support.google.com/accessibility/android/answer/6006554" target="_blank" rel="external">google 官方说明</a></p>
+<p> <strong>字幕</strong> </p>
+<p>您可以为设备开启字幕功能以及为字幕选择所需选项（语言、文字和样式）。</p>
+<p>开启字幕功能<br><br>打开设备的“设置”应用<br><br>点按<code>无障碍</code>，然后点按<code>字幕</code><br><br>点按顶部的<code>开启/关闭</code>开关<br><br><br><br><strong>更改字幕设置</strong><br><br>开启字幕功能后，您可以在<code>设置</code> &gt; <code>无障碍</code> &gt; <code>字幕</code>中调整以下设置。<br></p>
+<ul>
+<li>语言：选择您想要以何种语言显示字幕 </li>
+<li>文字大小：选择字幕文字大小 </li>
+<li>字幕样式：为字幕文字和背景选择样式和颜色<br><br></li>
+</ul>
+<p>您的字幕设置可能不适用于某些应用。<br></p>
+<h4 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h4><p><a href="https://developer.android.google.cn/about/versions/android-4.4.html?hl=zh-cn" target="_blank" rel="external">简介</a></p>
+<p>官方文档称之为：隐藏式字幕。4.4版本释出。<br></p>
+<p>现在播放HTTP Live Steam(HLS)视频时，<code>VideoView</code>支持<code>WebVTT</code>字幕跟踪，根据用户在系统设置中定义的隐藏式字幕首选项显示字幕跟踪。<br><br>您也可以使用<code>addSubtitleSource()</code>方法为<code>VideoView</code>提供<code>WebVTT</code>字幕跟踪。此方法接受一个<code>InputStream</code>,其携带字幕数据和指定该字幕数据格式的<code>MediaFormat</code>对象，您可以使用<code>createSubtitleFormat()</code>指定该对象。这些字幕也会按照用户的首选项显示在视频上。<br><br>如果您不使用<code>VideoView</code>显示您的视频内容，则应尽可能使您的字幕叠加层与用户的隐藏式字幕首选项匹配。新的<code>CaptioningManager API</code>允许您查询用户的隐藏式字幕首选项，包括<code>CaptioningManager.CaptionStyle</code>定义的样式，如字体和颜色。如果用户在视频已开始后调整部分首选项，您应侦听首选项的变化，方法是注册一个<code>CaptioningManager.CaptioningChangeListener</code>实例以在任意首选项发生变化时接收回调，然后根据需要更新您的字幕。<br></p>
+<p><a href="https://dev.opera.com/articles/zh-cn/an-introduction-to-webvtt-and-track/" target="_blank" rel="external">WebVTT 及 HTML5 <track> 元素简介</a><br><br><a href="https://www.zhihu.com/question/29789259" target="_blank" rel="external">WebVTT与srt格式转换</a></p>
+<h4 id="题外话：视频弹幕"><a href="#题外话：视频弹幕" class="headerlink" title="题外话：视频弹幕"></a>题外话：视频弹幕</h4><p><a href="http://blog.csdn.net/zhangphil/article/details/52021055" target="_blank" rel="external">基础原理</a><br></p>
+<p><a href="https://github.com/linsea/OpenDanmaku/blob/master/opendanmaku/src/main/java/com/opendanmaku/DanmakuItem.java" target="_blank" rel="external">简单封装</a><br></p>
+<p><a href="https://github.com/Bilibili/DanmakuFlameMaster" target="_blank" rel="external">成熟的B站</a><br></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/17/javaee-tips/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2085,256 +2242,6 @@ public class CountingSort {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/radix-sort/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/04/10/radix-sort/" itemprop="url">非比较排序之基数排序</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-10T00:00:00Z">
-                2017-04-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>探究Tinker的BSDiff算法的过程中，发现用到了<code>后缀排序</code>，就去研究后缀排序，然后发现用到<code>倍增算法</code>的思想。而倍增是排序的一种策略，这种策略要求必须对<code>基数排序</code>有一定的理解 T.T。<br><br>好，言归正传。基数排序是<a href="http://xusx1024.com/2017/04/10/bucket-sort/" target="_blank" rel="external">桶排序</a>的一种特例。 </p>
-<h4 id="比较和非比较的区别"><a href="#比较和非比较的区别" class="headerlink" title="比较和非比较的区别"></a>比较和非比较的区别</h4><p>常见的快速排序、归并排序、堆排序、冒泡排序等属于比较排序。在排序的最终结果里，元素之间的次序依赖于它们之间的比较。每个数都必须和其他数进行比较，才能确定自己的位置。</p>
-<p>在 冒泡排序 之类的排序中，问题规模为n，又因为需要比较n次，所以平均时间复杂度为O(n²)。在 归并排序、快速排序 之类的排序中，问题规模通过分治法消减为logN次，所以时间复杂度平均 O(nlogn) 。</p>
-<p>比较排序的优势是，适用于各种规模的数据，也不在乎数据的分布，都能进行排序。可以说，比较排序适用于一切需要排序的情况。</p>
-<p>计数排序、基数排序、桶排序则属于非比较排序。非比较排序是通过确定每个元素之前，应该有多少个元素来排序。针对数组arr，计算arr[i]之前有多少个元素，则唯一确定了arr[i]在排序后数组中的位置。</p>
-<p>非比较排序只要确定每个元素之前的已有的元素个数即可，所有一次遍历即可解决。算法时间复杂度 O(n) 。</p>
-<p>非比较排序时间复杂度底，但由于非比较排序需要占用空间来确定唯一位置。所以对数据规模和数据分布有一定的要求。</p>
-<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><blockquote>
-<p>基数排序是一种非比较型、整数排序算法，其原理是将整数按位数切割成不同的数字，然后按照每个位数分别比较。<br><br></p>
-</blockquote>
-<p>排序过程：<br><br>将所有待比较数值(正整数)统一为同样的数位长度，数位较短的数前面补零。然后从最地位开始，依次进行一次排序。<br></p>
-<p>基数排序法会使用到桶，即把要比较的个、十、百、千。。。位的对应的元素分配到0~9个桶中，借以达到排序的作用，在某些时候，基数排序法的效率高于其他的比较性算法。具体的分步动画演示详见：<a href="http://www.cs.usfca.edu/~galles/visualization/RadixSort.html" target="_blank" rel="external">Data Structure Visualizations</a>。</p>
-<p><br><br>基数排序的方式可以采用LSD（Least significant digital）或MSD（Most significant digital），LSD的排序方式由键值的最右边开始，而MSD则相反，由键值的最左边开始。</p>
-<h4 id="效率"><a href="#效率" class="headerlink" title="效率"></a>效率</h4><p>基数排序的时间复杂度是 <strong>O(k·n)</strong>，其中<strong>n</strong>是排序元素个数， <strong>k</strong>是数字位数。注意这不是说这个时间复杂度一定优于 <strong>O(n·log(n))</strong>， <strong>k</strong>的大小取决于数字位的选择（比如比特位数），和待排序数据所属数据类型的全集的大小； <strong>k</strong>决定了进行多少轮处理，而 <strong>n</strong>是每轮处理的操作数目。</p>
-<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>对数组{53, 542, 63, 3, 63, 14, 214, 154, 748, 616}，它的示意图如下：</p>
-<p><img src="/images/radix_sort.png" alt="示例图"><br>Java代码如下：</p>
-<pre><code>package RadixSort;
-
-/**
- * 基数排序
- * 
- * @author sxx.xu
- *
- */
-public class RadixSort {
-
-    private static int getMax(int[] array) {
-        int max = array[0];
-        for (int i : array) {
-            max = i &gt; max ? i : max;
-        }
-        return max;
-    }
-
-    public static void radixSort(int[] array) {
-        int exp = 1;// 个、十、百、千。。。位
-        int max = getMax(array);
-
-        for (exp = 1; max / exp &gt; 0; exp *= 10)
-            countSort(array, exp);
-    }
-
-    private static void countSort(int[] array, int exp) {
-
-        int[] outputs = new int[array.length];
-        int[] buckets = new int[10];// 0-9
-
-        //统计array中对应位数的元素的个数
-        for (int i : array) {
-            buckets[(i / exp) % 10]++;
-        }
-        //统计array中，小于该位的元素的个数，相当于排序
-        for (int i = 1; i &lt; buckets.length; i++) {
-            buckets[i] += buckets[i - 1];
-        }
-        //赋值
-        for (int i = array.length - 1; i &gt;= 0; i--) {
-            outputs[buckets[(array[i] / exp) % 10] - 1] = array[i];
-            buckets[(array[i] / exp) % 10]--;
-        }
-
-        for (int i = 0; i &lt; outputs.length; i++) {
-            array[i] = outputs[i];
-        }
-        outputs = null;
-        buckets = null;
-    }
-
-    private static void radixSort(int[] array, int d) {
-        int n = 1;// 个、十、百、千。。。位
-        int k = 0;// 保存每一位排序后的结果用于下一位的排序输入
-        int length = array.length;
-        int[][] bucket = new int[10][length];// 排序桶用于保存每次排序后的结果，这一位上排序结果相同的数字放在同一个桶里
-        int[] order = new int[length];// 用于保存每个桶里有多少个数字
-        while (n &lt; d) {
-            for (int num : array) // 将数组array里的每个数字放在相应的桶里
-            {
-                int digit = (num / n) % 10;
-                bucket[digit][order[digit]] = num;
-                order[digit]++;
-            }
-            for (int i = 0; i &lt; length; i++)// 将前一个循环生成的桶里的数据覆盖到原数组中用于保存这一位的排序结果
-            {
-                if (order[i] != 0)// 这个桶里有数据，从上到下遍历这个桶并将数据保存到原数组中
-                {
-                    for (int j = 0; j &lt; order[i]; j++) {
-                        array[k] = bucket[i][j];
-                        k++;
-                    }
-                }
-                order[i] = 0;// 将桶里计数器置0，用于下一次位排序
-            }
-            n *= 10;
-            k = 0;// 将k置0，用于下一轮保存位排序结果
-        }
-
-    }
-
-    public static void main(String[] args) {
-        int array[] = { 53, 3, 542, 748, 14, 214, 154, 63, 616, 70 };
-        for (int i : array) {
-            System.out.print(i + &quot;  &quot;);
-        }
-        System.out.println(&quot;&quot;);
-        System.out.println(&quot;before===================================after&quot;);
-        radixSort(array);
-        for (int i : array) {
-            System.out.print(i + &quot;  &quot;);
-        }
-        int[] A = new int[] { 53, 3, 542, 748, 14, 214, 154, 63, 616, 70 };
-        radixSort(A, 100);
-        System.out.println(&quot;&quot;);
-        for (int i : A) {
-            System.out.print(i + &quot;  &quot;);
-        }
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/bucket-sort/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2625,7 +2532,7 @@ public class BuketsSort {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/07/git-command/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/radix-sort/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuSing">
@@ -2644,7 +2551,7 @@ public class BuketsSort {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/04/07/git-command/" itemprop="url">Git使用笔记</a></h1>
+                <a class="post-title-link" href="/2017/04/10/radix-sort/" itemprop="url">非比较排序之基数排序</a></h1>
         
 
         <div class="post-meta">
@@ -2656,8 +2563,8 @@ public class BuketsSort {
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-07T00:00:00Z">
-                2017-04-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-10T00:00:00Z">
+                2017-04-10
               </time>
             
 
@@ -2715,21 +2622,124 @@ public class BuketsSort {
       
         
           
-            <h4 id="git管理github"><a href="#git管理github" class="headerlink" title="git管理github"></a>git管理github</h4><p>1，需要有Githb账号，然后新建仓库，此时保留SSH，长这样：<code>git@github.com:xusx1024/codewars.git</code></p>
-<p>2，pc端安装git工具，<code>git --info-path</code>打印git所在路径；创建本地仓库；</p>
-<p>3，在本地文件中，右键点击 Git Bash Here，进入git命令行</p>
-<p>4，全局配置 <br><br>    <code>git config --global username &quot;此处定义你的名字&quot;</code><br><br>    <code>git config --global useremail xxxxxxx@gmail.com</code></p>
-<p>5，初始化本地仓库：<br>    <code>git init</code></p>
-<p>6，创建readme，并上传：<br><br>    <code>git add readme.txt</code><br><br>    <code>git commint -m &quot;upload readme&quot;</code><br></p>
-<p>7，生成SSH key，用来和Github连接：<br>    <code>ssh-keygen -C &#39;这里填你刚才配置的email地址&#39; -t rsa</code>然后一路点击enter，最后，得到usr/.ssh中的SSH key</p>
-<p>8，把SSH key配置到 GitHub中<br>    在用户名上，<code>setting -  SSH and GPG keys</code></p>
-<p>9，用到 第一步的那个串了<br><br>    <code>git remote add origin git@github.com:xusx1024/codewars.git</code><br><br>    <code>git push origin master</code><br></p>
-<p>10，以后如果添加的话：<br><br>    <code>git add sth</code><br><br>    <code>git commint -m &quot;文件说明&quot;</code><br><br>    <code>git push origin master</code><br></p>
-<p>11.<code>git add -A .</code><br>添加所有文件，注意后面有个点。</p>
-<p>12.<br><code>git pull</code>  抓取远程仓库所有分支更新并合并到本地</p>
-<p>13.<code>git config -l</code> 查看git的配置信息</p>
-<h4 id="git-提交空目录"><a href="#git-提交空目录" class="headerlink" title="git 提交空目录"></a>git 提交空目录</h4><p>git与svn不同，git只跟踪文件的变化，不跟踪目录，如果想要提交一个空目录，我们可以在该目录添加一个文件，命名为.gitignore，这是一个变通的方法。</p>
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>探究Tinker的BSDiff算法的过程中，发现用到了<code>后缀排序</code>，就去研究后缀排序，然后发现用到<code>倍增算法</code>的思想。而倍增是排序的一种策略，这种策略要求必须对<code>基数排序</code>有一定的理解 T.T。<br><br>好，言归正传。基数排序是<a href="http://xusx1024.com/2017/04/10/bucket-sort/" target="_blank" rel="external">桶排序</a>的一种特例。 </p>
+<h4 id="比较和非比较的区别"><a href="#比较和非比较的区别" class="headerlink" title="比较和非比较的区别"></a>比较和非比较的区别</h4><p>常见的快速排序、归并排序、堆排序、冒泡排序等属于比较排序。在排序的最终结果里，元素之间的次序依赖于它们之间的比较。每个数都必须和其他数进行比较，才能确定自己的位置。</p>
+<p>在 冒泡排序 之类的排序中，问题规模为n，又因为需要比较n次，所以平均时间复杂度为O(n²)。在 归并排序、快速排序 之类的排序中，问题规模通过分治法消减为logN次，所以时间复杂度平均 O(nlogn) 。</p>
+<p>比较排序的优势是，适用于各种规模的数据，也不在乎数据的分布，都能进行排序。可以说，比较排序适用于一切需要排序的情况。</p>
+<p>计数排序、基数排序、桶排序则属于非比较排序。非比较排序是通过确定每个元素之前，应该有多少个元素来排序。针对数组arr，计算arr[i]之前有多少个元素，则唯一确定了arr[i]在排序后数组中的位置。</p>
+<p>非比较排序只要确定每个元素之前的已有的元素个数即可，所有一次遍历即可解决。算法时间复杂度 O(n) 。</p>
+<p>非比较排序时间复杂度底，但由于非比较排序需要占用空间来确定唯一位置。所以对数据规模和数据分布有一定的要求。</p>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><blockquote>
+<p>基数排序是一种非比较型、整数排序算法，其原理是将整数按位数切割成不同的数字，然后按照每个位数分别比较。<br><br></p>
+</blockquote>
+<p>排序过程：<br><br>将所有待比较数值(正整数)统一为同样的数位长度，数位较短的数前面补零。然后从最地位开始，依次进行一次排序。<br></p>
+<p>基数排序法会使用到桶，即把要比较的个、十、百、千。。。位的对应的元素分配到0~9个桶中，借以达到排序的作用，在某些时候，基数排序法的效率高于其他的比较性算法。具体的分步动画演示详见：<a href="http://www.cs.usfca.edu/~galles/visualization/RadixSort.html" target="_blank" rel="external">Data Structure Visualizations</a>。</p>
+<p><br><br>基数排序的方式可以采用LSD（Least significant digital）或MSD（Most significant digital），LSD的排序方式由键值的最右边开始，而MSD则相反，由键值的最左边开始。</p>
+<h4 id="效率"><a href="#效率" class="headerlink" title="效率"></a>效率</h4><p>基数排序的时间复杂度是 <strong>O(k·n)</strong>，其中<strong>n</strong>是排序元素个数， <strong>k</strong>是数字位数。注意这不是说这个时间复杂度一定优于 <strong>O(n·log(n))</strong>， <strong>k</strong>的大小取决于数字位的选择（比如比特位数），和待排序数据所属数据类型的全集的大小； <strong>k</strong>决定了进行多少轮处理，而 <strong>n</strong>是每轮处理的操作数目。</p>
+<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>对数组{53, 542, 63, 3, 63, 14, 214, 154, 748, 616}，它的示意图如下：</p>
+<p><img src="/images/radix_sort.png" alt="示例图"><br>Java代码如下：</p>
+<pre><code>package RadixSort;
 
+/**
+ * 基数排序
+ * 
+ * @author sxx.xu
+ *
+ */
+public class RadixSort {
+
+    private static int getMax(int[] array) {
+        int max = array[0];
+        for (int i : array) {
+            max = i &gt; max ? i : max;
+        }
+        return max;
+    }
+
+    public static void radixSort(int[] array) {
+        int exp = 1;// 个、十、百、千。。。位
+        int max = getMax(array);
+
+        for (exp = 1; max / exp &gt; 0; exp *= 10)
+            countSort(array, exp);
+    }
+
+    private static void countSort(int[] array, int exp) {
+
+        int[] outputs = new int[array.length];
+        int[] buckets = new int[10];// 0-9
+
+        //统计array中对应位数的元素的个数
+        for (int i : array) {
+            buckets[(i / exp) % 10]++;
+        }
+        //统计array中，小于该位的元素的个数，相当于排序
+        for (int i = 1; i &lt; buckets.length; i++) {
+            buckets[i] += buckets[i - 1];
+        }
+        //赋值
+        for (int i = array.length - 1; i &gt;= 0; i--) {
+            outputs[buckets[(array[i] / exp) % 10] - 1] = array[i];
+            buckets[(array[i] / exp) % 10]--;
+        }
+
+        for (int i = 0; i &lt; outputs.length; i++) {
+            array[i] = outputs[i];
+        }
+        outputs = null;
+        buckets = null;
+    }
+
+    private static void radixSort(int[] array, int d) {
+        int n = 1;// 个、十、百、千。。。位
+        int k = 0;// 保存每一位排序后的结果用于下一位的排序输入
+        int length = array.length;
+        int[][] bucket = new int[10][length];// 排序桶用于保存每次排序后的结果，这一位上排序结果相同的数字放在同一个桶里
+        int[] order = new int[length];// 用于保存每个桶里有多少个数字
+        while (n &lt; d) {
+            for (int num : array) // 将数组array里的每个数字放在相应的桶里
+            {
+                int digit = (num / n) % 10;
+                bucket[digit][order[digit]] = num;
+                order[digit]++;
+            }
+            for (int i = 0; i &lt; length; i++)// 将前一个循环生成的桶里的数据覆盖到原数组中用于保存这一位的排序结果
+            {
+                if (order[i] != 0)// 这个桶里有数据，从上到下遍历这个桶并将数据保存到原数组中
+                {
+                    for (int j = 0; j &lt; order[i]; j++) {
+                        array[k] = bucket[i][j];
+                        k++;
+                    }
+                }
+                order[i] = 0;// 将桶里计数器置0，用于下一次位排序
+            }
+            n *= 10;
+            k = 0;// 将k置0，用于下一轮保存位排序结果
+        }
+
+    }
+
+    public static void main(String[] args) {
+        int array[] = { 53, 3, 542, 748, 14, 214, 154, 63, 616, 70 };
+        for (int i : array) {
+            System.out.print(i + &quot;  &quot;);
+        }
+        System.out.println(&quot;&quot;);
+        System.out.println(&quot;before===================================after&quot;);
+        radixSort(array);
+        for (int i : array) {
+            System.out.print(i + &quot;  &quot;);
+        }
+        int[] A = new int[] { 53, 3, 542, 748, 14, 214, 154, 63, 616, 70 };
+        radixSort(A, 100);
+        System.out.println(&quot;&quot;);
+        for (int i : A) {
+            System.out.print(i + &quot;  &quot;);
+        }
+    }
+}
+</code></pre>
           
         
       
@@ -2812,7 +2822,7 @@ public class BuketsSort {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">65</span>
+                <span class="site-state-item-count">66</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
