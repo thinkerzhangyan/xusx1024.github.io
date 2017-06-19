@@ -7,34 +7,65 @@ categories: work
 
 #### 定义 ####
 
-备忘录模式(Memento Pattern):在不破坏封装的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态，这样可以在以后将对象恢复到原先保存的状态。这是一种对象行为型模式，别名为Token。
-
-在软件开发中，我们经常需要使用聚合对象来存储一系列数据。聚合对象用于两个职责：一是存数据；二是取数据。从依赖性来看，前者是聚合对象的基本职责；而后者既是可变化的，又是可分离的。因此，可以将遍历数据的行为从聚合对象中分离出来，封装在一个被称之为“迭代器”的对象中，由迭代器来提供遍历聚合对象内部数据的行为，这将简化聚合对象的设计，更符合“单一职责”的要求。
- 
+备忘录模式(Memento Pattern):在不破坏封装的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态，这样可以在以后将对象恢复到原先保存的状态。这是一种对象行为型模式，别名为Token，又称作Snapshot。
+  
 #### 模式结构 ####
 
-- Iterator(抽象迭代器):它定义了访问和遍历元素的接口，声明了用于遍历数据元素的方法。
-- ConcreteIterator(具体迭代器):迭代器的具体实现类。通过游标来记录在聚合对象中所处的位置。
-- Aggregate(抽象聚合类):存储和管理元素对象，createIterator()方法充当了抽象迭代器工厂角色。
-- ConcreteAggregate(具体聚合类):具体实现类。
+-  Originator(原发器):它是一个普通类，可以创建一个备忘录，并存储它的当前内部状态(比如象棋的某一步)，也可以使用备忘录来恢复其内部状态，一般将需要保存内部状态的类设计为原发器
+-  Memento(备忘录):存储原发器的内部状态，根据原发器来决定保存哪些内部状态。备忘录的设计一般可以参考原发器的设计，根据实际需要确定备忘录类中的属性。需要注意的是，除了原发器本身与负责人类之外，备忘录对象不能直接供其他类使用
+-  Caretaker(负责人):负责人又称为管理者，它负责保存备忘录，但是不能对备忘录的内容进行操作或检查。在负责人类中可以存储一个或多个备忘录对象，它只负责存储对象，而不能修改对象，也无须知道对象的实现细节。
  
-![类图](/images/iterator_pattern_class_diagram.png)
+![类图](/images/memento_pattern_class_diagram.png)
+
+#### 时序图 ####
+
+![类图](/images/memento_pattern_sequence_diagram.png)
 
 #### 代码 ####
 
-[GitHub](https://github.com/xusx1024/DesignPatternDemoCode/tree/master/IteratorPattern)
+[GitHub](https://github.com/xusx1024/DesignPatternDemoCode/tree/master/MementoPattern)
 
 #### 分析 ####
 
-迭代器和聚合类是密不可分的，所以大多数语言在实现容器的同时都提供了迭代器，所以我想说的是：这些语言提供的容器和迭代器大多数情况下可以满足需要的。同样的，如果我们需要自定义容器，那么我们一定要提供迭代器。
+应用领域包括：文字处理 、图像编辑、数据库管理系统等软件中。
 
 ##### 优点 #####
 
-- 更换聚合类非常方便
-- 支持以不同方式遍历一个聚合类，更换迭代器即可
+- 提供了一种状态恢复的实现机制
+- 备忘录实现了对信息的封装，一个备忘录对象是一种原发器对象状态的表示，不会被其他代码改动
 
 ##### 缺点 #####
 
-- 迭代器的设计难度较大，尤其是扩展
-- 对于比较简单的遍历，迭代器有些繁琐，比如我们平时用for代替Iterator遍历一个数组
+-  如果原发器的类成员变量过多，会占用大量空间
+
+#### 扩展 ####
+
+- 备忘录做成原发器的内部类
+- 备忘录的生成使用[原型设计模式](http://xusx1024.com/2017/03/18/design-patterns-prototype-1/)
+- 备忘录模式通常与命令模式和迭代子模式一同使用
+- 保证负责人不能对备忘录修改的方法，使用标识接口
+		package MementoPattern;
+		
+		/**
+		 *  备忘录模式中，管理者只负责管理，是不可以修改备忘录的<br/>
+		 *  
+		 *  所以，使用标识接口{@link MementoIF}}，管理者便不能修改备忘录的内容
+		 * 
+		 * @author sxx.xu
+		 *
+		 */
+		public class MementoCaretaker3 {
+			private MementoIF memento;
+		
+			public MementoIF getMemento() {
+				return memento;
+			}
+		
+			public void setMemento(MementoIF memento) {
+				this.memento = memento;
+			}
+		
+		}  
+
+- “自述历史”模式（History-On-Self Pattern），备忘录模式的特殊实现形式。Demo:[GitHub](https://github.com/xusx1024/DesignPatternDemoCode/tree/master/HistoryOnSelfPattern)
 
