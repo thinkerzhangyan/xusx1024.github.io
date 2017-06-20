@@ -267,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuSing">
@@ -286,7 +286,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-3/" itemprop="url">单例设计模式(三)真●单例唯一$反射</a></h1>
+                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-2/" itemprop="url">单例设计模式(二)真●单例唯一$序列化</a></h1>
         
 
         <div class="post-meta">
@@ -357,7 +357,7 @@
       
         
           
-            <h4 id="反射对单例的破坏"><a href="#反射对单例的破坏" class="headerlink" title="反射对单例的破坏"></a>反射对单例的破坏</h4><p>先看一个DCL单例：</p>
+            <h4 id="序列化对单例的破坏"><a href="#序列化对单例的破坏" class="headerlink" title="序列化对单例的破坏"></a>序列化对单例的破坏</h4><p>先看一个DCL单例：</p>
 <pre><code>import java.io.Serializable;
 
 /**
@@ -382,40 +382,95 @@ public class Singleton implements Serializable {
 
 }
 </code></pre><p>然后看我们的测试代码：</p>
-<pre><code>import java.lang.reflect.Constructor;
+<pre><code>import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
-public class ReflectAttackSingleton {
-
+public class SerializableDemo1 {
     public static void main(String[] args) {
         try {
-            Class&lt;?&gt; classType = Singleton.class;
-            Constructor&lt;?&gt; c;
-            c = classType.getDeclaredConstructor(null);
-            c.setAccessible(true);
-            Singleton instance1 = (Singleton) c.newInstance();
-            Singleton instance2 = Singleton.getInstance();
-            System.out.println(&quot;反射得到的实例与单例中的实例是否相等？&quot; +(instance1 == instance2));
+            ObjectOutputStream oos = new ObjectOutputStream(
+                    new FileOutputStream(&quot;tempFile&quot;));
+            oos.writeObject(Singleton.getInstance());
+            File file = new File(&quot;tempFile&quot;);
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
+                    file));
+            Singleton instance = (Singleton) ois.readObject();
+            System.out.println(&quot;反序列化后的对象和原来的是否相等？&quot;
+                    + (Singleton.getInstance() == instance));
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 }
 </code></pre><blockquote>
-<p>运行后： <code>反射得到的实例与单例中的实例是否相等？false</code></p>
-<p>通过反射获取构造函数，然后调用即可获取新的单例的实例，这就破坏了Singleton的单例性。</p>
+<p>运行后： <figure class="highlight plain"><figcaption><span>```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&gt; 通过对Singleton的序列化与反序列化得到的对象是```一个新的对象```，这就破坏了Singleton的单例性。</div><div class="line"></div><div class="line"></div><div class="line">#### 序列化破坏单例の原因 ####</div><div class="line"></div><div class="line">反序列化后，为什么是一个新的对象？我们从```ObjectInputStream$readObject()```方法追踪,&lt;br/&gt;</div><div class="line">发现：``` Object obj = readObject0(false);```&lt;br/&gt;</div><div class="line">继续：</div><div class="line"></div><div class="line">	 case TC_OBJECT:</div><div class="line">	                    return checkResolve(readOrdinaryObject(unshared));</div><div class="line"></div><div class="line">探究： ```ObjectInputStream$readOrdinaryObject</div></pre></td></tr></table></figure></p>
 </blockquote>
-<h4 id="修改构造器抵御攻击"><a href="#修改构造器抵御攻击" class="headerlink" title="修改构造器抵御攻击"></a>修改构造器抵御攻击</h4><pre><code>private static boolean flag = false;
-private Singleton() {
-    synchronized (Singleton.class) {
-        if(flag == false)
-            flag = !flag;
-        else
-            throw new RuntimeException(&quot;单例模式被攻击！&quot;);
+<p>该方法关键代码片段一：</p>
+<pre><code>Object obj;
+       try {
+           obj = desc.isInstantiable() ? desc.newInstance() : null;
+       } catch (Exception ex) {
+           throw (IOException) new InvalidClassException(
+               desc.forClass().getName(),
+               &quot;unable to create instance&quot;).initCause(ex);
+       }
+</code></pre><blockquote>
+<p>该obj,就是我们反序列化要得到的对象，即readObject()返回的对象。<br><br><code>isInstantiable</code>：如果一个Serializable/externalizable的类可以在运行时被实例化，那么该方法就返回true。<br><code>desc.newInstance()</code>：该方法通过反射的方式调用无参构造方法新建一个对象</p>
+</blockquote>
+<p>所以：</p>
+<blockquote>
+<p>反序列化会通过反射调用无参的构造创建一个新的对象</p>
+</blockquote>
+<p>该方法关键代码片段二：</p>
+<pre><code>if (obj != null &amp;&amp;
+           handles.lookupException(passHandle) == null &amp;&amp;
+           desc.hasReadResolveMethod())
+       {
+           Object rep = desc.invokeReadResolve(obj);
+           if (unshared &amp;&amp; rep.getClass().isArray()) {
+               rep = cloneArray(rep);
+           }
+           if (rep != obj) {
+               handles.setObject(passHandle, obj = rep);
+           }
+       }
+</code></pre><blockquote>
+<p><code>hasReadResolveMethod</code>： 如果实现了Serializable或者externalizable接口的类中包含readResolve,则返回true<br><br><code>invokeReadResolve</code>： 通过反射的方式调用要被反序列化的类的readResolve方法<br><br><code>if (rep != obj) {
+                    handles.setObject(passHandle, obj = rep);
+                }</code>：<br>如果readResolve得到的对象和desc.newInstance()调用无参构造得到的对象不同，那么使用readResolve方法中返回的Object。</p>
+</blockquote>
+<h4 id="结论一"><a href="#结论一" class="headerlink" title="结论一"></a>结论一</h4><pre><code>由上可得，我们在自己的单例中增加readResolve方法，返回当前单例的实例，即可防止反序列化得到对象不一致问题。如下：
+
+import java.io.Serializable;
+
+/**
+ * double check lock 实现单例
+ */
+public class Singleton implements Serializable {
+    private Singleton() {
+    };
+
+    public static volatile Singleton singleton;
+
+    public static Singleton getInstance() {
+        if (singleton == null) {
+            synchronized (Singleton.class) {
+                if (singleton == null) {
+                    singleton = new Singleton();
+                }
+            }
+        }
+        return singleton;
     }
-};
-</code></pre><h4 id="终极方法"><a href="#终极方法" class="headerlink" title="终极方法"></a>终极方法</h4><pre><code>使用枚举单例
+
+    private Object readResolve() {
+        return singleton;
+    }
+
+}
 </code></pre>
           
         
