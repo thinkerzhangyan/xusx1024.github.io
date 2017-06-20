@@ -267,10 +267,254 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/17/get-max-tree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/17/get-max-tree/" itemprop="url">构造数组的MaxTree</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-17T00:00:00Z">
+                2017-02-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="构造数组的MaxTree"><a href="#构造数组的MaxTree" class="headerlink" title="构造数组的MaxTree"></a>构造数组的MaxTree</h5><p>定义二叉树结点如下：</p>
+<pre><code>public class Node {
+    public int value;
+    public Node left;
+    public Node right;
+
+    public Node(int data) {
+        this.value = data;
+    }
+}
+</code></pre><p>一个数组的MaxTree定义如下。</p>
+<ul>
+<li>数组必须没有重复元素。</li>
+<li>MaxTree是一颗二叉树，数组的每一个值对应一个二叉树节点。</li>
+<li>包括MaxTree树在内且在其中的每一颗树上，值最大的节点都是树的头。</li>
+</ul>
+<p>给定一个没有重复元素的数组arr，写出生成这个数组的MaxTree的函数，要求如果数组长度为N，则时间复杂度为O(n)、额外空间复杂度为O(n).</p>
+<h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>校 ★★★☆
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><p>下面举例说明如何在满足空间和时间复杂度的要求下生成MaxTree。</p>
+<blockquote>
+<p>arr = {3,4,5,1,2}<br><br>3的左边第一个比3大的数：无  3的右边第一个比3大的数：4<br><br>4的左边第一个比4大的数：无  4的右边第一个比4大的数：5<br><br>5的左边第一个比5大的数：无  5的右边第一个比5大的数：无<br><br>1的左边第一个比1大的数：5   1的右边第一个比1大的数：2<br><br>2的左边第一个比2大的数：5   2的右边第一个比2大的数：无<br></p>
+</blockquote>
+<p>以下列原则来建立这颗树：</p>
+<ul>
+<li>每一个数的父节点是他左边第一个比他大的数和他右边第一个比他大的数中，较小的那个。</li>
+<li>如果一个数左边没有比他大的数，右边也没有。也就是说，这个数是整个数组的最大值，那么这个数是MaxTree的头节点。</li>
+</ul>
+<p>示例代码如下：</p>
+<pre><code>import java.util.HashMap;
+import java.util.Stack;
+
+public class MaxTree {
+
+    public Node getMaxTree(int[] arr) {
+
+        Node[] nArr = new Node[arr.length];
+        for (int i = 0; i != arr.length; i++) {
+            nArr[i] = new Node(arr[i]);
+        }
+
+        Stack&lt;Node&gt; stack = new Stack&lt;&gt;();
+        HashMap&lt;Node, Node&gt; lBigMap = new HashMap&lt;&gt;();
+        HashMap&lt;Node, Node&gt; rBigMap = new HashMap&lt;&gt;();
+
+        for (int i = 0; i != nArr.length; i++) {
+            Node curNode = nArr[i];
+            while ((!stack.isEmpty()) &amp;&amp; stack.peek().value &lt; curNode.value) {
+                popStackSetMap(stack, lBigMap);
+            }
+            stack.push(curNode);
+        }
+
+        while (!stack.isEmpty()) {
+            popStackSetMap(stack, lBigMap);
+        }
+
+        for (int i = nArr.length; i != -1; i--) {
+            Node curNode = nArr[i];
+            while ((!stack.isEmpty()) &amp;&amp; stack.peek().value &lt; curNode.value) {
+                popStackSetMap(stack, rBigMap);
+            }
+            stack.push(curNode);
+        }
+
+        while (!stack.isEmpty()) {
+            popStackSetMap(stack, rBigMap);
+        }
+
+        Node head = null;
+        for (int i = 0; i != nArr.length; i++) {
+            Node curNode = nArr[i];
+            Node left = lBigMap.get(curNode);
+            Node right = rBigMap.get(curNode);
+
+            if (left == null &amp;&amp; right == null) {
+                head = curNode;
+            } else if (left == null) {
+                if (right.left == null) {
+                    right.left = curNode;
+                } else {
+                    right.right = curNode;
+                }
+            } else if (right == null) {
+                if (left.left == null) {
+                    left.left = curNode;
+                } else {
+                    left.right = curNode;
+                }
+            } else {
+                Node parent = left.value &lt; right.value ? left : right;
+                if (parent.left == null) {
+                    parent.left = curNode;
+                } else {
+                    parent.right = curNode;
+                }
+            }
+
+        }
+
+        return head;
+    }
+
+    private void popStackSetMap(Stack&lt;Node&gt; stack, HashMap&lt;Node, Node&gt; map) {
+        Node popNode = stack.pop();
+        if (stack.isEmpty()) {
+            map.put(popNode, null);
+        } else {
+            map.put(popNode, stack.peek());
+        }
+    }
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/hanoi-problom/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
+      <meta itemprop="name" content="XuShengSing">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/favicon.jpg">
     </span>
@@ -538,7 +782,7 @@ enum Action {
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/get-max-window/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
+      <meta itemprop="name" content="XuShengSing">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/favicon.jpg">
     </span>
@@ -741,7 +985,7 @@ public class ArrayDeque&lt;E&gt; extends AbstractCollection&lt;E&gt;
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/14/sort-stack-by-stack/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
+      <meta itemprop="name" content="XuShengSing">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/favicon.jpg">
     </span>
@@ -911,7 +1155,7 @@ public class SortStackByStack {
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/13/optimization-app-launch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
+      <meta itemprop="name" content="XuShengSing">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/favicon.jpg">
     </span>
@@ -1133,7 +1377,7 @@ Android进程与Linux进程一样。默认情况下，每个apk运行在自己�
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/12/design-patterns-singleton-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
+      <meta itemprop="name" content="XuShengSing">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/favicon.jpg">
     </span>
@@ -1294,10 +1538,10 @@ Android进程与Linux进程一样。默认情况下，每个apk运行在自己�
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/reverse-stack/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
+      <meta itemprop="name" content="XuShengSing">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/favicon.jpg">
     </span>
@@ -1313,7 +1557,7 @@ Android进程与Linux进程一样。默认情况下，每个apk运行在自己�
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-1/" itemprop="url">单例设计模式(一)基础知识</a></h1>
+                <a class="post-title-link" href="/2017/02/11/reverse-stack/" itemprop="url">如何仅用递归函数和栈操作逆序一个栈</a></h1>
         
 
         <div class="post-meta">
@@ -1384,111 +1628,36 @@ Android进程与Linux进程一样。默认情况下，每个apk运行在自己�
       
         
           
-            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><h5 id="来自wiki"><a href="#来自wiki" class="headerlink" title="来自wiki"></a>来自wiki</h5><pre><code>[单例模式](https://zh.wikipedia.org/wiki/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F)又叫单子模式，是一种常用的软件设计模式。在应用这个模式时，单例对象的类必须保证只有一个实例存在。许多时候整个系统只需要拥有一个全局对象，这样有利于我们协调系统整体的行为。
-比如：在某个服务器程序中，该服务器的配置信息存放在一个文件中，这些配置数据由一个单例对象统一读取，然后服务进程中的其他对象再通过这个单例对象获取这些配置信息。这种方式简化了在复杂环境下的配置管理。
-</code></pre><h5 id="来自IBM"><a href="#来自IBM" class="headerlink" title="来自IBM"></a>来自IBM</h5><pre><code>与wiki相重复的内容，不再摘录。
-[单例模式](http://www.ibm.com/developerworks/cn/java/j-lo-Singleton/)是一种对象创建模式，它用于产生一个对象的具体实例，它可以确保系统中一个类只产生一个实例。Java里面实现单例是一个虚拟机的范围，因为装载类的功能是由虚拟机做的，所以一个虚拟机在通过自己的ClassLoader装载实现单例类的时候就会创建一个类实例。在Java语言中，这样的行为有两大好处：
-1.对于频繁使用的对象，可以省略创建对象所话费的时间，这对于那些重量级对象而言，是非常可观的一笔系统开销；
-2.由于new操作的次数减少，因而对系统内存的使用频率降低，这将减轻GC压力，缩短GC停顿时间。 
-</code></pre><h4 id="how"><a href="#how" class="headerlink" title="how"></a>how</h4><h5 id="饿汉单例"><a href="#饿汉单例" class="headerlink" title="饿汉单例"></a>饿汉单例</h5><pre><code>public class Singleton {
- private Singleton(){}
- private static Singleton instance = new Singleton();
- public static Singleton getInsatnce(){
- return instance;
- }
-}
-</code></pre><blockquote>
-<p>上述代码不足之处是无法对instance实例做延时加载，假如单例的创建过程很慢，而由于instance成员变量是static定义的，因此在JVM加载单例类时，单例对象就会被建立，如果此时这个单例类在系统中还扮演其他角色，那么在任何使用这个单例类的地方都会初始化这个单例变量，而不管是否会用到。</p>
-</blockquote>
-<h5 id="懒汉单例"><a href="#懒汉单例" class="headerlink" title="懒汉单例"></a>懒汉单例</h5><pre><code>public class LazySingleton {
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>一个栈中一次压入1，2，3，那么从栈顶到栈底依次为3，2，1.将这个栈逆序，从栈顶到栈底依次为1，2，3.但是只能用递归函数来实现，不能用其他数据结构。
+</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>需要设计两个递归函数。
+1，将stack的栈底元素返回并移除；
+2，将stack逆序；
+</code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>import java.util.Stack;
 
-    private LazySingleton() {
-    }
+public class ReverseStack {
 
-    public static LazySingleton instance = null;
-
-    public static synchronized LazySingleton getInstance() {
-        if (instance == null) {
-            instance = new LazySingleton();
-        }
-        return instance;
+private static int getAndRemoveLastElement(Stack&lt;Integer&gt; stack) {
+    int result = stack.pop();
+    if (stack.empty()) {
+        return result;
+    } else {
+        int last = getAndRemoveLastElement(stack);
+        stack.push(result);//此处将除栈底外的元素重新压入
+        return last;
     }
 }
-</code></pre><blockquote>
-<p>上述代码首先对于静态成员变量instance初始化复赋值为null，确保系统启动时没有额外的负载；其次在getInstance()工厂方法中判断单例是否已经存在；注意，我们的getInstance()方法中添加了synchronized关键字，这就是注意事项中，在多线程情况下保证单例对象唯一性的手段。因此每次调用都要进行同步，造成不必要的开销，明显增加多线程环境下耗时。<br></p>
-<p>在多线程的应用场合下。如果当唯一实例尚未创建时，有两个线程同时调用创建方法，那么它们同时没有检测到唯一实例的存在，从而同时各自创建了一个实例，这样就有两个实例被构造出来，解决该问题的办法是为指示类是否已经实例化的变量提供一个互斥锁(会降低效率)。</p>
-</blockquote>
-<h5 id="懒汉单例的改进：静态内部类单例"><a href="#懒汉单例的改进：静态内部类单例" class="headerlink" title="懒汉单例的改进：静态内部类单例"></a>懒汉单例的改进：静态内部类单例</h5><pre><code>public class StaticInnerClassSingleton {
 
-    private StaticInnerClassSingleton() {
-    }
-
-    public StaticInnerClassSingleton getInstance() {
-        return SingletonHolder.instance;
-    }
-
-    private static class SingletonHolder {
-        private static final StaticInnerClassSingleton instance = new StaticInnerClassSingleton();
+public static void reverse(Stack&lt;Integer&gt; stack) {
+    if (stack.empty()) {
+        return;
+    } else {
+        int i = getAndRemoveLastElement(stack);
+        reverse(stack);
+        stack.push(i);
     }
 }
-</code></pre><blockquote>
-<p>使用内部类来维护单例的实例，第一次加载StaticInnerClassSingleton类时，不会初始化instance，只有在第一次调用getInstance()时，才会加载SingletonHolder，初始化instance。由于实例的建立是在类加载时完成，不仅可以确保线程安全，也无需使用synchronized关键字，因此推荐使用。</p>
-</blockquote>
-<h5 id="DoubleCheckLock-实现单例"><a href="#DoubleCheckLock-实现单例" class="headerlink" title="DoubleCheckLock 实现单例"></a>DoubleCheckLock 实现单例</h5><pre><code>public class DCLSingleton {
-
-    private static DCLSingleton instance = null;
-
-    private DCLSingleton() {
-    }
-
-    public DCLSingleton getInstance() {
-        if (instance == null) {
-            synchronized (DCLSingleton.class) {
-                if (instance == null) {
-                    instance = new DCLSingleton();
-                }
-
-            }
-        }
-        return instance;
-    }
-}
-</code></pre><blockquote>
-<p>同步关键字加载方法上，如懒汉式单例，增加系统开销，影响效率。上述代码，第一次判空，可以避免不必要的同步，第二次判空是避免多线程情况下，instance实例为空，DCL失效。<br>因为<br><code>instance = new DCLSingleton();</code><br>并非原子操作，这句代码最终会被编译成多条汇编命令，大致做了三件事：<br><br>1.给DCLSingleton的实例分配内存<br><br>2.调用DCLSingleton的构造，初始化成员字段<br><br>3.将instance对象指向分配的内存空间<br></p>
-<p>由于Java编译器允许处理器乱序执行，以及JDK1.5之前的JMM(java memory model即Java内存模型)中<em>Cache、寄存器到主内存回写顺序</em>的规定，上面2、3的顺序无法保证先后执行的。<br>如果线程A的3执行完，此时instance不为null，2却没有执行，被切换到线程B上，B可以直接取走instance，使用就会报错，这就是DCL失效。<br><br>解决：JDK1.5之后，<code>private static volatile DCLSingleton instance = null;</code><br>使用volatile关键字，可以保证instance对象<em>每次都是从主内存中读取</em>。</p>
-</blockquote>
-<h5 id="容器维护多个单例"><a href="#容器维护多个单例" class="headerlink" title="容器维护多个单例"></a>容器维护多个单例</h5><pre><code>import java.util.HashMap;
-import java.util.Map;
-
-public class SingletonManager {
-    private static Map&lt;String,Object&gt; objMap = new HashMap&lt;&gt;();
-
-    private SingletonManager(){}
-
-    public static void registerService(String key,Object instance){
-        if(!objMap.containsKey(key)){
-            objMap.put(key, instance);
-        }
-    }
-
-    public static Object getService(String key){
-        return objMap.get(key);
-    }
-
-}
-</code></pre><blockquote>
-<p>根据key,使用map管理多种类型的单例，在使用时可以统一进行获取操作，可降低用户的使用成本。(个人感觉没啥用)</p>
-</blockquote>
-<h5 id="枚举单例"><a href="#枚举单例" class="headerlink" title="枚举单例"></a>枚举单例</h5><pre><code>public enum EnumSingleton {
-
-    INSTANCE;
-
-    public void doSomething() {
-    }
-}
-</code></pre><blockquote>
-<p>写法简单，线程安全，在任何情况下都是单例！</p>
-</blockquote>
+</code></pre><p>}</p>
 
           
         
@@ -1535,7 +1704,7 @@ public class SingletonManager {
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/two-stacks-makeup-queue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
+      <meta itemprop="name" content="XuShengSing">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/favicon.jpg">
     </span>
@@ -1711,173 +1880,10 @@ public class TwoStackQueue {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/reverse-stack/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/reverse-stack/" itemprop="url">如何仅用递归函数和栈操作逆序一个栈</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>一个栈中一次压入1，2，3，那么从栈顶到栈底依次为3，2，1.将这个栈逆序，从栈顶到栈底依次为1，2，3.但是只能用递归函数来实现，不能用其他数据结构。
-</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>需要设计两个递归函数。
-1，将stack的栈底元素返回并移除；
-2，将stack逆序；
-</code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>import java.util.Stack;
-
-public class ReverseStack {
-
-private static int getAndRemoveLastElement(Stack&lt;Integer&gt; stack) {
-    int result = stack.pop();
-    if (stack.empty()) {
-        return result;
-    } else {
-        int last = getAndRemoveLastElement(stack);
-        stack.push(result);//此处将除栈底外的元素重新压入
-        return last;
-    }
-}
-
-public static void reverse(Stack&lt;Integer&gt; stack) {
-    if (stack.empty()) {
-        return;
-    } else {
-        int i = getAndRemoveLastElement(stack);
-        reverse(stack);
-        stack.push(i);
-    }
-}
-</code></pre><p>}</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/different-between-ADT/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
+      <meta itemprop="name" content="XuShengSing">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/favicon.jpg">
     </span>
@@ -2039,10 +2045,10 @@ public static void reverse(Stack&lt;Integer&gt; stack) {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuSing">
+      <meta itemprop="name" content="XuShengSing">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/favicon.jpg">
     </span>
@@ -2058,7 +2064,7 @@ public static void reverse(Stack&lt;Integer&gt; stack) {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-3/" itemprop="url">单例设计模式(三)真●单例唯一$反射</a></h1>
+                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-2/" itemprop="url">单例设计模式(二)真●单例唯一$序列化</a></h1>
         
 
         <div class="post-meta">
@@ -2129,7 +2135,7 @@ public static void reverse(Stack&lt;Integer&gt; stack) {
       
         
           
-            <h4 id="反射对单例的破坏"><a href="#反射对单例的破坏" class="headerlink" title="反射对单例的破坏"></a>反射对单例的破坏</h4><p>先看一个DCL单例：</p>
+            <h4 id="序列化对单例的破坏"><a href="#序列化对单例的破坏" class="headerlink" title="序列化对单例的破坏"></a>序列化对单例的破坏</h4><p>先看一个DCL单例：</p>
 <pre><code>import java.io.Serializable;
 
 /**
@@ -2154,40 +2160,95 @@ public class Singleton implements Serializable {
 
 }
 </code></pre><p>然后看我们的测试代码：</p>
-<pre><code>import java.lang.reflect.Constructor;
+<pre><code>import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
-public class ReflectAttackSingleton {
-
+public class SerializableDemo1 {
     public static void main(String[] args) {
         try {
-            Class&lt;?&gt; classType = Singleton.class;
-            Constructor&lt;?&gt; c;
-            c = classType.getDeclaredConstructor(null);
-            c.setAccessible(true);
-            Singleton instance1 = (Singleton) c.newInstance();
-            Singleton instance2 = Singleton.getInstance();
-            System.out.println(&quot;反射得到的实例与单例中的实例是否相等？&quot; +(instance1 == instance2));
+            ObjectOutputStream oos = new ObjectOutputStream(
+                    new FileOutputStream(&quot;tempFile&quot;));
+            oos.writeObject(Singleton.getInstance());
+            File file = new File(&quot;tempFile&quot;);
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
+                    file));
+            Singleton instance = (Singleton) ois.readObject();
+            System.out.println(&quot;反序列化后的对象和原来的是否相等？&quot;
+                    + (Singleton.getInstance() == instance));
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 }
 </code></pre><blockquote>
-<p>运行后： <code>反射得到的实例与单例中的实例是否相等？false</code></p>
-<p>通过反射获取构造函数，然后调用即可获取新的单例的实例，这就破坏了Singleton的单例性。</p>
+<p>运行后： <figure class="highlight plain"><figcaption><span>```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&gt; 通过对Singleton的序列化与反序列化得到的对象是```一个新的对象```，这就破坏了Singleton的单例性。</div><div class="line"></div><div class="line"></div><div class="line">#### 序列化破坏单例の原因 ####</div><div class="line"></div><div class="line">反序列化后，为什么是一个新的对象？我们从```ObjectInputStream$readObject()```方法追踪,&lt;br/&gt;</div><div class="line">发现：``` Object obj = readObject0(false);```&lt;br/&gt;</div><div class="line">继续：</div><div class="line"></div><div class="line">	 case TC_OBJECT:</div><div class="line">	                    return checkResolve(readOrdinaryObject(unshared));</div><div class="line"></div><div class="line">探究： ```ObjectInputStream$readOrdinaryObject</div></pre></td></tr></table></figure></p>
 </blockquote>
-<h4 id="修改构造器抵御攻击"><a href="#修改构造器抵御攻击" class="headerlink" title="修改构造器抵御攻击"></a>修改构造器抵御攻击</h4><pre><code>private static boolean flag = false;
-private Singleton() {
-    synchronized (Singleton.class) {
-        if(flag == false)
-            flag = !flag;
-        else
-            throw new RuntimeException(&quot;单例模式被攻击！&quot;);
+<p>该方法关键代码片段一：</p>
+<pre><code>Object obj;
+       try {
+           obj = desc.isInstantiable() ? desc.newInstance() : null;
+       } catch (Exception ex) {
+           throw (IOException) new InvalidClassException(
+               desc.forClass().getName(),
+               &quot;unable to create instance&quot;).initCause(ex);
+       }
+</code></pre><blockquote>
+<p>该obj,就是我们反序列化要得到的对象，即readObject()返回的对象。<br><br><code>isInstantiable</code>：如果一个Serializable/externalizable的类可以在运行时被实例化，那么该方法就返回true。<br><code>desc.newInstance()</code>：该方法通过反射的方式调用无参构造方法新建一个对象</p>
+</blockquote>
+<p>所以：</p>
+<blockquote>
+<p>反序列化会通过反射调用无参的构造创建一个新的对象</p>
+</blockquote>
+<p>该方法关键代码片段二：</p>
+<pre><code>if (obj != null &amp;&amp;
+           handles.lookupException(passHandle) == null &amp;&amp;
+           desc.hasReadResolveMethod())
+       {
+           Object rep = desc.invokeReadResolve(obj);
+           if (unshared &amp;&amp; rep.getClass().isArray()) {
+               rep = cloneArray(rep);
+           }
+           if (rep != obj) {
+               handles.setObject(passHandle, obj = rep);
+           }
+       }
+</code></pre><blockquote>
+<p><code>hasReadResolveMethod</code>： 如果实现了Serializable或者externalizable接口的类中包含readResolve,则返回true<br><br><code>invokeReadResolve</code>： 通过反射的方式调用要被反序列化的类的readResolve方法<br><br><code>if (rep != obj) {
+                    handles.setObject(passHandle, obj = rep);
+                }</code>：<br>如果readResolve得到的对象和desc.newInstance()调用无参构造得到的对象不同，那么使用readResolve方法中返回的Object。</p>
+</blockquote>
+<h4 id="结论一"><a href="#结论一" class="headerlink" title="结论一"></a>结论一</h4><pre><code>由上可得，我们在自己的单例中增加readResolve方法，返回当前单例的实例，即可防止反序列化得到对象不一致问题。如下：
+
+import java.io.Serializable;
+
+/**
+ * double check lock 实现单例
+ */
+public class Singleton implements Serializable {
+    private Singleton() {
+    };
+
+    public static volatile Singleton singleton;
+
+    public static Singleton getInstance() {
+        if (singleton == null) {
+            synchronized (Singleton.class) {
+                if (singleton == null) {
+                    singleton = new Singleton();
+                }
+            }
+        }
+        return singleton;
     }
-};
-</code></pre><h4 id="终极方法"><a href="#终极方法" class="headerlink" title="终极方法"></a>终极方法</h4><pre><code>使用枚举单例
+
+    private Object readResolve() {
+        return singleton;
+    }
+
+}
 </code></pre>
           
         
@@ -2260,8 +2321,8 @@ private Singleton() {
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/favicon.jpg"
-               alt="XuSing" />
-          <p class="site-author-name" itemprop="name">XuSing</p>
+               alt="XuShengSing" />
+          <p class="site-author-name" itemprop="name">XuShengSing</p>
            
               <p class="site-description motion-element" itemprop="description">博观而约取，厚积而薄发。</p>
           
@@ -2271,7 +2332,7 @@ private Singleton() {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">66</span>
+                <span class="site-state-item-count">67</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2356,7 +2417,7 @@ private Singleton() {
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">XuSing</span>
+  <span class="author" itemprop="copyrightHolder">XuShengSing</span>
 </div>
 
 

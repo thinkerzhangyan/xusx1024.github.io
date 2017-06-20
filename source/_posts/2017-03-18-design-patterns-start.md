@@ -46,7 +46,7 @@ winPC画图工具安利：[http://astah.net/](http://astah.net/)
 	- 组合模式
 - 行为型模式(11)
 	- [策略模式](http://xusx1024.com/2017/05/25/design-patterns-strategy-pattern/)
-	- 模版方法模式
+	- [模版方法模式](http://xusx1024.com/2017/06/19/design-patterns-template-method/)
 	- [观察者模式](http://xusx1024.com/2017/06/09/design-patterns-observer/)
 	- [迭代器模式](http://xusx1024.com/2017/06/15/design-patterns-iterator/)
 	- [责任链模式](http://xusx1024.com/2017/05/31/design-patterns-chain-of-responsibility/)
