@@ -70,6 +70,12 @@ Java server page
 
 #### HttpSession ####
 
+- JavaWeb提供的类，用来会话跟踪的类。session是服务端对象，保存在服务器
+- HttpSession是Servlet三大域对象之一
+- HttpSession底层依赖Cookie，或是URL重写
+- 会话范围
+- session是JSP内置对象
+
 #### 一次性图片验证码
 
  

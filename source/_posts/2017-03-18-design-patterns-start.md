@@ -53,7 +53,7 @@ winPC画图工具安利：[http://astah.net/](http://astah.net/)
 	- [命令模式](http://xusx1024.com/2017/06/14/design-patterns-command/)
 	- [备忘录模式](http://xusx1024.com/2017/06/16/design-patterns-memento/)
 	- [状态模式](http://xusx1024.com/2017/05/26/design-patterns-state-pattern/)
-	- 访问者模式
+	- [访问者模式](http://xusx1024.com/2017/06/20/design-patterns-visitor/)
 	- [中介者模式](http://xusx1024.com/2017/06/13/design-patterns-mediator/)
 	- [解释器模式](http://xusx1024.com/2017/06/02/design-patterns-interpreter/)
 
