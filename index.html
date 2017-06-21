@@ -378,6 +378,88 @@
 <li>增加新的元素节点很困难。每一次增加，都要在抽象访问者中增加新的抽象操作。</li>
 <li>访问者模式要求访问者对象访问并调用每一个元素对象的操作，这意味着元素对象需要暴露自己的内部操作和内部状态，否则访问者无法访问</li>
 </ul>
+<h4 id="分派"><a href="#分派" class="headerlink" title="分派"></a>分派</h4><p>变量被声明时的类型叫做变量的静态类型，有些人又把静态类型叫做明显类型；而变量所引用的对象的真实类型又叫做变量的实际类型。</p>
+<pre><code>List list = new ArrayList();
+</code></pre><p>根据对象的类型而对方法进行的选择，就是分派，分派又分为两种：静态分派、动态分派。</p>
+<h5 id="静态分派"><a href="#静态分派" class="headerlink" title="静态分派"></a>静态分派</h5><p>发生在编译时期，分派根据静态类型信息发生，<code>方法重载</code>就是静态分派。</p>
+<pre><code>package VisitorPattern;
+
+public class People {
+
+    void ride(Horse h) {
+        System.out.println(&quot;ride horse&quot;);
+    }
+
+    void ride(WhiteHorse h) {
+        System.out.println(&quot;ride White Horse&quot;);
+    }
+
+    void ride(BlackHorse h) {
+        System.out.println(&quot;ride Black Horse&quot;);
+    }
+
+    public static void main(String[] args) {
+        Horse wh = new WhiteHorse();
+        Horse bh = new BlackHorse();
+
+        People p = new People();
+        p.ride(wh);
+        p.ride(bh);
+    }
+
+}
+
+class Horse {
+}
+
+class WhiteHorse extends Horse {
+}
+
+class BlackHorse extends Horse {
+}
+</code></pre><blockquote>
+<p>打印结果：<br>ride horse<br>ride horse</p>
+</blockquote>
+<p>两次对ride()方法传入对是不同对参数，虽然具有不同的真实类型，但是它们的静态类型都是一样的，重载方法的分派是根据静态类型进行的，这个分派过程在编译时期就完成了。</p>
+<h5 id="动态分派"><a href="#动态分派" class="headerlink" title="动态分派"></a>动态分派</h5><p>发生在运行时期，动态分派动态地置换掉某个方法。java通过重写支持动态分派。</p>
+<pre><code>package VisitorPattern;
+
+public class Demo {
+
+    public static void main(String[] args) {
+        Horse1 h = new WhiteHorse1();
+        h.eat();
+    }
+
+}
+
+class Horse1 {
+    public void eat() {
+        System.out.println(&quot;horse eatting&quot;);
+    }
+}
+
+class WhiteHorse1 extends Horse1 {
+    @Override
+    public void eat() {
+        System.out.println(&quot;WhiteHorse1 horse eatting&quot;);
+    }
+}
+
+class BlackHorse1 extends Horse1 {
+    @Override
+    public void eat() {
+        System.out.println(&quot;BlackHorse1 horse eatting&quot;);
+    }
+}
+</code></pre><blockquote>
+<p>打印结果：<br>WhiteHorse1 horse eatting</p>
+</blockquote>
+<p>Java编译器在编译时期并不总是知道哪些代码会被执行，因为编译器仅仅知道对象的静态类型，而不知道对象的真实类型；而方法的调用则是根据对象的真实类型，而不是静态类型。</p>
+<h4 id="宗量"><a href="#宗量" class="headerlink" title="宗量"></a>宗量</h4><p>一个方法所属的对象叫做方法的接收者；<br>方法的接收者与方法的参数统称为方法的宗量。</p>
+<p>根据分派可以基于多少种宗量，可以将面向对象的语言划分为单分派语言和多分派语言。单分派语言根据一个宗量的类型进行对方法的选择，多分派语言根据多于一个的宗量的类型对方法进行选择。</p>
+<p>Java是动态的单分派语言，因为动态分派仅仅会考虑到方法的接收者类型。<br>Java又是静态的多分派语言，因为他对重载方法的分派会考虑到方法的接收者类型以及方法的所有参数的类型。</p>
+<p>在一个支持动态单分派的语言里面，有两个条件决定了一个请求会调用哪一个操作：一是请求的名字，二是接收者的真实类型。单分派限制了方法的选择过程，使得只有一个宗量可以被考虑到，这个宗量通常就是方法的接收者。在Java语言里面，如果一个操作是作用于某个类型不明的对象上面，那么对这个对象的真实类型测试仅会发生一次，这就是动态的单分派的特征。</p>
 
           
         
@@ -971,6 +1053,204 @@ public class MementoCaretaker3 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/jsp-study-tips/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/14/jsp-study-tips/" itemprop="url">JSP、Cookie、Session学习</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T00:00:00Z">
+                2017-06-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="JSP定义"><a href="#JSP定义" class="headerlink" title="JSP定义"></a>JSP定义</h4><p>Java server page</p>
+<h5 id="jsp和servlet"><a href="#jsp和servlet" class="headerlink" title="jsp和servlet"></a>jsp和servlet</h5><ul>
+<li>servlet不适合设置HTML响应体，需要大量的response.getWriter().pring(“”);</li>
+<li>servlet 动态资源，可以编程</li>
+<li>HTML是静态页面，不能包含动态信息</li>
+<li>HTML不用为输出HTML标签而发愁</li>
+<li>jsp在原有HTML的基础上添加Java脚本，构成jsp页面</li>
+<li>jsp作为请求发起/结束页面</li>
+<li>servlet作为请求中处理数据的环节</li>
+</ul>
+<h5 id="jsp组成"><a href="#jsp组成" class="headerlink" title="jsp组成"></a>jsp组成</h5><ul>
+<li>jsp = html + java脚本 + jsp标签</li>
+<li>jsp中无需创建即可使用的对象共9个，被称之为9大内置对象。例如：request对象、out对象</li>
+<li>3中Java脚本<ul>
+<li>&lt;%…%&gt;放置Java代码</li>
+<li>&lt;%=…%&gt;Java表达式，用于输出一条表达式或变量的结果</li>
+<li>&lt;%!…%&gt;声明，用来创建类的成员变量和成员方法</li>
+<li>&lt;%– … —%&gt; jsp注释</li>
+</ul>
+</li>
+</ul>
+<h5 id="jsp原理"><a href="#jsp原理" class="headerlink" title="jsp原理"></a>jsp原理</h5><ul>
+<li>jsp其实是一个特殊的servlet。</li>
+<li>当jsp第一次被访问，服务器会把jsp编译成Java文件，这个Java文件其实实现了servlet接口</li>
+<li>把该Java编译成.class文件</li>
+<li>然后创建该类对象</li>
+<li>最好调用其service方法</li>
+<li>第二次请求时，直接调用其service方法</li>
+</ul>
+<h4 id="会话跟踪技术"><a href="#会话跟踪技术" class="headerlink" title="会话跟踪技术"></a>会话跟踪技术</h4><ul>
+<li>Cookie</li>
+</ul>
+<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4><ul>
+<li>由服务器创建保存到客户端的浏览器的一个键值对，服务器保存Cookie的响应头：Set-Cookie:aaa=AAA</li>
+<li>Cookie由HTTP协议制定的</li>
+<li>当浏览器请求服务器时，会把该服务器保存的Cookie随请求发送给服务器。浏览器归还Cookie的请求头</li>
+<li>1个Cookie最大4kb</li>
+<li>1个服务器最多向一个浏览器保存20个Cookie</li>
+<li>1个浏览器最多保存300个Cookie，由于浏览器竞争，肯定都超4kb,20,300了。</li>
+</ul>
+<h5 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h5><ul>
+<li>服务端使用Cookie来跟踪客户端状态</li>
+<li>保存商品浏览记录</li>
+<li>显示上次登录名</li>
+</ul>
+<h5 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h5><ul>
+<li>response.addCookie()</li>
+<li>request.getCookies()</li>
+</ul>
+<h5 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h5><ul>
+<li>maxAge:最大生命时长以秒为单位</li>
+<li>path：并非Cookie在客户端的路径，而是浏览器访问服务器的路径，如果包含某个Cookie的路径，那么就会归还这个Cookie</li>
+<li>domain：指定Cookie的域名，当多个二级域中共享Cookie时才有用<ul>
+<li>例如：www.baidu.com,zhidao.baidu.com,news.baidu.com,tieba.baidu.com共用Cookie时使用domain,设置domain为:cookie.setDomain(“.baidu.com”);</li>
+<li>必须设置path为：cookie.setPath(“/“);</li>
+</ul>
+</li>
+</ul>
+<h4 id="HttpSession"><a href="#HttpSession" class="headerlink" title="HttpSession"></a>HttpSession</h4><ul>
+<li>JavaWeb提供的类，用来会话跟踪的类。session是服务端对象，保存在服务器</li>
+<li>HttpSession是Servlet三大域对象之一</li>
+<li>HttpSession底层依赖Cookie，或是URL重写</li>
+<li>会话范围</li>
+<li>session是JSP内置对象</li>
+</ul>
+<h4 id="一次性图片验证码"><a href="#一次性图片验证码" class="headerlink" title="一次性图片验证码"></a>一次性图片验证码</h4>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/design-patterns-command/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1138,7 +1418,7 @@ public class MementoCaretaker3 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/jsp-study-tips/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/ambiguity-effect/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -1157,198 +1437,7 @@ public class MementoCaretaker3 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/06/14/jsp-study-tips/" itemprop="url">JSP、Cookie、Session学习</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T00:00:00Z">
-                2017-06-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="JSP定义"><a href="#JSP定义" class="headerlink" title="JSP定义"></a>JSP定义</h4><p>Java server page</p>
-<h5 id="jsp和servlet"><a href="#jsp和servlet" class="headerlink" title="jsp和servlet"></a>jsp和servlet</h5><ul>
-<li>servlet不适合设置HTML响应体，需要大量的response.getWriter().pring(“”);</li>
-<li>servlet 动态资源，可以编程</li>
-<li>HTML是静态页面，不能包含动态信息</li>
-<li>HTML不用为输出HTML标签而发愁</li>
-<li>jsp在原有HTML的基础上添加Java脚本，构成jsp页面</li>
-<li>jsp作为请求发起/结束页面</li>
-<li>servlet作为请求中处理数据的环节</li>
-</ul>
-<h5 id="jsp组成"><a href="#jsp组成" class="headerlink" title="jsp组成"></a>jsp组成</h5><ul>
-<li>jsp = html + java脚本 + jsp标签</li>
-<li>jsp中无需创建即可使用的对象共9个，被称之为9大内置对象。例如：request对象、out对象</li>
-<li>3中Java脚本<ul>
-<li>&lt;%…%&gt;放置Java代码</li>
-<li>&lt;%=…%&gt;Java表达式，用于输出一条表达式或变量的结果</li>
-<li>&lt;%!…%&gt;声明，用来创建类的成员变量和成员方法</li>
-<li>&lt;%– … —%&gt; jsp注释</li>
-</ul>
-</li>
-</ul>
-<h5 id="jsp原理"><a href="#jsp原理" class="headerlink" title="jsp原理"></a>jsp原理</h5><ul>
-<li>jsp其实是一个特殊的servlet。</li>
-<li>当jsp第一次被访问，服务器会把jsp编译成Java文件，这个Java文件其实实现了servlet接口</li>
-<li>把该Java编译成.class文件</li>
-<li>然后创建该类对象</li>
-<li>最好调用其service方法</li>
-<li>第二次请求时，直接调用其service方法</li>
-</ul>
-<h4 id="会话跟踪技术"><a href="#会话跟踪技术" class="headerlink" title="会话跟踪技术"></a>会话跟踪技术</h4><ul>
-<li>Cookie</li>
-</ul>
-<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4><ul>
-<li>由服务器创建保存到客户端的浏览器的一个键值对，服务器保存Cookie的响应头：Set-Cookie:aaa=AAA</li>
-<li>Cookie由HTTP协议制定的</li>
-<li>当浏览器请求服务器时，会把该服务器保存的Cookie随请求发送给服务器。浏览器归还Cookie的请求头</li>
-<li>1个Cookie最大4kb</li>
-<li>1个服务器最多向一个浏览器保存20个Cookie</li>
-<li>1个浏览器最多保存300个Cookie，由于浏览器竞争，肯定都超4kb,20,300了。</li>
-</ul>
-<h5 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h5><ul>
-<li>服务端使用Cookie来跟踪客户端状态</li>
-<li>保存商品浏览记录</li>
-<li>显示上次登录名</li>
-</ul>
-<h5 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h5><ul>
-<li>response.addCookie()</li>
-<li>request.getCookies()</li>
-</ul>
-<h5 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h5><ul>
-<li>maxAge:最大生命时长以秒为单位</li>
-<li>path：并非Cookie在客户端的路径，而是浏览器访问服务器的路径，如果包含某个Cookie的路径，那么就会归还这个Cookie</li>
-<li>domain：指定Cookie的域名，当多个二级域中共享Cookie时才有用<ul>
-<li>例如：www.baidu.com,zhidao.baidu.com,news.baidu.com,tieba.baidu.com共用Cookie时使用domain,设置domain为:cookie.setDomain(“.baidu.com”);</li>
-<li>必须设置path为：cookie.setPath(“/“);</li>
-</ul>
-</li>
-</ul>
-<h4 id="HttpSession"><a href="#HttpSession" class="headerlink" title="HttpSession"></a>HttpSession</h4><h4 id="一次性图片验证码"><a href="#一次性图片验证码" class="headerlink" title="一次性图片验证码"></a>一次性图片验证码</h4>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/coding-study-tips/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/13/coding-study-tips/" itemprop="url">字符编码学习笔记</a></h1>
+                <a class="post-title-link" href="/2017/06/13/ambiguity-effect/" itemprop="url">认知偏差之决策、信念与行为偏误</a></h1>
         
 
         <div class="post-meta">
@@ -1383,8 +1472,8 @@ public class MementoCaretaker3 {
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
+                  <a href="/categories/psychology/" itemprop="url" rel="index">
+                    <span itemprop="name">psychology</span>
                   </a>
                 </span>
 
@@ -1419,31 +1508,18 @@ public class MementoCaretaker3 {
       
         
           
-            <h4 id="常见字符编码"><a href="#常见字符编码" class="headerlink" title="常见字符编码"></a>常见字符编码</h4><ul>
-<li>ISO-8859-1 不支持中文</li>
-<li>gbk、gb2312 国标 </li>
-<li>utf-8 万国码</li>
-</ul>
-<h4 id="响应编码"><a href="#响应编码" class="headerlink" title="响应编码"></a>响应编码</h4><ul>
-<li>当使用response.getWriter()来向客户端发送字符数据时，如果之前没有设置编码，默认使用ISO，不支持中文</li>
-<li>一般浏览器会把数据当做gbk</li>
-<li>服务器设置Content-Type响应头，告诉浏览器编码格式 <code>text/html;charset=utf-8</code>，同时也设置了响应编码，一句顶两句</li>
-<li>使用writer之前，先setContentType</li>
-</ul>
-<h4 id="请求编码"><a href="#请求编码" class="headerlink" title="请求编码"></a>请求编码</h4><ul>
-<li>上次请求返回的Content-Type类型决定表单的编码类型</li>
-<li>servlet默认使用ISO<ul>
-<li>POST：在获取参数之前调用request的setCharacterEncoding</li>
-<li>GET： <code>apache-tomcat-9.0.0.M21/conf/server.xml</code> 的Connector标签下，设置URIEncoding=”UTF-8” 但是<code>禁止使用</code>，这是Tomcat的全局设置</li>
-<li>GET：先获取GET参数，得到ISO的编码，用ISO反编回来，然后用UTF-8编码</li>
-</ul>
-</li>
-<li>Tomcat8 之后默认UTF-8了</li>
-</ul>
-<h4 id="URL编码"><a href="#URL编码" class="headerlink" title="URL编码"></a>URL编码</h4><ul>
-<li>不是字符编码，是用来在客户端与服务端之间传递参数用的一种方式</li>
-<li>服务器可自动识别URL编码</li>
-<li>URLEncoder.encode</li>
+            <h4 id="不明确性效应"><a href="#不明确性效应" class="headerlink" title="不明确性效应"></a>不明确性效应</h4><p>人的决策会因为信息的缺乏或“模糊”而受到影响，决策时倾向避开资讯不足的选项。</p>
+<p>该效应意味着，人们倾向于选择具有已知可能性的有利结果，而不是未知可能性的有利结果。</p>
+<p>人们有一个经验法则来避开信息缺失的选项。这通常会引导他们去寻找缺失的信息。然而，在许多情况下，信息是无法获得的。</p>
+<p><a href="https://en.wikipedia.org/wiki/Ambiguity_effect" target="_blank" rel="external">Ambiguity effect</a></p>
+<p><a href="http://www.jianshu.com/p/7c2a1a9ee31d" target="_blank" rel="external">译文</a></p>
+<h4 id="锚定效应"><a href="#锚定效应" class="headerlink" title="锚定效应"></a>锚定效应</h4><p>为不熟悉的事物估值时，会把熟悉的类似事物或不久前接触到的无关数值当做“锚”，估出来的数值会大大倾向“锚”。</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E9%8C%A8%E5%AE%9A%E6%95%88%E6%87%89" target="_blank" rel="external">WIKI</a></p>
+<p>人类在进行决策时会过度偏重最早取得的第一笔资讯(这称为锚点)，即使这个资讯与这项决定明显无关。在进行决策时，人类倾向于利用最早取得的片段资讯，以快速做出决定，在接下来的决定中，再用第一个决定为基准点，逐步修正。但是人类容易过度利用第一个锚点，来对其他资讯与决定做出诠释，当第一个参考用的锚点与实际上的事实之间的有很大出入，就会造成偏误。</p>
+<h5 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h5><ul>
+<li>我们在公众场合亮相时，谁和我们在一起。因为所以这一切都会影响到别人对我们的评价，我们身边的“锚定”成为评定我们个人价值的基准</li>
+<li>一个新产品在货架紧挨着可口可乐、百事可乐，那么他的定价也是这么高，容易被消费者接受</li>
+<li>一个店铺，不断在高端百货商店扩展专卖店，常常和名牌店比邻，有利于建立其高端产品的形象</li>
 </ul>
 
           
@@ -1654,7 +1730,7 @@ public class MementoCaretaker3 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/ambiguity-effect/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/coding-study-tips/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -1673,7 +1749,7 @@ public class MementoCaretaker3 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/06/13/ambiguity-effect/" itemprop="url">认知偏差之决策、信念与行为偏误</a></h1>
+                <a class="post-title-link" href="/2017/06/13/coding-study-tips/" itemprop="url">字符编码学习笔记</a></h1>
         
 
         <div class="post-meta">
@@ -1708,8 +1784,8 @@ public class MementoCaretaker3 {
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/psychology/" itemprop="url" rel="index">
-                    <span itemprop="name">psychology</span>
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
                   </a>
                 </span>
 
@@ -1744,18 +1820,31 @@ public class MementoCaretaker3 {
       
         
           
-            <h4 id="不明确性效应"><a href="#不明确性效应" class="headerlink" title="不明确性效应"></a>不明确性效应</h4><p>人的决策会因为信息的缺乏或“模糊”而受到影响，决策时倾向避开资讯不足的选项。</p>
-<p>该效应意味着，人们倾向于选择具有已知可能性的有利结果，而不是未知可能性的有利结果。</p>
-<p>人们有一个经验法则来避开信息缺失的选项。这通常会引导他们去寻找缺失的信息。然而，在许多情况下，信息是无法获得的。</p>
-<p><a href="https://en.wikipedia.org/wiki/Ambiguity_effect" target="_blank" rel="external">Ambiguity effect</a></p>
-<p><a href="http://www.jianshu.com/p/7c2a1a9ee31d" target="_blank" rel="external">译文</a></p>
-<h4 id="锚定效应"><a href="#锚定效应" class="headerlink" title="锚定效应"></a>锚定效应</h4><p>为不熟悉的事物估值时，会把熟悉的类似事物或不久前接触到的无关数值当做“锚”，估出来的数值会大大倾向“锚”。</p>
-<p><a href="https://zh.wikipedia.org/wiki/%E9%8C%A8%E5%AE%9A%E6%95%88%E6%87%89" target="_blank" rel="external">WIKI</a></p>
-<p>人类在进行决策时会过度偏重最早取得的第一笔资讯(这称为锚点)，即使这个资讯与这项决定明显无关。在进行决策时，人类倾向于利用最早取得的片段资讯，以快速做出决定，在接下来的决定中，再用第一个决定为基准点，逐步修正。但是人类容易过度利用第一个锚点，来对其他资讯与决定做出诠释，当第一个参考用的锚点与实际上的事实之间的有很大出入，就会造成偏误。</p>
-<h5 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h5><ul>
-<li>我们在公众场合亮相时，谁和我们在一起。因为所以这一切都会影响到别人对我们的评价，我们身边的“锚定”成为评定我们个人价值的基准</li>
-<li>一个新产品在货架紧挨着可口可乐、百事可乐，那么他的定价也是这么高，容易被消费者接受</li>
-<li>一个店铺，不断在高端百货商店扩展专卖店，常常和名牌店比邻，有利于建立其高端产品的形象</li>
+            <h4 id="常见字符编码"><a href="#常见字符编码" class="headerlink" title="常见字符编码"></a>常见字符编码</h4><ul>
+<li>ISO-8859-1 不支持中文</li>
+<li>gbk、gb2312 国标 </li>
+<li>utf-8 万国码</li>
+</ul>
+<h4 id="响应编码"><a href="#响应编码" class="headerlink" title="响应编码"></a>响应编码</h4><ul>
+<li>当使用response.getWriter()来向客户端发送字符数据时，如果之前没有设置编码，默认使用ISO，不支持中文</li>
+<li>一般浏览器会把数据当做gbk</li>
+<li>服务器设置Content-Type响应头，告诉浏览器编码格式 <code>text/html;charset=utf-8</code>，同时也设置了响应编码，一句顶两句</li>
+<li>使用writer之前，先setContentType</li>
+</ul>
+<h4 id="请求编码"><a href="#请求编码" class="headerlink" title="请求编码"></a>请求编码</h4><ul>
+<li>上次请求返回的Content-Type类型决定表单的编码类型</li>
+<li>servlet默认使用ISO<ul>
+<li>POST：在获取参数之前调用request的setCharacterEncoding</li>
+<li>GET： <code>apache-tomcat-9.0.0.M21/conf/server.xml</code> 的Connector标签下，设置URIEncoding=”UTF-8” 但是<code>禁止使用</code>，这是Tomcat的全局设置</li>
+<li>GET：先获取GET参数，得到ISO的编码，用ISO反编回来，然后用UTF-8编码</li>
+</ul>
+</li>
+<li>Tomcat8 之后默认UTF-8了</li>
+</ul>
+<h4 id="URL编码"><a href="#URL编码" class="headerlink" title="URL编码"></a>URL编码</h4><ul>
+<li>不是字符编码，是用来在客户端与服务端之间传递参数用的一种方式</li>
+<li>服务器可自动识别URL编码</li>
+<li>URLEncoder.encode</li>
 </ul>
 
           
