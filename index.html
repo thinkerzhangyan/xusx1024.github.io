@@ -267,6 +267,220 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/21/design-patterns-adapter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/21/design-patterns-adapter/" itemprop="url">适配器模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-21T00:00:00Z">
+                2017-06-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>适配器模式：将一个接口转换成客户希望的另一个接口，使接口不兼容的那些类可以一起工作，其别名为包装器(wrapper)。适配器模式有类的适配器模式和对象的适配器模式两种。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><h5 id="类适配器模式"><a href="#类适配器模式" class="headerlink" title="类适配器模式"></a>类适配器模式</h5><ul>
+<li>Target：目标角色。所期待得到的接口。由于是类适配器模式，因此目标是接口不是类。</li>
+<li>Adapee：源角色。限制需要适配的接口。</li>
+<li>Adapter：适配器角色。适配器类是本模式的核心。适配器把源转换为目标。</li>
+</ul>
+<p><img src="/images/adapter_pattern_class_diagram_1.png" alt="类图"></p>
+<h5 id="对象适配器模式"><a href="#对象适配器模式" class="headerlink" title="对象适配器模式"></a>对象适配器模式</h5><p><img src="/images/adapter_pattern_class_diagram_2.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/adapter_pattern_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><h5 id="类适配器模式-1"><a href="#类适配器模式-1" class="headerlink" title="类适配器模式"></a>类适配器模式</h5><p>目标角色：<br>    package AdapterPattern;</p>
+<pre><code>public interface Target {
+
+    /**
+     * 源类{@link Adaptee}}中已存在
+     */
+    void sampleOperation1();
+
+    /**
+     * 源类{@link Adaptee}}中需要添加
+     */
+    void sampleOperation2();
+
+}
+</code></pre><p>源角色：</p>
+<pre><code>    package AdapterPattern;
+
+public class Adaptee {
+    public void sampleOperation1() {
+    }
+}
+</code></pre><p>适配器角色：</p>
+<pre><code>package AdapterPattern;
+
+public class Adapter extends Adaptee implements Target {
+
+    /**
+     * 源类{@link Adaptee}}中没有，需要扩展的方法
+     */
+    @Override
+    public void sampleOperation2() {
+        System.out.println(&quot;扩展方法&quot;);
+    }
+
+}
+</code></pre><h5 id="对象适配器模式-1"><a href="#对象适配器模式-1" class="headerlink" title="对象适配器模式"></a>对象适配器模式</h5><p>源、目标角色都不变，只是在适配器类中，增加对源对引用，代码如下：</p>
+<pre><code>package AdapterPattern;
+
+public class ObjectAdapter implements Target {
+    Adaptee a;
+
+    public ObjectAdapter(Adaptee a) {
+        this.a = a;
+    }
+
+    @Override
+    public void sampleOperation1() {
+        a.sampleOperation1();
+    }
+
+    @Override
+    public void sampleOperation2() {
+        // 扩充方法
+    }
+}
+</code></pre><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><ul>
+<li>通常，客户端通过目标类的接口访问目标提供的服务。有时，现有的类功能上可以满足，但是它所提供的接口不一定是客户类所期望的，这可能是因为现有类中方法名与目标类中定义的方法名不一致等原因所导致的。</li>
+<li>适配器提供客户类需要的接口，把客户类的请求转化为对适配器的相应接口的调用。<code>也就是说，当客户类调用适配器的方法时，在适配器类的内部将调用适配者类的方法</code>，这个过程对客户类是透明的，客户类并不直接访问适配者类。</li>
+</ul>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
+<li>将目标类和适配者类解耦，通过引入一个适配类来重用现有的适配者类，而无需修改原代码</li>
+<li>增加类类的透明性和复用性</li>
+<li>灵活性和扩展性都非常好，通过使用配置文件，可以很方便地更换/增加适配器</li>
+<li>类适配器模式中，由于适配器类是适配者类的子类，因此可以在适配器类中置换一下适配者的方法，使得适配器更加灵活</li>
+<li>对象适配器模式中，一个对象适配器可以把多个不同的适配者适配到同一个目标，也就是说，同一个适配器可以把适配者类和它的子类都适配到目标接口。</li>
+</ul>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
+<li>类适配器中，java、C#不支持多继承，一次最多只能适配一个适配者类，并且目标不能为具体类，使用有局限性，不能将一个适配者类和它的子类都适配到目标接口</li>
+<li>对象适配器中，无法很好的置换适配者类的方法。如果一定要置换掉适配者类的一个或多个方法，就只好先做一个适配者类的子类，将适配者类的方法置换掉，然后再把适配者类的子类当做真正的适配者进行适配，实现过程较为复杂。</li>
+</ul>
+<h4 id="扩展-缺省适配器"><a href="#扩展-缺省适配器" class="headerlink" title="扩展-缺省适配器"></a>扩展-缺省适配器</h4><p>简单理解：接口-抽象类-实现类<br>如果接口中定义的方法过多，可以先用一个抽象类，以空方法实现即<code>平庸实现</code>，然后具体实现类根据需要实现。<br>也叫做单接口适配器模式。</p>
+<p>这个用的多一些。好像模版方法。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/20/design-patterns-visitor/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1418,7 +1632,7 @@ public class MementoCaretaker3 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/ambiguity-effect/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/coding-study-tips/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -1437,7 +1651,7 @@ public class MementoCaretaker3 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/06/13/ambiguity-effect/" itemprop="url">认知偏差之决策、信念与行为偏误</a></h1>
+                <a class="post-title-link" href="/2017/06/13/coding-study-tips/" itemprop="url">字符编码学习笔记</a></h1>
         
 
         <div class="post-meta">
@@ -1472,8 +1686,8 @@ public class MementoCaretaker3 {
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/psychology/" itemprop="url" rel="index">
-                    <span itemprop="name">psychology</span>
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
                   </a>
                 </span>
 
@@ -1508,18 +1722,31 @@ public class MementoCaretaker3 {
       
         
           
-            <h4 id="不明确性效应"><a href="#不明确性效应" class="headerlink" title="不明确性效应"></a>不明确性效应</h4><p>人的决策会因为信息的缺乏或“模糊”而受到影响，决策时倾向避开资讯不足的选项。</p>
-<p>该效应意味着，人们倾向于选择具有已知可能性的有利结果，而不是未知可能性的有利结果。</p>
-<p>人们有一个经验法则来避开信息缺失的选项。这通常会引导他们去寻找缺失的信息。然而，在许多情况下，信息是无法获得的。</p>
-<p><a href="https://en.wikipedia.org/wiki/Ambiguity_effect" target="_blank" rel="external">Ambiguity effect</a></p>
-<p><a href="http://www.jianshu.com/p/7c2a1a9ee31d" target="_blank" rel="external">译文</a></p>
-<h4 id="锚定效应"><a href="#锚定效应" class="headerlink" title="锚定效应"></a>锚定效应</h4><p>为不熟悉的事物估值时，会把熟悉的类似事物或不久前接触到的无关数值当做“锚”，估出来的数值会大大倾向“锚”。</p>
-<p><a href="https://zh.wikipedia.org/wiki/%E9%8C%A8%E5%AE%9A%E6%95%88%E6%87%89" target="_blank" rel="external">WIKI</a></p>
-<p>人类在进行决策时会过度偏重最早取得的第一笔资讯(这称为锚点)，即使这个资讯与这项决定明显无关。在进行决策时，人类倾向于利用最早取得的片段资讯，以快速做出决定，在接下来的决定中，再用第一个决定为基准点，逐步修正。但是人类容易过度利用第一个锚点，来对其他资讯与决定做出诠释，当第一个参考用的锚点与实际上的事实之间的有很大出入，就会造成偏误。</p>
-<h5 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h5><ul>
-<li>我们在公众场合亮相时，谁和我们在一起。因为所以这一切都会影响到别人对我们的评价，我们身边的“锚定”成为评定我们个人价值的基准</li>
-<li>一个新产品在货架紧挨着可口可乐、百事可乐，那么他的定价也是这么高，容易被消费者接受</li>
-<li>一个店铺，不断在高端百货商店扩展专卖店，常常和名牌店比邻，有利于建立其高端产品的形象</li>
+            <h4 id="常见字符编码"><a href="#常见字符编码" class="headerlink" title="常见字符编码"></a>常见字符编码</h4><ul>
+<li>ISO-8859-1 不支持中文</li>
+<li>gbk、gb2312 国标 </li>
+<li>utf-8 万国码</li>
+</ul>
+<h4 id="响应编码"><a href="#响应编码" class="headerlink" title="响应编码"></a>响应编码</h4><ul>
+<li>当使用response.getWriter()来向客户端发送字符数据时，如果之前没有设置编码，默认使用ISO，不支持中文</li>
+<li>一般浏览器会把数据当做gbk</li>
+<li>服务器设置Content-Type响应头，告诉浏览器编码格式 <code>text/html;charset=utf-8</code>，同时也设置了响应编码，一句顶两句</li>
+<li>使用writer之前，先setContentType</li>
+</ul>
+<h4 id="请求编码"><a href="#请求编码" class="headerlink" title="请求编码"></a>请求编码</h4><ul>
+<li>上次请求返回的Content-Type类型决定表单的编码类型</li>
+<li>servlet默认使用ISO<ul>
+<li>POST：在获取参数之前调用request的setCharacterEncoding</li>
+<li>GET： <code>apache-tomcat-9.0.0.M21/conf/server.xml</code> 的Connector标签下，设置URIEncoding=”UTF-8” 但是<code>禁止使用</code>，这是Tomcat的全局设置</li>
+<li>GET：先获取GET参数，得到ISO的编码，用ISO反编回来，然后用UTF-8编码</li>
+</ul>
+</li>
+<li>Tomcat8 之后默认UTF-8了</li>
+</ul>
+<h4 id="URL编码"><a href="#URL编码" class="headerlink" title="URL编码"></a>URL编码</h4><ul>
+<li>不是字符编码，是用来在客户端与服务端之间传递参数用的一种方式</li>
+<li>服务器可自动识别URL编码</li>
+<li>URLEncoder.encode</li>
 </ul>
 
           
@@ -1730,7 +1957,7 @@ public class MementoCaretaker3 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/coding-study-tips/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/ambiguity-effect/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -1749,7 +1976,7 @@ public class MementoCaretaker3 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/06/13/coding-study-tips/" itemprop="url">字符编码学习笔记</a></h1>
+                <a class="post-title-link" href="/2017/06/13/ambiguity-effect/" itemprop="url">认知偏差之决策、信念与行为偏误</a></h1>
         
 
         <div class="post-meta">
@@ -1784,8 +2011,8 @@ public class MementoCaretaker3 {
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
+                  <a href="/categories/psychology/" itemprop="url" rel="index">
+                    <span itemprop="name">psychology</span>
                   </a>
                 </span>
 
@@ -1820,207 +2047,18 @@ public class MementoCaretaker3 {
       
         
           
-            <h4 id="常见字符编码"><a href="#常见字符编码" class="headerlink" title="常见字符编码"></a>常见字符编码</h4><ul>
-<li>ISO-8859-1 不支持中文</li>
-<li>gbk、gb2312 国标 </li>
-<li>utf-8 万国码</li>
-</ul>
-<h4 id="响应编码"><a href="#响应编码" class="headerlink" title="响应编码"></a>响应编码</h4><ul>
-<li>当使用response.getWriter()来向客户端发送字符数据时，如果之前没有设置编码，默认使用ISO，不支持中文</li>
-<li>一般浏览器会把数据当做gbk</li>
-<li>服务器设置Content-Type响应头，告诉浏览器编码格式 <code>text/html;charset=utf-8</code>，同时也设置了响应编码，一句顶两句</li>
-<li>使用writer之前，先setContentType</li>
-</ul>
-<h4 id="请求编码"><a href="#请求编码" class="headerlink" title="请求编码"></a>请求编码</h4><ul>
-<li>上次请求返回的Content-Type类型决定表单的编码类型</li>
-<li>servlet默认使用ISO<ul>
-<li>POST：在获取参数之前调用request的setCharacterEncoding</li>
-<li>GET： <code>apache-tomcat-9.0.0.M21/conf/server.xml</code> 的Connector标签下，设置URIEncoding=”UTF-8” 但是<code>禁止使用</code>，这是Tomcat的全局设置</li>
-<li>GET：先获取GET参数，得到ISO的编码，用ISO反编回来，然后用UTF-8编码</li>
-</ul>
-</li>
-<li>Tomcat8 之后默认UTF-8了</li>
-</ul>
-<h4 id="URL编码"><a href="#URL编码" class="headerlink" title="URL编码"></a>URL编码</h4><ul>
-<li>不是字符编码，是用来在客户端与服务端之间传递参数用的一种方式</li>
-<li>服务器可自动识别URL编码</li>
-<li>URLEncoder.encode</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/httprequest-study-tips/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/13/httprequest-study-tips/" itemprop="url">HttpRequest学习笔记</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-12T20:13:51Z">
-                2017-06-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="cvc-complex-type-2-4-a-Invalid-content-was-found-starting-with-element-‘display-name’"><a href="#cvc-complex-type-2-4-a-Invalid-content-was-found-starting-with-element-‘display-name’" class="headerlink" title="cvc-complex-type.2.4.a: Invalid content was found starting with element ‘display-name’"></a>cvc-complex-type.2.4.a: Invalid content was found starting with element ‘display-name’</h4><p><code>web.xml</code>在自动生成servlet的时候出现的提示。</p>
-<p>通常是由于标签位置，标签DTD的校验规则所影响的。</p>
-<p>删除 <code>http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd</code> 即不采用该校验规则 </p>
-<h4 id="request-重要方法"><a href="#request-重要方法" class="headerlink" title="request 重要方法"></a>request 重要方法</h4><ul>
-<li>获取IP</li>
-<li>获取请求方法</li>
-<li>获取请求参数</li>
-<li>获取浏览器类型</li>
-<li>获取协议</li>
-<li>获取服务器名</li>
-<li>获取服务器端口</li>
-<li>获取项目名</li>
-<li>获取servlet路径</li>
-<li>获取GET参数</li>
-<li>获取URI</li>
-<li>获取URL</li>
-</ul>
-<h4 id="使用referer完成防盗链"><a href="#使用referer完成防盗链" class="headerlink" title="使用referer完成防盗链"></a>使用referer完成防盗链</h4><ul>
-<li>在浏览器地址栏直接输入ip，referer为空</li>
-<li>从百度输入ip，referer为百度</li>
-</ul>
-<h4 id="获取request参数"><a href="#获取request参数" class="headerlink" title="获取request参数"></a>获取request参数</h4><ul>
-<li>获取get参数</li>
-<li>获取post参数</li>
-<li>获取单值</li>
-<li>获取多值</li>
-<li>获取map</li>
-</ul>
-<h4 id="请求转发和请求包含"><a href="#请求转发和请求包含" class="headerlink" title="请求转发和请求包含"></a>请求转发和请求包含</h4><ul>
-<li>转发：下一个servlet设置响应体，当前servlet只能设置响应头</li>
-<li>包含：共同完成响应体</li>
-<li>无论转发或者包含，都是使用同一个request/response</li>
-<li>使用set/getAttribute来，在两个servlet之间传递参数【request域、session域、application域中都有这个属性的操作，但是其生命周期不同】</li>
-</ul>
-<h5 id="和重定向的区别"><a href="#和重定向的区别" class="headerlink" title="和重定向的区别"></a>和重定向的区别</h5><ul>
-<li>重定向是两个请求，地址栏地址会改变</li>
-<li>转发/包含是一个请求</li>
-<li>转发/包含只能转发到本项目的servl</li>
-<li>重定向既可以到本项目也可以到别的项目</li>
-<li>重定向需要给出requestURI，即全路径</li>
-<li>转发/包含是服务端行为</li>
-<li>转发/包含效率较高</li>
+            <h4 id="不明确性效应"><a href="#不明确性效应" class="headerlink" title="不明确性效应"></a>不明确性效应</h4><p>人的决策会因为信息的缺乏或“模糊”而受到影响，决策时倾向避开资讯不足的选项。</p>
+<p>该效应意味着，人们倾向于选择具有已知可能性的有利结果，而不是未知可能性的有利结果。</p>
+<p>人们有一个经验法则来避开信息缺失的选项。这通常会引导他们去寻找缺失的信息。然而，在许多情况下，信息是无法获得的。</p>
+<p><a href="https://en.wikipedia.org/wiki/Ambiguity_effect" target="_blank" rel="external">Ambiguity effect</a></p>
+<p><a href="http://www.jianshu.com/p/7c2a1a9ee31d" target="_blank" rel="external">译文</a></p>
+<h4 id="锚定效应"><a href="#锚定效应" class="headerlink" title="锚定效应"></a>锚定效应</h4><p>为不熟悉的事物估值时，会把熟悉的类似事物或不久前接触到的无关数值当做“锚”，估出来的数值会大大倾向“锚”。</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E9%8C%A8%E5%AE%9A%E6%95%88%E6%87%89" target="_blank" rel="external">WIKI</a></p>
+<p>人类在进行决策时会过度偏重最早取得的第一笔资讯(这称为锚点)，即使这个资讯与这项决定明显无关。在进行决策时，人类倾向于利用最早取得的片段资讯，以快速做出决定，在接下来的决定中，再用第一个决定为基准点，逐步修正。但是人类容易过度利用第一个锚点，来对其他资讯与决定做出诠释，当第一个参考用的锚点与实际上的事实之间的有很大出入，就会造成偏误。</p>
+<h5 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h5><ul>
+<li>我们在公众场合亮相时，谁和我们在一起。因为所以这一切都会影响到别人对我们的评价，我们身边的“锚定”成为评定我们个人价值的基准</li>
+<li>一个新产品在货架紧挨着可口可乐、百事可乐，那么他的定价也是这么高，容易被消费者接受</li>
+<li>一个店铺，不断在高端百货商店扩展专卖店，常常和名牌店比邻，有利于建立其高端产品的形象</li>
 </ul>
 
           
@@ -2105,7 +2143,7 @@ public class MementoCaretaker3 {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">67</span>
+                <span class="site-state-item-count">68</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
