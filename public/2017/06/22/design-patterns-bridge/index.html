@@ -93,17 +93,20 @@
 
 
 
-<meta name="description" content="Intent/Bundle/**  * Copy constructor.  */ public Intent(Intent o) {     this.mAction = o.mAction;     this.mData = o.mData;     this.mType = o.mType;     this.mPackage = o.mPackage;     this.mComponen">
+<meta name="description" content="定义桥接模式(Bridge Pattern)：将抽象部分与它的实现部分分离，使它们都可以独立地变化。它是一种对象结构型模式，又称为柄体(Handle and Body)模式或接口(Interface)模式。 模式结构 Abstraction： 抽象化角色，里面维持一个实现化实例的引用 RefinedAbstraction：扩展抽象化角色，改变和修正父类对抽象化的定义 Implementor：实现化">
 <meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="原型设计模式(二) Android中的应用">
-<meta property="og:url" content="http://yoursite.com/2017/03/19/design-patterns-prototype-2/index.html">
+<meta property="og:title" content="桥接模式">
+<meta property="og:url" content="http://yoursite.com/2017/06/22/design-patterns-bridge/index.html">
 <meta property="og:site_name" content="行次">
-<meta property="og:description" content="Intent/Bundle/**  * Copy constructor.  */ public Intent(Intent o) {     this.mAction = o.mAction;     this.mData = o.mData;     this.mType = o.mType;     this.mPackage = o.mPackage;     this.mComponen">
-<meta property="og:updated_time" content="2017-06-01T07:23:52.697Z">
+<meta property="og:description" content="定义桥接模式(Bridge Pattern)：将抽象部分与它的实现部分分离，使它们都可以独立地变化。它是一种对象结构型模式，又称为柄体(Handle and Body)模式或接口(Interface)模式。 模式结构 Abstraction： 抽象化角色，里面维持一个实现化实例的引用 RefinedAbstraction：扩展抽象化角色，改变和修正父类对抽象化的定义 Implementor：实现化">
+<meta property="og:image" content="http://yoursite.com/images/bridge_pattern_class_diagram.png">
+<meta property="og:image" content="http://yoursite.com/images/bridge_pattern_sequence_diagram.png">
+<meta property="og:updated_time" content="2017-06-22T07:44:21.756Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="原型设计模式(二) Android中的应用">
-<meta name="twitter:description" content="Intent/Bundle/**  * Copy constructor.  */ public Intent(Intent o) {     this.mAction = o.mAction;     this.mData = o.mData;     this.mType = o.mType;     this.mPackage = o.mPackage;     this.mComponen">
+<meta name="twitter:title" content="桥接模式">
+<meta name="twitter:description" content="定义桥接模式(Bridge Pattern)：将抽象部分与它的实现部分分离，使它们都可以独立地变化。它是一种对象结构型模式，又称为柄体(Handle and Body)模式或接口(Interface)模式。 模式结构 Abstraction： 抽象化角色，里面维持一个实现化实例的引用 RefinedAbstraction：扩展抽象化角色，改变和修正父类对抽象化的定义 Implementor：实现化">
+<meta name="twitter:image" content="http://yoursite.com/images/bridge_pattern_class_diagram.png">
 
 
 
@@ -131,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/19/design-patterns-prototype-2/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/22/design-patterns-bridge/"/>
 
 
 
 
 
-  <title>原型设计模式(二) Android中的应用 | 行次</title>
+  <title>桥接模式 | 行次</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -267,7 +270,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/19/design-patterns-prototype-2/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/22/design-patterns-bridge/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -284,7 +287,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">原型设计模式(二) Android中的应用</h1>
+          <h1 class="post-title" itemprop="name headline">桥接模式</h1>
         
 
         <div class="post-meta">
@@ -296,8 +299,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-19T08:00:00+08:00">
-                2017-03-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-22T08:00:00+08:00">
+                2017-06-22
               </time>
             
 
@@ -353,39 +356,33 @@
       
 
       
-        <h4 id="Intent-Bundle"><a href="#Intent-Bundle" class="headerlink" title="Intent/Bundle"></a>Intent/Bundle</h4><pre><code>/**
- * Copy constructor.
- */
-public Intent(Intent o) {
-    this.mAction = o.mAction;
-    this.mData = o.mData;
-    this.mType = o.mType;
-    this.mPackage = o.mPackage;
-    this.mComponent = o.mComponent;
-    this.mFlags = o.mFlags;
-    this.mContentUserHint = o.mContentUserHint;
-    if (o.mCategories != null) {
-        this.mCategories = new ArraySet&lt;String&gt;(o.mCategories);
-    }
-    if (o.mExtras != null) {
-        this.mExtras = new Bundle(o.mExtras);
-    }
-    if (o.mSourceBounds != null) {
-        this.mSourceBounds = new Rect(o.mSourceBounds);
-    }
-    if (o.mSelector != null) {
-        this.mSelector = new Intent(o.mSelector);
-    }
-    if (o.mClipData != null) {
-        this.mClipData = new ClipData(o.mClipData);
-    }
-}
-
-@Override
-public Object clone() {
-    return new Intent(this);
-}
-</code></pre><p>发现并没有调用<code>super.clone()</code>，《effective java》建议使用拷贝构造器，看来Intent即采用了此种方式。</p>
+        <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>桥接模式(Bridge Pattern)：将抽象部分与它的实现部分分离，使它们都可以独立地变化。它是一种对象结构型模式，又称为柄体(Handle and Body)模式或接口(Interface)模式。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li>Abstraction： 抽象化角色，里面维持一个实现化实例的引用</li>
+<li>RefinedAbstraction：扩展抽象化角色，改变和修正父类对抽象化的定义</li>
+<li>Implementor：实现化角色。给出实现化角色的接口，但不给出具体的实现。这个接口不一定和抽象化角色的接口定义相同，实际上，这两个接口可以非常不一样。实现化角色应当只给出底层操作，而抽象化角色应当只给出基于底层操作的更高一层的操作</li>
+<li>ConcreteImplementor：具体实现化角色。</li>
+</ul>
+<p>如图所示，两个继承等级结构之间存在一座桥梁即Abstraction持有Implementor的一个引用。</p>
+<p><img src="/images/bridge_pattern_class_diagram.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/bridge_pattern_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/BridgePattern" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>理解桥接模式，重点需要理解如何将抽象化（abstraction）与实现化（implementor）脱耦，使得二者可以独立地变化。</p>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
+<li>分离抽象接口及其实现部分</li>
+<li>桥接模式有时类似于多继承方案，但是多继承方案违背类类的单一职责原则，复用性比较差，而且多继承结构中类的个数非常庞大，桥接模式是比多继承方案更好的解决方法</li>
+<li>桥接模式提高了 系统的可扩充性，在两个变化维度中任意扩展一个维度，都不需要修改原有系统</li>
+<li>实现细节对客户透明，可以对用户隐藏实现细节</li>
+</ul>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
+<li>桥接模式会增加系统的理解与设计难度，由于聚合关联关系建立在抽象层，要求开发者对抽象进行设计与编程</li>
+<li>桥接模式要求正确识别出系统中两个独立变化的维度，因此使用范围有一定的局限性</li>
+</ul>
+<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><p>桥接模式和适配器模式用于设计的不同阶段，桥接模式用于系统的初步设计，对于存在两个独立变化维度的类可以将其分为抽象化和实现化两个角色，使它们可以分别进行变化；而在初步设计完成之后，当发现系统与已有类无法协同工作时，可以采用适配器模式。有时在设计初期也需要考虑适配器模式，特别是那些涉及到大量第三方应用接口的情况。</p>
+<h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><ul>
+<li>跨平台的播放器(播放器、平台两个维度)</li>
+<li>OA的提醒消息（消息类型、发送方式两个维度）</li>
+</ul>
 
       
     </div>
@@ -428,8 +425,8 @@ public Object clone() {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/18/design-patterns-prototype-1/" rel="next" title="原型设计模式(一) 基础知识">
-                <i class="fa fa-chevron-left"></i> 原型设计模式(一) 基础知识
+              <a href="/2017/06/21/design-patterns-adapter/" rel="next" title="适配器模式">
+                <i class="fa fa-chevron-left"></i> 适配器模式
               </a>
             
           </div>
@@ -437,10 +434,6 @@ public Object clone() {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/27/kernel-user-space/" rel="prev" title="Linux基础知识：内核空间和用户空间">
-                Linux基础知识：内核空间和用户空间 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -586,7 +579,7 @@ public Object clone() {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Intent-Bundle"><span class="nav-number">1.</span> <span class="nav-text">Intent/Bundle</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式结构"><span class="nav-number">2.</span> <span class="nav-text">模式结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#时序图"><span class="nav-number">3.</span> <span class="nav-text">时序图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">4.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析"><span class="nav-number">5.</span> <span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#优点"><span class="nav-number">5.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点"><span class="nav-number">5.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#扩展"><span class="nav-number">6.</span> <span class="nav-text">扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#举例"><span class="nav-number">7.</span> <span class="nav-text">举例</span></a></li></ol></div>
             
 
           </div>

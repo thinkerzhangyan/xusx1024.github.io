@@ -267,6 +267,166 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/22/design-patterns-bridge/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/22/design-patterns-bridge/" itemprop="url">桥接模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-22T00:00:00Z">
+                2017-06-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>桥接模式(Bridge Pattern)：将抽象部分与它的实现部分分离，使它们都可以独立地变化。它是一种对象结构型模式，又称为柄体(Handle and Body)模式或接口(Interface)模式。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li>Abstraction： 抽象化角色，里面维持一个实现化实例的引用</li>
+<li>RefinedAbstraction：扩展抽象化角色，改变和修正父类对抽象化的定义</li>
+<li>Implementor：实现化角色。给出实现化角色的接口，但不给出具体的实现。这个接口不一定和抽象化角色的接口定义相同，实际上，这两个接口可以非常不一样。实现化角色应当只给出底层操作，而抽象化角色应当只给出基于底层操作的更高一层的操作</li>
+<li>ConcreteImplementor：具体实现化角色。</li>
+</ul>
+<p>如图所示，两个继承等级结构之间存在一座桥梁即Abstraction持有Implementor的一个引用。</p>
+<p><img src="/images/bridge_pattern_class_diagram.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/bridge_pattern_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/BridgePattern" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>理解桥接模式，重点需要理解如何将抽象化（abstraction）与实现化（implementor）脱耦，使得二者可以独立地变化。</p>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
+<li>分离抽象接口及其实现部分</li>
+<li>桥接模式有时类似于多继承方案，但是多继承方案违背类类的单一职责原则，复用性比较差，而且多继承结构中类的个数非常庞大，桥接模式是比多继承方案更好的解决方法</li>
+<li>桥接模式提高了 系统的可扩充性，在两个变化维度中任意扩展一个维度，都不需要修改原有系统</li>
+<li>实现细节对客户透明，可以对用户隐藏实现细节</li>
+</ul>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
+<li>桥接模式会增加系统的理解与设计难度，由于聚合关联关系建立在抽象层，要求开发者对抽象进行设计与编程</li>
+<li>桥接模式要求正确识别出系统中两个独立变化的维度，因此使用范围有一定的局限性</li>
+</ul>
+<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><p>桥接模式和适配器模式用于设计的不同阶段，桥接模式用于系统的初步设计，对于存在两个独立变化维度的类可以将其分为抽象化和实现化两个角色，使它们可以分别进行变化；而在初步设计完成之后，当发现系统与已有类无法协同工作时，可以采用适配器模式。有时在设计初期也需要考虑适配器模式，特别是那些涉及到大量第三方应用接口的情况。</p>
+<h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><ul>
+<li>跨平台的播放器(播放器、平台两个维度)</li>
+<li>OA的提醒消息（消息类型、发送方式两个维度）</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/21/design-patterns-adapter/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1267,207 +1427,6 @@ public class MementoCaretaker3 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/jsp-study-tips/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/14/jsp-study-tips/" itemprop="url">JSP、Cookie、Session学习</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T00:00:00Z">
-                2017-06-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="JSP定义"><a href="#JSP定义" class="headerlink" title="JSP定义"></a>JSP定义</h4><p>Java server page</p>
-<h5 id="jsp和servlet"><a href="#jsp和servlet" class="headerlink" title="jsp和servlet"></a>jsp和servlet</h5><ul>
-<li>servlet不适合设置HTML响应体，需要大量的response.getWriter().pring(“”);</li>
-<li>servlet 动态资源，可以编程</li>
-<li>HTML是静态页面，不能包含动态信息</li>
-<li>HTML不用为输出HTML标签而发愁</li>
-<li>jsp在原有HTML的基础上添加Java脚本，构成jsp页面</li>
-<li>jsp作为请求发起/结束页面</li>
-<li>servlet作为请求中处理数据的环节</li>
-</ul>
-<h5 id="jsp组成"><a href="#jsp组成" class="headerlink" title="jsp组成"></a>jsp组成</h5><ul>
-<li>jsp = html + java脚本 + jsp标签</li>
-<li>jsp中无需创建即可使用的对象共9个，被称之为9大内置对象。例如：request对象、out对象</li>
-<li>3中Java脚本<ul>
-<li>&lt;%…%&gt;放置Java代码</li>
-<li>&lt;%=…%&gt;Java表达式，用于输出一条表达式或变量的结果</li>
-<li>&lt;%!…%&gt;声明，用来创建类的成员变量和成员方法</li>
-<li>&lt;%– … —%&gt; jsp注释</li>
-</ul>
-</li>
-</ul>
-<h5 id="jsp原理"><a href="#jsp原理" class="headerlink" title="jsp原理"></a>jsp原理</h5><ul>
-<li>jsp其实是一个特殊的servlet。</li>
-<li>当jsp第一次被访问，服务器会把jsp编译成Java文件，这个Java文件其实实现了servlet接口</li>
-<li>把该Java编译成.class文件</li>
-<li>然后创建该类对象</li>
-<li>最好调用其service方法</li>
-<li>第二次请求时，直接调用其service方法</li>
-</ul>
-<h4 id="会话跟踪技术"><a href="#会话跟踪技术" class="headerlink" title="会话跟踪技术"></a>会话跟踪技术</h4><ul>
-<li>Cookie</li>
-</ul>
-<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4><ul>
-<li>由服务器创建保存到客户端的浏览器的一个键值对，服务器保存Cookie的响应头：Set-Cookie:aaa=AAA</li>
-<li>Cookie由HTTP协议制定的</li>
-<li>当浏览器请求服务器时，会把该服务器保存的Cookie随请求发送给服务器。浏览器归还Cookie的请求头</li>
-<li>1个Cookie最大4kb</li>
-<li>1个服务器最多向一个浏览器保存20个Cookie</li>
-<li>1个浏览器最多保存300个Cookie，由于浏览器竞争，肯定都超4kb,20,300了。</li>
-</ul>
-<h5 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h5><ul>
-<li>服务端使用Cookie来跟踪客户端状态</li>
-<li>保存商品浏览记录</li>
-<li>显示上次登录名</li>
-</ul>
-<h5 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h5><ul>
-<li>response.addCookie()</li>
-<li>request.getCookies()</li>
-</ul>
-<h5 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h5><ul>
-<li>maxAge:最大生命时长以秒为单位</li>
-<li>path：并非Cookie在客户端的路径，而是浏览器访问服务器的路径，如果包含某个Cookie的路径，那么就会归还这个Cookie</li>
-<li>domain：指定Cookie的域名，当多个二级域中共享Cookie时才有用<ul>
-<li>例如：www.baidu.com,zhidao.baidu.com,news.baidu.com,tieba.baidu.com共用Cookie时使用domain,设置domain为:cookie.setDomain(“.baidu.com”);</li>
-<li>必须设置path为：cookie.setPath(“/“);</li>
-</ul>
-</li>
-</ul>
-<h4 id="HttpSession"><a href="#HttpSession" class="headerlink" title="HttpSession"></a>HttpSession</h4><ul>
-<li>JavaWeb提供的类，用来会话跟踪的类。session是服务端对象，保存在服务器</li>
-<li>HttpSession是Servlet三大域对象之一</li>
-<li>HttpSession底层依赖Cookie，或是URL重写</li>
-<li>会话范围</li>
-<li>session是JSP内置对象</li>
-</ul>
-<h5 id="session原理"><a href="#session原理" class="headerlink" title="session原理"></a>session原理</h5><ul>
-<li><h4 id="一次性图片验证码"><a href="#一次性图片验证码" class="headerlink" title="一次性图片验证码"></a>一次性图片验证码</h4></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/design-patterns-command/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1635,7 +1594,7 @@ public class MementoCaretaker3 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/ambiguity-effect/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/jsp-study-tips/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -1654,7 +1613,7 @@ public class MementoCaretaker3 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/06/13/ambiguity-effect/" itemprop="url">认知偏差之决策、信念与行为偏误</a></h1>
+                <a class="post-title-link" href="/2017/06/14/jsp-study-tips/" itemprop="url">JSP、Cookie、Session学习</a></h1>
         
 
         <div class="post-meta">
@@ -1666,8 +1625,8 @@ public class MementoCaretaker3 {
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-13T00:00:00Z">
-                2017-06-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T00:00:00Z">
+                2017-06-14
               </time>
             
 
@@ -1689,8 +1648,8 @@ public class MementoCaretaker3 {
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/psychology/" itemprop="url" rel="index">
-                    <span itemprop="name">psychology</span>
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
                   </a>
                 </span>
 
@@ -1725,18 +1684,73 @@ public class MementoCaretaker3 {
       
         
           
-            <h4 id="不明确性效应"><a href="#不明确性效应" class="headerlink" title="不明确性效应"></a>不明确性效应</h4><p>人的决策会因为信息的缺乏或“模糊”而受到影响，决策时倾向避开资讯不足的选项。</p>
-<p>该效应意味着，人们倾向于选择具有已知可能性的有利结果，而不是未知可能性的有利结果。</p>
-<p>人们有一个经验法则来避开信息缺失的选项。这通常会引导他们去寻找缺失的信息。然而，在许多情况下，信息是无法获得的。</p>
-<p><a href="https://en.wikipedia.org/wiki/Ambiguity_effect" target="_blank" rel="external">Ambiguity effect</a></p>
-<p><a href="http://www.jianshu.com/p/7c2a1a9ee31d" target="_blank" rel="external">译文</a></p>
-<h4 id="锚定效应"><a href="#锚定效应" class="headerlink" title="锚定效应"></a>锚定效应</h4><p>为不熟悉的事物估值时，会把熟悉的类似事物或不久前接触到的无关数值当做“锚”，估出来的数值会大大倾向“锚”。</p>
-<p><a href="https://zh.wikipedia.org/wiki/%E9%8C%A8%E5%AE%9A%E6%95%88%E6%87%89" target="_blank" rel="external">WIKI</a></p>
-<p>人类在进行决策时会过度偏重最早取得的第一笔资讯(这称为锚点)，即使这个资讯与这项决定明显无关。在进行决策时，人类倾向于利用最早取得的片段资讯，以快速做出决定，在接下来的决定中，再用第一个决定为基准点，逐步修正。但是人类容易过度利用第一个锚点，来对其他资讯与决定做出诠释，当第一个参考用的锚点与实际上的事实之间的有很大出入，就会造成偏误。</p>
-<h5 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h5><ul>
-<li>我们在公众场合亮相时，谁和我们在一起。因为所以这一切都会影响到别人对我们的评价，我们身边的“锚定”成为评定我们个人价值的基准</li>
-<li>一个新产品在货架紧挨着可口可乐、百事可乐，那么他的定价也是这么高，容易被消费者接受</li>
-<li>一个店铺，不断在高端百货商店扩展专卖店，常常和名牌店比邻，有利于建立其高端产品的形象</li>
+            <h4 id="JSP定义"><a href="#JSP定义" class="headerlink" title="JSP定义"></a>JSP定义</h4><p>Java server page</p>
+<h5 id="jsp和servlet"><a href="#jsp和servlet" class="headerlink" title="jsp和servlet"></a>jsp和servlet</h5><ul>
+<li>servlet不适合设置HTML响应体，需要大量的response.getWriter().pring(“”);</li>
+<li>servlet 动态资源，可以编程</li>
+<li>HTML是静态页面，不能包含动态信息</li>
+<li>HTML不用为输出HTML标签而发愁</li>
+<li>jsp在原有HTML的基础上添加Java脚本，构成jsp页面</li>
+<li>jsp作为请求发起/结束页面</li>
+<li>servlet作为请求中处理数据的环节</li>
+</ul>
+<h5 id="jsp组成"><a href="#jsp组成" class="headerlink" title="jsp组成"></a>jsp组成</h5><ul>
+<li>jsp = html + java脚本 + jsp标签</li>
+<li>jsp中无需创建即可使用的对象共9个，被称之为9大内置对象。例如：request对象、out对象</li>
+<li>3中Java脚本<ul>
+<li>&lt;%…%&gt;放置Java代码</li>
+<li>&lt;%=…%&gt;Java表达式，用于输出一条表达式或变量的结果</li>
+<li>&lt;%!…%&gt;声明，用来创建类的成员变量和成员方法</li>
+<li>&lt;%– … —%&gt; jsp注释</li>
+</ul>
+</li>
+</ul>
+<h5 id="jsp原理"><a href="#jsp原理" class="headerlink" title="jsp原理"></a>jsp原理</h5><ul>
+<li>jsp其实是一个特殊的servlet。</li>
+<li>当jsp第一次被访问，服务器会把jsp编译成Java文件，这个Java文件其实实现了servlet接口</li>
+<li>把该Java编译成.class文件</li>
+<li>然后创建该类对象</li>
+<li>最好调用其service方法</li>
+<li>第二次请求时，直接调用其service方法</li>
+</ul>
+<h4 id="会话跟踪技术"><a href="#会话跟踪技术" class="headerlink" title="会话跟踪技术"></a>会话跟踪技术</h4><ul>
+<li>Cookie</li>
+</ul>
+<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4><ul>
+<li>由服务器创建保存到客户端的浏览器的一个键值对，服务器保存Cookie的响应头：Set-Cookie:aaa=AAA</li>
+<li>Cookie由HTTP协议制定的</li>
+<li>当浏览器请求服务器时，会把该服务器保存的Cookie随请求发送给服务器。浏览器归还Cookie的请求头</li>
+<li>1个Cookie最大4kb</li>
+<li>1个服务器最多向一个浏览器保存20个Cookie</li>
+<li>1个浏览器最多保存300个Cookie，由于浏览器竞争，肯定都超4kb,20,300了。</li>
+</ul>
+<h5 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h5><ul>
+<li>服务端使用Cookie来跟踪客户端状态</li>
+<li>保存商品浏览记录</li>
+<li>显示上次登录名</li>
+</ul>
+<h5 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h5><ul>
+<li>response.addCookie()</li>
+<li>request.getCookies()</li>
+</ul>
+<h5 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h5><ul>
+<li>maxAge:最大生命时长以秒为单位</li>
+<li>path：并非Cookie在客户端的路径，而是浏览器访问服务器的路径，如果包含某个Cookie的路径，那么就会归还这个Cookie</li>
+<li>domain：指定Cookie的域名，当多个二级域中共享Cookie时才有用<ul>
+<li>例如：www.baidu.com,zhidao.baidu.com,news.baidu.com,tieba.baidu.com共用Cookie时使用domain,设置domain为:cookie.setDomain(“.baidu.com”);</li>
+<li>必须设置path为：cookie.setPath(“/“);</li>
+</ul>
+</li>
+</ul>
+<h4 id="HttpSession"><a href="#HttpSession" class="headerlink" title="HttpSession"></a>HttpSession</h4><ul>
+<li>JavaWeb提供的类，用来会话跟踪的类。session是服务端对象，保存在服务器</li>
+<li>HttpSession是Servlet三大域对象之一</li>
+<li>HttpSession底层依赖Cookie，或是URL重写</li>
+<li>会话范围</li>
+<li>session是JSP内置对象</li>
+</ul>
+<h5 id="session原理"><a href="#session原理" class="headerlink" title="session原理"></a>session原理</h5><ul>
+<li><h4 id="一次性图片验证码"><a href="#一次性图片验证码" class="headerlink" title="一次性图片验证码"></a>一次性图片验证码</h4></li>
 </ul>
 
           
@@ -1940,7 +1954,7 @@ public class MementoCaretaker3 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/design-patterns-mediator/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/ambiguity-effect/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -1959,7 +1973,7 @@ public class MementoCaretaker3 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/06/13/design-patterns-mediator/" itemprop="url">中介者设计模式</a></h1>
+                <a class="post-title-link" href="/2017/06/13/ambiguity-effect/" itemprop="url">认知偏差之决策、信念与行为偏误</a></h1>
         
 
         <div class="post-meta">
@@ -1994,8 +2008,8 @@ public class MementoCaretaker3 {
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
+                  <a href="/categories/psychology/" itemprop="url" rel="index">
+                    <span itemprop="name">psychology</span>
                   </a>
                 </span>
 
@@ -2030,38 +2044,18 @@ public class MementoCaretaker3 {
       
         
           
-            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>中介者模式(Mediator Pattern):用一中介对象封装一系列对象交互，中介者使对象不需要显示地相互引用，从而使其耦合松散，而且可以独立地改变他们之间的交互。中介者模式又称为调停者模式，是一种对象行为型模式。</p>
-<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
-<li>Mediator：抽象中介者</li>
-<li>ConcreteMediator：具体中介者</li>
-<li>Colleague：抽象同事类</li>
-<li>ConcreteColleague：具体同事类</li>
-</ul>
-<p><img src="/images/mediator_pattern_class_diagram.png" alt="类图"></p>
-<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/mediator_pattern_sequence_diagram.png" alt="时序图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/MediatorPattern" target="_blank" rel="external">GitHub</a></p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
-<li>可以使对象的关系数量急剧减少，简化了对象之间的交互</li>
-<li>将各同事解耦</li>
-<li>减少子类生成</li>
-<li>可以简化各同事类的设计和实现</li>
-</ul>
-<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
-<li>中介者类中包含了同事之间的交互细节，可能会导致中介者类非常复杂，使得系统难以维护</li>
-</ul>
-<h5 id="中介者的职责"><a href="#中介者的职责" class="headerlink" title="中介者的职责"></a>中介者的职责</h5><ul>
-<li>结构上的中转作用：通过中介者提供的中转作用，各个同事对象就不再需要显示引用其他同事，当需要和其他同事进行通信时，通过中介者即可。</li>
-<li>行为上的协调作用：中介者可以更进一步的对同事之间的关系进行封装，同事可以一致地和中介者进行交互，而不需要指明中介者需要具体怎么做，中介者根据封装在自身内部的协调逻辑，对同事的请求进行进一步处理，将同事成员之间的关系行为进行分离和封装。</li>
-</ul>
-<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><ul>
-<li>当系统中出现了“多对多”交互复杂的关系群时，千万别着急使用中介者模式，你首先需要做的就是反思你的系统在设计上是否合理</li>
-<li>虚拟聊天室可用该模式</li>
-<li>MVC架构中的控制器可以该模式。Controller作为一种中介者，负责控制视图对象View和模型对象Model之间的交互</li>
-<li>可方便地应用于图形界面开发中，在比较复杂的界面中可能存在多个界面组件之间的交互关系</li>
-</ul>
-<h4 id="相较于观察者"><a href="#相较于观察者" class="headerlink" title="相较于观察者"></a>相较于观察者</h4><ul>
-<li>中介者涉及到中介和客户，解决的是客户之间消息传递的问题</li>
-<li>观察者设计到观察者和目标，解决的是观察者和众多目标之间通信的问题，并非目标之间的通信</li>
+            <h4 id="不明确性效应"><a href="#不明确性效应" class="headerlink" title="不明确性效应"></a>不明确性效应</h4><p>人的决策会因为信息的缺乏或“模糊”而受到影响，决策时倾向避开资讯不足的选项。</p>
+<p>该效应意味着，人们倾向于选择具有已知可能性的有利结果，而不是未知可能性的有利结果。</p>
+<p>人们有一个经验法则来避开信息缺失的选项。这通常会引导他们去寻找缺失的信息。然而，在许多情况下，信息是无法获得的。</p>
+<p><a href="https://en.wikipedia.org/wiki/Ambiguity_effect" target="_blank" rel="external">Ambiguity effect</a></p>
+<p><a href="http://www.jianshu.com/p/7c2a1a9ee31d" target="_blank" rel="external">译文</a></p>
+<h4 id="锚定效应"><a href="#锚定效应" class="headerlink" title="锚定效应"></a>锚定效应</h4><p>为不熟悉的事物估值时，会把熟悉的类似事物或不久前接触到的无关数值当做“锚”，估出来的数值会大大倾向“锚”。</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E9%8C%A8%E5%AE%9A%E6%95%88%E6%87%89" target="_blank" rel="external">WIKI</a></p>
+<p>人类在进行决策时会过度偏重最早取得的第一笔资讯(这称为锚点)，即使这个资讯与这项决定明显无关。在进行决策时，人类倾向于利用最早取得的片段资讯，以快速做出决定，在接下来的决定中，再用第一个决定为基准点，逐步修正。但是人类容易过度利用第一个锚点，来对其他资讯与决定做出诠释，当第一个参考用的锚点与实际上的事实之间的有很大出入，就会造成偏误。</p>
+<h5 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h5><ul>
+<li>我们在公众场合亮相时，谁和我们在一起。因为所以这一切都会影响到别人对我们的评价，我们身边的“锚定”成为评定我们个人价值的基准</li>
+<li>一个新产品在货架紧挨着可口可乐、百事可乐，那么他的定价也是这么高，容易被消费者接受</li>
+<li>一个店铺，不断在高端百货商店扩展专卖店，常常和名牌店比邻，有利于建立其高端产品的形象</li>
 </ul>
 
           
@@ -2146,7 +2140,7 @@ public class MementoCaretaker3 {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-count">69</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

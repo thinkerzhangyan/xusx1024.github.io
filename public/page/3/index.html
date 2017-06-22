@@ -267,6 +267,164 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/25/design-patterns-abstract-factory/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/05/25/design-patterns-abstract-factory/" itemprop="url">抽象工厂模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-25T00:00:00Z">
+                2017-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="引入概念"><a href="#引入概念" class="headerlink" title="引入概念"></a>引入概念</h4><ul>
+<li><strong>产品等级结构：</strong>产品等级结构即产品的继承结构，如一个抽象类是电视机，其子类有海尔电视机、海信电视机、TCL电视机，则抽象电视机与具体品牌的电视机之间构成了一个产品等级结构，抽象电视机是父类，而具体品牌的电视机是其子类。</li>
+<li><strong>产品族：</strong> 在抽象工厂模式中，产品族是指由同一个工厂生产的，位于不同产品等级结构中的一组产品，如海尔电器工厂生产的海尔电视机、海尔电冰箱、海尔电视机。</li>
+</ul>
+<p><img src="/images/abstract_factory_product_level.png" alt="示例图"></p>
+<h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><p> 抽象工厂模式(Abstract Factory Pattern)：提供一个创建一系列相关或相互依赖对象的接口，而无须指定它们具体的类。抽象工厂模式又称为kit模式，属于对象创建型模式。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li>Factory：抽象工厂</li>
+<li>ConcreteFactory：具体工厂</li>
+<li>Product：抽象产品</li>
+<li>ConcreteProduct：具体产品</li>
+</ul>
+<p><img src="/images/abstract_factory_class_diagram.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/abstract_factory_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p> <a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/AbstractFactory" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><ul>
+<li>抽象工厂定义了产品的所有行为，因此增加产品族很方便，增加产品等级类别需要改动抽象工厂(开闭原则的倾斜性)</li>
+<li>当一个产品族中的多个对象被设计成一起工作时，它能保证客户端始终只使用同一个产品族中的对象。这对一些需要根据当前环境来决定其行为的软件系统来说，是一种非常实用的设计模式</li>
+<li></li>
+</ul>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li>适用于产品确定，但是产品线不确定的场景，比如要生产汽车，但是汽车的配置不确定</li>
+<li>比如app换肤，整体的颜色，字体，背景，按钮，文本框。。。</li>
+</ul>
+<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><p>当抽象工厂模式中每一个具体工厂类只创建一个产品对象，也就是只存在一个产品等级结构时，抽象工厂模式退化成工厂方法模式；当工厂方法模式中抽象工厂与具体工厂合并，提供一个统一的工厂来创建产品对象，并将创建对象的工厂方法设计为静态方法时，工厂方法模式退化成简单工厂模式。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/24/design-patterns-factory-method/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1986,260 +2144,6 @@ public class DC3 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/11/counting-sort/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/04/11/counting-sort/" itemprop="url">非比较排序之计数排序</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-11T00:00:00Z">
-                2017-04-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><a href="https://zh.wikipedia.org/wiki/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F" target="_blank" rel="external">计数排序wiki</a> <br></p>
-<ul>
-<li>计数排序是用来排序0到100之间的数字的最好的算法</li>
-<li>计数排序可以用在基数排序中的算法来排序数据范围很大的数组</li>
-<li>计数排序是一种算法复杂度 O(n) 的排序方法，适合于小范围集合的排序</li>
-<li>计数排序的优势是对已知数量范围的数组进行排序</li>
-<li>基于比较的排序算法是不能突破O(NlogN)</li>
-</ul>
-<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><ol>
-<li>找出待排序的数组中最大和最小的元素</li>
-<li>统计数组中每个值为i的元素出现的次数，存入数组 C 的第 i 项</li>
-<li>对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）</li>
-<li>反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1</li>
-</ol>
-<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>具体的分步动画演示详见：<a href="http://www.cs.usfca.edu/~galles/visualization/CountingSort.html" target="_blank" rel="external">Data Structure Visualizations</a></p>
-<p><br><br>对于数据2 5 3 0 2 3 0 3程序执行的过程如下图所示：</p>
-<p><img src="/images/counting_sort_1.png" alt="示例图"><br><br><img src="/images/counting_sort_2.png" alt="示例图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>package CountingSort;
-
-/**
- * 计数排序
- * 
- * @author sxx.xu
- *
- */
-public class CountingSort {
-
-    private static void countingSort(int[] array) {
-        int min = array[0], max = array[0];
-        for (int i : array) {
-            if (i &lt; min)
-                min = i;
-            if (i &gt; max)
-                max = i;
-        }
-
-        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
-        int[] countArray = new int[max + 1];// 此处使用max+1太粗暴，见countingSort2
-        int[] countResult = new int[array.length];
-
-        for (int i : array) {
-            countArray[i]++;
-        }
-
-        for (int i = 1; i &lt; countArray.length; i++) {
-            countArray[i] += countArray[i - 1];
-        }
-
-        for (int i = array.length - 1; i &gt;= 0; i--) {
-            int elem = array[i];
-            int index = countArray[elem] - 1;
-            countResult[index] = elem;
-            System.out.println(&quot;当前元素为：&quot; + elem + &quot;;在排序数组中的位置是：&quot; + index);
-            countArray[elem]--;
-        }
-
-        for (int i : countResult) {
-            System.out.println(i);
-        }
-
-        // 桶排序
-        // int[][] resultArray = new int[countArray.length][countArray.length];
-        // for (int i = 0; i &lt; countArray.length; i++) {
-        // for (int j = 0; j &lt; countArray[i]; j++) {
-        // resultArray[i][j] = i;
-        // }
-        // }
-        //
-        // for (int i = 0; i &lt; resultArray.length; i++) {
-        // for (int j = 0; j &lt; resultArray[i].length; j++) {
-        // if (resultArray[i][j] != 0)
-        // System.out.println(resultArray[i][j]);// 这里直接输出，属于桶排序
-        // }
-        // }
-    }
-
-    /**
-     * 优化后的，减少中间数组大小
-     * @param array
-     */
-    private static void countingSort2(int[] array) {
-
-        int min = array[0], max = array[0];
-        for (int i : array) {
-            if (i &lt; min)
-                min = i;
-            if (i &gt; max)
-                max = i;
-        }
-
-        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
-        int[] countArray = new int[max - min + 1];
-        int[] countResult = new int[array.length];
-
-        for (int i : array) {
-            countArray[i - min]++;
-        }
-
-        for (int i = 1; i &lt; countArray.length; i++) {
-            countArray[i] += countArray[i - 1];
-        }
-
-        for (int i = array.length - 1; i &gt;= 0; i--) {
-            int elem = array[i] - min;
-            int index = countArray[array[i] - min] - 1;
-            countResult[index] = array[i];
-            countArray[elem]--;
-        }
-
-        for (int i : countResult) {
-            System.out.println(i);
-        }
-    }
-
-    public static void main(String[] args) {
-        int[] array = { 8, 2, 3, 4, 3, 6, 6, 3, 9 };
-        int[] array2 = { 2, 8, 5, 1, 10, 5, 9, 9, 3, 5, 6, 6, 2, 8, 2 };
-        countingSort(array);
-        countingSort2(array);
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/11/suffix-sort-baseon-prefix-doubleing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2648,7 +2552,7 @@ public class PrefixDoubling {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">68</span>
+                <span class="site-state-item-count">69</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
