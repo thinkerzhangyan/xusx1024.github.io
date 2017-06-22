@@ -76,6 +76,9 @@ Java server page
 - 会话范围
 - session是JSP内置对象
 
+##### session原理 #####
+
+- 
 #### 一次性图片验证码
 
  

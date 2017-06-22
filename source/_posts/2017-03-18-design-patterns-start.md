@@ -37,7 +37,7 @@ winPC画图工具安利：[http://astah.net/](http://astah.net/)
 	- [工厂方法模式](http://xusx1024.com/2017/05/24/design-patterns-factory-method/)
 	- [抽象工厂模式](http://xusx1024.com/2017/05/25/design-patterns-abstract-factory/)
 - 结构型模式(7)
-	- 适配器模式
+	- [适配器模式](http://xusx1024.com/2017/06/21/design-patterns-adapter/)
 	- 桥接模式
 	- 装饰模式
 	- 外观模式
