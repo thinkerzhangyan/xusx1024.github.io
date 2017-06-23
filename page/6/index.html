@@ -267,6 +267,540 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/22/android-system-service-all/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/22/android-system-service-all/" itemprop="url">Android系统服务:服务概览</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-22T00:00:00Z">
+                2017-02-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="一些说明"><a href="#一些说明" class="headerlink" title="一些说明"></a>一些说明</h4><p>这个系列学习的系统服务，绝大多数是<code>android.app.SystemServiceRegistry</code>里面注册的，包括核心平台服务以及硬件服务。如图，集中在第二层<code>Application framework</code>。</p>
+<p><img src="/images/android-framework.png" alt="application framework"></p>
+<p>其中核心平台服务包括：</p>
+<ul>
+<li>Context.ACTIVITY_SERVICE -&gt; ActivityManager</li>
+<li>Context.WINDOW_SERVICE -&gt; WindowManager</li>
+<li>PackageManagerService [该服务并非在SystemServiceRegistry中注册]</li>
+</ul>
+<p><img src="/images/android-start-1.png" alt="android start 1"></p>
+<p><img src="/images/android-start-2.png" alt="android start 2"></p>
+<p>对比图一和图二，发现对本地系统服务和java系统服务定义是相反的，由于本地系统服务由C/C++编写，所以判定图一的定义是正确的。保留图二的原因是，图二展示了android系统init后的更多信息。<br><br><br><br></p>
+<p>再来看图二，android init进程是对各种设备进行初始化，运行android framework所需要的各种daemon ，Context Manager，Media Serve, Zygote。</p>
+<h5 id="daemon"><a href="#daemon" class="headerlink" title="daemon"></a>daemon</h5><ul>
+<li>USB Daemon(usbd):管理USB连接</li>
+<li>Android Debug Bridge Daemon(adbd):安卓调试桥链接管理</li>
+<li>Debugger Daemon(debuggerd):启动Debugger系统</li>
+<li>Radio Interface Layer Daemon(rild):管理无线通信连接</li>
+</ul>
+<h5 id="Context-Manager"><a href="#Context-Manager" class="headerlink" title="Context Manager"></a>Context Manager</h5><p>管理android系统服务的重要进程。系统服务是组成Android Framework的重要组件，提供从相机、音频、视频处理到应用程序制作所有重要API。</p>
+<p>Context Manager提供运行与Android的各种系统服务的查询信息。应用程序或者Framework模块调用系统服务时，都要通过Binder IPC向Context Manager进行查询申请，获得相应的系统服务的信息。</p>
+<p>同样，Android的系统服务也要通过Bindr IPC向Context Manager注册自己的Handle信息，以供查询。</p>
+<h5 id="Media-Server"><a href="#Media-Server" class="headerlink" title="Media Server"></a>Media Server</h5><p>Media Server运行基于C/C++的本地系统服务，如Audio Flinger,Camera,Media play service.</p>
+<h5 id="Zygote"><a href="#Zygote" class="headerlink" title="Zygote"></a>Zygote</h5><p>Zygote用于缩短android应用程序的加载时间，每当执行java应用程序时候，Zygote就会派生一个子进程，这个子进程就是用来执行java程序的虚拟机。</p>
+<h5 id="System-Server"><a href="#System-Server" class="headerlink" title="System Server"></a>System Server</h5><p>System Server是Android的一个系统进程，它是由Zygote创建的，在Android的启动过程中，位于Zygote之后。在System Server中可以看到它建立了android中的大部分服务，这些java层的系统服务需要通过JNI注册到ContextManager中去。</p>
+<h5 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h5><p>IPC(InterProcess Communication)进程间通信方式。<br><br>RPC:远程过程调用就是一种在两个原本相互独立的进程间建立一种类似于单个程序内函数间调用的函数调用机制。<br><br>Binder即支持IPC也支持RPC。</p>
+<h4 id="android系统服务列表-基于7-0"><a href="#android系统服务列表-基于7-0" class="headerlink" title="android系统服务列表[基于7.0]"></a>android系统服务列表[基于7.0]</h4><table>
+<thead>
+<tr>
+<th>name</th>
+<th style="text-align:center">class</th>
+<th style="text-align:right">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACCESSIBILITY_SERVICE</td>
+<td style="text-align:center">AccessibilityManager</td>
+<td style="text-align:right">无障碍辅助服务 <a href="http://xusx1024.com/2017/04/20/android-system-service-AccessibilityManager/" target="_blank" rel="external">传送</a></td>
+</tr>
+<tr>
+<td>CAPTIONING_SERVICE</td>
+<td style="text-align:center">CaptioningManager</td>
+<td style="text-align:right">弹幕、字幕管理<a href="http://xusx1024.com/2017/05/18/android-system-service-CaptioningManager/" target="_blank" rel="external">传送</a></td>
+</tr>
+<tr>
+<td>ACCOUNT_SERVICE</td>
+<td style="text-align:center">AccountManager</td>
+<td style="text-align:right">账户管理器</td>
+</tr>
+<tr>
+<td>ACTIVITY_SERVICE</td>
+<td style="text-align:center">ActivityManager</td>
+<td style="text-align:right">管理应用程序的系统状态</td>
+</tr>
+<tr>
+<td>ALARM_SERVICE</td>
+<td style="text-align:center">AlarmManager</td>
+<td style="text-align:right">闹钟的服务</td>
+</tr>
+<tr>
+<td>AUDIO_SERVICE</td>
+<td style="text-align:center">AudioManager</td>
+<td style="text-align:right">声音管理</td>
+</tr>
+<tr>
+<td>MEDIA_ROUTER_SERVICE</td>
+<td style="text-align:center">MediaRouter</td>
+<td style="text-align:right">扩展屏幕</td>
+</tr>
+<tr>
+<td>BLUETOOTH_SERVICE</td>
+<td style="text-align:center">BluetoothManager</td>
+<td style="text-align:right">蓝牙</td>
+</tr>
+<tr>
+<td>HDMI_CONTROL_SERVICE</td>
+<td style="text-align:center">HdmiControlManager</td>
+<td style="text-align:right">管理所有的HDMI-CEC设备  HDMI-CEC标准允许多媒体消费产品之间沟通和交换信息， HDMI-CEC支持许多功能，比如遥控器直通，系统音频控制，一键播放等等。</td>
+</tr>
+<tr>
+<td>CLIPBOARD_SERVICE</td>
+<td style="text-align:center">ClipboardManager</td>
+<td style="text-align:right">剪贴板管理器</td>
+</tr>
+<tr>
+<td>CONNECTIVITY_SERVICE</td>
+<td style="text-align:center">ConnectivityManager</td>
+<td style="text-align:right">网络连接管理器</td>
+</tr>
+<tr>
+<td>COUNTRY_DETECTOR</td>
+<td style="text-align:center">CountryDetector</td>
+<td style="text-align:right">获取用户所在地国家码</td>
+</tr>
+<tr>
+<td>DEVICE_POLICY_SERVICE</td>
+<td style="text-align:center">DevicePolicyManager</td>
+<td style="text-align:right">设备管理器</td>
+</tr>
+<tr>
+<td>DOWNLOAD_SERVICE</td>
+<td style="text-align:center">DownloadManager</td>
+<td style="text-align:right">下载管理器</td>
+</tr>
+<tr>
+<td>BATTERY_SERVICE</td>
+<td style="text-align:center">BatteryManager</td>
+<td style="text-align:right">电池管理器</td>
+</tr>
+<tr>
+<td>NFC_SERVICE</td>
+<td style="text-align:center">NfcManager</td>
+<td style="text-align:right">NFC管理器</td>
+</tr>
+<tr>
+<td>DROPBOX_SERVICE</td>
+<td style="text-align:center">DropBoxManager</td>
+<td style="text-align:right">持续化存储系统数据管理器</td>
+</tr>
+<tr>
+<td>INPUT_SERVICE</td>
+<td style="text-align:center">InputManager</td>
+<td style="text-align:right">输入事件管理器如触摸点击etc</td>
+</tr>
+<tr>
+<td>DISPLAY_SERVICE</td>
+<td style="text-align:center">DisplayManager</td>
+<td style="text-align:right">显示管理，支持多种显示类型的多个显示器的镜像显示，包括内建的显示类型（本地）、HDMI显示类型以及支持WIFI Display 协议( MIRACAST)，实现本地设备在远程显示器上的镜像显示。</td>
+</tr>
+<tr>
+<td>INPUT_METHOD_SERVICE</td>
+<td style="text-align:center">InputMethodManager</td>
+<td style="text-align:right">输入法管理器</td>
+</tr>
+<tr>
+<td>TEXT_SERVICES_MANAGER_SERVICE</td>
+<td style="text-align:center">TextServicesManager</td>
+<td style="text-align:right">检查拼写管理器</td>
+</tr>
+<tr>
+<td>KEYGUARD_SERVICE</td>
+<td style="text-align:center">KeyguardManager</td>
+<td style="text-align:right">屏保管理器</td>
+</tr>
+<tr>
+<td>LAYOUT_INFLATER_SERVICE</td>
+<td style="text-align:center"><a href="http://xusx1024.com/2017/02/23/android-system-service-LayoutInflater/" target="_blank" rel="external">LayoutInflater</a></td>
+<td style="text-align:right">布局填充管理器 <a href="http://xusx1024.com/2017/02/23/android-system-service-LayoutInflater/" target="_blank" rel="external">传送</a></td>
+</tr>
+<tr>
+<td>NETWORK_POLICY_SERVICE</td>
+<td style="text-align:center">NetworkPolicyManager</td>
+<td style="text-align:right">网络链接策略管理器</td>
+</tr>
+<tr>
+<td>NOTIFICATION_SERVICE</td>
+<td style="text-align:center">NotificationManager</td>
+<td style="text-align:right">通知管理器</td>
+</tr>
+<tr>
+<td>NSD_SERVICE</td>
+<td style="text-align:center">NsdManager</td>
+<td style="text-align:right">网络服务发现协议管理器</td>
+</tr>
+<tr>
+<td>POWER_SERVICE</td>
+<td style="text-align:center">PowerManager</td>
+<td style="text-align:right">电源管理器</td>
+</tr>
+<tr>
+<td>RECOVERY_SERVICE</td>
+<td style="text-align:center">RecoverySystem</td>
+<td style="text-align:right">刷机相关的-恢复模式服务</td>
+</tr>
+<tr>
+<td>SEARCH_SERVICE</td>
+<td style="text-align:center">SearchManager</td>
+<td style="text-align:right">搜索服务，利用此服务可以实现对系统中的应用、联系人、SMS等进行搜索，也提供转入浏览器中的搜索</td>
+</tr>
+<tr>
+<td>SENSOR_SERVICE</td>
+<td style="text-align:center">SensorManager</td>
+<td style="text-align:right">传感器管理器</td>
+</tr>
+<tr>
+<td>STATUS_BAR_SERVICE</td>
+<td style="text-align:center">StatusBarManager</td>
+<td style="text-align:right">状态栏管理器</td>
+</tr>
+<tr>
+<td>STORAGE_SERVICE</td>
+<td style="text-align:center">StorageManager</td>
+<td style="text-align:right">磁盘管理器</td>
+</tr>
+<tr>
+<td>TELEPHONY_SERVICE</td>
+<td style="text-align:center">TelephonyManager</td>
+<td style="text-align:right">电话管理器</td>
+</tr>
+<tr>
+<td>TELEPHONY_SUBSCRIPTION_SERVICE</td>
+<td style="text-align:center">SubscriptionManager</td>
+<td style="text-align:right">SIM卡管理器</td>
+</tr>
+<tr>
+<td>CARRIER_CONFIG_SERVICE</td>
+<td style="text-align:center">CarrierConfigManager</td>
+<td style="text-align:right">提供对特定于运营商的电话配置值的访问</td>
+</tr>
+<tr>
+<td>TELECOM_SERVICE</td>
+<td style="text-align:center">TelecomManager</td>
+<td style="text-align:right">电话管理器</td>
+</tr>
+<tr>
+<td>UI_MODE_SERVICE</td>
+<td style="text-align:center">UiModeManager</td>
+<td style="text-align:right">夜间模式这样的切换</td>
+</tr>
+<tr>
+<td>USB_SERVICE</td>
+<td style="text-align:center">UsbManager</td>
+<td style="text-align:right">USB管理器</td>
+</tr>
+<tr>
+<td>SERIAL_SERVICE</td>
+<td style="text-align:center">SerialManager</td>
+<td style="text-align:right">端口管理器</td>
+</tr>
+<tr>
+<td>VIBRATOR_SERVICE</td>
+<td style="text-align:center">Vibrator</td>
+<td style="text-align:right">振动器管理器</td>
+</tr>
+<tr>
+<td>WALLPAPER_SERVICE</td>
+<td style="text-align:center">WallpaperManager</td>
+<td style="text-align:right">壁纸管理器</td>
+</tr>
+<tr>
+<td>WIFI_SERVICE</td>
+<td style="text-align:center">WifiManager</td>
+<td style="text-align:right">无线网络管理器</td>
+</tr>
+<tr>
+<td>WIFI_P2P_SERVICE</td>
+<td style="text-align:center">WifiP2pManager</td>
+<td style="text-align:right">点对点设备连接管理器，无需连接到网络</td>
+</tr>
+<tr>
+<td>WIFI_NAN_SERVICE</td>
+<td style="text-align:center">WifiNanManager</td>
+<td style="text-align:right">neighborhood area network (NAN)的管理器- 邻区网（NAN）是Wi-Fi热点和无线局域网（WLAN）的分支，使用户能够以非常小的费用快速连接到互联网。</td>
+</tr>
+<tr>
+<td>WIFI_SCANNING_SERVICE</td>
+<td style="text-align:center">WifiScanner</td>
+<td style="text-align:right">wifi扫描管理器</td>
+</tr>
+<tr>
+<td>WIFI_RTT_SERVICE</td>
+<td style="text-align:center">RttManager</td>
+<td style="text-align:right">round-trip time (RTT)管理器</td>
+</tr>
+<tr>
+<td>ETHERNET_SERVICE</td>
+<td style="text-align:center">EthernetManager</td>
+<td style="text-align:right">以太网IP配置管理器</td>
+</tr>
+<tr>
+<td>WINDOW_SERVICE</td>
+<td style="text-align:center">WindowManager</td>
+<td style="text-align:right">窗口管理器</td>
+</tr>
+<tr>
+<td>USER_SERVICE</td>
+<td style="text-align:center">UserManager</td>
+<td style="text-align:right">多用户管理器</td>
+</tr>
+<tr>
+<td>APP_OPS_SERVICE</td>
+<td style="text-align:center">AppOpsManager</td>
+<td style="text-align:right">Application Operations权限管理器</td>
+</tr>
+<tr>
+<td>CAMERA_SERVICE</td>
+<td style="text-align:center">CameraManager</td>
+<td style="text-align:right">相机管理器</td>
+</tr>
+<tr>
+<td>LAUNCHER_APPS_SERVICE</td>
+<td style="text-align:center">LauncherApps</td>
+<td style="text-align:right">不同用户的不同package管理器</td>
+</tr>
+<tr>
+<td>RESTRICTIONS_SERVICE</td>
+<td style="text-align:center">RestrictionsManager</td>
+<td style="text-align:right">限制管理器</td>
+</tr>
+<tr>
+<td>PRINT_SERVICE</td>
+<td style="text-align:center">PrintManager</td>
+<td style="text-align:right">打印管理器</td>
+</tr>
+<tr>
+<td>CONSUMER_IR_SERVICE</td>
+<td style="text-align:center">ConsumerIrManager</td>
+<td style="text-align:right">红外发射管理器</td>
+</tr>
+<tr>
+<td>MEDIA_SESSION_SERVICE</td>
+<td style="text-align:center">MediaSessionManager</td>
+<td style="text-align:right">MediaSession概念用于播放器与控制器之间进行交互，媒体回话管理器</td>
+</tr>
+<tr>
+<td>TRUST_SERVICE</td>
+<td style="text-align:center">TrustManager</td>
+<td style="text-align:right">信任证书管理器</td>
+</tr>
+<tr>
+<td>FINGERPRINT_SERVICE</td>
+<td style="text-align:center">FingerprintManager</td>
+<td style="text-align:right">指纹管理器</td>
+</tr>
+<tr>
+<td>TV_INPUT_SERVICE</td>
+<td style="text-align:center">TvInputManager</td>
+<td style="text-align:right">电视管理器</td>
+</tr>
+<tr>
+<td>NETWORK_SCORE_SERVICE</td>
+<td style="text-align:center">NetworkScoreManager</td>
+<td style="text-align:right">网络子系统和网络记分器之间的通信管理器</td>
+</tr>
+<tr>
+<td>USAGE_STATS_SERVICE</td>
+<td style="text-align:center">UsageStatsManager</td>
+<td style="text-align:right">使用情况统计管理器</td>
+</tr>
+<tr>
+<td>NETWORK_STATS_SERVICE</td>
+<td style="text-align:center">NetworkStatsManager</td>
+<td style="text-align:right">流量统计管理器</td>
+</tr>
+<tr>
+<td>JOB_SCHEDULER_SERVICE</td>
+<td style="text-align:center">JobScheduler</td>
+<td style="text-align:right">定时任务管理器</td>
+</tr>
+<tr>
+<td>PERSISTENT_DATA_BLOCK_SERVICE</td>
+<td style="text-align:center">PersistentDataBlockManager</td>
+<td style="text-align:right">持久数据区管理器-出厂设置擦除数据相关</td>
+</tr>
+<tr>
+<td>MEDIA_PROJECTION_SERVICE</td>
+<td style="text-align:center">MediaProjectionManager</td>
+<td style="text-align:right">系统屏幕截图管理器</td>
+</tr>
+<tr>
+<td>APPWIDGET_SERVICE</td>
+<td style="text-align:center">AppWidgetManager</td>
+<td style="text-align:right">桌面组件管理器</td>
+</tr>
+<tr>
+<td>MIDI_SERVICE</td>
+<td style="text-align:center">MidiManager</td>
+<td style="text-align:right">（Musical Instrument Digital Interface，简称MIDI）是一个工业标准的电子通信协议.为电子乐器等演奏设备（如合成器）定义各种音符或弹奏码，容许电子乐器、电脑、手机或其它的舞台演出配备彼此连接，调整和同步，得以即时交换演奏数据。MIDI不发送声音，只发送像是音调和音乐强度的数据，音量，颤音和相位[1]等参数的控制信号，还有设置节奏的时钟信号。 比如钢琴学习应用。</td>
+</tr>
+<tr>
+<td>RADIO_SERVICE</td>
+<td style="text-align:center">RadioManager</td>
+<td style="text-align:right">收音机管理器</td>
+</tr>
+<tr>
+<td>HARDWARE_PROPERTIES_SERVICE</td>
+<td style="text-align:center">HardwarePropertiesManager</td>
+<td style="text-align:right">硬件属性管理器-CPU,GPU,电池温度,CPU各个核的使用,风扇速度</td>
+</tr>
+<tr>
+<td>SOUND_TRIGGER_SERVICE</td>
+<td style="text-align:center">SoundTriggerManager</td>
+<td style="text-align:right">语音识别管理器</td>
+</tr>
+<tr>
+<td>SHORTCUT_SERVICE</td>
+<td style="text-align:center">ShortcutManager</td>
+<td style="text-align:right">App Shortcuts是指在桌面长按app图标而出现的快捷方式</td>
+</tr>
+<tr>
+<td>SYSTEM_HEALTH_SERVICE</td>
+<td style="text-align:center">SystemHealthManager</td>
+<td style="text-align:right">系统资源使用情况管理器</td>
+</tr>
+<tr>
+<td>CONTEXTHUB_SERVICE</td>
+<td style="text-align:center">ContextHubManager</td>
+<td style="text-align:right">上下文中心管理器</td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/design-patterns-singleton-5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1068,209 +1602,6 @@ public class MaxTree {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/get-max-window/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/16/get-max-window/" itemprop="url">生成窗口最大值数组</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-16T00:00:00Z">
-                2017-02-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="生成窗口最大值数组"><a href="#生成窗口最大值数组" class="headerlink" title="生成窗口最大值数组"></a>生成窗口最大值数组</h5><p>有一个整型数组arr和一个大小为w的窗口从数组的最左边滑倒最右边，窗口每次向右边滑一个位置。<br>例如，数组[4,3,5,4,3,3,6,7]，窗口大小为3时：</p>
-<blockquote>
-<p>[4 3 5] 4 3 3 6 7 窗口中最大值为5 <br><br>4 [3 5 4] 3 3 6 7 窗口中最大值为5 <br><br>4 3 [5 4 3] 3 6 7 窗口中最大值为5 <br><br>4 3 5 [4 3 3] 6 7 窗口中最大值为4 <br><br>4 3 5 4 [3 3 6] 7 窗口中最大值为6 <br><br>4 3 5 4 3 [3 6 7] 窗口中最大值为7 <br></p>
-<p>请实现一个函数：</p>
-<ul>
-<li>输入：整型数组arr，窗口大小为w</li>
-<li>输出：一个长度为n-w+1的数组res，res[i]表示每一种窗口状态下的最大值。</li>
-</ul>
-</blockquote>
-<p>以上例，结果应为：{5,5,5,4,6,7}.</p>
-<h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><h5 id="方法一-O-N-w"><a href="#方法一-O-N-w" class="headerlink" title="方法一:O(N * w)"></a>方法一:O(N * w)</h5><pre><code> public class Demo {
-
-    public static void main(String[] args) {
-        int[] arr = getMaxWindow(new int[] { 4, 3, 5, 4, 3, 3, 6, 7 }, 3);
-        for (int i = 0; i &lt; arr.length; i++) {
-            System.out.println(arr[i]);
-        }
-    }
-
-    public static int[] getMaxWindow(int[] arr, int w) {
-        int[] result = new int[arr.length - w + 1];
-        for (int i = 0; i &lt; arr.length - w + 1; i++) {
-            int x = arr[i];
-            for (int j = 0; j &lt; w; j++) {
-                if (arr[i + j] &gt;= x)
-                    x = arr[i + j];
-            }
-            result[i] = x;
-        }
-        return result;
-    }
-}
-</code></pre><h5 id="方法二-O-N"><a href="#方法二-O-N" class="headerlink" title="方法二:O(N)"></a>方法二:O(N)</h5><blockquote>
-<p>本题的关键在于利用双端队列来实现窗口最大值的更新。生成双端队列qmax存放数组arr中的下标。<br>放入规则：</p>
-<ol>
-<li>如果qmax为空，直接把下标i放入；</li>
-<li>如果qmax不为空，比较arr[i]和qmax队尾下标对应的数组元素，如果arr[i]比较大，则持续弹出qmax中的元素，直至arr[i]小于qmax下标对应的元素或者qmax符合第一条；</li>
-</ol>
-<p>弹出规则：<br>如果qmax对头的下标等于i-w，说明当前qmax队头的下标已过期，弹出队头。</p>
-<p>上述过程，每个下标最多进入qmax一次，出qmax一次，所以遍历的过程中进出双端队列的操作时间复杂度是O(n).</p>
-<p>注意，我们的目的数组的大小为：n-w+1，在arr的循环过程中，录入数据进入目的数组时，注意过滤其边界，否则<code>java.lang.ArrayIndexOutOfBoundsException</code>.</p>
-</blockquote>
-<pre><code>public static int[] getMaxWindow2(int[] arr, int w) {
-        int[] result = new int[arr.length - w + 1];
-        LinkedList&lt;Integer&gt; qmax = new LinkedList&lt;&gt;();
-        int index = 0;
-        for (int i = 0; i &lt; arr.length; i++) {
-
-            while (!qmax.isEmpty() &amp;&amp; arr[qmax.peekLast()] &lt;= arr[i]) {
-                qmax.pollLast();
-            }
-            qmax.addLast(i);
-            if (qmax.peekFirst() == i - w) {
-                qmax.pollFirst();
-            }
-            if (i &gt;= w - 1)
-                result[index++] = arr[qmax.peekFirst()];
-
-        }
-        return result;
-    }
-</code></pre><h6 id="双端队列的实现类"><a href="#双端队列的实现类" class="headerlink" title="双端队列的实现类"></a>双端队列的实现类</h6><pre><code>public class LinkedList&lt;E&gt; extends AbstractSequentialList&lt;E&gt;
-    implements List&lt;E&gt;, Deque&lt;E&gt;, Cloneable, java.io.Serializable
-
-
-
-public class ArrayDeque&lt;E&gt; extends AbstractCollection&lt;E&gt;
-                           implements Deque&lt;E&gt;, Cloneable, Serializable
-</code></pre><p><a href="http://shmilyaw-hotmail-com.iteye.com/blog/1700599" target="_blank" rel="external">java集合类深入分析之Queue篇</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/hanoi-problom/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1497,6 +1828,209 @@ enum Action {
 
 } 
 </code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/get-max-window/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/16/get-max-window/" itemprop="url">生成窗口最大值数组</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-16T00:00:00Z">
+                2017-02-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="生成窗口最大值数组"><a href="#生成窗口最大值数组" class="headerlink" title="生成窗口最大值数组"></a>生成窗口最大值数组</h5><p>有一个整型数组arr和一个大小为w的窗口从数组的最左边滑倒最右边，窗口每次向右边滑一个位置。<br>例如，数组[4,3,5,4,3,3,6,7]，窗口大小为3时：</p>
+<blockquote>
+<p>[4 3 5] 4 3 3 6 7 窗口中最大值为5 <br><br>4 [3 5 4] 3 3 6 7 窗口中最大值为5 <br><br>4 3 [5 4 3] 3 6 7 窗口中最大值为5 <br><br>4 3 5 [4 3 3] 6 7 窗口中最大值为4 <br><br>4 3 5 4 [3 3 6] 7 窗口中最大值为6 <br><br>4 3 5 4 3 [3 6 7] 窗口中最大值为7 <br></p>
+<p>请实现一个函数：</p>
+<ul>
+<li>输入：整型数组arr，窗口大小为w</li>
+<li>输出：一个长度为n-w+1的数组res，res[i]表示每一种窗口状态下的最大值。</li>
+</ul>
+</blockquote>
+<p>以上例，结果应为：{5,5,5,4,6,7}.</p>
+<h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><h5 id="方法一-O-N-w"><a href="#方法一-O-N-w" class="headerlink" title="方法一:O(N * w)"></a>方法一:O(N * w)</h5><pre><code> public class Demo {
+
+    public static void main(String[] args) {
+        int[] arr = getMaxWindow(new int[] { 4, 3, 5, 4, 3, 3, 6, 7 }, 3);
+        for (int i = 0; i &lt; arr.length; i++) {
+            System.out.println(arr[i]);
+        }
+    }
+
+    public static int[] getMaxWindow(int[] arr, int w) {
+        int[] result = new int[arr.length - w + 1];
+        for (int i = 0; i &lt; arr.length - w + 1; i++) {
+            int x = arr[i];
+            for (int j = 0; j &lt; w; j++) {
+                if (arr[i + j] &gt;= x)
+                    x = arr[i + j];
+            }
+            result[i] = x;
+        }
+        return result;
+    }
+}
+</code></pre><h5 id="方法二-O-N"><a href="#方法二-O-N" class="headerlink" title="方法二:O(N)"></a>方法二:O(N)</h5><blockquote>
+<p>本题的关键在于利用双端队列来实现窗口最大值的更新。生成双端队列qmax存放数组arr中的下标。<br>放入规则：</p>
+<ol>
+<li>如果qmax为空，直接把下标i放入；</li>
+<li>如果qmax不为空，比较arr[i]和qmax队尾下标对应的数组元素，如果arr[i]比较大，则持续弹出qmax中的元素，直至arr[i]小于qmax下标对应的元素或者qmax符合第一条；</li>
+</ol>
+<p>弹出规则：<br>如果qmax对头的下标等于i-w，说明当前qmax队头的下标已过期，弹出队头。</p>
+<p>上述过程，每个下标最多进入qmax一次，出qmax一次，所以遍历的过程中进出双端队列的操作时间复杂度是O(n).</p>
+<p>注意，我们的目的数组的大小为：n-w+1，在arr的循环过程中，录入数据进入目的数组时，注意过滤其边界，否则<code>java.lang.ArrayIndexOutOfBoundsException</code>.</p>
+</blockquote>
+<pre><code>public static int[] getMaxWindow2(int[] arr, int w) {
+        int[] result = new int[arr.length - w + 1];
+        LinkedList&lt;Integer&gt; qmax = new LinkedList&lt;&gt;();
+        int index = 0;
+        for (int i = 0; i &lt; arr.length; i++) {
+
+            while (!qmax.isEmpty() &amp;&amp; arr[qmax.peekLast()] &lt;= arr[i]) {
+                qmax.pollLast();
+            }
+            qmax.addLast(i);
+            if (qmax.peekFirst() == i - w) {
+                qmax.pollFirst();
+            }
+            if (i &gt;= w - 1)
+                result[index++] = arr[qmax.peekFirst()];
+
+        }
+        return result;
+    }
+</code></pre><h6 id="双端队列的实现类"><a href="#双端队列的实现类" class="headerlink" title="双端队列的实现类"></a>双端队列的实现类</h6><pre><code>public class LinkedList&lt;E&gt; extends AbstractSequentialList&lt;E&gt;
+    implements List&lt;E&gt;, Deque&lt;E&gt;, Cloneable, java.io.Serializable
+
+
+
+public class ArrayDeque&lt;E&gt; extends AbstractCollection&lt;E&gt;
+                           implements Deque&lt;E&gt;, Cloneable, Serializable
+</code></pre><p><a href="http://shmilyaw-hotmail-com.iteye.com/blog/1700599" target="_blank" rel="external">java集合类深入分析之Queue篇</a></p>
+
           
         
       
@@ -2095,185 +2629,6 @@ Android进程与Linux进程一样。默认情况下，每个apk运行在自己�
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/two-stacks-makeup-queue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/two-stacks-makeup-queue/" itemprop="url">由两个栈组成的队列</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="由两个栈组成的队列"><a href="#由两个栈组成的队列" class="headerlink" title="由两个栈组成的队列"></a>由两个栈组成的队列</h5><pre><code>编写一个类，使用两个栈实现队列，支持队列的基本操作(add,poll,peek)
-</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>栈的特点是先进后出，而队列的特点是先进先出。我们用两个栈，互相反序，实现类似队列的操作。
-具体实现上是一个栈作为压入栈，在压入数据时只往这个栈中压入，记为stackPush，另一个栈只作为弹出栈，记为stackPop。
-根据栈的特点，循环把stackPush中的数据压入stackPop中，stackPop的栈顶元素即为队列的dequeue元素。
-</code></pre><h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><pre><code>1. 如果stackPush要往stackPop中压入数据，必须一次性压入完毕；
-2. 如果stackPop要接收数据，必须保证stackPop为空。
-</code></pre><h5 id="stackPush压入stackPop的操作时机"><a href="#stackPush压入stackPop的操作时机" class="headerlink" title="stackPush压入stackPop的操作时机"></a>stackPush压入stackPop的操作时机</h5><pre><code>调用add、poll、peek三种方法中任何一种时发生都是可以，只要满足注意事项提到的两点，就不会出错。下面的例子是在调用poll和peek方法时进行压入数据的。
-</code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>import java.util.Stack;
-
-public class TwoStackQueue {
-
-    public Stack&lt;Integer&gt; stackPush;
-    public Stack&lt;Integer&gt; stackPop;
-
-    public TwoStackQueue() {
-        stackPop = new Stack&lt;&gt;();
-        stackPush = new Stack&lt;&gt;();
-    }
-
-    public void add(int pushInt) {
-        stackPush.push(pushInt);
-    }
-
-    public int poll() {
-        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
-            throw new RuntimeException(&quot;Queue is empty!&quot;);
-        } else if (stackPop.empty()) {
-            while (!stackPush.empty()) {
-                stackPop.push(stackPush.pop());
-            }
-        }
-        return stackPop.pop();
-    }
-
-    public int peek(){
-        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
-            throw new RuntimeException(&quot;Queue is empty!&quot;);
-        } else if (stackPop.empty()) {
-            while (!stackPush.empty()) {
-                stackPop.push(stackPush.pop());
-            }
-        }
-        return stackPop.peek();
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/reverse-stack/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2477,7 +2832,7 @@ public static void reverse(Stack&lt;Integer&gt; stack) {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">69</span>
+                <span class="site-state-item-count">70</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
