@@ -267,6 +267,150 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/android-special-api/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/21/android-special-api/" itemprop="url">Android开发中特别的api</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-21T00:00:00Z">
+                2017-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p> android库很大，开发中会遇到一些不常用的api，记录在此。</p>
+<h4 id="ActionBar相关"><a href="#ActionBar相关" class="headerlink" title="ActionBar相关"></a>ActionBar相关</h4><ul>
+<li>setHomeButtonEnabled这个小于4.0版本的默认值为true的。但是在4.0及其以上是false，该方法的作用：决定左上角的图标是否可以点击。没有向左的小图标。 true 图标可以点击  false 不可以点击</li>
+<li>actionBar.setDisplayHomeAsUpEnabled(true)    // 给左上角图标的左边加上一个返回的图标 。对应ActionBar.DISPLAY_HOME_AS_UP</li>
+<li>actionBar.setDisplayShowHomeEnabled(true)   //使左上角图标是否显示，如果设成false，则没有程序图标，仅仅就个标题，否则，显示应用程序图标，对应id为Android.R.id.home，对应ActionBar.DISPLAY_SHOW_HOME</li>
+<li>actionBar.setDisplayShowCustomEnabled(true)  // 使自定义的普通View能在title栏显示，即actionBar.setCustomView能起作用，对应ActionBar.DISPLAY_SHOW_CUSTOM</li>
+<li>actionBar.setDisplayShowTitleEnabled(true)   //对应去掉ActionBar是否显示</li>
+</ul>
+<h4 id="判断Activity是否仍在运行"><a href="#判断Activity是否仍在运行" class="headerlink" title="判断Activity是否仍在运行"></a>判断Activity是否仍在运行</h4><pre><code>if (activity == null || activity.isDestroyed() || activity.isFinishing()) {
+    return;
+}
+</code></pre><h4 id="开关使用ToggleButton或者Switch"><a href="#开关使用ToggleButton或者Switch" class="headerlink" title="开关使用ToggleButton或者Switch"></a>开关使用ToggleButton或者Switch</h4>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/20/android-system-service-AccessibilityManager/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1562,6 +1706,256 @@ public class CountingSort {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/radix-sort/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/10/radix-sort/" itemprop="url">非比较排序之基数排序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-10T00:00:00Z">
+                2017-04-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>探究Tinker的BSDiff算法的过程中，发现用到了<code>后缀排序</code>，就去研究后缀排序，然后发现用到<code>倍增算法</code>的思想。而倍增是排序的一种策略，这种策略要求必须对<code>基数排序</code>有一定的理解 T.T。<br><br>好，言归正传。基数排序是<a href="http://xusx1024.com/2017/04/10/bucket-sort/" target="_blank" rel="external">桶排序</a>的一种特例。 </p>
+<h4 id="比较和非比较的区别"><a href="#比较和非比较的区别" class="headerlink" title="比较和非比较的区别"></a>比较和非比较的区别</h4><p>常见的快速排序、归并排序、堆排序、冒泡排序等属于比较排序。在排序的最终结果里，元素之间的次序依赖于它们之间的比较。每个数都必须和其他数进行比较，才能确定自己的位置。</p>
+<p>在 冒泡排序 之类的排序中，问题规模为n，又因为需要比较n次，所以平均时间复杂度为O(n²)。在 归并排序、快速排序 之类的排序中，问题规模通过分治法消减为logN次，所以时间复杂度平均 O(nlogn) 。</p>
+<p>比较排序的优势是，适用于各种规模的数据，也不在乎数据的分布，都能进行排序。可以说，比较排序适用于一切需要排序的情况。</p>
+<p>计数排序、基数排序、桶排序则属于非比较排序。非比较排序是通过确定每个元素之前，应该有多少个元素来排序。针对数组arr，计算arr[i]之前有多少个元素，则唯一确定了arr[i]在排序后数组中的位置。</p>
+<p>非比较排序只要确定每个元素之前的已有的元素个数即可，所有一次遍历即可解决。算法时间复杂度 O(n) 。</p>
+<p>非比较排序时间复杂度底，但由于非比较排序需要占用空间来确定唯一位置。所以对数据规模和数据分布有一定的要求。</p>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><blockquote>
+<p>基数排序是一种非比较型、整数排序算法，其原理是将整数按位数切割成不同的数字，然后按照每个位数分别比较。<br><br></p>
+</blockquote>
+<p>排序过程：<br><br>将所有待比较数值(正整数)统一为同样的数位长度，数位较短的数前面补零。然后从最地位开始，依次进行一次排序。<br></p>
+<p>基数排序法会使用到桶，即把要比较的个、十、百、千。。。位的对应的元素分配到0~9个桶中，借以达到排序的作用，在某些时候，基数排序法的效率高于其他的比较性算法。具体的分步动画演示详见：<a href="http://www.cs.usfca.edu/~galles/visualization/RadixSort.html" target="_blank" rel="external">Data Structure Visualizations</a>。</p>
+<p><br><br>基数排序的方式可以采用LSD（Least significant digital）或MSD（Most significant digital），LSD的排序方式由键值的最右边开始，而MSD则相反，由键值的最左边开始。</p>
+<h4 id="效率"><a href="#效率" class="headerlink" title="效率"></a>效率</h4><p>基数排序的时间复杂度是 <strong>O(k·n)</strong>，其中<strong>n</strong>是排序元素个数， <strong>k</strong>是数字位数。注意这不是说这个时间复杂度一定优于 <strong>O(n·log(n))</strong>， <strong>k</strong>的大小取决于数字位的选择（比如比特位数），和待排序数据所属数据类型的全集的大小； <strong>k</strong>决定了进行多少轮处理，而 <strong>n</strong>是每轮处理的操作数目。</p>
+<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>对数组{53, 542, 63, 3, 63, 14, 214, 154, 748, 616}，它的示意图如下：</p>
+<p><img src="/images/radix_sort.png" alt="示例图"><br>Java代码如下：</p>
+<pre><code>package RadixSort;
+
+/**
+ * 基数排序
+ * 
+ * @author sxx.xu
+ *
+ */
+public class RadixSort {
+
+    private static int getMax(int[] array) {
+        int max = array[0];
+        for (int i : array) {
+            max = i &gt; max ? i : max;
+        }
+        return max;
+    }
+
+    public static void radixSort(int[] array) {
+        int exp = 1;// 个、十、百、千。。。位
+        int max = getMax(array);
+
+        for (exp = 1; max / exp &gt; 0; exp *= 10)
+            countSort(array, exp);
+    }
+
+    private static void countSort(int[] array, int exp) {
+
+        int[] outputs = new int[array.length];
+        int[] buckets = new int[10];// 0-9
+
+        //统计array中对应位数的元素的个数
+        for (int i : array) {
+            buckets[(i / exp) % 10]++;
+        }
+        //统计array中，小于该位的元素的个数，相当于排序
+        for (int i = 1; i &lt; buckets.length; i++) {
+            buckets[i] += buckets[i - 1];
+        }
+        //赋值
+        for (int i = array.length - 1; i &gt;= 0; i--) {
+            outputs[buckets[(array[i] / exp) % 10] - 1] = array[i];
+            buckets[(array[i] / exp) % 10]--;
+        }
+
+        for (int i = 0; i &lt; outputs.length; i++) {
+            array[i] = outputs[i];
+        }
+        outputs = null;
+        buckets = null;
+    }
+
+    private static void radixSort(int[] array, int d) {
+        int n = 1;// 个、十、百、千。。。位
+        int k = 0;// 保存每一位排序后的结果用于下一位的排序输入
+        int length = array.length;
+        int[][] bucket = new int[10][length];// 排序桶用于保存每次排序后的结果，这一位上排序结果相同的数字放在同一个桶里
+        int[] order = new int[length];// 用于保存每个桶里有多少个数字
+        while (n &lt; d) {
+            for (int num : array) // 将数组array里的每个数字放在相应的桶里
+            {
+                int digit = (num / n) % 10;
+                bucket[digit][order[digit]] = num;
+                order[digit]++;
+            }
+            for (int i = 0; i &lt; length; i++)// 将前一个循环生成的桶里的数据覆盖到原数组中用于保存这一位的排序结果
+            {
+                if (order[i] != 0)// 这个桶里有数据，从上到下遍历这个桶并将数据保存到原数组中
+                {
+                    for (int j = 0; j &lt; order[i]; j++) {
+                        array[k] = bucket[i][j];
+                        k++;
+                    }
+                }
+                order[i] = 0;// 将桶里计数器置0，用于下一次位排序
+            }
+            n *= 10;
+            k = 0;// 将k置0，用于下一轮保存位排序结果
+        }
+
+    }
+
+    public static void main(String[] args) {
+        int array[] = { 53, 3, 542, 748, 14, 214, 154, 63, 616, 70 };
+        for (int i : array) {
+            System.out.print(i + &quot;  &quot;);
+        }
+        System.out.println(&quot;&quot;);
+        System.out.println(&quot;before===================================after&quot;);
+        radixSort(array);
+        for (int i : array) {
+            System.out.print(i + &quot;  &quot;);
+        }
+        int[] A = new int[] { 53, 3, 542, 748, 14, 214, 154, 63, 616, 70 };
+        radixSort(A, 100);
+        System.out.println(&quot;&quot;);
+        for (int i : A) {
+            System.out.print(i + &quot;  &quot;);
+        }
+    }
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/bucket-sort/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1852,256 +2246,6 @@ public class BuketsSort {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/radix-sort/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/04/10/radix-sort/" itemprop="url">非比较排序之基数排序</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-10T00:00:00Z">
-                2017-04-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>探究Tinker的BSDiff算法的过程中，发现用到了<code>后缀排序</code>，就去研究后缀排序，然后发现用到<code>倍增算法</code>的思想。而倍增是排序的一种策略，这种策略要求必须对<code>基数排序</code>有一定的理解 T.T。<br><br>好，言归正传。基数排序是<a href="http://xusx1024.com/2017/04/10/bucket-sort/" target="_blank" rel="external">桶排序</a>的一种特例。 </p>
-<h4 id="比较和非比较的区别"><a href="#比较和非比较的区别" class="headerlink" title="比较和非比较的区别"></a>比较和非比较的区别</h4><p>常见的快速排序、归并排序、堆排序、冒泡排序等属于比较排序。在排序的最终结果里，元素之间的次序依赖于它们之间的比较。每个数都必须和其他数进行比较，才能确定自己的位置。</p>
-<p>在 冒泡排序 之类的排序中，问题规模为n，又因为需要比较n次，所以平均时间复杂度为O(n²)。在 归并排序、快速排序 之类的排序中，问题规模通过分治法消减为logN次，所以时间复杂度平均 O(nlogn) 。</p>
-<p>比较排序的优势是，适用于各种规模的数据，也不在乎数据的分布，都能进行排序。可以说，比较排序适用于一切需要排序的情况。</p>
-<p>计数排序、基数排序、桶排序则属于非比较排序。非比较排序是通过确定每个元素之前，应该有多少个元素来排序。针对数组arr，计算arr[i]之前有多少个元素，则唯一确定了arr[i]在排序后数组中的位置。</p>
-<p>非比较排序只要确定每个元素之前的已有的元素个数即可，所有一次遍历即可解决。算法时间复杂度 O(n) 。</p>
-<p>非比较排序时间复杂度底，但由于非比较排序需要占用空间来确定唯一位置。所以对数据规模和数据分布有一定的要求。</p>
-<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><blockquote>
-<p>基数排序是一种非比较型、整数排序算法，其原理是将整数按位数切割成不同的数字，然后按照每个位数分别比较。<br><br></p>
-</blockquote>
-<p>排序过程：<br><br>将所有待比较数值(正整数)统一为同样的数位长度，数位较短的数前面补零。然后从最地位开始，依次进行一次排序。<br></p>
-<p>基数排序法会使用到桶，即把要比较的个、十、百、千。。。位的对应的元素分配到0~9个桶中，借以达到排序的作用，在某些时候，基数排序法的效率高于其他的比较性算法。具体的分步动画演示详见：<a href="http://www.cs.usfca.edu/~galles/visualization/RadixSort.html" target="_blank" rel="external">Data Structure Visualizations</a>。</p>
-<p><br><br>基数排序的方式可以采用LSD（Least significant digital）或MSD（Most significant digital），LSD的排序方式由键值的最右边开始，而MSD则相反，由键值的最左边开始。</p>
-<h4 id="效率"><a href="#效率" class="headerlink" title="效率"></a>效率</h4><p>基数排序的时间复杂度是 <strong>O(k·n)</strong>，其中<strong>n</strong>是排序元素个数， <strong>k</strong>是数字位数。注意这不是说这个时间复杂度一定优于 <strong>O(n·log(n))</strong>， <strong>k</strong>的大小取决于数字位的选择（比如比特位数），和待排序数据所属数据类型的全集的大小； <strong>k</strong>决定了进行多少轮处理，而 <strong>n</strong>是每轮处理的操作数目。</p>
-<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>对数组{53, 542, 63, 3, 63, 14, 214, 154, 748, 616}，它的示意图如下：</p>
-<p><img src="/images/radix_sort.png" alt="示例图"><br>Java代码如下：</p>
-<pre><code>package RadixSort;
-
-/**
- * 基数排序
- * 
- * @author sxx.xu
- *
- */
-public class RadixSort {
-
-    private static int getMax(int[] array) {
-        int max = array[0];
-        for (int i : array) {
-            max = i &gt; max ? i : max;
-        }
-        return max;
-    }
-
-    public static void radixSort(int[] array) {
-        int exp = 1;// 个、十、百、千。。。位
-        int max = getMax(array);
-
-        for (exp = 1; max / exp &gt; 0; exp *= 10)
-            countSort(array, exp);
-    }
-
-    private static void countSort(int[] array, int exp) {
-
-        int[] outputs = new int[array.length];
-        int[] buckets = new int[10];// 0-9
-
-        //统计array中对应位数的元素的个数
-        for (int i : array) {
-            buckets[(i / exp) % 10]++;
-        }
-        //统计array中，小于该位的元素的个数，相当于排序
-        for (int i = 1; i &lt; buckets.length; i++) {
-            buckets[i] += buckets[i - 1];
-        }
-        //赋值
-        for (int i = array.length - 1; i &gt;= 0; i--) {
-            outputs[buckets[(array[i] / exp) % 10] - 1] = array[i];
-            buckets[(array[i] / exp) % 10]--;
-        }
-
-        for (int i = 0; i &lt; outputs.length; i++) {
-            array[i] = outputs[i];
-        }
-        outputs = null;
-        buckets = null;
-    }
-
-    private static void radixSort(int[] array, int d) {
-        int n = 1;// 个、十、百、千。。。位
-        int k = 0;// 保存每一位排序后的结果用于下一位的排序输入
-        int length = array.length;
-        int[][] bucket = new int[10][length];// 排序桶用于保存每次排序后的结果，这一位上排序结果相同的数字放在同一个桶里
-        int[] order = new int[length];// 用于保存每个桶里有多少个数字
-        while (n &lt; d) {
-            for (int num : array) // 将数组array里的每个数字放在相应的桶里
-            {
-                int digit = (num / n) % 10;
-                bucket[digit][order[digit]] = num;
-                order[digit]++;
-            }
-            for (int i = 0; i &lt; length; i++)// 将前一个循环生成的桶里的数据覆盖到原数组中用于保存这一位的排序结果
-            {
-                if (order[i] != 0)// 这个桶里有数据，从上到下遍历这个桶并将数据保存到原数组中
-                {
-                    for (int j = 0; j &lt; order[i]; j++) {
-                        array[k] = bucket[i][j];
-                        k++;
-                    }
-                }
-                order[i] = 0;// 将桶里计数器置0，用于下一次位排序
-            }
-            n *= 10;
-            k = 0;// 将k置0，用于下一轮保存位排序结果
-        }
-
-    }
-
-    public static void main(String[] args) {
-        int array[] = { 53, 3, 542, 748, 14, 214, 154, 63, 616, 70 };
-        for (int i : array) {
-            System.out.print(i + &quot;  &quot;);
-        }
-        System.out.println(&quot;&quot;);
-        System.out.println(&quot;before===================================after&quot;);
-        radixSort(array);
-        for (int i : array) {
-            System.out.print(i + &quot;  &quot;);
-        }
-        int[] A = new int[] { 53, 3, 542, 748, 14, 214, 154, 63, 616, 70 };
-        radixSort(A, 100);
-        System.out.println(&quot;&quot;);
-        for (int i : A) {
-            System.out.print(i + &quot;  &quot;);
-        }
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/07/git-command/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2206,6 +2350,176 @@ public class RadixSort {
 <p>12.<br><code>git pull</code>  抓取远程仓库所有分支更新并合并到本地</p>
 <p>13.<code>git config -l</code> 查看git的配置信息</p>
 <h4 id="git-提交空目录"><a href="#git-提交空目录" class="headerlink" title="git 提交空目录"></a>git 提交空目录</h4><p>git与svn不同，git只跟踪文件的变化，不跟踪目录，如果想要提交一个空目录，我们可以在该目录添加一个文件，命名为.gitignore，这是一个变通的方法。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/01/findbug-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/01/findbug-notes/" itemprop="url">FindBugs常见错误提示及解决</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-01T00:00:00Z">
+                2017-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD"><a href="#ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD" class="headerlink" title="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"></a>ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD</h4><blockquote>
+<p>This instance method writes to a static field. This is tricky to get correct if multiple instances are being manipulated, and generally bad practice.<br>静态字段被实例方法修改。如果多个实例被操纵，这样获取正确的结果是滑头的，并且通常不是好的实践。</p>
+</blockquote>
+<p>原因：静态私有的成员变量不能在public类里面直接赋值，最好是通过get/set方法进行操作。直接通过类名.常量名获取的方式违背了封装的原则，findbugs不提倡使用。<br><br></p>
+<p>解决：通过get/set方法提供操作。</p>
+<h4 id="DM-BOXED-PRIMITIVE-FOR-PARSING"><a href="#DM-BOXED-PRIMITIVE-FOR-PARSING" class="headerlink" title="DM_BOXED_PRIMITIVE_FOR_PARSING"></a>DM_BOXED_PRIMITIVE_FOR_PARSING</h4><blockquote>
+<p>A boxed primitive is created from a String, just to extract the unboxed primitive value. It is more efficient to just call the static parseXXX method.<br>一个装箱的原语是由字符串创建，只是为了拆箱获取原始值。使用parseXXX方法更加有效。</p>
+</blockquote>
+<p>原因：</p>
+<ul>
+<li>static int parseInt(String s):       将字符串参数作为有符号的十进制整数进行分析，返回一个int值。</li>
+<li>static Integer valueOf(int i) :      返回一个表示指定的 int 值的 Integer 实例。</li>
+<li>static Integer valueOf(String s) :      返回保持指定的 String 的值的 Integer 对象（实例）。</li>
+</ul>
+<p>解决：parseXXX方法代替valueOf</p>
+<h4 id="SS-SHOULD-BE-STATIC"><a href="#SS-SHOULD-BE-STATIC" class="headerlink" title="SS_SHOULD_BE_STATIC"></a>SS_SHOULD_BE_STATIC</h4><blockquote>
+<p>This class contains an instance final field that is initialized to a compile-time static value. Consider making the field static.<br>类包含一个初始化于编译期静态值的不可变实例字段。考虑使用static修饰该字段。</p>
+</blockquote>
+<p>解决方法：final的字段可以定义为static类型</p>
+<h4 id="DLS-DEAD-LOCAL-STORE"><a href="#DLS-DEAD-LOCAL-STORE" class="headerlink" title="DLS_DEAD_LOCAL_STORE"></a>DLS_DEAD_LOCAL_STORE</h4><blockquote>
+<p>This instruction assigns a value to a local variable, but the value is not read or used in any subsequent instruction. Often, this indicates an error, because the value computed is never used.<br><br>Note that Sun’s javac compiler often generates dead stores for final local variables. Because FindBugs is a bytecode-based tool, there is no easy way to eliminate these false positives.<br>该指令把一个值分配给本地变量，但是值并没有被读取或使用。通常这表示错误，因为这个值从来没有被用到过。<br><br>请注意，Sun公司的javac编译器通常为本地final变量生成死存储。因为FindBugs是基于字节码的工具，因此没有简单的方法可以消除这些误报。</p>
+</blockquote>
+<p>解决方法：注释掉。</p>
+<h4 id="SF-SWITCH-NO-DEFAULT"><a href="#SF-SWITCH-NO-DEFAULT" class="headerlink" title="SF_SWITCH_NO_DEFAULT"></a>SF_SWITCH_NO_DEFAULT</h4><blockquote>
+<p>This method contains a switch statement where default case is missing. Usually you need to provide a default case.<br>Because the analysis only looks at the generated bytecode, this warning can be incorrect triggered if the default case is at the end of the switch statement and the switch statement doesn’t contain break statements for other cases.<br>此方法包含一个缺省情况下的switch语句。通常你需要提供一个默认的情况。<br><br><br>因为分析仅查看生成的字节码，这个警告可能会被错误除法。如果默认的情况下是switch语句结尾并且switch语句不包含其他情况的break语句。</p>
+</blockquote>
+<p>解决方法：加上default。</p>
+<h4 id="RV-RETURN-VALUE-IGNORED-BAD-PRACTICE"><a href="#RV-RETURN-VALUE-IGNORED-BAD-PRACTICE" class="headerlink" title="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"></a>RV_RETURN_VALUE_IGNORED_BAD_PRACTICE</h4><blockquote>
+<p>This method returns a value that is not checked.The return value should be checked since it can indicate an unusual or unexpected function. For example, the <code>File.delete()</code> method returns false if the file could not be successfully deleted(rather than throwing an Exception).if you don’t check the result, you won’t notice if the method invocation signals unexpected behavior by returning an a typical return value.<br>此方法返回了一个boolean，但没有去检查。这个值应该被检查，因为他可以指示异常或意外的功能。例如，<code>File.dlete()</code>方法返回false，如果这个文件可以被成功删除，而不是抛出异常。如果你没有检查，你就不会注意到这个方法通过返回一个典型错误，调用出现不可期的行为。</p>
+</blockquote>
+<h4 id="DC-DOUBLECHECK"><a href="#DC-DOUBLECHECK" class="headerlink" title="DC_DOUBLECHECK"></a>DC_DOUBLECHECK</h4><blockquote>
+<p>This method may contain an instance of double-checked locking. This idion is not correct according to the semantics of the Java memory model.</p>
+</blockquote>
+<p>see more:<a href="http://www.infoq.com/cn/articles/double-checked-locking-with-delay-initialization#" target="_blank" rel="external">双重检查锁定与延迟初始化</a></p>
+<h4 id="NM-METHOD-NAMING-CONVENTION"><a href="#NM-METHOD-NAMING-CONVENTION" class="headerlink" title="NM_METHOD_NAMING_CONVENTION"></a>NM_METHOD_NAMING_CONVENTION</h4><blockquote>
+<p>Methods should be verbs, in mixed case with the first letter lowercase, with the first letter of each internal word capitalized.<br>方法名开头要小写。</p>
+</blockquote>
 
           
         
@@ -2493,395 +2807,6 @@ public class RadixSort {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/01/findbug-notes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/04/01/findbug-notes/" itemprop="url">FindBugs常见错误提示及解决</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-01T00:00:00Z">
-                2017-04-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD"><a href="#ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD" class="headerlink" title="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"></a>ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD</h4><blockquote>
-<p>This instance method writes to a static field. This is tricky to get correct if multiple instances are being manipulated, and generally bad practice.<br>静态字段被实例方法修改。如果多个实例被操纵，这样获取正确的结果是滑头的，并且通常不是好的实践。</p>
-</blockquote>
-<p>原因：静态私有的成员变量不能在public类里面直接赋值，最好是通过get/set方法进行操作。直接通过类名.常量名获取的方式违背了封装的原则，findbugs不提倡使用。<br><br></p>
-<p>解决：通过get/set方法提供操作。</p>
-<h4 id="DM-BOXED-PRIMITIVE-FOR-PARSING"><a href="#DM-BOXED-PRIMITIVE-FOR-PARSING" class="headerlink" title="DM_BOXED_PRIMITIVE_FOR_PARSING"></a>DM_BOXED_PRIMITIVE_FOR_PARSING</h4><blockquote>
-<p>A boxed primitive is created from a String, just to extract the unboxed primitive value. It is more efficient to just call the static parseXXX method.<br>一个装箱的原语是由字符串创建，只是为了拆箱获取原始值。使用parseXXX方法更加有效。</p>
-</blockquote>
-<p>原因：</p>
-<ul>
-<li>static int parseInt(String s):       将字符串参数作为有符号的十进制整数进行分析，返回一个int值。</li>
-<li>static Integer valueOf(int i) :      返回一个表示指定的 int 值的 Integer 实例。</li>
-<li>static Integer valueOf(String s) :      返回保持指定的 String 的值的 Integer 对象（实例）。</li>
-</ul>
-<p>解决：parseXXX方法代替valueOf</p>
-<h4 id="SS-SHOULD-BE-STATIC"><a href="#SS-SHOULD-BE-STATIC" class="headerlink" title="SS_SHOULD_BE_STATIC"></a>SS_SHOULD_BE_STATIC</h4><blockquote>
-<p>This class contains an instance final field that is initialized to a compile-time static value. Consider making the field static.<br>类包含一个初始化于编译期静态值的不可变实例字段。考虑使用static修饰该字段。</p>
-</blockquote>
-<p>解决方法：final的字段可以定义为static类型</p>
-<h4 id="DLS-DEAD-LOCAL-STORE"><a href="#DLS-DEAD-LOCAL-STORE" class="headerlink" title="DLS_DEAD_LOCAL_STORE"></a>DLS_DEAD_LOCAL_STORE</h4><blockquote>
-<p>This instruction assigns a value to a local variable, but the value is not read or used in any subsequent instruction. Often, this indicates an error, because the value computed is never used.<br><br>Note that Sun’s javac compiler often generates dead stores for final local variables. Because FindBugs is a bytecode-based tool, there is no easy way to eliminate these false positives.<br>该指令把一个值分配给本地变量，但是值并没有被读取或使用。通常这表示错误，因为这个值从来没有被用到过。<br><br>请注意，Sun公司的javac编译器通常为本地final变量生成死存储。因为FindBugs是基于字节码的工具，因此没有简单的方法可以消除这些误报。</p>
-</blockquote>
-<p>解决方法：注释掉。</p>
-<h4 id="SF-SWITCH-NO-DEFAULT"><a href="#SF-SWITCH-NO-DEFAULT" class="headerlink" title="SF_SWITCH_NO_DEFAULT"></a>SF_SWITCH_NO_DEFAULT</h4><blockquote>
-<p>This method contains a switch statement where default case is missing. Usually you need to provide a default case.<br>Because the analysis only looks at the generated bytecode, this warning can be incorrect triggered if the default case is at the end of the switch statement and the switch statement doesn’t contain break statements for other cases.<br>此方法包含一个缺省情况下的switch语句。通常你需要提供一个默认的情况。<br><br><br>因为分析仅查看生成的字节码，这个警告可能会被错误除法。如果默认的情况下是switch语句结尾并且switch语句不包含其他情况的break语句。</p>
-</blockquote>
-<p>解决方法：加上default。</p>
-<h4 id="RV-RETURN-VALUE-IGNORED-BAD-PRACTICE"><a href="#RV-RETURN-VALUE-IGNORED-BAD-PRACTICE" class="headerlink" title="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"></a>RV_RETURN_VALUE_IGNORED_BAD_PRACTICE</h4><blockquote>
-<p>This method returns a value that is not checked.The return value should be checked since it can indicate an unusual or unexpected function. For example, the <code>File.delete()</code> method returns false if the file could not be successfully deleted(rather than throwing an Exception).if you don’t check the result, you won’t notice if the method invocation signals unexpected behavior by returning an a typical return value.<br>此方法返回了一个boolean，但没有去检查。这个值应该被检查，因为他可以指示异常或意外的功能。例如，<code>File.dlete()</code>方法返回false，如果这个文件可以被成功删除，而不是抛出异常。如果你没有检查，你就不会注意到这个方法通过返回一个典型错误，调用出现不可期的行为。</p>
-</blockquote>
-<h4 id="DC-DOUBLECHECK"><a href="#DC-DOUBLECHECK" class="headerlink" title="DC_DOUBLECHECK"></a>DC_DOUBLECHECK</h4><blockquote>
-<p>This method may contain an instance of double-checked locking. This idion is not correct according to the semantics of the Java memory model.</p>
-</blockquote>
-<p>see more:<a href="http://www.infoq.com/cn/articles/double-checked-locking-with-delay-initialization#" target="_blank" rel="external">双重检查锁定与延迟初始化</a></p>
-<h4 id="NM-METHOD-NAMING-CONVENTION"><a href="#NM-METHOD-NAMING-CONVENTION" class="headerlink" title="NM_METHOD_NAMING_CONVENTION"></a>NM_METHOD_NAMING_CONVENTION</h4><blockquote>
-<p>Methods should be verbs, in mixed case with the first letter lowercase, with the first letter of each internal word capitalized.<br>方法名开头要小写。</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/30/tinker-source-code-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/30/tinker-source-code-2/" itemprop="url">Tinker学习(二)标准java虚拟机动态加载代码示例</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-30T00:00:00Z">
-                2017-03-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>虽说dalvik和标准jvm类加载机制不尽相同，但是此例对于理解我们将要学习的Tinker，感觉仍有益处。<br></p>
-<p>自定义classLoader类：</p>
-<pre><code>import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-
-public class MyClassLoader extends ClassLoader {
-
-    @SuppressWarnings(&quot;deprecation&quot;)
-    @Override
-    protected Class&lt;?&gt; findClass(String name) throws ClassNotFoundException {
-
-        String classPath = MyClassLoader.class.getResource(&quot;/&quot;).getPath();
-        String fileName = name.replace(&quot;.&quot;, &quot;/&quot;) + &quot;.class&quot;;
-        File classFile = new File(classPath, fileName);
-
-        if (!classFile.exists()) {
-            throw new ClassNotFoundException(classFile.getPath() + &quot; 不存在&quot;);
-        }
-
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ByteBuffer bf = ByteBuffer.allocate(1024);
-        FileInputStream fis = null;
-        FileChannel fc = null;
-
-        try {
-            fis = new FileInputStream(classFile);
-            fc = fis.getChannel();
-            while (fc.read(bf) &gt; 0) {
-                bf.flip();
-                bos.write(bf.array(), 0, bf.limit());
-                bf.clear();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fis.close();
-                fc.close();
-            } catch (Exception e2) {
-                // TODO: handle exception
-            }
-
-        }
-
-        return defineClass(bos.toByteArray(), 0, bos.toByteArray().length);
-    }
-
-}
-</code></pre><p>改变的类：</p>
-<pre><code>public class Person {
-
-    public void sayHello() {
-        System.out.println(&quot;hello world!&quot;);
-    }
-}
-</code></pre><p>测试的类：</p>
-<pre><code>import java.lang.reflect.Method;
-
-public class StartUp {
-
-    public static void main(String[] args) {
-        int i = 0;
-
-        while (true) {
-            MyClassLoader mcl = new MyClassLoader();
-            System.out.println(mcl.getParent());
-            try {
-                Class&lt;?&gt; personClass = mcl.findClass(&quot;Person&quot;);
-
-                Object person = personClass.newInstance();
-                Method sayHelloMethod = personClass.getMethod(&quot;sayHello&quot;);
-                sayHelloMethod.invoke(person);
-                System.out.println(i++);
-
-                Thread.sleep(3000);
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-    }
-}
-</code></pre><p>修改person类里的打印String，会发现我们的main方法里的线程，总是打印我们修改后的文字。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2931,7 +2856,7 @@ public class StartUp {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">72</span>
+                <span class="site-state-item-count">73</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

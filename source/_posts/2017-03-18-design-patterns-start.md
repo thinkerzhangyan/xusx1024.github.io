@@ -40,10 +40,10 @@ winPC画图工具安利：[http://astah.net/](http://astah.net/)
 	- [适配器模式](http://xusx1024.com/2017/06/21/design-patterns-adapter/)
 	- [桥接模式](http://xusx1024.com/2017/06/22/design-patterns-bridge/)
 	- [装饰模式](http://xusx1024.com/2017/06/23/design-patterns-decorator/)
-	- 外观模式
+	- [外观模式](http://xusx1024.com/2017/06/26/design-patterns-facade/)
 	- 享元模式
 	- 代理模式
-	- 组合模式
+	- [组合模式](http://xusx1024.com/2017/06/26/design-patterns-composite/)
 - 行为型模式(11)
 	- [策略模式](http://xusx1024.com/2017/05/25/design-patterns-strategy-pattern/)
 	- [模版方法模式](http://xusx1024.com/2017/06/19/design-patterns-template-method/)
