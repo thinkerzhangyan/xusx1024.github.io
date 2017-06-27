@@ -267,6 +267,351 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/07/stack-with-getmin-fun/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/07/stack-with-getmin-fun/" itemprop="url">设计一个有getMin功能的栈</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-07T00:00:00Z">
+                2017-02-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a><strong>题目</strong></h4><h5 id="设计一个有getMin功能的栈"><a href="#设计一个有getMin功能的栈" class="headerlink" title="设计一个有getMin功能的栈"></a>设计一个有getMin功能的栈</h5><p>&gt;<br>实现一个特殊的栈，在实现栈的基本功能的基础上，再实现返回栈中最小元素的操作。</p>
+<h4 id="要求"><a href="#要求" class="headerlink" title="要求"></a><strong>要求</strong></h4><p>&gt;</p>
+<ol>
+<li>pop,push,getMin操作的时间复杂度都是O(1)-【注】：<em>pop，push的时间复杂度本来就是O(1)，所以关注点在getMin的时间复杂度上。3/3/2017 11:16:04 AM </em></li>
+<li>设计的栈类型可以使用现成的栈结构-【注】：<em>使用变量是无法达到getMin的O(1)的，eg：2，3，4，1。3/3/2017 11:16:21 AM </em> </li>
+</ol>
+<h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a><strong>难度</strong></h4><p>&gt;<br>士 ★☆☆☆</p>
+<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a><strong>解答</strong></h4><p>&gt;<br>在设计上我们使用两个栈，一个栈用来保存当前栈中的元素，其功能和一个正常的栈没有区别，这个栈记为stackData;另一个栈用于保存每一步的最小值，这个栈记为stackMin。具体的实现方式有两种。</p>
+<h5 id="第一种设计方案"><a href="#第一种设计方案" class="headerlink" title="第一种设计方案"></a><strong>第一种设计方案</strong></h5><p> 压入数据规则</p>
+<p>假如当前数据为newNum,先将其压入stackData。然后判断stackMin是否为空；</p>
+<ul>
+<li>如果为空，则newNum也压入stackMin</li>
+<li>如果不为空，则比较nuwNum和stackMin的栈顶元素哪一个更小</li>
+<li>如果newNum更小或两者相等，则newNum也压入stackMin</li>
+<li>如果stackMin中栈顶元素小，则stackMin不压入任何内容</li>
+</ul>
+<p> 弹出数据规则</p>
+<p>先在stackData中弹出栈顶元素，记为value。然后比较当前stackMin的栈顶元素和value哪一个更小。</p>
+<p>通过上文的压入规则可知，stackMin中存在的元素是从栈底到栈顶逐渐变小的，stackMin栈顶的元素及时stackMin栈的最小值，也是stackData栈的最小值。所以不会出现value小于stackMin栈顶元素的情况，value只可能大于或等于stackMin的栈顶元素。</p>
+<p>当value等于stackMin的栈顶元素时，stackMin弹出栈顶元素【保证stackMin的栈顶始终为最小元素的值 3/3/2017 11:51:24 AM 】；当value大于stackMin的栈顶元素时，stackMin不弹出栈顶元素；返回value。</p>
+<p><strong>查询当前栈中最小值的操作</strong></p>
+<p>即stackMin的栈顶元素</p>
+<pre><code>public class MyStack1 {
+private Stack&lt;Integer&gt; stackData;
+private Stack&lt;Integer&gt; stackMin;
+
+public MyStack1() {
+    this.stackData = new Stack&lt;&gt;();
+    this.stackMin = new Stack&lt;&gt;();
+}
+
+public void push(int newNum) {
+    if (this.stackMin.isEmpty()) {
+        stackMin.push(newNum);
+    } else if (newNum &lt;= this.getmin()) {
+        stackMin.push(newNum);
+    }
+
+    this.stackData.push(newNum);
+}
+
+public int pop() {
+    if (this.stackData.isEmpty()) {
+        throw new RuntimeException(&quot;Your stack is Empty.&quot;);
+    }
+    int value = stackData.peek();
+    if (value == this.getmin()) {
+        stackMin.pop();
+    }
+    return value;
+}
+
+public int getmin() {
+    if (this.stackMin.isEmpty()) {
+        throw new RuntimeException(&quot;Your stack is empty.&quot;);
+    }
+    return stackMin.peek();
+}
+
+}
+</code></pre><h5 id="第二种设计方案"><a href="#第二种设计方案" class="headerlink" title="第二种设计方案"></a><strong>第二种设计方案</strong></h5><ul>
+<li>压入数据规则</li>
+</ul>
+<p>&gt;<br>假设当前数据为newNum，先将其压入stackData。然后判断stackMin是否为空。<br>如果为空，则newNum也压入stackMin；如果不为空，则判断newNum和stackMin的栈顶元素大小：<br>如果newNum比较小，则压入stackMin；否则再次将stackMin栈顶元素压入stackMin。</p>
+<ul>
+<li>弹出数据规则</li>
+</ul>
+<p>&gt;<br>在stackData中弹出数据记为value；弹出stackMin的栈顶；返回value</p>
+<ul>
+<li>查询当前栈中最小值的操作</li>
+</ul>
+<p>&gt;<br>即stackMin的栈顶元素</p>
+<pre><code>public class MyStack2 {
+
+    private Stack&lt;Integer&gt; stackData;
+    private Stack&lt;Integer&gt; stackMin;
+
+    public MyStack2() {
+        this.stackData = new Stack&lt;&gt;();
+        this.stackMin = new Stack&lt;&gt;();
+    }
+
+    public void push(int newNum) {
+        if (this.stackMin.isEmpty()) {
+            stackMin.push(newNum);
+        } else if (newNum &lt; this.getmin()) {
+            stackMin.push(newNum);
+        } else {
+            int newMin = stackMin.peek();
+            stackMin.push(newMin);
+        }
+
+        this.stackData.push(newNum);
+    }
+
+    public int pop() {
+        if (this.stackData.isEmpty()) {
+            throw new RuntimeException(&quot;Your stack is Empty.&quot;);
+        }
+
+        int value = stackData.peek();
+        stackMin.pop();
+        stackData.pop();
+        return value;
+    }
+
+    public int getmin() {
+        if (this.stackMin.isEmpty()) {
+            throw new RuntimeException(&quot;Your stack is empty.&quot;);
+        }
+        return stackMin.peek();
+    }
+}
+</code></pre><h4 id="点评"><a href="#点评" class="headerlink" title="点评"></a><strong>点评</strong></h4><pre><code>方案一和方案二其实都是用stackMin栈保存着stackData每一步的最小值。共同点是所有操作的时间复杂度都为O(1)、空间复杂度都为O(n).
+区别是：方案一中stackMin压入时稍省空间，但是弹出操作稍费时间；方案二中stackMin压入时稍费时间，但是弹出操作稍省时间。
+</code></pre><h4 id="java-util-stack"><a href="#java-util-stack" class="headerlink" title="java.util.stack"></a><strong>java.util.stack</strong></h4><pre><code>package java.util;
+
+public class Stack&lt;E&gt; extends Vector&lt;E&gt; {
+    /**
+     * Creates an empty Stack.
+     */
+    public Stack() {
+    }
+
+    /**
+     * Pushes an item onto the top of this stack. This has exactly
+     * the same effect as:
+     * &lt;blockquote&gt;&lt;pre&gt;
+     * addElement(item)&lt;/pre&gt;&lt;/blockquote&gt;
+     *
+     * @param   item   the item to be pushed onto this stack.
+     * @return  the &lt;code&gt;item&lt;/code&gt; argument.
+     * @see     java.util.Vector#addElement
+     */
+    public E push(E item) {
+        addElement(item);
+
+        return item;
+    }
+
+    /**
+     * Removes the object at the top of this stack and returns that
+     * object as the value of this function.
+     *
+     * @return  The object at the top of this stack (the last item
+     *          of the &lt;tt&gt;Vector&lt;/tt&gt; object).
+     * @throws  EmptyStackException  if this stack is empty.
+     */
+    public synchronized E pop() {
+        E       obj;
+        int     len = size();
+
+        obj = peek();
+        removeElementAt(len - 1);
+
+        return obj;
+    }
+
+    /**
+     * Looks at the object at the top of this stack without removing it
+     * from the stack.
+     *
+     * @return  the object at the top of this stack (the last item
+     *          of the &lt;tt&gt;Vector&lt;/tt&gt; object).
+     * @throws  EmptyStackException  if this stack is empty.
+     */
+    public synchronized E peek() {
+        int     len = size();
+
+        if (len == 0)
+            throw new EmptyStackException();
+        return elementAt(len - 1);
+    }
+
+    /**
+     * Tests if this stack is empty.
+     *
+     * @return  &lt;code&gt;true&lt;/code&gt; if and only if this stack contains
+     *          no items; &lt;code&gt;false&lt;/code&gt; otherwise.
+     */
+    public boolean empty() {
+        return size() == 0;
+    }
+
+    /**
+     * Returns the 1-based position where an object is on this stack.
+     * If the object &lt;tt&gt;o&lt;/tt&gt; occurs as an item in this stack, this
+     * method returns the distance from the top of the stack of the
+     * occurrence nearest the top of the stack; the topmost item on the
+     * stack is considered to be at distance &lt;tt&gt;1&lt;/tt&gt;. The &lt;tt&gt;equals&lt;/tt&gt;
+     * method is used to compare &lt;tt&gt;o&lt;/tt&gt; to the
+     * items in this stack.
+     *
+     * @param   o   the desired object.
+     * @return  the 1-based position from the top of the stack where
+     *          the object is located; the return value &lt;code&gt;-1&lt;/code&gt;
+     *          indicates that the object is not on the stack.
+     */
+    public synchronized int search(Object o) {
+        int i = lastIndexOf(o);
+
+        if (i &gt;= 0) {
+            return size() - i;
+        }
+        return -1;
+    }
+
+    /** use serialVersionUID from JDK 1.0.2 for interoperability */
+    private static final long serialVersionUID = 1224463164541339165L;
+}
+</code></pre><h4 id="栈的简单概念"><a href="#栈的简单概念" class="headerlink" title="栈的简单概念"></a><strong>栈的简单概念</strong></h4><p>&gt;<br>栈是限制插入和删除只能在一个位置上进行的表，该位置是表的末端，叫做栈顶。对栈的基本操作有push(进栈)和pop(出栈)，前者相当于插入，后者则是删除最后插入的元素。栈又叫做后进先出表。</p>
+<p>【注】<em>栈在java中有<a href="http://xusx1024.com/2017/02/11/different-between-ADT/" target="_blank" rel="external">数据结构和数据存储结构</a>两种功能。即stack是数据结构概念，但是java语言中实现了stack功能的容器，也命名为stack。比较特殊和容易让人迷惑。</em>3/3/2017 11:13:33 AM </p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/06/first-post/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -458,7 +803,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">71</span>
+                <span class="site-state-item-count">72</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

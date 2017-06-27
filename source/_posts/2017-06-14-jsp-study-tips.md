@@ -78,7 +78,20 @@ Java server page
 
 ##### session原理 #####
 
-- 
+- UUID生成session，32位长，不重复的
+- getSession
+- getMaxInactiveInterval(),获取最大不活动时间，秒单位
+- invalidate() 让session立刻失效，用于用户登出
+- isNew() session是否为最新
+- web.xml中可以配置session的最大不活动时间
+	- <session-config><session-timeout>4</session-timeout></session-config>
+
+
+##### URL重写 #####
+
+- 浏览器禁用cookie时，URL重写添加JSession字段
+- response.encodeURL("/xxxxservlet");会查看cookie是否存在，如果存在就只encode这个url，否则在url添加JSessionId。这就是智能URL重写
+
 #### 一次性图片验证码
 
  
