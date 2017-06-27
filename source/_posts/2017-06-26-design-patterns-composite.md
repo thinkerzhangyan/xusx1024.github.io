@@ -23,13 +23,9 @@ categories: work
  
 ![类图](/images/composite_pattern_class_diagram_2.png)
   
-#### 时序图 ####
-
-![时序图](/images/facade_pattern_sequence_diagram.png)
-
 #### 代码 ####
 
-[GitHub](https://github.com/xusx1024/DesignPatternDemoCode/tree/master/FacadePattern)
+[GitHub](https://github.com/xusx1024/DesignPatternDemoCode/tree/master/CompositePattern)
 
 #### 分析 ####
 
@@ -42,8 +38,6 @@ categories: work
 
 - 透明式要求所有的具体构件类、树叶类，均符合一个固定的接口
 - 客户端调用的时候，不再需要区分树枝类、树叶类，可以面向接口编程，对客户端来说，是透明的
-- 
-- 
 
  
  

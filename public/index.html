@@ -365,8 +365,7 @@
 </ul>
 <h5 id="安全式组合模式"><a href="#安全式组合模式" class="headerlink" title="安全式组合模式"></a>安全式组合模式</h5><p><img src="/images/composite_pattern_class_diagram_1.png" alt="类图"></p>
 <h5 id="透明式组合模式"><a href="#透明式组合模式" class="headerlink" title="透明式组合模式"></a>透明式组合模式</h5><p><img src="/images/composite_pattern_class_diagram_2.png" alt="类图"></p>
-<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/facade_pattern_sequence_diagram.png" alt="时序图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/FacadePattern" target="_blank" rel="external">GitHub</a></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/CompositePattern" target="_blank" rel="external">GitHub</a></p>
 <h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><h5 id="安全式"><a href="#安全式" class="headerlink" title="安全式"></a>安全式</h5><ul>
 <li>具体构件给出了add、get、remove等方法的声明和实现，而树叶构件类则没有，这样是安全的做法，客户端不可能错误的调用树叶构件的方法，因为树叶构件没有这些方法</li>
 <li>由于树叶类和树枝类具有不同的接口，无法面向抽象编程</li>
@@ -374,8 +373,6 @@
 <h5 id="透明式"><a href="#透明式" class="headerlink" title="透明式"></a>透明式</h5><ul>
 <li>透明式要求所有的具体构件类、树叶类，均符合一个固定的接口</li>
 <li>客户端调用的时候，不再需要区分树枝类、树叶类，可以面向接口编程，对客户端来说，是透明的</li>
-<li></li>
-<li></li>
 </ul>
 
           
