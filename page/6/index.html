@@ -267,6 +267,236 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/01/kotlin-in-project/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/01/kotlin-in-project/" itemprop="url">kotlin在实际使用中的一些问题解决</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-01T00:00:00Z">
+                2017-03-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="引起build-false"><a href="#引起build-false" class="headerlink" title="引起build false"></a>引起build false</h4><h5 id="提示信息"><a href="#提示信息" class="headerlink" title="提示信息"></a>提示信息</h5><blockquote>
+<p>Proguard Warning: org.jetbrains.anko.internals.AnkoInternals: can’t find referenced method ‘int getThemeResId()’ in library class android.view.ContextThemeWrapper</p>
+</blockquote>
+<h5 id="原因-amp-解决"><a href="#原因-amp-解决" class="headerlink" title="原因&amp;解决"></a>原因&amp;解决</h5><blockquote>
+<p>原因：This call only works with android.support.v7.view.ContextThemeWrapper because in system framework base ContextThemeWrapper is hide this call and the existence of getThemeResId not guaranteed.</p>
+<p>解决：compile ‘org.jetbrains.anko:anko-common:0.9.1’ </p>
+</blockquote>
+<p>注意，只要不使用0.9就可以，比如使用0.8.3也是可用的。<a href="https://github.com/Kotlin/anko/issues/206" target="_blank" rel="external">传送</a>。</p>
+<p><br><br><br></p>
+<h4 id="fragment中没有使用findViewById，报null异常"><a href="#fragment中没有使用findViewById，报null异常" class="headerlink" title="fragment中没有使用findViewById，报null异常"></a>fragment中没有使用findViewById，报null异常</h4><h5 id="提示信息-1"><a href="#提示信息-1" class="headerlink" title="提示信息"></a>提示信息</h5><blockquote>
+<p>Caused by: java.lang.NullPointerException: Attempt to invoke virtual method ‘android.view.View android.view.View.findViewById(int)’ on a null object reference</p>
+</blockquote>
+<h5 id="原因-amp-解决-1"><a href="#原因-amp-解决-1" class="headerlink" title="原因&amp;解决"></a>原因&amp;解决</h5><blockquote>
+<p>The problem is that you are accessing it too soon. getView() returns null in onCreateView. Try doing it in the onViewCreated method.</p>
+</blockquote>
+<p><a href="http://stackoverflow.com/questions/34541650/kotlin-android-extensions-and-fragments" target="_blank" rel="external">传送。</a></p>
+<h4 id="companion-object"><a href="#companion-object" class="headerlink" title="companion object"></a>companion object</h4><p>companion object只能在类中使用，相当于java中的静态内部类（kotlin没有static关键字）.</p>
+<h4 id="对一个可能为null对象的处理"><a href="#对一个可能为null对象的处理" class="headerlink" title="对一个可能为null对象的处理"></a>对一个可能为null对象的处理</h4><ul>
+<li>surround with null check: <code>if (item != null)</code></li>
+<li>Add non-null asserted:<code>obj!!</code></li>
+<li>replace with safe  (?.) call:<code>obj?</code></li>
+</ul>
+<p>对象后跟一个问号，表明其可能为空，如果跟两个感叹号，表明确定该对象不为空。</p>
+<h4 id="kotlin中的操作符重载"><a href="#kotlin中的操作符重载" class="headerlink" title="kotlin中的操作符重载"></a>kotlin中的操作符重载</h4><p><a href="https://kotlinlang.org/docs/reference/basic-types.html" target="_blank" rel="external">官方传送</a> <br><br><a href="http://blog.csdn.net/io_field/article/details/52817471" target="_blank" rel="external">优秀blog传送</a></p>
+<p>要用到的是java中的&amp;操作，在kotlin中是and方法。</p>
+<h4 id="一个对象在改变属性时，可能为null的提示"><a href="#一个对象在改变属性时，可能为null的提示" class="headerlink" title="一个对象在改变属性时，可能为null的提示"></a>一个对象在改变属性时，可能为null的提示</h4><blockquote>
+<p>Smart cast to ‘Drawable’ is impossible , because ‘goldSwBean’ is a mutable property that could have been change by this time</p>
+</blockquote>
+<p>在每一步build的时候，都加上确认对象不会为空的判定,如下：<br><br>Add non-null asserted:<code>obj!!</code></p>
+<h4 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h4><p>instanceof 使用is替代了  </p>
+<h4 id="类型强制转换"><a href="#类型强制转换" class="headerlink" title="类型强制转换"></a>类型强制转换</h4><p>使用as。<code>(view as TextView)</code></p>
+<h4 id="集合操作"><a href="#集合操作" class="headerlink" title="集合操作"></a>集合操作</h4><p><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html" target="_blank" rel="external">官方传送</a><br><br><a href="http://www.cnblogs.com/figozhg/p/5031398.html" target="_blank" rel="external">民间传送</a><br><br>很多封装，方便。<br><br>注意<code>map``foreach</code>，好用的。</p>
+<h4 id="swithc-case的default"><a href="#swithc-case的default" class="headerlink" title="swithc-case的default"></a>swithc-case的default</h4><p>已知switch-case被when取代了，那么default是啥？如下：</p>
+<pre><code>when (x) {
+    1 -&gt; print(&quot;x == 1&quot;)
+    2 -&gt; print(&quot;x == 2&quot;)
+    else -&gt; { // Note the block
+        print(&quot;x is neither 1 nor 2&quot;)
+    }
+}
+</code></pre><h4 id="adapter中的getView问题"><a href="#adapter中的getView问题" class="headerlink" title="adapter中的getView问题"></a>adapter中的getView问题</h4><blockquote>
+<p>Parameter specified as non-null is null</p>
+</blockquote>
+<p>语义比较明白：检测到非空参数为空。<br><br></p>
+<p>事实上，在getView中，该参数没有用到，不需要关系是否为空，因此，在该变量后加?，表示其可以为空即可。</p>
+<p><a href="http://kotlinlang.org/docs/reference/null-safety.html" target="_blank" rel="external">kotlin空安全扩展</a></p>
+<h4 id="name-shadowed-警告"><a href="#name-shadowed-警告" class="headerlink" title="name  shadowed 警告"></a>name  shadowed 警告</h4><blockquote>
+<p>Any scope can shadow a variable used in another scope. It is NOT good practice and does produce a compiler warning – but it is allowed.</p>
+</blockquote>
+<h4 id="开启子线程"><a href="#开启子线程" class="headerlink" title="开启子线程"></a>开启子线程</h4><p>如果需要UI线程之外做些事情：</p>
+<pre><code>doAsync {
+           Thread.sleep(1000)
+           uiThread {  }//回到UI线程
+         }
+</code></pre><h4 id="xml-or-text-declaration-not-at-start"><a href="#xml-or-text-declaration-not-at-start" class="headerlink" title="xml or text declaration not at start"></a>xml or text declaration not at start</h4><p>这个是kotlin无关的问题，仅做记录:</p>
+<p><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</code></p>
+<p>这行代码在xml中，不要多不要少就要一行，放在首行。</p>
+<h4 id="open-class"><a href="#open-class" class="headerlink" title="open class"></a>open class</h4><p>Kotlin的类默认是final的，也就是不可继承的，如果让类可继承，使用open关键字。当类有abstract关键字时，不需要使用open了。</p>
+<h4 id="return-null"><a href="#return-null" class="headerlink" title="return null"></a>return null</h4><p>有时候需要返回某个对象的实例，如果不存在就返回空。在要返回的类型后追加“？”eg：</p>
+<pre><code>fun method():String ? {
+        return null
+    }
+</code></pre><h4 id="可变参数使用关键字：vararg"><a href="#可变参数使用关键字：vararg" class="headerlink" title="可变参数使用关键字：vararg"></a>可变参数使用关键字：vararg</h4><pre><code>fun demo(vararg texts : String){
+
+ }
+</code></pre><h4 id="究极快速方法"><a href="#究极快速方法" class="headerlink" title="究极快速方法"></a>究极快速方法</h4><p>如果有的kotlin实现方式不知道，可以先写java的代码，然后copy、paste进入kotlin文件，AndroidStudio有插件即可自动转换。</p>
+<h4 id="Unresolved-reference-rem"><a href="#Unresolved-reference-rem" class="headerlink" title="Unresolved reference: rem"></a>Unresolved reference: rem</h4><p>1.1版本导致，1.1以前的版本，尽管没有此方法，依然会提示。<br><br>1.1把mod改成了rem但是导致了版本错误。建议使用mod+@Suppress(“DEPRECATION”)</p>
+<h4 id="for-循环"><a href="#for-循环" class="headerlink" title="for 循环"></a>for 循环</h4><h5 id="循环遍历对象"><a href="#循环遍历对象" class="headerlink" title="循环遍历对象"></a>循环遍历对象</h5><pre><code>for (item in collection) {
+print(item)
+</code></pre><p>}</p>
+<h5 id="循环计数"><a href="#循环计数" class="headerlink" title="循环计数"></a>循环计数</h5><pre><code>for (index in 0..viewGroup.getChildCount() - 1) {
+val view = viewGroup.getChildAt(index)
+view.visibility = View.VISIBLE
+</code></pre><p>}</p>
+<h5 id="循环遍历对象数组"><a href="#循环遍历对象数组" class="headerlink" title="循环遍历对象数组"></a>循环遍历对象数组</h5><pre><code>for (i in array.indices)
+print(array[i])
+</code></pre><h4 id="延时执行任务"><a href="#延时执行任务" class="headerlink" title="延时执行任务"></a>延时执行任务</h4><p>java<br></p>
+<pre><code>mHandler.postDelayed(new Runnable() {
+                   @Override
+                   public void run() {
+                      //do something
+                   }
+               }, 3000);
+</code></pre><p>kotlin<br></p>
+<pre><code>mHandler.postDelayed(Runnable { //do something }, 3000)
+</code></pre><h4 id="lambda"><a href="#lambda" class="headerlink" title="lambda"></a>lambda</h4><h5 id="android提示框"><a href="#android提示框" class="headerlink" title="android提示框"></a>android提示框</h5><pre><code>builder.setPositiveButton(&quot;同意&quot;, object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+
+            }
+
+        })
+builder.setPositiveButton(&quot;同意&quot;) { dialog, which -&gt;
+
+}
+</code></pre><h4 id="覆盖父类的方法"><a href="#覆盖父类的方法" class="headerlink" title="覆盖父类的方法"></a>覆盖父类的方法</h4><blockquote>
+<p>标记为 override 的成员是 open的，它可以在子类中被复写。如果你不想被重写就要加 final</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/android-system-service-LayoutInflater/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2884,228 +3114,6 @@ public class SortStackByStack {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/13/optimization-app-launch/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/13/optimization-app-launch/" itemprop="url">Android app 启动优化</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-13T00:00:00Z">
-                2017-02-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><pre><code>Android Application与其他移动平台有两个重大不同点：
-
-1.每个Android App都在一个独立空间里，意味着其运行在一个单独的进程中，拥有自己的VM，被系统分配一个唯一的user ID.
-
-2.Android App由很多不同组件(四大组件)组成，这些组件还可以启动其他App的组件，因此，Android App并没有一个类似程序入口的main()方法。
-
-
-
-Android进程与Linux进程一样。默认情况下，每个apk运行在自己的Linux进程中。另外，默认一个进程里面只有一个线程-主线程。这个主线程中有一个Looper实例，通过调用Looper.loop()从Message队列里面取出Message来做相应的处理。
-</code></pre><h4 id="进程启动策略"><a href="#进程启动策略" class="headerlink" title="进程启动策略"></a>进程启动策略</h4><pre><code>简单的说，进程在其需要时被启动。任意时候，当用户或其他组件调取你apk中的任意组件时，如果你的apk没有运行，系统会为其创建一个新的进程并启动。通常，这个进程会持续运行直到被系统杀死。关键是：进程是在被需要的时候才创建。
-</code></pre><h4 id="Android系统的启动"><a href="#Android系统的启动" class="headerlink" title="Android系统的启动"></a>Android系统的启动</h4><pre><code>与众多基于Linux内核的系统类似，Android系统启动时，bootloader启动内核和init进程，init进程分裂出更多名为&quot;daemons&quot;的底层的Linux进程(守护进程)。诸如android debug daemon,USB daemon等。这些守护进程处理底层硬件相关的接口。
-
-随后，init进程会启动一个非常有意思的进程：“Zygote”。这是一个Android平台的非常基础的进程。这个进程初始化了第一个VM，并且预加载了framework和众多App所需要的通用资源。然后它开启一个Socket接口来监听请求，一旦收到新的请求，Zygote会根据请求，基于自身预加载的VM来孵化出一个新的VM创建一个新的进程。
-
-启动Zygote之后，init进程会启动runtime进程。Zygote会孵化出一个超级管理进程：System Server。 SystemServer会启动所有系统核心服务，例如Activity Manger Service,硬件相关的Service等。到此，系统准备好启动它的第一个App进程：Home进程了。
-</code></pre><h4 id="App的启动"><a href="#App的启动" class="headerlink" title="App的启动"></a>App的启动</h4><p><img src="/images/Application_launch.jpg" alt="app launch"></p>
-<p>&gt;<br>click事件会调用<code>startActivity(Intent)</code>，会通过Binder IPC机制，最终调用到ActivityManagerService.该Service会执行如下操作：<br>&gt;</p>
-<ul>
-<li>第一步通过PackageManager的resolveIntent()收集这个intent对象的指向信息</li>
-<li>指向信息被存储在一个intent对象中</li>
-<li>下面重要的一步是通过<code>grantUriPermissionLocked()</code>方法来验证用户是否有足够的权限去调用该Intent对象指向的Activity</li>
-<li>如果有权限，ActivityManagerService会检查并在新的task中启动目标activity</li>
-<li>现在，是时候检查这个进程的ProcessRecord是否存在了</li>
-<li>如果PrecessRecord为null，ActivityManagerService会创建新的进程来实例化目标activity。</li>
-</ul>
-<h5 id="创建进程"><a href="#创建进程" class="headerlink" title="创建进程"></a>创建进程</h5><blockquote>
-<p>ActivityManagerService调用<code>startProcessLocked()</code>方法来创建新的进程，该方法通过前面讲到的socket通道传递参数给Zygote进程。Zygote孵化自身，并调用<code>ZygoteInit.main()</code>方法来实例化ActivityThread对象并最终返回新进程的pid.<br>ActivityThread随后依次调用<code>Looper.prepareLoop()</code>和<code>Looper.loop()</code>来开启消息循环。</p>
-</blockquote>
-<p>流程图如下：<br><img src="/images/process_creation.jpg" alt="process creation"></p>
-<h5 id="绑定Application"><a href="#绑定Application" class="headerlink" title="绑定Application"></a>绑定Application</h5><blockquote>
-<p>接下来要做的就是将进程和指定的Application绑定起来。这个是通过上一节的ActivityThread对象中调用<code>bindApplication()</code>方法完成的。该方法发送一个BIND_APPLICATION的消息到消息队列中，最终通过<code>handleBindApplication()</code>处理该消息。然后调用<code>makeApplication()</code>方法来加载App的classes到内存中。<br> 流程如下：</p>
-</blockquote>
-<p><img src="/images/bind_application.jpg" alt="bind application"></p>
-<h5 id="启动Activity"><a href="#启动Activity" class="headerlink" title="启动Activity"></a>启动Activity</h5><blockquote>
-<p>经过前两个步骤之后，系统已经拥有了该application的进程。后面的调用顺序就是普通的从一个已经存在的进程中启动一个新进程的activity了。<br>实际调用方法是<code>realStartActivity()</code>，它会调用application线程对象中的<code>sheduleLaunchActivity()</code>发送一个LAUNCH_ACTIVITY消息到消息队列中，通过<code>handleLaunchActivity()</code>来处理该消息。</p>
-</blockquote>
-<p> 假设点击的是一个视频浏览的App，其流程如下：</p>
-<p><img src="/images/start_activity.jpg" alt="start activity"></p>
-<h5 id="Activity显示"><a href="#Activity显示" class="headerlink" title="Activity显示"></a>Activity显示</h5><blockquote>
-<p>Activity被创建出来后，会依次加载主题样式Theme中的windowBackground等属性，以及配置Activity层级上的一些属性，再inflate布局，当onCreate、onStart、onResume方法都走完，最后才进行setContentView的measure、layout、draw显示在界面上，此时可以看到App的第一帧画面了。</p>
-</blockquote>
-<p>如图：<br><img src="/images/display_activity.png" alt="display activity"></p>
-<h4 id="测量App的启动时间"><a href="#测量App的启动时间" class="headerlink" title="测量App的启动时间"></a>测量App的启动时间</h4><pre><code>activity的启动时执行的方法：onCreat()、onStart()、onResume()的生命周期结束了，应用也不算是完全启动，还需要等View树全部构建完毕，一般认为，setContentView中的View全部显示结束了，算作是应用完全启动了。
-</code></pre><h5 id="Display-Time"><a href="#Display-Time" class="headerlink" title="Display Time"></a>Display Time</h5><pre><code>api19之后，Android系统Log中增加了ActivityManager:Displayed [packageName/activityName]: time。所以，在Android Monitor中使用 ActivityManager:Displayed filter，查看启动首页的时间，这个时间是Activity启动到Layout全部显示的时间。
-</code></pre><p>图为抓取微信开启时间：<br><img src="/images/display_time.png" alt="wechat display time"></p>
-<h5 id="ADB命令查看启动时间"><a href="#ADB命令查看启动时间" class="headerlink" title="ADB命令查看启动时间"></a>ADB命令查看启动时间</h5><p><code>adb shell am start -W [packageName]/[packageName.MainActivity]</code></p>
-<p><img src="/images/adb_launch_time.png" alt="adb see launch time"><br>&gt;</p>
-<ul>
-<li>ThisTime：最后一个启动的Activity的启动耗时；</li>
-<li>TotalTime:到达当前页面的所有Activity的启动耗时；</li>
-<li>WaitTime：ActivityManagerService启动App的Activity时的总时间，包括当前Activity的onPause()和目的Activity的启动。</li>
-</ul>
-<p><code>adb shell screenrecord --bugreport /sdcard/ScreenRecord.mp4</code></p>
-<p>&gt;<br>这是一个录屏命令，和Android Monitor的Screen Recorder Options的功能一样，<code>bugreport</code>参数决定了视屏左上角会增加录制视频的时间和当前画面所在的帧数。个人感觉这玩意儿比较鸡肋。</p>
-<h5 id="代码中自定义上报启动时间"><a href="#代码中自定义上报启动时间" class="headerlink" title="代码中自定义上报启动时间"></a>代码中自定义上报启动时间</h5><p>由于我们在一个App启动的开始，会做一些预操作，比如：</p>
-<ul>
-<li>加载第三方黑盒SDK</li>
-<li>网络、图片等框架的构造</li>
-<li>业务数据预请求</li>
-</ul>
-<p>所以ActivityManager:Displayed并不能精确我们App完全的启动时间。我们可以在API&gt;=19的版本，在这些预操作做完之后手动调用<code>reportFullyDrawn</code>。这样Log中会增加一条日志：</p>
-<p><img src="/images/report_full_drawn.png" alt="reportFullyDrawn time"></p>
-<h4 id="优化点"><a href="#优化点" class="headerlink" title="优化点"></a>优化点</h4><h5 id="背景Theme"><a href="#背景Theme" class="headerlink" title="背景Theme"></a>背景Theme</h5><pre><code>当系统加载一个Activity的时候，onCreate()是一个耗时过程，为增加用户体验，系统会优先绘制一些初始界面：根据当前Activity的Theme来绘制，当Activity加载完毕后，才会替换为真正的界面。代码如下：
-</code></pre><blockquote>
-<pre><code>&lt;layer-list xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-            android:opacity=&quot;opaque&quot;&gt;
-&lt;!-- android:opacity=&quot;opaque&quot;防止在启动的时候出现背景的闪烁 --&gt;
-    &lt;item android:drawable=&quot;@android:color/darker_gray&quot;/&gt;
-    &lt;item&gt;
-        &lt;bitmap
-            android:gravity=&quot;center&quot;
-            android:src=&quot;@mipmap/ic_launcher&quot;/&gt;
-    &lt;/item&gt;
-&lt;/layer-list&gt;
-</code></pre></blockquote>
-<p>&gt;<br>    <style name="StartStyle" parent="AppTheme"><br>        <item name="android:windowBackground">@drawable/start_window</item><br>    </style></p>
-<h5 id="异步初始化"><a href="#异步初始化" class="headerlink" title="异步初始化"></a>异步初始化</h5><pre><code>根据业务，利用多线程，IntentService等来异步和延迟初始化的操作 
-</code></pre><h5 id="资源优化"><a href="#资源优化" class="headerlink" title="资源优化"></a>资源优化</h5><blockquote>
-<ul>
-<li>布局宽而浅，不要窄而深</li>
-<li>使用.9</li>
-<li>tinyPNG</li>
-<li>混淆</li>
-</ul>
-</blockquote>
-<h4 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h4><p><a href="https://developer.android.com/topic/performance/launch-time.html" target="_blank" rel="external">Launch-Time Performance </a></p>
-<p><a href="http://www.jianshu.com/p/a5532ecc8377" target="_blank" rel="external">Android Application启动流程分析</a></p>
-<p><a href="https://segmentfault.com/a/1190000007406875#articleHeader9" target="_blank" rel="external">一触即发 App启动优化最佳实践</a></p>
-<p>在线检测App：<a href="https://nimbledroid.com/" target="_blank" rel="external">nimbledroid</a> </p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -3155,7 +3163,7 @@ Android进程与Linux进程一样。默认情况下，每个apk运行在自己�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">72</span>
+                <span class="site-state-item-count">73</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

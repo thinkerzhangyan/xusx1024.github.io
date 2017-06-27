@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="android," />
+  <meta name="keywords" content="设计模式," />
 
 
 
@@ -93,17 +93,21 @@
 
 
 
-<meta name="description" content="前言 android库很大，开发中会遇到一些不常用的api，记录在此。 ActionBar相关 setHomeButtonEnabled这个小于4.0版本的默认值为true的。但是在4.0及其以上是false，该方法的作用：决定左上角的图标是否可以点击。没有向左的小图标。 true 图标可以点击  false 不可以点击 actionBar.setDisplayHomeAsUpEnabled(tr">
-<meta name="keywords" content="android">
+<meta name="description" content="定义享元模式(flyweight pattern):运用共享技术有效地支持大量细粒度对象的复用。系统只使用少量的对象，而这些对象都很相似，状态变化很小，可以实现对象的多次复用。由于享元模式要求能够共享的对象必须是细粒度对象，因此它又称为轻量级模式，它是一种对象结构型模式。 模式结构 Flyweight：抽象享元角色。给出抽象接口，定义具体享元角色需要实现的方法 ConcreteFlyweight：">
+<meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android开发中特别的api">
-<meta property="og:url" content="http://yoursite.com/2017/04/21/android-special-api/index.html">
+<meta property="og:title" content="享元模式">
+<meta property="og:url" content="http://yoursite.com/2017/06/27/design-patterns-flyweight/index.html">
 <meta property="og:site_name" content="行次">
-<meta property="og:description" content="前言 android库很大，开发中会遇到一些不常用的api，记录在此。 ActionBar相关 setHomeButtonEnabled这个小于4.0版本的默认值为true的。但是在4.0及其以上是false，该方法的作用：决定左上角的图标是否可以点击。没有向左的小图标。 true 图标可以点击  false 不可以点击 actionBar.setDisplayHomeAsUpEnabled(tr">
-<meta property="og:updated_time" content="2017-06-01T07:09:18.071Z">
+<meta property="og:description" content="定义享元模式(flyweight pattern):运用共享技术有效地支持大量细粒度对象的复用。系统只使用少量的对象，而这些对象都很相似，状态变化很小，可以实现对象的多次复用。由于享元模式要求能够共享的对象必须是细粒度对象，因此它又称为轻量级模式，它是一种对象结构型模式。 模式结构 Flyweight：抽象享元角色。给出抽象接口，定义具体享元角色需要实现的方法 ConcreteFlyweight：">
+<meta property="og:image" content="http://yoursite.com/images/flyweight_pattern_class_diagram_1.png">
+<meta property="og:image" content="http://yoursite.com/images/flyweight_pattern_class_diagram_2.png">
+<meta property="og:image" content="http://yoursite.com/images/flyweight_pattern_sequence_diagram.png">
+<meta property="og:updated_time" content="2017-06-27T07:18:08.708Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android开发中特别的api">
-<meta name="twitter:description" content="前言 android库很大，开发中会遇到一些不常用的api，记录在此。 ActionBar相关 setHomeButtonEnabled这个小于4.0版本的默认值为true的。但是在4.0及其以上是false，该方法的作用：决定左上角的图标是否可以点击。没有向左的小图标。 true 图标可以点击  false 不可以点击 actionBar.setDisplayHomeAsUpEnabled(tr">
+<meta name="twitter:title" content="享元模式">
+<meta name="twitter:description" content="定义享元模式(flyweight pattern):运用共享技术有效地支持大量细粒度对象的复用。系统只使用少量的对象，而这些对象都很相似，状态变化很小，可以实现对象的多次复用。由于享元模式要求能够共享的对象必须是细粒度对象，因此它又称为轻量级模式，它是一种对象结构型模式。 模式结构 Flyweight：抽象享元角色。给出抽象接口，定义具体享元角色需要实现的方法 ConcreteFlyweight：">
+<meta name="twitter:image" content="http://yoursite.com/images/flyweight_pattern_class_diagram_1.png">
 
 
 
@@ -131,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/04/21/android-special-api/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/27/design-patterns-flyweight/"/>
 
 
 
 
 
-  <title>Android开发中特别的api | 行次</title>
+  <title>享元模式 | 行次</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -267,7 +271,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/android-special-api/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/27/design-patterns-flyweight/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -284,7 +288,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Android开发中特别的api</h1>
+          <h1 class="post-title" itemprop="name headline">享元模式</h1>
         
 
         <div class="post-meta">
@@ -296,8 +300,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-21T08:00:00+08:00">
-                2017-04-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-27T08:00:00+08:00">
+                2017-06-27
               </time>
             
 
@@ -353,18 +357,26 @@
       
 
       
-        <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p> android库很大，开发中会遇到一些不常用的api，记录在此。</p>
-<h4 id="ActionBar相关"><a href="#ActionBar相关" class="headerlink" title="ActionBar相关"></a>ActionBar相关</h4><ul>
-<li>setHomeButtonEnabled这个小于4.0版本的默认值为true的。但是在4.0及其以上是false，该方法的作用：决定左上角的图标是否可以点击。没有向左的小图标。 true 图标可以点击  false 不可以点击</li>
-<li>actionBar.setDisplayHomeAsUpEnabled(true)    // 给左上角图标的左边加上一个返回的图标 。对应ActionBar.DISPLAY_HOME_AS_UP</li>
-<li>actionBar.setDisplayShowHomeEnabled(true)   //使左上角图标是否显示，如果设成false，则没有程序图标，仅仅就个标题，否则，显示应用程序图标，对应id为Android.R.id.home，对应ActionBar.DISPLAY_SHOW_HOME</li>
-<li>actionBar.setDisplayShowCustomEnabled(true)  // 使自定义的普通View能在title栏显示，即actionBar.setCustomView能起作用，对应ActionBar.DISPLAY_SHOW_CUSTOM</li>
-<li>actionBar.setDisplayShowTitleEnabled(true)   //对应去掉ActionBar是否显示</li>
+        <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>享元模式(flyweight pattern):运用共享技术有效地支持大量细粒度对象的复用。系统只使用少量的对象，而这些对象都很相似，状态变化很小，可以实现对象的多次复用。由于享元模式要求能够共享的对象必须是细粒度对象，因此它又称为轻量级模式，它是一种对象结构型模式。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li>Flyweight：抽象享元角色。给出抽象接口，定义具体享元角色需要实现的方法</li>
+<li>ConcreteFlyweight：具体享元角色。实现抽象享元角色，如果有内蕴状态，必须负责为内蕴状态提供存储空间。</li>
+<li>ConcreteCompositeFlyweight：复合享元角色。复合享元角色所代表的对象是不可以共享的，但是一个复合享元对象可以分解成多个本身是单纯享元对象的组合。复合享元对象又称作不可共享的享元对象。</li>
+<li>FlyweightFactory：享元工厂角色。负责创建和管理享元角色。</li>
 </ul>
-<h4 id="判断Activity是否仍在运行"><a href="#判断Activity是否仍在运行" class="headerlink" title="判断Activity是否仍在运行"></a>判断Activity是否仍在运行</h4><pre><code>if (activity == null || activity.isDestroyed() || activity.isFinishing()) {
-    return;
-}
-</code></pre><h4 id="开关使用ToggleButton或者Switch"><a href="#开关使用ToggleButton或者Switch" class="headerlink" title="开关使用ToggleButton或者Switch"></a>开关使用ToggleButton或者Switch</h4>
+<h5 id="单纯享元模式"><a href="#单纯享元模式" class="headerlink" title="单纯享元模式"></a>单纯享元模式</h5><p><img src="/images/flyweight_pattern_class_diagram_1.png" alt="类图"></p>
+<h5 id="组合享元模式"><a href="#组合享元模式" class="headerlink" title="组合享元模式"></a>组合享元模式</h5><p><img src="/images/flyweight_pattern_class_diagram_2.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/flyweight_pattern_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/FlyweightPattern" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
+<li>它可以极大减少内存中对象的数量，使得相同对象或相似对象在内存中只保存一份</li>
+<li>外部状态相对独立，而且不会影响其内部状态，从而使得享元对象可以在不同的环境中被共享</li>
+</ul>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
+<li>使系统更加复杂，需要分离出内部状态和外部状态，使逻辑复杂化</li>
+<li>为了使对象可以共享，享元模式需要将享元对象的状态外部化，而读取外部状态使得运行时间变长</li>
+</ul>
+
       
     </div>
 
@@ -393,7 +405,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/android/" rel="tag"># android</a>
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
           
         </div>
       
@@ -406,8 +418,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/20/android-system-service-AccessibilityManager/" rel="next" title="Android系统服务：AccessibilityManager">
-                <i class="fa fa-chevron-left"></i> Android系统服务：AccessibilityManager
+              <a href="/2017/06/26/design-patterns-composite/" rel="next" title="组合模式">
+                <i class="fa fa-chevron-left"></i> 组合模式
               </a>
             
           </div>
@@ -415,10 +427,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/05/09/android-develop-sdk-tips/" rel="prev" title="AndroidSDK开发注意事项">
-                AndroidSDK开发注意事项 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -564,7 +572,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ActionBar相关"><span class="nav-number">2.</span> <span class="nav-text">ActionBar相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#判断Activity是否仍在运行"><span class="nav-number">3.</span> <span class="nav-text">判断Activity是否仍在运行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开关使用ToggleButton或者Switch"><span class="nav-number">4.</span> <span class="nav-text">开关使用ToggleButton或者Switch</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式结构"><span class="nav-number">2.</span> <span class="nav-text">模式结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#单纯享元模式"><span class="nav-number">2.1.</span> <span class="nav-text">单纯享元模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#组合享元模式"><span class="nav-number">2.2.</span> <span class="nav-text">组合享元模式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#时序图"><span class="nav-number">3.</span> <span class="nav-text">时序图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">4.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析"><span class="nav-number">5.</span> <span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#优点"><span class="nav-number">5.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点"><span class="nav-number">5.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></div>
             
 
           </div>
