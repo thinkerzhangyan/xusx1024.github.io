@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="android," />
+  <meta name="keywords" content="设计模式," />
 
 
 
@@ -93,17 +93,20 @@
 
 
 
-<meta name="description" content="SDK的实现目标 简洁易用 稳定 高效  不应该对宿主应用有过多的代码侵入不应该有复杂频繁的接入工作[一行代码接入]在不影响宿主稳定的前提下，足够高效；更少的内存占用；更少的电量消耗；更少的流量消耗； 架构设计 模块化开发 根据单一职责将系统拆分为不同的小模块模块间通过协议或接口进行通信，以减少耦合   组件化开发 将整个项目划分为多个模块，几个模块或单个模块作为一个组件，开发过程中可分别开发，发">
-<meta name="keywords" content="android">
+<meta name="description" content="定义代理模式(proxy pattern):给某一个对象提供一个代理，并由代理对象控制对原对象的引用。代理的英文叫做Proxy或者Surrogate，它是一种对象结构型模式。 模式结构 subject：抽象对象角色。声明了目标对象和代理对象的共同接口，这样在任何可以使用目标对象的地方都可以使用代理对象 realSubject：代理对象所代表的目标对象 proxy：代理对象角色。代理对象内部含有目标">
+<meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AndroidSDK开发注意事项">
-<meta property="og:url" content="http://yoursite.com/2017/05/09/android-develop-sdk-tips/index.html">
+<meta property="og:title" content="代理模式">
+<meta property="og:url" content="http://yoursite.com/2017/06/28/design-patterns-proxy/index.html">
 <meta property="og:site_name" content="行次">
-<meta property="og:description" content="SDK的实现目标 简洁易用 稳定 高效  不应该对宿主应用有过多的代码侵入不应该有复杂频繁的接入工作[一行代码接入]在不影响宿主稳定的前提下，足够高效；更少的内存占用；更少的电量消耗；更少的流量消耗； 架构设计 模块化开发 根据单一职责将系统拆分为不同的小模块模块间通过协议或接口进行通信，以减少耦合   组件化开发 将整个项目划分为多个模块，几个模块或单个模块作为一个组件，开发过程中可分别开发，发">
-<meta property="og:updated_time" content="2017-06-01T07:08:42.885Z">
+<meta property="og:description" content="定义代理模式(proxy pattern):给某一个对象提供一个代理，并由代理对象控制对原对象的引用。代理的英文叫做Proxy或者Surrogate，它是一种对象结构型模式。 模式结构 subject：抽象对象角色。声明了目标对象和代理对象的共同接口，这样在任何可以使用目标对象的地方都可以使用代理对象 realSubject：代理对象所代表的目标对象 proxy：代理对象角色。代理对象内部含有目标">
+<meta property="og:image" content="http://yoursite.com/images/proxy_pattern_class_diagram.png">
+<meta property="og:image" content="http://yoursite.com/images/proxy_pattern_sequence_diagram.png">
+<meta property="og:updated_time" content="2017-06-28T06:26:49.240Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AndroidSDK开发注意事项">
-<meta name="twitter:description" content="SDK的实现目标 简洁易用 稳定 高效  不应该对宿主应用有过多的代码侵入不应该有复杂频繁的接入工作[一行代码接入]在不影响宿主稳定的前提下，足够高效；更少的内存占用；更少的电量消耗；更少的流量消耗； 架构设计 模块化开发 根据单一职责将系统拆分为不同的小模块模块间通过协议或接口进行通信，以减少耦合   组件化开发 将整个项目划分为多个模块，几个模块或单个模块作为一个组件，开发过程中可分别开发，发">
+<meta name="twitter:title" content="代理模式">
+<meta name="twitter:description" content="定义代理模式(proxy pattern):给某一个对象提供一个代理，并由代理对象控制对原对象的引用。代理的英文叫做Proxy或者Surrogate，它是一种对象结构型模式。 模式结构 subject：抽象对象角色。声明了目标对象和代理对象的共同接口，这样在任何可以使用目标对象的地方都可以使用代理对象 realSubject：代理对象所代表的目标对象 proxy：代理对象角色。代理对象内部含有目标">
+<meta name="twitter:image" content="http://yoursite.com/images/proxy_pattern_class_diagram.png">
 
 
 
@@ -131,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/05/09/android-develop-sdk-tips/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/28/design-patterns-proxy/"/>
 
 
 
 
 
-  <title>AndroidSDK开发注意事项 | 行次</title>
+  <title>代理模式 | 行次</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -267,7 +270,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/09/android-develop-sdk-tips/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/28/design-patterns-proxy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -284,7 +287,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">AndroidSDK开发注意事项</h1>
+          <h1 class="post-title" itemprop="name headline">代理模式</h1>
         
 
         <div class="post-meta">
@@ -296,8 +299,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-09T08:00:00+08:00">
-                2017-05-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-28T08:00:00+08:00">
+                2017-06-28
               </time>
             
 
@@ -353,117 +356,36 @@
       
 
       
-        <h4 id="SDK的实现目标"><a href="#SDK的实现目标" class="headerlink" title="SDK的实现目标"></a>SDK的实现目标</h4><ul>
-<li>简洁易用</li>
-<li>稳定</li>
-<li>高效</li>
+        <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>代理模式(proxy pattern):给某一个对象提供一个代理，并由代理对象控制对原对象的引用。代理的英文叫做Proxy或者Surrogate，它是一种对象结构型模式。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li>subject：抽象对象角色。声明了目标对象和代理对象的共同接口，这样在任何可以使用目标对象的地方都可以使用代理对象</li>
+<li>realSubject：代理对象所代表的目标对象</li>
+<li>proxy：代理对象角色。代理对象内部含有目标对象的引用，从而可以在任何时候操作目标对象；代理对象提供一个与目标对象相同的接口，以便可以在任何时候替代目标对象。代理对象通常在客户端调用传递给目标对象之前或之后，执行某个操作，而不是单纯地将调用传递给目标对象</li>
 </ul>
-<p>不应该对宿主应用有过多的代码侵入<br><br>不应该有复杂频繁的接入工作[一行代码接入]<br><br><br><br>在不影响宿主稳定的前提下，足够高效；<br><br>更少的内存占用；<br><br>更少的电量消耗；<br><br>更少的流量消耗；<br></p>
-<h4 id="架构设计"><a href="#架构设计" class="headerlink" title="架构设计"></a>架构设计</h4><ul>
-<li>模块化开发<blockquote>
-<p>根据单一职责将系统拆分为不同的小模块<br>模块间通过协议或接口进行通信，以减少耦合</p>
-</blockquote>
-</li>
-<li>组件化开发<blockquote>
-<p>将整个项目划分为多个模块，几个模块或单个模块作为一个组件，开发过程中可分别开发，发布时通过依赖，将组件合并成完整的SDK</p>
-</blockquote>
-</li>
-<li>插件化开发<blockquote>
-<p>SDK 分为宿主和插件。宿主向开发者提供必要的服务接口，并提供自定义的插件加载器，可以热更新，解决方法数64k问题。</p>
-</blockquote>
-</li>
-<li>SDK初始化</li>
-<li>云更新控制<blockquote>
-<p>可以通过服务端的云控服务，关闭某些SDK功能。</p>
-</blockquote>
-</li>
-<li>安全<ul>
-<li>appId + appSecret</li>
-<li>核心逻辑采用C/C++</li>
-<li>通讯加密<ul>
-<li>https</li>
-<li>对称加密</li>
-<li>非对称加密</li>
+<p><img src="/images/proxy_pattern_class_diagram.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/proxy_pattern_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/ProxyPattern" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
+<li>代理模式能够协调调用者和被调用者，在一定程度上降低了系统的耦合度</li>
+<li>远程代理使得客户端可以访问在远程机器上的对象，远程机器可能具有更好的计算性能与处理速度，可以快速响应并处理客户端请求</li>
+<li>虚拟代理通过使用一个小对象来代表一个大对象，可以减少系统的资源消耗，对系统进行优化并提高运行速度</li>
+<li>保护代理，可以控制对真实对象的使用权限</li>
 </ul>
-</li>
-<li>设备安全[一些开发者会用虚拟机来刷广告]</li>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
+<li>由于在客户端和真实主题之间增加了代理对象，因此有些类型的代理模式可能会造成请求的处理速度变慢</li>
+<li>实现代理模式需要额外的工作，有些代理模式实现非常复杂</li>
 </ul>
-</li>
-<li>减少传输数据的大小<ul>
-<li>如果对传输的数据大小有要求，建议对数据压缩</li>
-<li>可采用json/xml/protobuf等协议，也可自定义二进制协议</li>
-</ul>
-</li>
-<li>选择支持最低系统版本</li>
-<li>权限管理<ul>
-<li>最小权限原则</li>
-<li>动态权限申请</li>
-</ul>
-</li>
-<li>日志服务<ul>
-<li>日志要在关键位置上打点，记录有效信息</li>
-<li>上传信息要保证最大的可靠性，不能发生上传失败，抛弃日志的情况发生</li>
-<li>要考虑日志IO带来的开销，不能对正常的流程有过多的性能的影响</li>
-</ul>
-</li>
-</ul>
-<h4 id="API的设计"><a href="#API的设计" class="headerlink" title="API的设计"></a>API的设计</h4><pre><code>1.  方法名能够表明其用途
-2.  参数的合法性检验
-    - 对于公开方法，通过显式检查，抛出异常的方式，并且使用javadoc的@throw来说明抛出异常的原因
-    - 对于私有方法，通过断言的方式来检查参数的合法
-    - 检查构造参数的合法性，以使对象处在统一状态
-    - 如果检查的代价太大，需要综合考量
-3. 方法要明确其单一的功能-单一职责原则
-4. 方法异常问题
-    &gt;对于需要暴露给开发者的方法，要及时地抛出可查异常，来帮助开发者在编译阶段发现的问题，对于运行时异常，必须保证不能导致宿主程序出问题
-5. 方法权限控制
-    &gt;需从安全和业务的角度考虑，方法是公开、非公开、静态
-6. 避免过长参数
-    - Builder模式
-    - 通过静态内部类
-    - 将参数封装成对象
-    - 将参数拆解为多个方法
-7. 谨慎使用方法重载
-8. 谨慎使用变长参数
-9. 避免方法直接返回null，对于返回集合或list，不要返回null，返回长度为0的容器。
-10. 必要时进行保护性拷贝
-</code></pre><h4 id="SDK版本管理策略"><a href="#SDK版本管理策略" class="headerlink" title="SDK版本管理策略"></a>SDK版本管理策略</h4><ul>
-<li><p>版本号命名：V + 主版本号 + 子版本号 + 阶段版本号 + 日期版本号 + 希腊字母版本号</p>
-<blockquote>
-<p>V1_0_0_108_170515_alpha</p>
-</blockquote>
-<p>  希腊字母版本号说明：</p>
-<ul>
-<li>alpha：内部测试版，表示该阶段主要是以实现功能为主，通常只在内部流通而不对外开放</li>
-<li>beat：外部测试版，相对alpha版已有很大改进，需要进一步测试和检查以消除bug</li>
-<li>rc：该版本已相当成熟，与正式版相差无几</li>
-<li>release：最终交付或公开发布版本，该版本发布时，以符号R来代替release</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>版本号修改规则<ul>
-<li>主版本号：功能模块有较大变化或整体架构发生变化</li>
-<li>子版本号：功能有一定变化</li>
-<li>阶段版本号：bug修复或较小变动</li>
-<li>日期版本号：用于记录修改项目的当前日期</li>
-<li>希腊字母版本号：标注软件所处的开发阶段</li>
-</ul>
-</li>
-<li><p>API 版本管理</p>
-<ol>
-<li>原则上SDK API一旦发布不可变</li>
-<li>特殊情况下变更，要遵守开闭原则即对扩展开放对修改关闭</li>
-<li>优先选择添加新方法并尽量兼容原始方法</li>
-<li>需要废弃某些方法是，使用@deprecated标识，并给出替代方案和废弃时间(通常是版本号)</li>
-</ol>
-</li>
-<li><p>API 文档</p>
-<ul>
-<li>分为内部版和公开版</li>
-<li>与SDK的改变要同步更新</li>
-</ul>
-</li>
+<h4 id="扩展-代理的应用"><a href="#扩展-代理的应用" class="headerlink" title="扩展-代理的应用"></a>扩展-代理的应用</h4><ul>
+<li>远程（Remote）代理：为一个位于不同的地址空间的对象提供一个本地的代理对象，这个不同的地址空间可以是在同一台主机中，也可以是在另一台主机中，远程代理又叫做大使。</li>
+<li>虚拟（Virtual）代理：如果需要创建一个资源消耗较大的对象，先创建一个消耗相对较小的对象来表示，真实对象只在需要时才会被真正创建。</li>
+<li>Copy-on-Write代理：这是虚拟代理的一种，把克隆操作延迟到只有在客户端真正需要时才执行。一般来说，对象的深克隆是一个开销比较大的操作，Copy-on-Write代理可以让这个操作延迟，只有对象被用到的时候才被克隆。</li>
+<li>保护（Protect of Access）代理：控制一个对象的访问，可以给不同的用户提供不同级别的使用权限。</li>
+<li>缓冲（Cache）代理：为某一个目标操作的结果提供临时的存储空间，以便多个客户端可以共享这些结果。</li>
+<li>防火墙（Firewall）代理：保护目标不让恶意用户接近。</li>
+<li>同步化（Synchronization）代理：使几个用户能够同时使用一个对象而没有冲突</li>
+<li>智能引用（Smart Reference）代理：当一个对象被引用时，提供一些额外的操作，如将此对象被调用的次数记录下来。</li>
+<li>图片代理：对大图浏览的控制。用户访问是先不加载真实的大图，而是通过代理对象的方法来进行处理，在该方法中，先使用一个线程为客户加载一个小图，然后在后天使用另一个线程加载大图。当需要浏览大图片时，再显示大图。如果用户浏览大图时，图片加载还没完成，可以再启动一个线程来显示相应的提示信息。</li>
+<li>动态代理：较为高级的代理模式，典型应用是Spring AOP。</li>
 </ul>
 
       
@@ -494,7 +416,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/android/" rel="tag"># android</a>
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
           
         </div>
       
@@ -507,8 +429,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/21/android-special-api/" rel="next" title="Android开发中特别的api">
-                <i class="fa fa-chevron-left"></i> Android开发中特别的api
+              <a href="/2017/06/27/design-patterns-flyweight/" rel="next" title="享元模式">
+                <i class="fa fa-chevron-left"></i> 享元模式
               </a>
             
           </div>
@@ -516,10 +438,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/05/17/javaee-tips/" rel="prev" title="JavaEE学习路线图">
-                JavaEE学习路线图 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -665,7 +583,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#SDK的实现目标"><span class="nav-number">1.</span> <span class="nav-text">SDK的实现目标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#架构设计"><span class="nav-number">2.</span> <span class="nav-text">架构设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#API的设计"><span class="nav-number">3.</span> <span class="nav-text">API的设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SDK版本管理策略"><span class="nav-number">4.</span> <span class="nav-text">SDK版本管理策略</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模式结构"><span class="nav-number">2.</span> <span class="nav-text">模式结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#时序图"><span class="nav-number">3.</span> <span class="nav-text">时序图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">4.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析"><span class="nav-number">5.</span> <span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#优点"><span class="nav-number">5.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点"><span class="nav-number">5.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#扩展-代理的应用"><span class="nav-number">6.</span> <span class="nav-text">扩展-代理的应用</span></a></li></ol></div>
             
 
           </div>
