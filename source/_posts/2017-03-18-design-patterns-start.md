@@ -41,7 +41,7 @@ winPC画图工具安利：[http://astah.net/](http://astah.net/)
 	- [桥接模式](http://xusx1024.com/2017/06/22/design-patterns-bridge/)
 	- [装饰模式](http://xusx1024.com/2017/06/23/design-patterns-decorator/)
 	- [外观模式](http://xusx1024.com/2017/06/26/design-patterns-facade/)
-	- 享元模式
+	- [享元模式](http://xusx1024.com/2017/06/27/design-patterns-flyweight/)
 	- 代理模式
 	- [组合模式](http://xusx1024.com/2017/06/26/design-patterns-composite/)
 - 行为型模式(11)

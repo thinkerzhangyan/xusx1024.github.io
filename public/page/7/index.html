@@ -267,6 +267,176 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/14/sort-stack-by-stack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/14/sort-stack-by-stack/" itemprop="url">用一个栈实现另一个栈的排序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-14T00:00:00Z">
+                2017-02-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>一个栈中的元素的类型为整型，现在想将该栈从顶到底按从大到小的顺序排序，只许申请一个栈。除此之外，可以申请新的变量，但不能申请额外的数据结构。如何完成排序？
+</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>士 ★☆☆☆
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>将要排序的栈记为stack，申请的辅助栈记为help。在stack上执行pop操作，弹出的元素记为cur。
+</code></pre><ul>
+<li>如果cur小于或等于help的栈顶元素，将cur压入help；</li>
+<li>如果cur大于help的栈顶元素，则将help元素逐个弹出，并压入stack，直至cur小于或等于栈顶元素，将cur压入help；</li>
+</ul>
+<p>示例代码如下：</p>
+<pre><code>import java.util.Stack;
+
+public class SortStackByStack {
+
+    public static void main(String[] args) {
+        Stack&lt;Integer&gt; ss = new Stack&lt;&gt;();
+        ss.push(7);
+        ss.push(2);
+        ss.push(8);
+        ss.push(3);
+        ss.push(9);
+        sortStackByStack(ss);
+
+    }
+
+    public static void sortStackByStack(Stack&lt;Integer&gt; stack) {
+        Stack&lt;Integer&gt; help = new Stack&lt;&gt;();
+        while (!stack.isEmpty()) {
+            int cur = stack.pop();
+            while (!help.isEmpty() &amp;&amp; help.peek() &lt; cur) {
+                stack.push(help.pop());
+            }
+            help.push(cur);
+        }
+        while (!help.isEmpty()) {
+            stack.push(help.pop());
+        }
+    }
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/13/optimization-app-launch/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -653,169 +823,6 @@ Android进程与Linux进程一样。默认情况下，每个apk运行在自己�
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/reverse-stack/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/reverse-stack/" itemprop="url">如何仅用递归函数和栈操作逆序一个栈</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>一个栈中一次压入1，2，3，那么从栈顶到栈底依次为3，2，1.将这个栈逆序，从栈顶到栈底依次为1，2，3.但是只能用递归函数来实现，不能用其他数据结构。
-</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>需要设计两个递归函数。
-1，将stack的栈底元素返回并移除；
-2，将stack逆序；
-</code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>import java.util.Stack;
-
-public class ReverseStack {
-
-private static int getAndRemoveLastElement(Stack&lt;Integer&gt; stack) {
-    int result = stack.pop();
-    if (stack.empty()) {
-        return result;
-    } else {
-        int last = getAndRemoveLastElement(stack);
-        stack.push(result);//此处将除栈底外的元素重新压入
-        return last;
-    }
-}
-
-public static void reverse(Stack&lt;Integer&gt; stack) {
-    if (stack.empty()) {
-        return;
-    } else {
-        int i = getAndRemoveLastElement(stack);
-        reverse(stack);
-        stack.push(i);
-    }
-}
-</code></pre><p>}</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1063,7 +1070,7 @@ public class Singleton implements Serializable {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/two-stacks-makeup-queue/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/reverse-stack/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -1082,7 +1089,7 @@ public class Singleton implements Serializable {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/11/two-stacks-makeup-queue/" itemprop="url">由两个栈组成的队列</a></h1>
+                <a class="post-title-link" href="/2017/02/11/reverse-stack/" itemprop="url">如何仅用递归函数和栈操作逆序一个栈</a></h1>
         
 
         <div class="post-meta">
@@ -1153,218 +1160,37 @@ public class Singleton implements Serializable {
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="由两个栈组成的队列"><a href="#由两个栈组成的队列" class="headerlink" title="由两个栈组成的队列"></a>由两个栈组成的队列</h5><pre><code>编写一个类，使用两个栈实现队列，支持队列的基本操作(add,poll,peek)
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>一个栈中一次压入1，2，3，那么从栈顶到栈底依次为3，2，1.将这个栈逆序，从栈顶到栈底依次为1，2，3.但是只能用递归函数来实现，不能用其他数据结构。
 </code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>栈的特点是先进后出，而队列的特点是先进先出。我们用两个栈，互相反序，实现类似队列的操作。
-具体实现上是一个栈作为压入栈，在压入数据时只往这个栈中压入，记为stackPush，另一个栈只作为弹出栈，记为stackPop。
-根据栈的特点，循环把stackPush中的数据压入stackPop中，stackPop的栈顶元素即为队列的dequeue元素。
-</code></pre><h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><pre><code>1. 如果stackPush要往stackPop中压入数据，必须一次性压入完毕；
-2. 如果stackPop要接收数据，必须保证stackPop为空。
-</code></pre><h5 id="stackPush压入stackPop的操作时机"><a href="#stackPush压入stackPop的操作时机" class="headerlink" title="stackPush压入stackPop的操作时机"></a>stackPush压入stackPop的操作时机</h5><pre><code>调用add、poll、peek三种方法中任何一种时发生都是可以，只要满足注意事项提到的两点，就不会出错。下面的例子是在调用poll和peek方法时进行压入数据的。
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>需要设计两个递归函数。
+1，将stack的栈底元素返回并移除；
+2，将stack逆序；
 </code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>import java.util.Stack;
 
-public class TwoStackQueue {
+public class ReverseStack {
 
-    public Stack&lt;Integer&gt; stackPush;
-    public Stack&lt;Integer&gt; stackPop;
-
-    public TwoStackQueue() {
-        stackPop = new Stack&lt;&gt;();
-        stackPush = new Stack&lt;&gt;();
-    }
-
-    public void add(int pushInt) {
-        stackPush.push(pushInt);
-    }
-
-    public int poll() {
-        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
-            throw new RuntimeException(&quot;Queue is empty!&quot;);
-        } else if (stackPop.empty()) {
-            while (!stackPush.empty()) {
-                stackPop.push(stackPush.pop());
-            }
-        }
-        return stackPop.pop();
-    }
-
-    public int peek(){
-        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
-            throw new RuntimeException(&quot;Queue is empty!&quot;);
-        } else if (stackPop.empty()) {
-            while (!stackPush.empty()) {
-                stackPop.push(stackPush.pop());
-            }
-        }
-        return stackPop.peek();
+private static int getAndRemoveLastElement(Stack&lt;Integer&gt; stack) {
+    int result = stack.pop();
+    if (stack.empty()) {
+        return result;
+    } else {
+        int last = getAndRemoveLastElement(stack);
+        stack.push(result);//此处将除栈底外的元素重新压入
+        return last;
     }
 }
-</code></pre>
-          
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
+public static void reverse(Stack&lt;Integer&gt; stack) {
+    if (stack.empty()) {
+        return;
+    } else {
+        int i = getAndRemoveLastElement(stack);
+        reverse(stack);
+        stack.push(i);
+    }
+}
+</code></pre><p>}</p>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/different-between-ADT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/different-between-ADT/" itemprop="url">队列、堆栈与数组链表的关系</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="数据结构的概念"><a href="#数据结构的概念" class="headerlink" title="数据结构的概念"></a>数据结构的概念</h4><pre><code>指相互之间存在一种或多种特定关系的数据元素的集合。简单的理解就是：数据结构就是描述对象逻辑关系的学科。比如：队列就是一种先进先出的逻辑结构，栈是一种先进后出的逻辑结构，家谱是一种树形的逻辑结构。
-</code></pre><h4 id="数据存储结构的概念"><a href="#数据存储结构的概念" class="headerlink" title="数据存储结构的概念"></a>数据存储结构的概念</h4><pre><code>这是计算机的一个概念，即描述数据在计算机中存储方式的学科；常用的存储方式就两种：顺序存储、非顺序存储。顺序存储就是把数据存储在一块连续的存储介质(硬盘)上，数组就是典型的连续存储。
-非顺序存储就是各个数据不一定存在一个连续的位置上，只要每个数据知道它前面的数据和后面的数据，就能把所有的数据连续起来，链表就是典型的非顺序存储。
-</code></pre><h5 id="数组和链表"><a href="#数组和链表" class="headerlink" title="数组和链表"></a>数组和链表</h5><pre><code>数组属于顺序存储，通过直接访问数组下标即可得到元素的存储位置，所以访问时间都是相同。
-链表属于数据的链接存储，由于每个元素的位置保存在它的前驱或者后继中，所以只有访问到其前驱结点或后继结点后才能够按指针访问到自己，访问元素的时间与该元素结点在链接存储中的位置有关。
-</code></pre><table>
-<thead>
-<tr>
-<th>类型</th>
-<th style="text-align:center">内存空间</th>
-<th style="text-align:center">长度的可变性</th>
-<th style="text-align:center">对数据的访问</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>数组</td>
-<td style="text-align:center">连续的内存空间，相同多数据下占用较小内存</td>
-<td style="text-align:center">需要提前给定</td>
-<td style="text-align:center">移动数据麻烦，访问数据方便</td>
-</tr>
-<tr>
-<td>链表</td>
-<td style="text-align:center">可以连续，也可以不连续，占用较大内存，需要存放前驱和后继的空间</td>
-<td style="text-align:center">可以伸缩</td>
-<td style="text-align:center">移动数据方便，访问数据麻烦</td>
-</tr>
-</tbody>
-</table>
-<h5 id="堆栈和栈"><a href="#堆栈和栈" class="headerlink" title="堆栈和栈"></a>堆栈和栈</h5><pre><code>[堆栈](https://zh.wikipedia.org/wiki/%E5%A0%86%E6%A0%88)（英语：stack），也可直接称栈（港澳台作堆叠）
-</code></pre><h5 id="Java中的堆和栈"><a href="#Java中的堆和栈" class="headerlink" title="Java中的堆和栈"></a>Java中的堆和栈</h5><pre><code>1. 栈具有数据结构中栈的特点，所有存放在它里面的数据都是生命周期很明确，能够快速反应的，所以在Java中使用栈来存放8个基本数据类型和引用变量，用完就马上销毁。
-2. 堆可以理解它就是一个可大可小，任人分配的内存操作单元，因此它的特点就是动态分配内存，适合存放大的数据量，比如一个对象的所有信息，虽然它的引用指向栈中的某个引用变量；所以Java中堆是存放new出来的对象的。
-</code></pre>
           
         
       
@@ -1556,6 +1382,185 @@ private Singleton() {
     }
 };
 </code></pre><h4 id="终极方法"><a href="#终极方法" class="headerlink" title="终极方法"></a>终极方法</h4><pre><code>使用枚举单例
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/two-stacks-makeup-queue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/11/two-stacks-makeup-queue/" itemprop="url">由两个栈组成的队列</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
+                2017-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="由两个栈组成的队列"><a href="#由两个栈组成的队列" class="headerlink" title="由两个栈组成的队列"></a>由两个栈组成的队列</h5><pre><code>编写一个类，使用两个栈实现队列，支持队列的基本操作(add,poll,peek)
+</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>栈的特点是先进后出，而队列的特点是先进先出。我们用两个栈，互相反序，实现类似队列的操作。
+具体实现上是一个栈作为压入栈，在压入数据时只往这个栈中压入，记为stackPush，另一个栈只作为弹出栈，记为stackPop。
+根据栈的特点，循环把stackPush中的数据压入stackPop中，stackPop的栈顶元素即为队列的dequeue元素。
+</code></pre><h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><pre><code>1. 如果stackPush要往stackPop中压入数据，必须一次性压入完毕；
+2. 如果stackPop要接收数据，必须保证stackPop为空。
+</code></pre><h5 id="stackPush压入stackPop的操作时机"><a href="#stackPush压入stackPop的操作时机" class="headerlink" title="stackPush压入stackPop的操作时机"></a>stackPush压入stackPop的操作时机</h5><pre><code>调用add、poll、peek三种方法中任何一种时发生都是可以，只要满足注意事项提到的两点，就不会出错。下面的例子是在调用poll和peek方法时进行压入数据的。
+</code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>import java.util.Stack;
+
+public class TwoStackQueue {
+
+    public Stack&lt;Integer&gt; stackPush;
+    public Stack&lt;Integer&gt; stackPop;
+
+    public TwoStackQueue() {
+        stackPop = new Stack&lt;&gt;();
+        stackPush = new Stack&lt;&gt;();
+    }
+
+    public void add(int pushInt) {
+        stackPush.push(pushInt);
+    }
+
+    public int poll() {
+        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
+            throw new RuntimeException(&quot;Queue is empty!&quot;);
+        } else if (stackPop.empty()) {
+            while (!stackPush.empty()) {
+                stackPop.push(stackPush.pop());
+            }
+        }
+        return stackPop.pop();
+    }
+
+    public int peek(){
+        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
+            throw new RuntimeException(&quot;Queue is empty!&quot;);
+        } else if (stackPop.empty()) {
+            while (!stackPush.empty()) {
+                stackPop.push(stackPush.pop());
+            }
+        }
+        return stackPop.peek();
+    }
+}
 </code></pre>
           
         
@@ -1837,6 +1842,171 @@ public class SingletonManager {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/different-between-ADT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/11/different-between-ADT/" itemprop="url">队列、堆栈与数组链表的关系</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
+                2017-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="数据结构的概念"><a href="#数据结构的概念" class="headerlink" title="数据结构的概念"></a>数据结构的概念</h4><pre><code>指相互之间存在一种或多种特定关系的数据元素的集合。简单的理解就是：数据结构就是描述对象逻辑关系的学科。比如：队列就是一种先进先出的逻辑结构，栈是一种先进后出的逻辑结构，家谱是一种树形的逻辑结构。
+</code></pre><h4 id="数据存储结构的概念"><a href="#数据存储结构的概念" class="headerlink" title="数据存储结构的概念"></a>数据存储结构的概念</h4><pre><code>这是计算机的一个概念，即描述数据在计算机中存储方式的学科；常用的存储方式就两种：顺序存储、非顺序存储。顺序存储就是把数据存储在一块连续的存储介质(硬盘)上，数组就是典型的连续存储。
+非顺序存储就是各个数据不一定存在一个连续的位置上，只要每个数据知道它前面的数据和后面的数据，就能把所有的数据连续起来，链表就是典型的非顺序存储。
+</code></pre><h5 id="数组和链表"><a href="#数组和链表" class="headerlink" title="数组和链表"></a>数组和链表</h5><pre><code>数组属于顺序存储，通过直接访问数组下标即可得到元素的存储位置，所以访问时间都是相同。
+链表属于数据的链接存储，由于每个元素的位置保存在它的前驱或者后继中，所以只有访问到其前驱结点或后继结点后才能够按指针访问到自己，访问元素的时间与该元素结点在链接存储中的位置有关。
+</code></pre><table>
+<thead>
+<tr>
+<th>类型</th>
+<th style="text-align:center">内存空间</th>
+<th style="text-align:center">长度的可变性</th>
+<th style="text-align:center">对数据的访问</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数组</td>
+<td style="text-align:center">连续的内存空间，相同多数据下占用较小内存</td>
+<td style="text-align:center">需要提前给定</td>
+<td style="text-align:center">移动数据麻烦，访问数据方便</td>
+</tr>
+<tr>
+<td>链表</td>
+<td style="text-align:center">可以连续，也可以不连续，占用较大内存，需要存放前驱和后继的空间</td>
+<td style="text-align:center">可以伸缩</td>
+<td style="text-align:center">移动数据方便，访问数据麻烦</td>
+</tr>
+</tbody>
+</table>
+<h5 id="堆栈和栈"><a href="#堆栈和栈" class="headerlink" title="堆栈和栈"></a>堆栈和栈</h5><pre><code>[堆栈](https://zh.wikipedia.org/wiki/%E5%A0%86%E6%A0%88)（英语：stack），也可直接称栈（港澳台作堆叠）
+</code></pre><h5 id="Java中的堆和栈"><a href="#Java中的堆和栈" class="headerlink" title="Java中的堆和栈"></a>Java中的堆和栈</h5><pre><code>1. 栈具有数据结构中栈的特点，所有存放在它里面的数据都是生命周期很明确，能够快速反应的，所以在Java中使用栈来存放8个基本数据类型和引用变量，用完就马上销毁。
+2. 堆可以理解它就是一个可大可小，任人分配的内存操作单元，因此它的特点就是动态分配内存，适合存放大的数据量，比如一个对象的所有信息，虽然它的引用指向栈中的某个引用变量；所以Java中堆是存放new出来的对象的。
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/10/how-use-android-device-monitor/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1979,203 +2149,6 @@ public class SingletonManager {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/Debug-GPU-Overdraw-Walkthrough/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/09/Debug-GPU-Overdraw-Walkthrough/" itemprop="url">Android过度绘制优化</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-09T00:00:00Z">
-                2017-02-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><h5 id="过渡绘制"><a href="#过渡绘制" class="headerlink" title="过渡绘制"></a>过渡绘制</h5><pre><code>过渡绘制(OverDraw)，屏幕上的某个像素，在同一帧内被重绘多次。如果App中过渡绘制问题严重，会浪费大量CPU、GPU资源，直接表现为App卡顿。
-</code></pre><h5 id="开启"><a href="#开启" class="headerlink" title="开启"></a>开启</h5><pre><code>开发者选项 - 调试GPU过渡绘制
-</code></pre><h5 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h5><p><img src="/images/color-key-for-debug-GPU-overdraw-output.png" alt="示例图"></p>
-<ul>
-<li>True color: No overdraw</li>
-<li>Blue: Overdrawn once</li>
-<li>Green: Overdrawn twice</li>
-<li>Pink: Overdrawn three times</li>
-<li>Red: Overdrawn four or more times</li>
-</ul>
-<h4 id="how"><a href="#how" class="headerlink" title="how"></a>how</h4><ol>
-<li><blockquote>
-<p>去掉window默认背景。在Activity中，使用setContentView绑定布局时，android会自动填充一个背景，如果我们App有自己的页面底色，因此不需要默认分配的背景。</p>
-<pre><code>修改页面的主题：
-&lt;item name=&quot;android:windowBackground&quot;&gt;@android:color/transparent&lt;/item&gt;
-&lt;item name=&quot;android:windowBackground&quot;&gt;@null&lt;/item&gt;
-
-代码中修改：
-getWindow().setBackgroundDrawable(null)
-getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-null和transparent差别不大，如果有activity右滑返回功能，null,在某些机型(Nexus6p)上，会出现错乱, 建议使用transparent。 
-</code></pre></blockquote>
-</li>
-<li><blockquote>
-<p>移除不必要的背景，xml布局编码时，防止背景重复，比如ListView的背景和item的背景都是白色，那么可以选择去掉其中一个。一般情况下，背景重复会引起大部分重绘问题。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>选择适当父布局。LinearLayout、ReleativeLayout，最常用的两种布局。RL表达能力强，LL易用，层级多，所以在层级相同的情况下，使用LL，尽量不要使用AbsoluteLayout。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>对于那些过于复杂的自定义的View(通常重写了onDraw方法)，我们可以通过<a href="https://developer.android.com/reference/android/graphics/Canvas.html" target="_blank" rel="external">canvas.clipRect()</a>来帮助系统识别那些可见的区域。这个方法可以指定一块矩形区域，只有在这个区域内才会被绘制，其他的区域会被忽视。我们还可以使用<a href="https://developer.android.com/reference/android/graphics/Canvas.html" target="_blank" rel="external">canvas.quickreject()</a>来判断是否没和某个矩形相交，从而跳过那些非矩形区域内的绘制操作。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>使用merge标签，减少布局嵌套层次。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>使用动态inflate或者ViewStub替代setVisibility。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>对于使用Selector当背景的Layout(比如ListView的Item,会使用Selector来标记点击,选择等不同的状态),可以将normal状态的color设置为”@android:color/transparent”,来解决对应的问题。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>使用.9图，透明区域会被android的2D渲染器优化。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>好的展示设计和交互。使UI宽而浅而不是浅而深。</p>
-</blockquote>
-</li>
-</ol>
-<h4 id="标准"><a href="#标准" class="headerlink" title="标准"></a>标准</h4><pre><code>过度绘制不可避免
-
-尽量控制在绿色及其以下
-
-尽可能避免出现粉红及以上，如果不可避免，尽可能减少
-
-不允许出现超过屏幕1/4的红色区域
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2225,7 +2198,7 @@ null和transparent差别不大，如果有activity右滑返回功能，null,在�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">73</span>
+                <span class="site-state-item-count">74</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

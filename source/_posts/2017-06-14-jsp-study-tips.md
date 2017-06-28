@@ -92,6 +92,23 @@ Java server page
 - 浏览器禁用cookie时，URL重写添加JSession字段
 - response.encodeURL("/xxxxservlet");会查看cookie是否存在，如果存在就只encode这个url，否则在url添加JSessionId。这就是智能URL重写
 
-#### 一次性图片验证码
+#### JSP三大指令 ####
+
+##### page #####
+
+- <%@page language="java" info="xxx" ...%>一个jsp页面中可以0-N个指令定义
+- 习惯性放在jsp文件的首行
+- pageEncoding：指定当前jsp页面的编码
+- contentType
+##### include #####
+##### taglib #####
+
+#### JSP九大内置对象 ####
+
+#### JSP动作标签 ####
+
+#### JavaBean概念 ####
+
+#### EL表达式 ####
 
  
