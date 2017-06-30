@@ -100,10 +100,44 @@ Java server page
 - 习惯性放在jsp文件的首行
 - pageEncoding：指定当前jsp页面的编码
 - contentType
+- errorPage 出错时转发到指定页面
+- isErrorPage 指定当前页面是否为处理错误的页面，该页面会设置状态为500！只有该页面可以使用9大内置对象exception
+- web.xml配置errorpage，<error-page><error-code>404</error-code><location></location></error-page>
+- autoFlush：指定jsp的输出流，缓冲区满时是否自动刷新，默认为true，如果为false，那么缓冲区满时会抛出异常。
+- buffer：指定缓冲区的大小，默认8kb，通常不需要修改。
+- isELIgnored：是否忽略el表达式，默认是false，不忽略，即支持el表达式
+- language：指定当前jsp编译后的语言类型，默认值java。也只能是java
+- info：信息
+- isThreadSafe：当前的jsp是否支持并发访问。默认为false，支持。
+- session：当前页面是否支持session，如果为false，那么当前页面就没有session这个内置对象。
+- extends：让jsp生成的servlet去继承该属性指定的类
+
 ##### include #####
+
+ 
+
+
 ##### taglib #####
 
 #### JSP九大内置对象 ####
+
+- out:jsp输出流，用了向客户端享元
+- config：servletConfig对象
+- exception：Throwable
+- session：httpSession
+- response：httpServletResponse
+- request：HttpServletRequest
+- page：当前jsp对象，他的引用类型为Object。Object page = this；
+- application：servletContext
+- *pageContext：最重要。
+	- Servlet中有三大对象，jsp中有四大域
+		- servletContext
+		- session
+		- request
+		- pageContext：一个jsp页面！这个域是在当前jsp页面和当前jsp页面中使用的标签之间共享数据
+			- 域对象
+			- 代理其他域
+			- 获取其他8个内置对象
 
 #### JSP动作标签 ####
 
