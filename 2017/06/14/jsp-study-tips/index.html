@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/14/jsp-study-tips/index.html">
 <meta property="og:site_name" content="行次">
 <meta property="og:description" content="JSP定义Java server page jsp和servlet servlet不适合设置HTML响应体，需要大量的response.getWriter().pring(“”); servlet 动态资源，可以编程 HTML是静态页面，不能包含动态信息 HTML不用为输出HTML标签而发愁 jsp在原有HTML的基础上添加Java脚本，构成jsp页面 jsp作为请求发起/结束页面 servlet">
-<meta property="og:updated_time" content="2017-06-27T12:58:38.830Z">
+<meta property="og:updated_time" content="2017-06-28T13:01:24.799Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JSP、Cookie、Session学习">
 <meta name="twitter:description" content="JSP定义Java server page jsp和servlet servlet不适合设置HTML响应体，需要大量的response.getWriter().pring(“”); servlet 动态资源，可以编程 HTML是静态页面，不能包含动态信息 HTML不用为输出HTML标签而发愁 jsp在原有HTML的基础上添加Java脚本，构成jsp页面 jsp作为请求发起/结束页面 servlet">
@@ -437,9 +437,45 @@
 <li>&lt;%@page language=”java” info=”xxx” …%&gt;一个jsp页面中可以0-N个指令定义</li>
 <li>习惯性放在jsp文件的首行</li>
 <li>pageEncoding：指定当前jsp页面的编码</li>
-<li>contentType<h5 id="include"><a href="#include" class="headerlink" title="include"></a>include</h5><h5 id="taglib"><a href="#taglib" class="headerlink" title="taglib"></a>taglib</h5></li>
+<li>contentType</li>
+<li>errorPage 出错时转发到指定页面</li>
+<li>isErrorPage 指定当前页面是否为处理错误的页面，该页面会设置状态为500！只有该页面可以使用9大内置对象exception</li>
+<li>web.xml配置errorpage，<error-page><error-code>404</error-code><location></location></error-page></li>
+<li>autoFlush：指定jsp的输出流，缓冲区满时是否自动刷新，默认为true，如果为false，那么缓冲区满时会抛出异常。</li>
+<li>buffer：指定缓冲区的大小，默认8kb，通常不需要修改。</li>
+<li>isELIgnored：是否忽略el表达式，默认是false，不忽略，即支持el表达式</li>
+<li>language：指定当前jsp编译后的语言类型，默认值java。也只能是java</li>
+<li>info：信息</li>
+<li>isThreadSafe：当前的jsp是否支持并发访问。默认为false，支持。</li>
+<li>session：当前页面是否支持session，如果为false，那么当前页面就没有session这个内置对象。</li>
+<li>extends：让jsp生成的servlet去继承该属性指定的类</li>
 </ul>
-<h4 id="JSP九大内置对象"><a href="#JSP九大内置对象" class="headerlink" title="JSP九大内置对象"></a>JSP九大内置对象</h4><h4 id="JSP动作标签"><a href="#JSP动作标签" class="headerlink" title="JSP动作标签"></a>JSP动作标签</h4><h4 id="JavaBean概念"><a href="#JavaBean概念" class="headerlink" title="JavaBean概念"></a>JavaBean概念</h4><h4 id="EL表达式"><a href="#EL表达式" class="headerlink" title="EL表达式"></a>EL表达式</h4>
+<h5 id="include"><a href="#include" class="headerlink" title="include"></a>include</h5><h5 id="taglib"><a href="#taglib" class="headerlink" title="taglib"></a>taglib</h5><h4 id="JSP九大内置对象"><a href="#JSP九大内置对象" class="headerlink" title="JSP九大内置对象"></a>JSP九大内置对象</h4><ul>
+<li>out:jsp输出流，用了向客户端享元</li>
+<li>config：servletConfig对象</li>
+<li>exception：Throwable</li>
+<li>session：httpSession</li>
+<li>response：httpServletResponse</li>
+<li>request：HttpServletRequest</li>
+<li>page：当前jsp对象，他的引用类型为Object。Object page = this；</li>
+<li>application：servletContext</li>
+<li>*pageContext：最重要。<ul>
+<li>Servlet中有三大对象，jsp中有四大域<ul>
+<li>servletContext</li>
+<li>session</li>
+<li>request</li>
+<li>pageContext：一个jsp页面！这个域是在当前jsp页面和当前jsp页面中使用的标签之间共享数据<ul>
+<li>域对象</li>
+<li>代理其他域</li>
+<li>获取其他8个内置对象</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="JSP动作标签"><a href="#JSP动作标签" class="headerlink" title="JSP动作标签"></a>JSP动作标签</h4><h4 id="JavaBean概念"><a href="#JavaBean概念" class="headerlink" title="JavaBean概念"></a>JavaBean概念</h4><h4 id="EL表达式"><a href="#EL表达式" class="headerlink" title="EL表达式"></a>EL表达式</h4>
       
     </div>
 
@@ -565,7 +601,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">74</span>
+                <span class="site-state-item-count">75</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -587,7 +623,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
