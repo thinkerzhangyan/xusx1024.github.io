@@ -455,7 +455,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/07/03/uses-feature/" itemprop="url">AndroidManifest.xml中的<uses-feature>标签</a></h1>
+                <a class="post-title-link" href="/2017/07/03/uses-feature/" itemprop="url">AndroidManifest.xml中的<uses-feature/>标签</a></h1>
         
 
         <div class="post-meta">
@@ -526,7 +526,39 @@
       
         
           
-            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p><a href="https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required" target="_blank" rel="external">https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required</a></p>
+            <h4 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h4><p>如果你有一个装有android 1.5的设备，你可能会注意到一些高版本的应用没有在手机上的Android Market中显示。这必定是应用使用了<uses-feature>的结果。</uses-feature></p>
+<h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><pre><code>&lt;uses-feature
+  android:name=&quot;string&quot;
+  android:required=[&quot;true&quot; | &quot;false&quot;]
+  android:glEsVersion=&quot;integer&quot; /&gt;
+</code></pre><h5 id="android-name"><a href="#android-name" class="headerlink" title="android:name"></a>android:name</h5><p>以描述字符串形式指定应用使用的单一硬件或软件功能。详见:<a href="https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#features-reference" target="_blank" rel="external">HERE</a></p>
+<pre><code>&lt;uses-feature android:name=&quot;android.hardware.bluetooth&quot; /&gt;
+&lt;uses-feature android:name=&quot;android.hardware.camera&quot; /&gt;
+</code></pre><h5 id="android-required"><a href="#android-required" class="headerlink" title="android:required"></a>android:required</h5><ul>
+<li>android:required=”true”:当设备不具有该指定功能时，应用无法正常工作，或设计为无法正常工作</li>
+<li>android:required=”false”：如果设备具有该功能，应用会在必要时优先使用该功能，但应用设计为不使用该指定功能也可正常工作</li>
+<li><p>默认为true</p>
+<pre><code> &lt;uses-feature 
+android:name=&quot;android.hardware.camera&quot;
+android:required=false /&gt;
+</code></pre></li>
+</ul>
+<h5 id="android-glEsVersion"><a href="#android-glEsVersion" class="headerlink" title="android:glEsVersion"></a>android:glEsVersion</h5><p>应用需要的OpenGL ES版本。高16位表示主版本号，低16位表示次版本号。例如2.0 –&gt; 0x00020000;3.2 –&gt; 0x00030002</p>
+<pre><code>&lt;uses-feature android:glEsVersion=&quot;0x00020000&quot; required=&quot;true&quot;/&gt;
+</code></pre><ul>
+<li>如果指定多个，将使用数值最高的</li>
+<li>如果没有指定，系统假定只需要OpenGL ES 1.0</li>
+</ul>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li><uses-feature> 声明的用途是将您的应用依赖的硬件和软件功能集通知任何外部实体</uses-feature></li>
+<li>一般而言，您始终都应确保为应用需要的所有功能声明 <uses-feature> 元素</uses-feature></li>
+<li>Android 系统本身在安装应用前不会检查设备是否提供相应的功能支持</li>
+<li>其他服务（如 Google Play）或应用可能会在处理您的应用或与其交互的过程中检查它的 <uses-feature> 声明</uses-feature></li>
+<li>如果minSdkVersion&lt;=4或者targetSdkVersion&lt;=4,googlePlay将不对该标签做任何过滤</li>
+<li>蓝牙、相机、麦克风、定位、wifi、触屏、USB</li>
+<li>输入法、多媒体、屏幕界面(小控件、壁纸等)</li>
+</ul>
+<p><a href="https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required" target="_blank" rel="external">https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required</a></p>
 
           
         
