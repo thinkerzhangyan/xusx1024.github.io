@@ -114,7 +114,8 @@ Java server page
 
 ##### include #####
 
- 
+- <%@include%> 在jsp编译成java文件时完成，他们共同生成一个java文件，然后再生成一个class
+- RequestDispatcher的include是一个方法，包含和被包含是两个文件
 
 
 ##### taglib #####
@@ -141,7 +142,18 @@ Java server page
 
 #### JSP动作标签 ####
 
+- 与html标签有本质的区别，动作标签是由tomcat解释执行，html由浏览器来执行
+- 20个，用处不大
+- <jsp:forward>:转发！
+- <jsp:include>:包含
+- <jsp:param>:forward和include的子标签，用来传递参数
+
 #### JavaBean概念 ####
+
+- 必须为成员提供get/set方法，只提供一个也行
+- 必须要有默认构造
+- 此时称成员为属性
+
 
 #### EL表达式 ####
 

@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/14/jsp-study-tips/index.html">
 <meta property="og:site_name" content="行次">
 <meta property="og:description" content="JSP定义Java server page jsp和servlet servlet不适合设置HTML响应体，需要大量的response.getWriter().pring(“”); servlet 动态资源，可以编程 HTML是静态页面，不能包含动态信息 HTML不用为输出HTML标签而发愁 jsp在原有HTML的基础上添加Java脚本，构成jsp页面 jsp作为请求发起/结束页面 servlet">
-<meta property="og:updated_time" content="2017-06-28T13:01:24.799Z">
+<meta property="og:updated_time" content="2017-07-04T02:58:39.129Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JSP、Cookie、Session学习">
 <meta name="twitter:description" content="JSP定义Java server page jsp和servlet servlet不适合设置HTML响应体，需要大量的response.getWriter().pring(“”); servlet 动态资源，可以编程 HTML是静态页面，不能包含动态信息 HTML不用为输出HTML标签而发愁 jsp在原有HTML的基础上添加Java脚本，构成jsp页面 jsp作为请求发起/结束页面 servlet">
@@ -450,7 +450,11 @@
 <li>session：当前页面是否支持session，如果为false，那么当前页面就没有session这个内置对象。</li>
 <li>extends：让jsp生成的servlet去继承该属性指定的类</li>
 </ul>
-<h5 id="include"><a href="#include" class="headerlink" title="include"></a>include</h5><h5 id="taglib"><a href="#taglib" class="headerlink" title="taglib"></a>taglib</h5><h4 id="JSP九大内置对象"><a href="#JSP九大内置对象" class="headerlink" title="JSP九大内置对象"></a>JSP九大内置对象</h4><ul>
+<h5 id="include"><a href="#include" class="headerlink" title="include"></a>include</h5><ul>
+<li><a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x25;&#x40;&#105;&#110;&#x63;&#x6c;&#117;&#x64;&#x65;&#x25;">&#x25;&#x40;&#105;&#110;&#x63;&#x6c;&#117;&#x64;&#x65;&#x25;</a> 在jsp编译成java文件时完成，他们共同生成一个java文件，然后再生成一个class</li>
+<li>RequestDispatcher的include是一个方法，包含和被包含是两个文件</li>
+</ul>
+<h5 id="taglib"><a href="#taglib" class="headerlink" title="taglib"></a>taglib</h5><h4 id="JSP九大内置对象"><a href="#JSP九大内置对象" class="headerlink" title="JSP九大内置对象"></a>JSP九大内置对象</h4><ul>
 <li>out:jsp输出流，用了向客户端享元</li>
 <li>config：servletConfig对象</li>
 <li>exception：Throwable</li>
@@ -475,7 +479,19 @@
 </ul>
 </li>
 </ul>
-<h4 id="JSP动作标签"><a href="#JSP动作标签" class="headerlink" title="JSP动作标签"></a>JSP动作标签</h4><h4 id="JavaBean概念"><a href="#JavaBean概念" class="headerlink" title="JavaBean概念"></a>JavaBean概念</h4><h4 id="EL表达式"><a href="#EL表达式" class="headerlink" title="EL表达式"></a>EL表达式</h4>
+<h4 id="JSP动作标签"><a href="#JSP动作标签" class="headerlink" title="JSP动作标签"></a>JSP动作标签</h4><ul>
+<li>与html标签有本质的区别，动作标签是由tomcat解释执行，html由浏览器来执行</li>
+<li>20个，用处不大</li>
+<li><jsp:forward>:转发！</jsp:forward></li>
+<li><jsp:include>:包含</jsp:include></li>
+<li><jsp:param>:forward和include的子标签，用来传递参数</jsp:param></li>
+</ul>
+<h4 id="JavaBean概念"><a href="#JavaBean概念" class="headerlink" title="JavaBean概念"></a>JavaBean概念</h4><ul>
+<li>必须为成员提供get/set方法，只提供一个也行</li>
+<li>必须要有默认构造</li>
+<li>此时称成员为属性</li>
+</ul>
+<h4 id="EL表达式"><a href="#EL表达式" class="headerlink" title="EL表达式"></a>EL表达式</h4>
       
     </div>
 
@@ -601,7 +617,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">76</span>
+                <span class="site-state-item-count">77</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
