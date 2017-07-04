@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="定义https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required">
+<meta name="description" content="引子如果你有一个装有android 1.5的设备，你可能会注意到一些高版本的应用没有在手机上的Android Market中显示。这必定是应用使用了的结果。 语法&amp;lt;uses-feature   android:name=&amp;quot;string&amp;quot;   android:required=[&amp;quot;true&amp;quot; | &amp;quot;false&amp;quot;]   android:">
 <meta name="keywords" content="android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AndroidManifest.xml中的&lt;uses-feature&gt;标签">
+<meta property="og:title" content="AndroidManifest.xml中的&lt;uses-feature&#x2F;&gt;标签">
 <meta property="og:url" content="http://yoursite.com/2017/07/03/uses-feature/index.html">
 <meta property="og:site_name" content="行次">
-<meta property="og:description" content="定义https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required">
-<meta property="og:updated_time" content="2017-07-03T03:06:07.185Z">
+<meta property="og:description" content="引子如果你有一个装有android 1.5的设备，你可能会注意到一些高版本的应用没有在手机上的Android Market中显示。这必定是应用使用了的结果。 语法&amp;lt;uses-feature   android:name=&amp;quot;string&amp;quot;   android:required=[&amp;quot;true&amp;quot; | &amp;quot;false&amp;quot;]   android:">
+<meta property="og:updated_time" content="2017-07-04T08:21:09.247Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AndroidManifest.xml中的&lt;uses-feature&gt;标签">
-<meta name="twitter:description" content="定义https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required">
+<meta name="twitter:title" content="AndroidManifest.xml中的&lt;uses-feature&#x2F;&gt;标签">
+<meta name="twitter:description" content="引子如果你有一个装有android 1.5的设备，你可能会注意到一些高版本的应用没有在手机上的Android Market中显示。这必定是应用使用了的结果。 语法&amp;lt;uses-feature   android:name=&amp;quot;string&amp;quot;   android:required=[&amp;quot;true&amp;quot; | &amp;quot;false&amp;quot;]   android:">
 
 
 
@@ -137,7 +137,7 @@
 
 
 
-  <title>AndroidManifest.xml中的<uses-feature>标签 | 行次</title>
+  <title>AndroidManifest.xml中的<uses-feature/>标签 | 行次</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -284,7 +284,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">AndroidManifest.xml中的<uses-feature>标签</h1>
+          <h1 class="post-title" itemprop="name headline">AndroidManifest.xml中的<uses-feature/>标签</h1>
         
 
         <div class="post-meta">
@@ -353,7 +353,39 @@
       
 
       
-        <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p><a href="https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required" target="_blank" rel="external">https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required</a></p>
+        <h4 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h4><p>如果你有一个装有android 1.5的设备，你可能会注意到一些高版本的应用没有在手机上的Android Market中显示。这必定是应用使用了<uses-feature>的结果。</uses-feature></p>
+<h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><pre><code>&lt;uses-feature
+  android:name=&quot;string&quot;
+  android:required=[&quot;true&quot; | &quot;false&quot;]
+  android:glEsVersion=&quot;integer&quot; /&gt;
+</code></pre><h5 id="android-name"><a href="#android-name" class="headerlink" title="android:name"></a>android:name</h5><p>以描述字符串形式指定应用使用的单一硬件或软件功能。详见:<a href="https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#features-reference" target="_blank" rel="external">HERE</a></p>
+<pre><code>&lt;uses-feature android:name=&quot;android.hardware.bluetooth&quot; /&gt;
+&lt;uses-feature android:name=&quot;android.hardware.camera&quot; /&gt;
+</code></pre><h5 id="android-required"><a href="#android-required" class="headerlink" title="android:required"></a>android:required</h5><ul>
+<li>android:required=”true”:当设备不具有该指定功能时，应用无法正常工作，或设计为无法正常工作</li>
+<li>android:required=”false”：如果设备具有该功能，应用会在必要时优先使用该功能，但应用设计为不使用该指定功能也可正常工作</li>
+<li><p>默认为true</p>
+<pre><code> &lt;uses-feature 
+android:name=&quot;android.hardware.camera&quot;
+android:required=false /&gt;
+</code></pre></li>
+</ul>
+<h5 id="android-glEsVersion"><a href="#android-glEsVersion" class="headerlink" title="android:glEsVersion"></a>android:glEsVersion</h5><p>应用需要的OpenGL ES版本。高16位表示主版本号，低16位表示次版本号。例如2.0 –&gt; 0x00020000;3.2 –&gt; 0x00030002</p>
+<pre><code>&lt;uses-feature android:glEsVersion=&quot;0x00020000&quot; required=&quot;true&quot;/&gt;
+</code></pre><ul>
+<li>如果指定多个，将使用数值最高的</li>
+<li>如果没有指定，系统假定只需要OpenGL ES 1.0</li>
+</ul>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li><uses-feature> 声明的用途是将您的应用依赖的硬件和软件功能集通知任何外部实体</uses-feature></li>
+<li>一般而言，您始终都应确保为应用需要的所有功能声明 <uses-feature> 元素</uses-feature></li>
+<li>Android 系统本身在安装应用前不会检查设备是否提供相应的功能支持</li>
+<li>其他服务（如 Google Play）或应用可能会在处理您的应用或与其交互的过程中检查它的 <uses-feature> 声明</uses-feature></li>
+<li>如果minSdkVersion&lt;=4或者targetSdkVersion&lt;=4,googlePlay将不对该标签做任何过滤</li>
+<li>蓝牙、相机、麦克风、定位、wifi、触屏、USB</li>
+<li>输入法、多媒体、屏幕界面(小控件、壁纸等)</li>
+</ul>
+<p><a href="https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required" target="_blank" rel="external">https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required</a></p>
 
       
     </div>
@@ -554,7 +586,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#引子"><span class="nav-number">1.</span> <span class="nav-text">引子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语法"><span class="nav-number">2.</span> <span class="nav-text">语法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#android-name"><span class="nav-number">2.1.</span> <span class="nav-text">android:name</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#android-required"><span class="nav-number">2.2.</span> <span class="nav-text">android:required</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#android-glEsVersion"><span class="nav-number">2.3.</span> <span class="nav-text">android:glEsVersion</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意"><span class="nav-number">3.</span> <span class="nav-text">注意</span></a></li></ol></div>
             
 
           </div>
