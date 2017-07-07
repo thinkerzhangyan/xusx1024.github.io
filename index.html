@@ -267,6 +267,222 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/05/net-work-day03/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/05/net-work-day03/" itemprop="url">《图解HTTP》第5、6、7章</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-05T00:00:00Z">
+                2017-07-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h4><ul>
+<li>接收客户端请求，转发至源服务器</li>
+<li>缓存请求，减少网络带宽流量</li>
+<li>过滤请求</li>
+<li>访问日志记录</li>
+<li>多级代理，每通过一级会添加via首部，即可追踪报文的转发，还可避免请求回环的发生，经常和TRACE方法一起使用</li>
+<li>透明/非透明代理：是否对报文内容进行加工</li>
+</ul>
+<h4 id="网关"><a href="#网关" class="headerlink" title="网关"></a>网关</h4><ul>
+<li>利用网关可以由HTTP请求转化为其他协议通信</li>
+<li>网关和代理的工作机制十分相似，网关能使通信线路上的服务器提供非HTTP协议服务</li>
+<li>利用网关能提高通信的安全性</li>
+</ul>
+<h4 id="隧道"><a href="#隧道" class="headerlink" title="隧道"></a>隧道</h4><ul>
+<li>安全：可使用SSL等加密手段进行通信</li>
+<li>透明：隧道不解析HTTP请求，请求保持原样中转给之后的服务器</li>
+</ul>
+<h4 id="资源的缓存"><a href="#资源的缓存" class="headerlink" title="资源的缓存"></a>资源的缓存</h4><ul>
+<li>代理服务器缓存</li>
+<li>客户端缓存</li>
+<li>减少流量带宽</li>
+<li>减少服务器压力</li>
+<li>减少响应时间</li>
+<li>确定缓存的有效期</li>
+</ul>
+<h4 id="HTTP-首部"><a href="#HTTP-首部" class="headerlink" title="HTTP 首部"></a>HTTP 首部</h4><ul>
+<li>HTTP首部字段重复的情况：根据浏览器不同，结果可能并不一致，有些优先处理先出现的，有些处理后出现的字段</li>
+<li>请求首部、响应首部、通用首部、内容首部具体字段</li>
+</ul>
+<h4 id="HTTP的缺点"><a href="#HTTP的缺点" class="headerlink" title="HTTP的缺点"></a>HTTP的缺点</h4><ul>
+<li>明文通信可能会被窃听</li>
+<li>不验证通信方的身份，可能遭遇伪装：使用SSL[Secure Socket Layer]认证</li>
+<li>无法证明报文的完整性，有可能遭遇篡改：中间人攻击</li>
+</ul>
+<h4 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h4><ul>
+<li>HTTP + 加密 + 认证 + 完整性保护 = HTTPS</li>
+<li>HTTPS并非新协议，通常HTTP直接和TCP通信，当使用SSL时，则演变成先和SSL通信，再由SSL和TCP通信。HTTPS即身披SSL协议外壳的HTTP</li>
+</ul>
+<h4 id="用户身份认证"><a href="#用户身份认证" class="headerlink" title="用户身份认证"></a>用户身份认证</h4><ul>
+<li>SSL认证 - 计算机</li>
+<li>表单认证 - 用户</li>
+</ul>
+<h4 id="对Web应用的攻击"><a href="#对Web应用的攻击" class="headerlink" title="对Web应用的攻击"></a>对Web应用的攻击</h4><ul>
+<li>主动攻击服务器：针对服务器上的资源，代表手法：SQL注入和OS命令注入</li>
+<li>被动攻击服务器：诱使用户出发陷阱，窃取用户信息，代表手法：跨站脚本攻击、跨站点请求伪造<ul>
+<li>可利用用户的身份攻击企业内部网络</li>
+</ul>
+</li>
+</ul>
+<h5 id="跨站脚本攻击"><a href="#跨站脚本攻击" class="headerlink" title="跨站脚本攻击"></a>跨站脚本攻击</h5><p>Cross-Site  Scripting,XSS :是指通过存在安全漏洞的Web网站注册用户的浏览器内运行非法的HTML标签或JavaScript进行的一种攻击。动态创建的HTML部分有可能隐藏着安全漏洞。</p>
+<ul>
+<li>输入框中增加窃取用户名、密码的script。</li>
+<li>窃取用户的Cookie</li>
+</ul>
+<h5 id="SQL注入攻击"><a href="#SQL注入攻击" class="headerlink" title="SQL注入攻击"></a>SQL注入攻击</h5><p>SQL Injection：是指针对Web应用使用的数据库，通过运行非法的SQL而产生的攻击。<br>破坏SQL语句结构。</p>
+<h5 id="OS命令注入攻击"><a href="#OS命令注入攻击" class="headerlink" title="OS命令注入攻击"></a>OS命令注入攻击</h5><p>OS命令注入攻击(OS Command Injection)是指通过Web应用，执行非法的操作系统命令达到攻击的目的。只要在能调用Shell函数的地方就有存在被攻击的风险。可从Web应用中通过Shell来调用操作系统命令，通过OS注入攻击可执行OS上安装着的各种程序。</p>
+<h5 id="HTTP首部注入攻击"><a href="#HTTP首部注入攻击" class="headerlink" title="HTTP首部注入攻击"></a>HTTP首部注入攻击</h5><p>HTTP首部注入攻击(HTTP Header Injection)是指攻击者通过在响应首部字段内插入换行，添加任意响应首部或主体的一种攻击。属于被动攻击模式。</p>
+<p>向首部主体内添加内容的攻击称为HTTP响应截断攻击。</p>
+<ul>
+<li>设置Cookie信息</li>
+<li>重定向至指定URL</li>
+<li>显示任意的主体</li>
+</ul>
+<h4 id="因设置或设计上的缺陷引发的安全漏洞"><a href="#因设置或设计上的缺陷引发的安全漏洞" class="headerlink" title="因设置或设计上的缺陷引发的安全漏洞"></a>因设置或设计上的缺陷引发的安全漏洞</h4><ul>
+<li>强制浏览：浏览那些原本非自愿公开的文件</li>
+<li>不正确的错误消息处理：Web应用的错误信息包含对攻击者有用的信息。Web应用不必在用户的浏览画面上展示详细的错误消息。对攻击者来说，详细的错误消息有可能给他们下一次攻击以提示。</li>
+<li>开放重定向：对指定的任意URL作重定向跳转的功能，假如重定向到恶意的Web网站，那么用户就会被诱导至那个Web网站。</li>
+</ul>
+<h4 id="会话引发的安全漏洞"><a href="#会话引发的安全漏洞" class="headerlink" title="会话引发的安全漏洞"></a>会话引发的安全漏洞</h4><ul>
+<li>会话劫持：攻击者通过某种手段拿到了用户的会话ID，并非法使用此会话ID伪装成用户，达到攻击的目的。</li>
+<li>会话固定攻击：强制用户使用攻击者指定的会话ID，属于被动攻击。</li>
+<li>跨站点请求伪造：攻击者通过设置好的陷阱，强制对已完成认证的用户进行非预期的个人信息或设定信息等某些状态更新，属于被动攻击。</li>
+</ul>
+<h4 id="其他安全漏洞"><a href="#其他安全漏洞" class="headerlink" title="其他安全漏洞"></a>其他安全漏洞</h4><ul>
+<li>密码破解：密码试错[穷举法，字典攻击]、密码破解</li>
+<li>点击劫持：界面伪装</li>
+<li>dos攻击：让运行中的服务呈停止状态的攻击。<ul>
+<li>集中利用访问请求[发送大量合法请求]造成资源过载，导致资源用尽，服务停止</li>
+<li>通过攻击安全漏洞使服务停止</li>
+</ul>
+</li>
+<li>后门程序250：开发设置的隐藏入口</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/03/net-work-day02/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -455,7 +671,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/07/03/uses-feature/" itemprop="url">AndroidManifest.xml中的<uses-feature/>标签</a></h1>
+                <a class="post-title-link" href="/2017/07/03/uses-feature/" itemprop="url">AndroidManifest.xml中的uses-feature标签</a></h1>
         
 
         <div class="post-meta">
@@ -1752,220 +1968,6 @@ public class SystemA {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/21/design-patterns-adapter/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/21/design-patterns-adapter/" itemprop="url">适配器模式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-21T00:00:00Z">
-                2017-06-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>适配器模式：将一个接口转换成客户希望的另一个接口，使接口不兼容的那些类可以一起工作，其别名为包装器(wrapper)。适配器模式有类的适配器模式和对象的适配器模式两种。</p>
-<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><h5 id="类适配器模式"><a href="#类适配器模式" class="headerlink" title="类适配器模式"></a>类适配器模式</h5><ul>
-<li>Target：目标角色。所期待得到的接口。由于是类适配器模式，因此目标是接口不是类。</li>
-<li>Adapee：源角色。限制需要适配的接口。</li>
-<li>Adapter：适配器角色。适配器类是本模式的核心。适配器把源转换为目标。</li>
-</ul>
-<p><img src="/images/adapter_pattern_class_diagram_1.png" alt="类图"></p>
-<h5 id="对象适配器模式"><a href="#对象适配器模式" class="headerlink" title="对象适配器模式"></a>对象适配器模式</h5><p><img src="/images/adapter_pattern_class_diagram_2.png" alt="类图"></p>
-<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/adapter_pattern_sequence_diagram.png" alt="时序图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><h5 id="类适配器模式-1"><a href="#类适配器模式-1" class="headerlink" title="类适配器模式"></a>类适配器模式</h5><p>目标角色：<br>    package AdapterPattern;</p>
-<pre><code>public interface Target {
-
-    /**
-     * 源类{@link Adaptee}}中已存在
-     */
-    void sampleOperation1();
-
-    /**
-     * 源类{@link Adaptee}}中需要添加
-     */
-    void sampleOperation2();
-
-}
-</code></pre><p>源角色：</p>
-<pre><code>    package AdapterPattern;
-
-public class Adaptee {
-    public void sampleOperation1() {
-    }
-}
-</code></pre><p>适配器角色：</p>
-<pre><code>package AdapterPattern;
-
-public class Adapter extends Adaptee implements Target {
-
-    /**
-     * 源类{@link Adaptee}}中没有，需要扩展的方法
-     */
-    @Override
-    public void sampleOperation2() {
-        System.out.println(&quot;扩展方法&quot;);
-    }
-
-}
-</code></pre><h5 id="对象适配器模式-1"><a href="#对象适配器模式-1" class="headerlink" title="对象适配器模式"></a>对象适配器模式</h5><p>源、目标角色都不变，只是在适配器类中，增加对源对引用，代码如下：</p>
-<pre><code>package AdapterPattern;
-
-public class ObjectAdapter implements Target {
-    Adaptee a;
-
-    public ObjectAdapter(Adaptee a) {
-        this.a = a;
-    }
-
-    @Override
-    public void sampleOperation1() {
-        a.sampleOperation1();
-    }
-
-    @Override
-    public void sampleOperation2() {
-        // 扩充方法
-    }
-}
-</code></pre><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><ul>
-<li>通常，客户端通过目标类的接口访问目标提供的服务。有时，现有的类功能上可以满足，但是它所提供的接口不一定是客户类所期望的，这可能是因为现有类中方法名与目标类中定义的方法名不一致等原因所导致的。</li>
-<li>适配器提供客户类需要的接口，把客户类的请求转化为对适配器的相应接口的调用。<code>也就是说，当客户类调用适配器的方法时，在适配器类的内部将调用适配者类的方法</code>，这个过程对客户类是透明的，客户类并不直接访问适配者类。</li>
-</ul>
-<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
-<li>将目标类和适配者类解耦，通过引入一个适配类来重用现有的适配者类，而无需修改原代码</li>
-<li>增加类类的透明性和复用性</li>
-<li>灵活性和扩展性都非常好，通过使用配置文件，可以很方便地更换/增加适配器</li>
-<li>类适配器模式中，由于适配器类是适配者类的子类，因此可以在适配器类中置换一下适配者的方法，使得适配器更加灵活</li>
-<li>对象适配器模式中，一个对象适配器可以把多个不同的适配者适配到同一个目标，也就是说，同一个适配器可以把适配者类和它的子类都适配到目标接口。</li>
-</ul>
-<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
-<li>类适配器中，java、C#不支持多继承，一次最多只能适配一个适配者类，并且目标不能为具体类，使用有局限性，不能将一个适配者类和它的子类都适配到目标接口</li>
-<li>对象适配器中，无法很好的置换适配者类的方法。如果一定要置换掉适配者类的一个或多个方法，就只好先做一个适配者类的子类，将适配者类的方法置换掉，然后再把适配者类的子类当做真正的适配者进行适配，实现过程较为复杂。</li>
-</ul>
-<h4 id="扩展-缺省适配器"><a href="#扩展-缺省适配器" class="headerlink" title="扩展-缺省适配器"></a>扩展-缺省适配器</h4><p>简单理解：接口-抽象类-实现类<br>如果接口中定义的方法过多，可以先用一个抽象类，以空方法实现即<code>平庸实现</code>，然后具体实现类根据需要实现。<br>也叫做单接口适配器模式。</p>
-<p>这个用的多一些。好像模版方法。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2015,7 +2017,7 @@ public class ObjectAdapter implements Target {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">77</span>
+                <span class="site-state-item-count">78</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
