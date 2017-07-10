@@ -267,185 +267,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/two-stacks-makeup-queue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/two-stacks-makeup-queue/" itemprop="url">由两个栈组成的队列</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="由两个栈组成的队列"><a href="#由两个栈组成的队列" class="headerlink" title="由两个栈组成的队列"></a>由两个栈组成的队列</h5><pre><code>编写一个类，使用两个栈实现队列，支持队列的基本操作(add,poll,peek)
-</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>栈的特点是先进后出，而队列的特点是先进先出。我们用两个栈，互相反序，实现类似队列的操作。
-具体实现上是一个栈作为压入栈，在压入数据时只往这个栈中压入，记为stackPush，另一个栈只作为弹出栈，记为stackPop。
-根据栈的特点，循环把stackPush中的数据压入stackPop中，stackPop的栈顶元素即为队列的dequeue元素。
-</code></pre><h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><pre><code>1. 如果stackPush要往stackPop中压入数据，必须一次性压入完毕；
-2. 如果stackPop要接收数据，必须保证stackPop为空。
-</code></pre><h5 id="stackPush压入stackPop的操作时机"><a href="#stackPush压入stackPop的操作时机" class="headerlink" title="stackPush压入stackPop的操作时机"></a>stackPush压入stackPop的操作时机</h5><pre><code>调用add、poll、peek三种方法中任何一种时发生都是可以，只要满足注意事项提到的两点，就不会出错。下面的例子是在调用poll和peek方法时进行压入数据的。
-</code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>import java.util.Stack;
-
-public class TwoStackQueue {
-
-    public Stack&lt;Integer&gt; stackPush;
-    public Stack&lt;Integer&gt; stackPop;
-
-    public TwoStackQueue() {
-        stackPop = new Stack&lt;&gt;();
-        stackPush = new Stack&lt;&gt;();
-    }
-
-    public void add(int pushInt) {
-        stackPush.push(pushInt);
-    }
-
-    public int poll() {
-        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
-            throw new RuntimeException(&quot;Queue is empty!&quot;);
-        } else if (stackPop.empty()) {
-            while (!stackPush.empty()) {
-                stackPop.push(stackPush.pop());
-            }
-        }
-        return stackPop.pop();
-    }
-
-    public int peek(){
-        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
-            throw new RuntimeException(&quot;Queue is empty!&quot;);
-        } else if (stackPop.empty()) {
-            while (!stackPush.empty()) {
-                stackPop.push(stackPush.pop());
-            }
-        }
-        return stackPop.peek();
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -595,6 +416,253 @@ private Singleton() {
     }
 };
 </code></pre><h4 id="终极方法"><a href="#终极方法" class="headerlink" title="终极方法"></a>终极方法</h4><pre><code>使用枚举单例
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-2/" itemprop="url">单例设计模式(二)真●单例唯一$序列化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
+                2017-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="序列化对单例的破坏"><a href="#序列化对单例的破坏" class="headerlink" title="序列化对单例的破坏"></a>序列化对单例的破坏</h4><p>先看一个DCL单例：</p>
+<pre><code>import java.io.Serializable;
+
+/**
+ * double check lock 实现单例
+ */
+public class Singleton implements Serializable {
+    private Singleton() {
+    };
+
+    public static volatile Singleton singleton;
+
+    public static Singleton getInstance() {
+        if (singleton == null) {
+            synchronized (Singleton.class) {
+                if (singleton == null) {
+                    singleton = new Singleton();
+                }
+            }
+        }
+        return singleton;
+    }
+
+}
+</code></pre><p>然后看我们的测试代码：</p>
+<pre><code>import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+public class SerializableDemo1 {
+    public static void main(String[] args) {
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(
+                    new FileOutputStream(&quot;tempFile&quot;));
+            oos.writeObject(Singleton.getInstance());
+            File file = new File(&quot;tempFile&quot;);
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
+                    file));
+            Singleton instance = (Singleton) ois.readObject();
+            System.out.println(&quot;反序列化后的对象和原来的是否相等？&quot;
+                    + (Singleton.getInstance() == instance));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><blockquote>
+<p>运行后： <figure class="highlight plain"><figcaption><span>```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&gt; 通过对Singleton的序列化与反序列化得到的对象是```一个新的对象```，这就破坏了Singleton的单例性。</div><div class="line"></div><div class="line"></div><div class="line">#### 序列化破坏单例の原因 ####</div><div class="line"></div><div class="line">反序列化后，为什么是一个新的对象？我们从```ObjectInputStream$readObject()```方法追踪,&lt;br/&gt;</div><div class="line">发现：``` Object obj = readObject0(false);```&lt;br/&gt;</div><div class="line">继续：</div><div class="line"></div><div class="line">	 case TC_OBJECT:</div><div class="line">	                    return checkResolve(readOrdinaryObject(unshared));</div><div class="line"></div><div class="line">探究： ```ObjectInputStream$readOrdinaryObject</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>该方法关键代码片段一：</p>
+<pre><code>Object obj;
+       try {
+           obj = desc.isInstantiable() ? desc.newInstance() : null;
+       } catch (Exception ex) {
+           throw (IOException) new InvalidClassException(
+               desc.forClass().getName(),
+               &quot;unable to create instance&quot;).initCause(ex);
+       }
+</code></pre><blockquote>
+<p>该obj,就是我们反序列化要得到的对象，即readObject()返回的对象。<br><br><code>isInstantiable</code>：如果一个Serializable/externalizable的类可以在运行时被实例化，那么该方法就返回true。<br><code>desc.newInstance()</code>：该方法通过反射的方式调用无参构造方法新建一个对象</p>
+</blockquote>
+<p>所以：</p>
+<blockquote>
+<p>反序列化会通过反射调用无参的构造创建一个新的对象</p>
+</blockquote>
+<p>该方法关键代码片段二：</p>
+<pre><code>if (obj != null &amp;&amp;
+           handles.lookupException(passHandle) == null &amp;&amp;
+           desc.hasReadResolveMethod())
+       {
+           Object rep = desc.invokeReadResolve(obj);
+           if (unshared &amp;&amp; rep.getClass().isArray()) {
+               rep = cloneArray(rep);
+           }
+           if (rep != obj) {
+               handles.setObject(passHandle, obj = rep);
+           }
+       }
+</code></pre><blockquote>
+<p><code>hasReadResolveMethod</code>： 如果实现了Serializable或者externalizable接口的类中包含readResolve,则返回true<br><br><code>invokeReadResolve</code>： 通过反射的方式调用要被反序列化的类的readResolve方法<br><br><code>if (rep != obj) {
+                    handles.setObject(passHandle, obj = rep);
+                }</code>：<br>如果readResolve得到的对象和desc.newInstance()调用无参构造得到的对象不同，那么使用readResolve方法中返回的Object。</p>
+</blockquote>
+<h4 id="结论一"><a href="#结论一" class="headerlink" title="结论一"></a>结论一</h4><pre><code>由上可得，我们在自己的单例中增加readResolve方法，返回当前单例的实例，即可防止反序列化得到对象不一致问题。如下：
+
+import java.io.Serializable;
+
+/**
+ * double check lock 实现单例
+ */
+public class Singleton implements Serializable {
+    private Singleton() {
+    };
+
+    public static volatile Singleton singleton;
+
+    public static Singleton getInstance() {
+        if (singleton == null) {
+            synchronized (Singleton.class) {
+                if (singleton == null) {
+                    singleton = new Singleton();
+                }
+            }
+        }
+        return singleton;
+    }
+
+    private Object readResolve() {
+        return singleton;
+    }
+
+}
 </code></pre>
           
         
@@ -1027,148 +1095,6 @@ public class SingletonManager {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/Profile-Gpu-rendering/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/09/Profile-Gpu-rendering/" itemprop="url">Gpu呈现模式分析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-09T00:00:00Z">
-                2017-02-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><pre><code>在android手机中，会发现开发者选项 - GPU呈现模式分析的选项。很多道友用之来测试其手机的流畅度。开启之后大概就是这样子了：
-</code></pre><p><img src="/images/profileGPURendering.png" alt="玄学曲线"></p>
-<h4 id="说说这张图片"><a href="#说说这张图片" class="headerlink" title="说说这张图片"></a>说说这张图片</h4><h5 id="绿横线"><a href="#绿横线" class="headerlink" title="绿横线"></a>绿横线</h5><pre><code>在android系统中是以每秒60帧为满帧的，所以1000ms / 60 = 16ms/帧。即每帧快于16ms为流畅，这根绿线即16ms线，低于该绿线为流畅。
-</code></pre><h5 id="红柱"><a href="#红柱" class="headerlink" title="红柱"></a>红柱</h5><pre><code>红色代表了“执行时间”，它指的是Android渲染引擎执行绘制命令的时间，为了绘制到屏幕上，Android需要使用OpenGL ES的API接口来绘制Display List。这些API有效地将数据发送到GPU，最后在屏幕上显示出来。假如当前界面的视图越多，那么红色便会“跳”得越高。实际使用中，比如平时刷App遇到许多缩略图需要加载，那么红色会突然跳很高，但是此时你的页面滑动其实是流畅的，虽然等了零点几秒图片才加载出来，但并不意味着你卡住了。
-</code></pre><p><img src="/images/executePhase.png" alt="绘图执行图"></p>
-<h5 id="黄柱"><a href="#黄柱" class="headerlink" title="黄柱"></a>黄柱</h5><pre><code>黄色通常较短，它代表CPU通知GPU“你已经完成一帧视图的渲染了”，不过这是一个阻塞调用，CPU会等待GPU的回话，当GPU说“好了，知道了”，才算完事儿。假如黄色很高，说明当前GPU过于忙碌，有很多命令需要去处理。
-</code></pre><h5 id="蓝柱"><a href="#蓝柱" class="headerlink" title="蓝柱"></a>蓝柱</h5><pre><code>假如通过蓝色来判断流畅度，参考意义比较大。蓝色代表了视图测量绘制所花费的时间，或者说它代表需要多长时间去创建和更新你的DisplayList。
-在Android中，一个视图在可以实际的进行渲染之前，它必须被转换成GPU所熟悉的格式，简单来说就是几条绘图命令，即执行每一个View的onDraw方法，创建或者更新每一个View的DisplayList对象。
-所以蓝色越短，体验越流畅，当你看到蓝色很高，可能是因为你的一堆视图突然变得无效了，需要重新绘制，或者你的几个自定义视图的onDraw方法过于复杂。
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/Debug-GPU-Overdraw-Walkthrough/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1323,6 +1249,148 @@ null和transparent差别不大，如果有activity右滑返回功能，null,在�
 尽可能避免出现粉红及以上，如果不可避免，尽可能减少
 
 不允许出现超过屏幕1/4的红色区域
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/Profile-Gpu-rendering/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/09/Profile-Gpu-rendering/" itemprop="url">Gpu呈现模式分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-09T00:00:00Z">
+                2017-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><pre><code>在android手机中，会发现开发者选项 - GPU呈现模式分析的选项。很多道友用之来测试其手机的流畅度。开启之后大概就是这样子了：
+</code></pre><p><img src="/images/profileGPURendering.png" alt="玄学曲线"></p>
+<h4 id="说说这张图片"><a href="#说说这张图片" class="headerlink" title="说说这张图片"></a>说说这张图片</h4><h5 id="绿横线"><a href="#绿横线" class="headerlink" title="绿横线"></a>绿横线</h5><pre><code>在android系统中是以每秒60帧为满帧的，所以1000ms / 60 = 16ms/帧。即每帧快于16ms为流畅，这根绿线即16ms线，低于该绿线为流畅。
+</code></pre><h5 id="红柱"><a href="#红柱" class="headerlink" title="红柱"></a>红柱</h5><pre><code>红色代表了“执行时间”，它指的是Android渲染引擎执行绘制命令的时间，为了绘制到屏幕上，Android需要使用OpenGL ES的API接口来绘制Display List。这些API有效地将数据发送到GPU，最后在屏幕上显示出来。假如当前界面的视图越多，那么红色便会“跳”得越高。实际使用中，比如平时刷App遇到许多缩略图需要加载，那么红色会突然跳很高，但是此时你的页面滑动其实是流畅的，虽然等了零点几秒图片才加载出来，但并不意味着你卡住了。
+</code></pre><p><img src="/images/executePhase.png" alt="绘图执行图"></p>
+<h5 id="黄柱"><a href="#黄柱" class="headerlink" title="黄柱"></a>黄柱</h5><pre><code>黄色通常较短，它代表CPU通知GPU“你已经完成一帧视图的渲染了”，不过这是一个阻塞调用，CPU会等待GPU的回话，当GPU说“好了，知道了”，才算完事儿。假如黄色很高，说明当前GPU过于忙碌，有很多命令需要去处理。
+</code></pre><h5 id="蓝柱"><a href="#蓝柱" class="headerlink" title="蓝柱"></a>蓝柱</h5><pre><code>假如通过蓝色来判断流畅度，参考意义比较大。蓝色代表了视图测量绘制所花费的时间，或者说它代表需要多长时间去创建和更新你的DisplayList。
+在Android中，一个视图在可以实际的进行渲染之前，它必须被转换成GPU所熟悉的格式，简单来说就是几条绘图命令，即执行每一个View的onDraw方法，创建或者更新每一个View的DisplayList对象。
+所以蓝色越短，体验越流畅，当你看到蓝色很高，可能是因为你的一堆视图突然变得无效了，需要重新绘制，或者你的几个自定义视图的onDraw方法过于复杂。
 </code></pre>
           
         
