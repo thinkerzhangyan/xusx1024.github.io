@@ -1377,6 +1377,162 @@ public class BuketsSort {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/30/tinker-source-code-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/30/tinker-source-code-3/" itemprop="url">Tinker学习(三) 核心的算法BSDiff、BSPatch</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-30T00:00:00Z">
+                2017-03-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>BSDiff，用于服务端比较二进制文件并生成差异补丁；<br><br>BSPatch，将旧文件和补丁文件合并生成新的文件。</p>
+<p>比较差异使用的算法是<code>suffix sort</code>后缀排序算法。其中：<br></p>
+<ul>
+<li>C实现可以参照：<a href="https://github.com/cperciva" target="_blank" rel="external">Colin Percival</a>的<a href="https://github.com/cperciva/bsdiff" target="_blank" rel="external">bsdiff</a></li>
+<li>Java实现可以参照：<a href="https://github.com/jdesbonnet" target="_blank" rel="external">Joe Desbonnet</a>的<a href="https://github.com/jdesbonnet/jbdiff" target="_blank" rel="external">jbdiff</a><br></li>
+</ul>
+<p>Tinker的<code>com.tencent.tinker.bsdiff</code>实现基本上和Joe Desbonnet的实现并无两样。</p>
+<h4 id="BSDiff基本步骤"><a href="#BSDiff基本步骤" class="headerlink" title="BSDiff基本步骤"></a>BSDiff基本步骤</h4><ol>
+<li>将old文件中所有子字符串形成一个字典 </li>
+<li>对比old文件和new文件，产生diff string 和 extra string</li>
+<li>将diffstring和extra string以及相应的控制字用zip压缩成一个patch包。</li>
+</ol>
+<p>所有差量更新算法的瓶颈，时间复杂度为O(nlogn)，空间复杂度为O(n)，n为old的文件长度，BSDiff采用了Fast suffix sorting方法生成后缀数组<br><br>关于后缀数组概念，需要懂得非比较排序算法：<br></p>
+<ul>
+<li><a href="http://xusx1024.com/2017/04/11/counting-sort/" target="_blank" rel="external">非比较排序之计数排序</a></li>
+<li><a href="http://xusx1024.com/2017/04/10/bucket-sort/" target="_blank" rel="external">非比较排序之桶/箱排序</a></li>
+<li><a href="http://xusx1024.com/2017/04/10/radix-sort/" target="_blank" rel="external">非比较排序之基数排序</a></li>
+</ul>
+<p>需要懂得生成后缀数组算法：<br></p>
+<ul>
+<li><a href="http://xusx1024.com/2017/04/11/suffix-sort-baseon-prefix-doubleing/" target="_blank" rel="external">基于倍增算法实现后缀数组</a></li>
+<li><a href="http://xusx1024.com/2017/04/13/suffix-sort-baseon-dc3/" target="_blank" rel="external">基于DC3算法实现后缀数组</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/30/tinker-source-code-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1553,162 +1709,6 @@ public class StartUp {
     }
 }
 </code></pre><p>修改person类里的打印String，会发现我们的main方法里的线程，总是打印我们修改后的文字。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/30/tinker-source-code-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/30/tinker-source-code-3/" itemprop="url">Tinker学习(三) 核心的算法BSDiff、BSPatch</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-30T00:00:00Z">
-                2017-03-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>BSDiff，用于服务端比较二进制文件并生成差异补丁；<br><br>BSPatch，将旧文件和补丁文件合并生成新的文件。</p>
-<p>比较差异使用的算法是<code>suffix sort</code>后缀排序算法。其中：<br></p>
-<ul>
-<li>C实现可以参照：<a href="https://github.com/cperciva" target="_blank" rel="external">Colin Percival</a>的<a href="https://github.com/cperciva/bsdiff" target="_blank" rel="external">bsdiff</a></li>
-<li>Java实现可以参照：<a href="https://github.com/jdesbonnet" target="_blank" rel="external">Joe Desbonnet</a>的<a href="https://github.com/jdesbonnet/jbdiff" target="_blank" rel="external">jbdiff</a><br></li>
-</ul>
-<p>Tinker的<code>com.tencent.tinker.bsdiff</code>实现基本上和Joe Desbonnet的实现并无两样。</p>
-<h4 id="BSDiff基本步骤"><a href="#BSDiff基本步骤" class="headerlink" title="BSDiff基本步骤"></a>BSDiff基本步骤</h4><ol>
-<li>将old文件中所有子字符串形成一个字典 </li>
-<li>对比old文件和new文件，产生diff string 和 extra string</li>
-<li>将diffstring和extra string以及相应的控制字用zip压缩成一个patch包。</li>
-</ol>
-<p>所有差量更新算法的瓶颈，时间复杂度为O(nlogn)，空间复杂度为O(n)，n为old的文件长度，BSDiff采用了Fast suffix sorting方法生成后缀数组<br><br>关于后缀数组概念，需要懂得非比较排序算法：<br></p>
-<ul>
-<li><a href="http://xusx1024.com/2017/04/11/counting-sort/" target="_blank" rel="external">非比较排序之计数排序</a></li>
-<li><a href="http://xusx1024.com/2017/04/10/bucket-sort/" target="_blank" rel="external">非比较排序之桶/箱排序</a></li>
-<li><a href="http://xusx1024.com/2017/04/10/radix-sort/" target="_blank" rel="external">非比较排序之基数排序</a></li>
-</ul>
-<p>需要懂得生成后缀数组算法：<br></p>
-<ul>
-<li><a href="http://xusx1024.com/2017/04/11/suffix-sort-baseon-prefix-doubleing/" target="_blank" rel="external">基于倍增算法实现后缀数组</a></li>
-<li><a href="http://xusx1024.com/2017/04/13/suffix-sort-baseon-dc3/" target="_blank" rel="external">基于DC3算法实现后缀数组</a></li>
-</ul>
 
           
         

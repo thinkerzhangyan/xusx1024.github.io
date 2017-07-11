@@ -157,4 +157,21 @@ Java server page
 
 #### EL表达式 ####
 
+- EL是JSP内置的表达式语言
+- ${}
+- EL替代的是<%= %>，只能做输出
+- 
+- EL表达式读取四大域
+	- ${xxx}
+	- ${pageScope.xxx},${requestScope.xxx},${sessionScope.xxx},${applicationScope.xxx}，指定域获取信息
+- javaBean导航
+-  11个内置对象
+	-  param
+	-  initParam
+	-  paramValues
+	-  header
+	-  headerValues
+	-  Cookie:Map<String ,Cookie>
+	-  pageContext
+
  
