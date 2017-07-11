@@ -483,6 +483,172 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/03/uses-feature/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/03/uses-feature/" itemprop="url">AndroidManifest.xml中的uses-feature标签</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-03T00:00:00Z">
+                2017-07-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h4><p>如果你有一个装有android 1.5的设备，你可能会注意到一些高版本的应用没有在手机上的Android Market中显示。这必定是应用使用了<uses-feature>的结果。</uses-feature></p>
+<h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><pre><code>&lt;uses-feature
+  android:name=&quot;string&quot;
+  android:required=[&quot;true&quot; | &quot;false&quot;]
+  android:glEsVersion=&quot;integer&quot; /&gt;
+</code></pre><h5 id="android-name"><a href="#android-name" class="headerlink" title="android:name"></a>android:name</h5><p>以描述字符串形式指定应用使用的单一硬件或软件功能。详见:<a href="https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#features-reference" target="_blank" rel="external">HERE</a></p>
+<pre><code>&lt;uses-feature android:name=&quot;android.hardware.bluetooth&quot; /&gt;
+&lt;uses-feature android:name=&quot;android.hardware.camera&quot; /&gt;
+</code></pre><h5 id="android-required"><a href="#android-required" class="headerlink" title="android:required"></a>android:required</h5><ul>
+<li>android:required=”true”:当设备不具有该指定功能时，应用无法正常工作，或设计为无法正常工作</li>
+<li>android:required=”false”：如果设备具有该功能，应用会在必要时优先使用该功能，但应用设计为不使用该指定功能也可正常工作</li>
+<li><p>默认为true</p>
+<pre><code> &lt;uses-feature 
+android:name=&quot;android.hardware.camera&quot;
+android:required=false /&gt;
+</code></pre></li>
+</ul>
+<h5 id="android-glEsVersion"><a href="#android-glEsVersion" class="headerlink" title="android:glEsVersion"></a>android:glEsVersion</h5><p>应用需要的OpenGL ES版本。高16位表示主版本号，低16位表示次版本号。例如2.0 –&gt; 0x00020000;3.2 –&gt; 0x00030002</p>
+<pre><code>&lt;uses-feature android:glEsVersion=&quot;0x00020000&quot; required=&quot;true&quot;/&gt;
+</code></pre><ul>
+<li>如果指定多个，将使用数值最高的</li>
+<li>如果没有指定，系统假定只需要OpenGL ES 1.0</li>
+</ul>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li><uses-feature> 声明的用途是将您的应用依赖的硬件和软件功能集通知任何外部实体</uses-feature></li>
+<li>一般而言，您始终都应确保为应用需要的所有功能声明 <uses-feature> 元素</uses-feature></li>
+<li>Android 系统本身在安装应用前不会检查设备是否提供相应的功能支持</li>
+<li>其他服务（如 Google Play）或应用可能会在处理您的应用或与其交互的过程中检查它的 <uses-feature> 声明</uses-feature></li>
+<li>如果minSdkVersion&lt;=4或者targetSdkVersion&lt;=4,googlePlay将不对该标签做任何过滤</li>
+<li>蓝牙、相机、麦克风、定位、wifi、触屏、USB</li>
+<li>输入法、多媒体、屏幕界面(小控件、壁纸等)</li>
+</ul>
+<p><a href="https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required" target="_blank" rel="external">https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/03/net-work-day02/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -609,172 +775,6 @@
 <li>500 服务端在执行请求时发生了错误</li>
 <li>503 服务器暂时处于超负载或正在进行停机维护，现在无法处理请求</li>
 </ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/03/uses-feature/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/03/uses-feature/" itemprop="url">AndroidManifest.xml中的uses-feature标签</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-03T00:00:00Z">
-                2017-07-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h4><p>如果你有一个装有android 1.5的设备，你可能会注意到一些高版本的应用没有在手机上的Android Market中显示。这必定是应用使用了<uses-feature>的结果。</uses-feature></p>
-<h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><pre><code>&lt;uses-feature
-  android:name=&quot;string&quot;
-  android:required=[&quot;true&quot; | &quot;false&quot;]
-  android:glEsVersion=&quot;integer&quot; /&gt;
-</code></pre><h5 id="android-name"><a href="#android-name" class="headerlink" title="android:name"></a>android:name</h5><p>以描述字符串形式指定应用使用的单一硬件或软件功能。详见:<a href="https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#features-reference" target="_blank" rel="external">HERE</a></p>
-<pre><code>&lt;uses-feature android:name=&quot;android.hardware.bluetooth&quot; /&gt;
-&lt;uses-feature android:name=&quot;android.hardware.camera&quot; /&gt;
-</code></pre><h5 id="android-required"><a href="#android-required" class="headerlink" title="android:required"></a>android:required</h5><ul>
-<li>android:required=”true”:当设备不具有该指定功能时，应用无法正常工作，或设计为无法正常工作</li>
-<li>android:required=”false”：如果设备具有该功能，应用会在必要时优先使用该功能，但应用设计为不使用该指定功能也可正常工作</li>
-<li><p>默认为true</p>
-<pre><code> &lt;uses-feature 
-android:name=&quot;android.hardware.camera&quot;
-android:required=false /&gt;
-</code></pre></li>
-</ul>
-<h5 id="android-glEsVersion"><a href="#android-glEsVersion" class="headerlink" title="android:glEsVersion"></a>android:glEsVersion</h5><p>应用需要的OpenGL ES版本。高16位表示主版本号，低16位表示次版本号。例如2.0 –&gt; 0x00020000;3.2 –&gt; 0x00030002</p>
-<pre><code>&lt;uses-feature android:glEsVersion=&quot;0x00020000&quot; required=&quot;true&quot;/&gt;
-</code></pre><ul>
-<li>如果指定多个，将使用数值最高的</li>
-<li>如果没有指定，系统假定只需要OpenGL ES 1.0</li>
-</ul>
-<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
-<li><uses-feature> 声明的用途是将您的应用依赖的硬件和软件功能集通知任何外部实体</uses-feature></li>
-<li>一般而言，您始终都应确保为应用需要的所有功能声明 <uses-feature> 元素</uses-feature></li>
-<li>Android 系统本身在安装应用前不会检查设备是否提供相应的功能支持</li>
-<li>其他服务（如 Google Play）或应用可能会在处理您的应用或与其交互的过程中检查它的 <uses-feature> 声明</uses-feature></li>
-<li>如果minSdkVersion&lt;=4或者targetSdkVersion&lt;=4,googlePlay将不对该标签做任何过滤</li>
-<li>蓝牙、相机、麦克风、定位、wifi、触屏、USB</li>
-<li>输入法、多媒体、屏幕界面(小控件、壁纸等)</li>
-</ul>
-<p><a href="https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required" target="_blank" rel="external">https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required</a></p>
 
           
         
@@ -1301,6 +1301,156 @@ android:required=false /&gt;
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/26/design-patterns-composite/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/26/design-patterns-composite/" itemprop="url">组合模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-26T00:00:00Z">
+                2017-06-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>组合模式(Composite Pattern):组合多个对象形成树形结构以表示具有“整体-部分”关系的层次结构。组合模式对单个对象和组合对象的使用具有一致性，组合模式又可以称为“整体-部分”（Part-Whole）模式，它是一种对象结构型模式。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li>Component：抽象构件。给参加组合的对象定义公共的接口及其默认行为，可以用来管理所有的子对象。在安全式中，可以为接口，不定义具体的方法；在透明式中，定义为抽象类，给出具体的操作及默认处理。</li>
+<li>Leaf：树叶构件。没有下级子对象的对象。</li>
+<li>Composite：具体构件。拥有下级子对象的对象。树枝构件类给出所有的管理子对象的方法，如add,get,remove</li>
+</ul>
+<h5 id="安全式组合模式"><a href="#安全式组合模式" class="headerlink" title="安全式组合模式"></a>安全式组合模式</h5><p><img src="/images/composite_pattern_class_diagram_1.png" alt="类图"></p>
+<h5 id="透明式组合模式"><a href="#透明式组合模式" class="headerlink" title="透明式组合模式"></a>透明式组合模式</h5><p><img src="/images/composite_pattern_class_diagram_2.png" alt="类图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/CompositePattern" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><h5 id="安全式"><a href="#安全式" class="headerlink" title="安全式"></a>安全式</h5><ul>
+<li>具体构件给出了add、get、remove等方法的声明和实现，而树叶构件类则没有，这样是安全的做法，客户端不可能错误的调用树叶构件的方法，因为树叶构件没有这些方法</li>
+<li>由于树叶类和树枝类具有不同的接口，无法面向抽象编程</li>
+</ul>
+<h5 id="透明式"><a href="#透明式" class="headerlink" title="透明式"></a>透明式</h5><ul>
+<li>透明式要求所有的具体构件类、树叶类，均符合一个固定的接口</li>
+<li>客户端调用的时候，不再需要区分树枝类、树叶类，可以面向接口编程，对客户端来说，是透明的</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/26/design-patterns-facade/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1452,156 +1602,6 @@ public class SystemA {
 <h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
 <li>不能很好地限制客户使用子系统类，如果对客户访问子系统类做太多限制则减少了可变性和灵活性</li>
 <li>在不引入抽象外观类的情况下，增加新的子系统可能需要修改外观类或客户端的源代码，违背了“开闭原则”</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/26/design-patterns-composite/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/26/design-patterns-composite/" itemprop="url">组合模式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-26T00:00:00Z">
-                2017-06-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>组合模式(Composite Pattern):组合多个对象形成树形结构以表示具有“整体-部分”关系的层次结构。组合模式对单个对象和组合对象的使用具有一致性，组合模式又可以称为“整体-部分”（Part-Whole）模式，它是一种对象结构型模式。</p>
-<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
-<li>Component：抽象构件。给参加组合的对象定义公共的接口及其默认行为，可以用来管理所有的子对象。在安全式中，可以为接口，不定义具体的方法；在透明式中，定义为抽象类，给出具体的操作及默认处理。</li>
-<li>Leaf：树叶构件。没有下级子对象的对象。</li>
-<li>Composite：具体构件。拥有下级子对象的对象。树枝构件类给出所有的管理子对象的方法，如add,get,remove</li>
-</ul>
-<h5 id="安全式组合模式"><a href="#安全式组合模式" class="headerlink" title="安全式组合模式"></a>安全式组合模式</h5><p><img src="/images/composite_pattern_class_diagram_1.png" alt="类图"></p>
-<h5 id="透明式组合模式"><a href="#透明式组合模式" class="headerlink" title="透明式组合模式"></a>透明式组合模式</h5><p><img src="/images/composite_pattern_class_diagram_2.png" alt="类图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/CompositePattern" target="_blank" rel="external">GitHub</a></p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><h5 id="安全式"><a href="#安全式" class="headerlink" title="安全式"></a>安全式</h5><ul>
-<li>具体构件给出了add、get、remove等方法的声明和实现，而树叶构件类则没有，这样是安全的做法，客户端不可能错误的调用树叶构件的方法，因为树叶构件没有这些方法</li>
-<li>由于树叶类和树枝类具有不同的接口，无法面向抽象编程</li>
-</ul>
-<h5 id="透明式"><a href="#透明式" class="headerlink" title="透明式"></a>透明式</h5><ul>
-<li>透明式要求所有的具体构件类、树叶类，均符合一个固定的接口</li>
-<li>客户端调用的时候，不再需要区分树枝类、树叶类，可以面向接口编程，对客户端来说，是透明的</li>
 </ul>
 
           
