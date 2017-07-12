@@ -932,7 +932,7 @@ context.bindService(intent, mConn, Context.BIND_AUTO_CREATE);
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/31/design-patterns-chain-of-responsibility/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/31/anti-patterns/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -951,7 +951,7 @@ context.bindService(intent, mConn, Context.BIND_AUTO_CREATE);
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/05/31/design-patterns-chain-of-responsibility/" itemprop="url">责任链模式</a></h1>
+                <a class="post-title-link" href="/2017/05/31/anti-patterns/" itemprop="url">软件开发反模式</a></h1>
         
 
         <div class="post-meta">
@@ -1022,29 +1022,58 @@ context.bindService(intent, mConn, Context.BIND_AUTO_CREATE);
       
         
           
-            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><p>责任链模式是对象行为型模式<br></p>
-<p>责任链模式(Chain of Responsibility Pattern)：避免请求发送者与接收者耦合在一起，让多个对象都有可能接收请求，将这些对象连接成一条链，并且沿着这条链传递请求，直到有对象处理它为止。<br></p>
-<p>客户端无须关心请求的处理细节以及请求的传递，只需将请求发送到链上即可，实现发送者和接收者耦合解耦。</p>
-<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
-<li>Handler(抽象处理者)：它定义了一个处理请求的接口，一般设计为抽象类，由于不同的具体处理者处理请求的方式不同，因此在此定义了抽象方法。因为每一个处理者的下家还是一个处理者，因此在抽象处理者中定义了一个抽象处理者类型的对象，作为其对下家的引用，通过该引用，处理者可以连成一条链</li>
-<li>ConcreteHandler(具体处理者)：它是抽象处理者的子类，可以处理用户请求，在具体处理者类中实现了抽象处理者中定义的抽象请求处理方法，在处理请求之前需要进行判断，看是否有相应的处理权限，如果可以处理请求就处理，否则转发给后继者。</li>
-</ul>
-<p><img src="/images/chain_of_responsibility_class_diagram.png" alt="类图"></p>
-<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/chain_of_responsibility_sequence_diagram.png" alt="时序图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p> <a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/ChainOfResponsibility" target="_blank" rel="external">GitHub</a></p>
-<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><ul>
-<li>有多个对象可以处理同一个请求，具体哪个对象处理该请求待运行时刻再确定，客户端只需将请求提交到链上，而无须关心请求的处理对象是谁以及它是如何处理的</li>
-<li>在不明确指定接收者的情况下，向多个对象中的一个提交一个请求</li>
-<li>可动态指定一组对象处理请求，客户端可以动态创建职责链来处理请求，还可以改变链中处理者之间的先后次序。 </li>
-</ul>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><ul>
-<li>责任链可以是一条直线、一个环、或者一个树形结构，最常见的的直线型</li>
-<li>在责任链模式里，很多对象由每一个对象对其下家的引用而连接起来形成一条链。请求在这个链上传递，直到链上的某一个对象决定处理此请求。发出这个请求的客户端并不知道链上的哪一个对象最终处理这个请求，这使得系统可以在不影响客户端的情况下动态地重新组织链和分配责任。</li>
-<li>责任链模式并不创建责任链，责任链的创建工作一般在使用该责任链的客户端完成。</li>
-<li>纯的责任链模式要求一个具体处理者对象只能在两个行为中选择一个：要么承担全部责任，要么将责任推给下家，并且要求一个请求必须被某一个处理者对象所接收，不能出现某个请求未被处理的情况</li>
-<li>不纯的责任链模式，关于请求，允许部分处理后向下传递，也允许处理完后继续向下传递，也允许最终不被任何处理者接收。</li>
-</ul>
+            <h4 id="过早优化"><a href="#过早优化" class="headerlink" title="过早优化"></a><strong>过早优化</strong></h4><h5 id="what"><a href="#what" class="headerlink" title="what"></a>what</h5><pre><code>在你有足够的信息能确定在哪优化、如何优化之前就展开优化。
+</code></pre><h5 id="why"><a href="#why" class="headerlink" title="why"></a>why</h5><pre><code>想要知道实践中的确切瓶颈很困难。试图在得到实验数据之前就实行优化，可能会提高代码复杂度，并引发难以察举的bug。 
+Donald Knuth有云：97%的时间里，我们应该忘掉微不足道的效率：过早的优化是万恶之源。然后，在3%的决定性时刻，我们不该错过优化。
+</code></pre><h5 id="how"><a href="#how" class="headerlink" title="how"></a>how</h5><pre><code>把整洁的、可读性强的、能运行的代码放在首位，使用已知的和测试过的算法和工具。
+当需要找到瓶颈和决定优化优先级时，使用分析工具。依赖于测量而不是臆想和推断。 
 
+不假思索就动手，还不如不做。——Tim Peter
+</code></pre><h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><pre><code>优化之前分析。避免为了效率而牺牲简洁性，除非效率被验证了的确是有必要的。
+</code></pre><h4 id="单车车库"><a href="#单车车库" class="headerlink" title="单车车库"></a>单车车库</h4><h5 id="what-1"><a href="#what-1" class="headerlink" title="what"></a>what</h5><pre><code>花大量时间来辩论和决定琐碎、太主观的问题的趋势。
+</code></pre><h5 id="why-1"><a href="#why-1" class="headerlink" title="why"></a>why</h5><pre><code>浪费时间。
+</code></pre><h5 id="how-1"><a href="#how-1" class="headerlink" title="how"></a>how</h5><pre><code>如果你注意到了，那鼓励团队成员意识到这种趋势，并且优先达成决定(投票、抛硬币等，如果你不得不这样做的话)。
+当这个决定有意义时，考虑随后A/B的来回顾这个决定，而不是进一步的内部讨论。
+</code></pre><h5 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h5><pre><code>单车车库相对于提前优化更容易被发现和制止。只要注意你用在做决定和合约上的琐碎问题的时间，如果有必要，就加以干涉。
+避免花费太多时间在琐碎的事情上。
+</code></pre><h4 id="分析瘫痪"><a href="#分析瘫痪" class="headerlink" title="分析瘫痪"></a>分析瘫痪</h4><h5 id="what-2"><a href="#what-2" class="headerlink" title="what"></a>what</h5><pre><code>对问题的过度分析，阻碍了行动和进展。
+</code></pre><h5 id="why-2"><a href="#why-2" class="headerlink" title="why"></a>why</h5><pre><code>过度分析会延缓进展，甚至彻底终止进展。在极端情况下，分析的结果到了要做的时候已经过时了，
+或者更糟的是，项目或许从来走不出分析阶段。当决定难以做出时，很容易想到，更多的信息将会有助于做出决定。    
+</code></pre><h5 id="how-2"><a href="#how-2" class="headerlink" title="how"></a>how</h5><pre><code>意识是有帮助的。重点在于迭代和改进。伴随着更多有帮助的、有意义的分析得到的数据，
+每次迭代都会提供更多的反馈。如果没有新的数据点，更多的分析将变得越来越让人猜疑。
+</code></pre><h5 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h5><pre><code>宁愿迭代，也不用过度分析和猜测。
+</code></pre><h4 id="上帝类"><a href="#上帝类" class="headerlink" title="上帝类"></a>上帝类</h4><h5 id="what-3"><a href="#what-3" class="headerlink" title="what"></a>what</h5><pre><code>上帝类控制很值很多其他类，以及有很多依赖类，也就有更大的责任。
+</code></pre><h5 id="why-3"><a href="#why-3" class="headerlink" title="why"></a>why</h5><pre><code>违反了单一责任原则，难以单元测试、调试和记录文档。
+</code></pre><h5 id="how-3"><a href="#how-3" class="headerlink" title="how"></a>how</h5><pre><code>通过把责任打散成单一的、清晰的、经过单元测试的、文档易编写的类，可以避免类变成上帝类。
+</code></pre><h5 id="总结-3"><a href="#总结-3" class="headerlink" title="总结"></a>总结</h5><pre><code>避免有着太多责任和依赖的庞大的类。
+</code></pre><h4 id="新增类恐惧症"><a href="#新增类恐惧症" class="headerlink" title="新增类恐惧症"></a>新增类恐惧症</h4><h5 id="what-4"><a href="#what-4" class="headerlink" title="what"></a>what</h5><pre><code>认为更多的类必然使得设计更加复杂，导致对新增类或把大类分解为一些小类感到恐惧。
+</code></pre><h5 id="why-4"><a href="#why-4" class="headerlink" title="why"></a>why</h5><pre><code>新增类可以明显降低复杂度。一些简单的、易于维护、易于记录文档的类，要远远好过于有着太多责任的、单一庞大的、复杂类。
+</code></pre><h5 id="how-4"><a href="#how-4" class="headerlink" title="how"></a>how</h5><pre><code>简化设计新增类，解耦代码中不必要的耦合部分。
+</code></pre><h5 id="总结-4"><a href="#总结-4" class="headerlink" title="总结"></a>总结</h5><pre><code>类的数量多，并不能说明设计很糟糕。
+</code></pre><h4 id="内部平台效应"><a href="#内部平台效应" class="headerlink" title="内部平台效应"></a>内部平台效应</h4><h5 id="what-5"><a href="#what-5" class="headerlink" title="what"></a>what</h5><pre><code>复杂的软件系统趋势在于重实现它所运行的平台特点或平台所使用的语言，通常实现的比较烂。
+</code></pre><h5 id="why-5"><a href="#why-5" class="headerlink" title="why"></a>why</h5><pre><code>重新发明语言，导致代码阅读困难，有更陡峭的学习曲线，限制了重构和代码分析工具的效用。
+</code></pre><h5 id="how-5"><a href="#how-5" class="headerlink" title="how"></a>how</h5><pre><code>学习使用你的操作系统或平台提供的平台和功能，抵制住创建已有语言结构的诱惑。
+</code></pre><h5 id="总结-5"><a href="#总结-5" class="headerlink" title="总结"></a>总结</h5><pre><code>避免重新发明你的操作系统或开发平台已经做得很多的功能。    
+</code></pre><h4 id="魔法数和字符串"><a href="#魔法数和字符串" class="headerlink" title="魔法数和字符串"></a>魔法数和字符串</h4><h5 id="what-6"><a href="#what-6" class="headerlink" title="what"></a>what</h5><pre><code>使用未命名的数字或字符串字面量，而不是在代码里命名为常量。
+</code></pre><h5 id="why-6"><a href="#why-6" class="headerlink" title="why"></a>why</h5><pre><code>增加了代码理解难度，如果必须要修改这些常量，寻找和替换会导致一些微妙的bug。
+</code></pre><h5 id="how-6"><a href="#how-6" class="headerlink" title="how"></a>how</h5><pre><code>使用命名的常量、资源检索方法或者注释。
+</code></pre><h5 id="总结-6"><a href="#总结-6" class="headerlink" title="总结"></a>总结</h5><pre><code>避免在代码中出现未注释、未命名的数字和字符串字面量。
+</code></pre><h4 id="数字管理"><a href="#数字管理" class="headerlink" title="数字管理"></a>数字管理</h4><blockquote>
+<p>用代码行数来衡量开发进度，无异于用重量来衡量制造飞机的进度。——BillGates</p>
+</blockquote>
+<h5 id="what-7"><a href="#what-7" class="headerlink" title="what"></a>what</h5><pre><code>严格地依靠数字来做决定。
+</code></pre><h5 id="why-7"><a href="#why-7" class="headerlink" title="why"></a>why</h5><pre><code>在单车车库中，我们要求根据数据来优化或做决策，而不是光靠凭空想。但是，盲目的信任数字也很危险。
+例如，模型无效了但是数据还在，或者模型过期了，不再能精准的代表现实。这就会导致一些错误的决定，尤其是如果他们完全自动化时。
+</code></pre><h5 id="how-7"><a href="#how-7" class="headerlink" title="how"></a>how</h5><pre><code>理智地使用测量和数字，而非盲目。
+</code></pre><h5 id="总结-7"><a href="#总结-7" class="headerlink" title="总结"></a>总结</h5><pre><code>用数字来得出你的决策，但不是用数字来做决定。
+</code></pre><h4 id="幽灵类"><a href="#幽灵类" class="headerlink" title="幽灵类"></a>幽灵类</h4><blockquote>
+<p>要想达到完美，不是没有东西可加，而是没有东西可减。</p>
+</blockquote>
+<h5 id="what-8"><a href="#what-8" class="headerlink" title="what"></a>what</h5><pre><code>无用类本身没有真正的责任，经常用来指示调用另一个类的方法或者增加一层不必要的抽象。
+</code></pre><h5 id="why-8"><a href="#why-8" class="headerlink" title="why"></a>why</h5><pre><code>增加了测试和维护的复杂度，降低了代码的可读性。
+</code></pre><h5 id="how-8"><a href="#how-8" class="headerlink" title="how"></a>how</h5><pre><code>不要写无用的类，或者通过重构来消除。
+</code></pre><h5 id="总结-8"><a href="#总结-8" class="headerlink" title="总结"></a>总结</h5><pre><code>避免没有真正责任的类。
+</code></pre>
           
         
       
@@ -1250,7 +1279,7 @@ boolean IS_TEACHER = false;
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/31/anti-patterns/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/31/design-patterns-chain-of-responsibility/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -1269,7 +1298,7 @@ boolean IS_TEACHER = false;
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/05/31/anti-patterns/" itemprop="url">软件开发反模式</a></h1>
+                <a class="post-title-link" href="/2017/05/31/design-patterns-chain-of-responsibility/" itemprop="url">责任链模式</a></h1>
         
 
         <div class="post-meta">
@@ -1340,58 +1369,29 @@ boolean IS_TEACHER = false;
       
         
           
-            <h4 id="过早优化"><a href="#过早优化" class="headerlink" title="过早优化"></a><strong>过早优化</strong></h4><h5 id="what"><a href="#what" class="headerlink" title="what"></a>what</h5><pre><code>在你有足够的信息能确定在哪优化、如何优化之前就展开优化。
-</code></pre><h5 id="why"><a href="#why" class="headerlink" title="why"></a>why</h5><pre><code>想要知道实践中的确切瓶颈很困难。试图在得到实验数据之前就实行优化，可能会提高代码复杂度，并引发难以察举的bug。 
-Donald Knuth有云：97%的时间里，我们应该忘掉微不足道的效率：过早的优化是万恶之源。然后，在3%的决定性时刻，我们不该错过优化。
-</code></pre><h5 id="how"><a href="#how" class="headerlink" title="how"></a>how</h5><pre><code>把整洁的、可读性强的、能运行的代码放在首位，使用已知的和测试过的算法和工具。
-当需要找到瓶颈和决定优化优先级时，使用分析工具。依赖于测量而不是臆想和推断。 
+            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><p>责任链模式是对象行为型模式<br></p>
+<p>责任链模式(Chain of Responsibility Pattern)：避免请求发送者与接收者耦合在一起，让多个对象都有可能接收请求，将这些对象连接成一条链，并且沿着这条链传递请求，直到有对象处理它为止。<br></p>
+<p>客户端无须关心请求的处理细节以及请求的传递，只需将请求发送到链上即可，实现发送者和接收者耦合解耦。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li>Handler(抽象处理者)：它定义了一个处理请求的接口，一般设计为抽象类，由于不同的具体处理者处理请求的方式不同，因此在此定义了抽象方法。因为每一个处理者的下家还是一个处理者，因此在抽象处理者中定义了一个抽象处理者类型的对象，作为其对下家的引用，通过该引用，处理者可以连成一条链</li>
+<li>ConcreteHandler(具体处理者)：它是抽象处理者的子类，可以处理用户请求，在具体处理者类中实现了抽象处理者中定义的抽象请求处理方法，在处理请求之前需要进行判断，看是否有相应的处理权限，如果可以处理请求就处理，否则转发给后继者。</li>
+</ul>
+<p><img src="/images/chain_of_responsibility_class_diagram.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/chain_of_responsibility_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p> <a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/ChainOfResponsibility" target="_blank" rel="external">GitHub</a></p>
+<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><ul>
+<li>有多个对象可以处理同一个请求，具体哪个对象处理该请求待运行时刻再确定，客户端只需将请求提交到链上，而无须关心请求的处理对象是谁以及它是如何处理的</li>
+<li>在不明确指定接收者的情况下，向多个对象中的一个提交一个请求</li>
+<li>可动态指定一组对象处理请求，客户端可以动态创建职责链来处理请求，还可以改变链中处理者之间的先后次序。 </li>
+</ul>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><ul>
+<li>责任链可以是一条直线、一个环、或者一个树形结构，最常见的的直线型</li>
+<li>在责任链模式里，很多对象由每一个对象对其下家的引用而连接起来形成一条链。请求在这个链上传递，直到链上的某一个对象决定处理此请求。发出这个请求的客户端并不知道链上的哪一个对象最终处理这个请求，这使得系统可以在不影响客户端的情况下动态地重新组织链和分配责任。</li>
+<li>责任链模式并不创建责任链，责任链的创建工作一般在使用该责任链的客户端完成。</li>
+<li>纯的责任链模式要求一个具体处理者对象只能在两个行为中选择一个：要么承担全部责任，要么将责任推给下家，并且要求一个请求必须被某一个处理者对象所接收，不能出现某个请求未被处理的情况</li>
+<li>不纯的责任链模式，关于请求，允许部分处理后向下传递，也允许处理完后继续向下传递，也允许最终不被任何处理者接收。</li>
+</ul>
 
-不假思索就动手，还不如不做。——Tim Peter
-</code></pre><h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><pre><code>优化之前分析。避免为了效率而牺牲简洁性，除非效率被验证了的确是有必要的。
-</code></pre><h4 id="单车车库"><a href="#单车车库" class="headerlink" title="单车车库"></a>单车车库</h4><h5 id="what-1"><a href="#what-1" class="headerlink" title="what"></a>what</h5><pre><code>花大量时间来辩论和决定琐碎、太主观的问题的趋势。
-</code></pre><h5 id="why-1"><a href="#why-1" class="headerlink" title="why"></a>why</h5><pre><code>浪费时间。
-</code></pre><h5 id="how-1"><a href="#how-1" class="headerlink" title="how"></a>how</h5><pre><code>如果你注意到了，那鼓励团队成员意识到这种趋势，并且优先达成决定(投票、抛硬币等，如果你不得不这样做的话)。
-当这个决定有意义时，考虑随后A/B的来回顾这个决定，而不是进一步的内部讨论。
-</code></pre><h5 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h5><pre><code>单车车库相对于提前优化更容易被发现和制止。只要注意你用在做决定和合约上的琐碎问题的时间，如果有必要，就加以干涉。
-避免花费太多时间在琐碎的事情上。
-</code></pre><h4 id="分析瘫痪"><a href="#分析瘫痪" class="headerlink" title="分析瘫痪"></a>分析瘫痪</h4><h5 id="what-2"><a href="#what-2" class="headerlink" title="what"></a>what</h5><pre><code>对问题的过度分析，阻碍了行动和进展。
-</code></pre><h5 id="why-2"><a href="#why-2" class="headerlink" title="why"></a>why</h5><pre><code>过度分析会延缓进展，甚至彻底终止进展。在极端情况下，分析的结果到了要做的时候已经过时了，
-或者更糟的是，项目或许从来走不出分析阶段。当决定难以做出时，很容易想到，更多的信息将会有助于做出决定。    
-</code></pre><h5 id="how-2"><a href="#how-2" class="headerlink" title="how"></a>how</h5><pre><code>意识是有帮助的。重点在于迭代和改进。伴随着更多有帮助的、有意义的分析得到的数据，
-每次迭代都会提供更多的反馈。如果没有新的数据点，更多的分析将变得越来越让人猜疑。
-</code></pre><h5 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h5><pre><code>宁愿迭代，也不用过度分析和猜测。
-</code></pre><h4 id="上帝类"><a href="#上帝类" class="headerlink" title="上帝类"></a>上帝类</h4><h5 id="what-3"><a href="#what-3" class="headerlink" title="what"></a>what</h5><pre><code>上帝类控制很值很多其他类，以及有很多依赖类，也就有更大的责任。
-</code></pre><h5 id="why-3"><a href="#why-3" class="headerlink" title="why"></a>why</h5><pre><code>违反了单一责任原则，难以单元测试、调试和记录文档。
-</code></pre><h5 id="how-3"><a href="#how-3" class="headerlink" title="how"></a>how</h5><pre><code>通过把责任打散成单一的、清晰的、经过单元测试的、文档易编写的类，可以避免类变成上帝类。
-</code></pre><h5 id="总结-3"><a href="#总结-3" class="headerlink" title="总结"></a>总结</h5><pre><code>避免有着太多责任和依赖的庞大的类。
-</code></pre><h4 id="新增类恐惧症"><a href="#新增类恐惧症" class="headerlink" title="新增类恐惧症"></a>新增类恐惧症</h4><h5 id="what-4"><a href="#what-4" class="headerlink" title="what"></a>what</h5><pre><code>认为更多的类必然使得设计更加复杂，导致对新增类或把大类分解为一些小类感到恐惧。
-</code></pre><h5 id="why-4"><a href="#why-4" class="headerlink" title="why"></a>why</h5><pre><code>新增类可以明显降低复杂度。一些简单的、易于维护、易于记录文档的类，要远远好过于有着太多责任的、单一庞大的、复杂类。
-</code></pre><h5 id="how-4"><a href="#how-4" class="headerlink" title="how"></a>how</h5><pre><code>简化设计新增类，解耦代码中不必要的耦合部分。
-</code></pre><h5 id="总结-4"><a href="#总结-4" class="headerlink" title="总结"></a>总结</h5><pre><code>类的数量多，并不能说明设计很糟糕。
-</code></pre><h4 id="内部平台效应"><a href="#内部平台效应" class="headerlink" title="内部平台效应"></a>内部平台效应</h4><h5 id="what-5"><a href="#what-5" class="headerlink" title="what"></a>what</h5><pre><code>复杂的软件系统趋势在于重实现它所运行的平台特点或平台所使用的语言，通常实现的比较烂。
-</code></pre><h5 id="why-5"><a href="#why-5" class="headerlink" title="why"></a>why</h5><pre><code>重新发明语言，导致代码阅读困难，有更陡峭的学习曲线，限制了重构和代码分析工具的效用。
-</code></pre><h5 id="how-5"><a href="#how-5" class="headerlink" title="how"></a>how</h5><pre><code>学习使用你的操作系统或平台提供的平台和功能，抵制住创建已有语言结构的诱惑。
-</code></pre><h5 id="总结-5"><a href="#总结-5" class="headerlink" title="总结"></a>总结</h5><pre><code>避免重新发明你的操作系统或开发平台已经做得很多的功能。    
-</code></pre><h4 id="魔法数和字符串"><a href="#魔法数和字符串" class="headerlink" title="魔法数和字符串"></a>魔法数和字符串</h4><h5 id="what-6"><a href="#what-6" class="headerlink" title="what"></a>what</h5><pre><code>使用未命名的数字或字符串字面量，而不是在代码里命名为常量。
-</code></pre><h5 id="why-6"><a href="#why-6" class="headerlink" title="why"></a>why</h5><pre><code>增加了代码理解难度，如果必须要修改这些常量，寻找和替换会导致一些微妙的bug。
-</code></pre><h5 id="how-6"><a href="#how-6" class="headerlink" title="how"></a>how</h5><pre><code>使用命名的常量、资源检索方法或者注释。
-</code></pre><h5 id="总结-6"><a href="#总结-6" class="headerlink" title="总结"></a>总结</h5><pre><code>避免在代码中出现未注释、未命名的数字和字符串字面量。
-</code></pre><h4 id="数字管理"><a href="#数字管理" class="headerlink" title="数字管理"></a>数字管理</h4><blockquote>
-<p>用代码行数来衡量开发进度，无异于用重量来衡量制造飞机的进度。——BillGates</p>
-</blockquote>
-<h5 id="what-7"><a href="#what-7" class="headerlink" title="what"></a>what</h5><pre><code>严格地依靠数字来做决定。
-</code></pre><h5 id="why-7"><a href="#why-7" class="headerlink" title="why"></a>why</h5><pre><code>在单车车库中，我们要求根据数据来优化或做决策，而不是光靠凭空想。但是，盲目的信任数字也很危险。
-例如，模型无效了但是数据还在，或者模型过期了，不再能精准的代表现实。这就会导致一些错误的决定，尤其是如果他们完全自动化时。
-</code></pre><h5 id="how-7"><a href="#how-7" class="headerlink" title="how"></a>how</h5><pre><code>理智地使用测量和数字，而非盲目。
-</code></pre><h5 id="总结-7"><a href="#总结-7" class="headerlink" title="总结"></a>总结</h5><pre><code>用数字来得出你的决策，但不是用数字来做决定。
-</code></pre><h4 id="幽灵类"><a href="#幽灵类" class="headerlink" title="幽灵类"></a>幽灵类</h4><blockquote>
-<p>要想达到完美，不是没有东西可加，而是没有东西可减。</p>
-</blockquote>
-<h5 id="what-8"><a href="#what-8" class="headerlink" title="what"></a>what</h5><pre><code>无用类本身没有真正的责任，经常用来指示调用另一个类的方法或者增加一层不必要的抽象。
-</code></pre><h5 id="why-8"><a href="#why-8" class="headerlink" title="why"></a>why</h5><pre><code>增加了测试和维护的复杂度，降低了代码的可读性。
-</code></pre><h5 id="how-8"><a href="#how-8" class="headerlink" title="how"></a>how</h5><pre><code>不要写无用的类，或者通过重构来消除。
-</code></pre><h5 id="总结-8"><a href="#总结-8" class="headerlink" title="总结"></a>总结</h5><pre><code>避免没有真正责任的类。
-</code></pre>
           
         
       

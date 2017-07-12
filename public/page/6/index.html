@@ -595,144 +595,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/design-patterns-builder-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/03/design-patterns-builder-2/" itemprop="url">建造者设计模式(二) Android中的应用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-03T00:00:00Z">
-                2017-03-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="AlertDialog-Builder"><a href="#AlertDialog-Builder" class="headerlink" title="AlertDialog.Builder"></a>AlertDialog.Builder</h4><p>如何应用窗口主题，各种参数合法性检查，上下文切换，窗口创建内部流程，我们都略过，只看其参数的构建即可。<br><br>那么AlertDialog中的参数，如何传递？<br></p>
-<p>AlertDialog 中有一个AlertController的实例。<br><br>AlertController中有个AlertParams的静态类。<br><br>在AlertDialog中有一个静态类Builder，该Builder中持有AlertParams的一个实例。<br><br>Builder中的方法都把属性传入了AlertParams。<br><br>在Builder的create()方法，调用了AlertParams的applay，把参数传回了AlertController中。而AlertController的实例被AlertDialog持有。<br></p>
-<p>示意图如下：</p>
-<p><img src="/images/alertDialog.png" alt="示例图"></p>
-<h4 id="Uri-Builder"><a href="#Uri-Builder" class="headerlink" title="Uri.Builder"></a>Uri.Builder</h4><p>Uri.Builder;<br>Notification.Builder;<br>ContentProviderOperation.Builder;</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/design-patterns-builder-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -984,6 +846,144 @@ public class BuilderPatternDemo {
     }
 }
 </code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/design-patterns-builder-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/03/design-patterns-builder-2/" itemprop="url">建造者设计模式(二) Android中的应用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-03T00:00:00Z">
+                2017-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="AlertDialog-Builder"><a href="#AlertDialog-Builder" class="headerlink" title="AlertDialog.Builder"></a>AlertDialog.Builder</h4><p>如何应用窗口主题，各种参数合法性检查，上下文切换，窗口创建内部流程，我们都略过，只看其参数的构建即可。<br><br>那么AlertDialog中的参数，如何传递？<br></p>
+<p>AlertDialog 中有一个AlertController的实例。<br><br>AlertController中有个AlertParams的静态类。<br><br>在AlertDialog中有一个静态类Builder，该Builder中持有AlertParams的一个实例。<br><br>Builder中的方法都把属性传入了AlertParams。<br><br>在Builder的create()方法，调用了AlertParams的applay，把参数传回了AlertController中。而AlertController的实例被AlertDialog持有。<br></p>
+<p>示意图如下：</p>
+<p><img src="/images/alertDialog.png" alt="示例图"></p>
+<h4 id="Uri-Builder"><a href="#Uri-Builder" class="headerlink" title="Uri.Builder"></a>Uri.Builder</h4><p>Uri.Builder;<br>Notification.Builder;<br>ContentProviderOperation.Builder;</p>
+
           
         
       
@@ -1369,7 +1369,28 @@ builder.setPositiveButton(&quot;同意&quot;) { dialog, which -&gt;
 </code></pre><h4 id="覆盖父类的方法"><a href="#覆盖父类的方法" class="headerlink" title="覆盖父类的方法"></a>覆盖父类的方法</h4><blockquote>
 <p>标记为 override 的成员是 open的，它可以在子类中被复写。如果你不想被重写就要加 final</p>
 </blockquote>
-
+<h4 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h4><p>一级构造：</p>
+<pre><code>class Person constructor(firstName: String) {
+}
+或
+class Person(firstName: String){
+}    
+</code></pre><p>二级构造：</p>
+<pre><code>class Person {
+constructor(parent: Person) {
+    parent.children.add(this)
+}    
+}    
+</code></pre><p>私有构造：</p>
+<pre><code>class DontCreateMe private constructor () {
+}
+</code></pre><p>类初始化操作：</p>
+<pre><code>class Customer(name: String) {
+init {
+    logger,info(&quot;Customer initialized with value ${name}&quot;)
+}
+}
+</code></pre>
           
         
       

@@ -198,3 +198,34 @@ kotlin<br/>
 #### 覆盖父类的方法 ####
 
 >标记为 override 的成员是 open的，它可以在子类中被复写。如果你不想被重写就要加 final
+
+#### 构造函数 ####
+
+一级构造：
+
+	class Person constructor(firstName: String) {
+	}
+	或
+	class Person(firstName: String){
+	}	
+
+二级构造：
+
+	class Person {
+    constructor(parent: Person) {
+        parent.children.add(this)
+    }	
+	}	
+
+私有构造：
+
+	class DontCreateMe private constructor () {
+	}
+
+类初始化操作：
+
+	class Customer(name: String) {
+    init {
+        logger,info("Customer initialized with value ${name}")
+    }
+	}
