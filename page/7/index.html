@@ -267,6 +267,361 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/design-patterns-singleton-5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/21/design-patterns-singleton-5/" itemprop="url">单例设计模式(五) Android中单例的应用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-21T00:00:00Z">
+                2017-02-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="写在前面的关键点"><a href="#写在前面的关键点" class="headerlink" title="写在前面的关键点"></a>写在前面的关键点</h4><p>我们知道，单例模式的特点：</p>
+<ul>
+<li>只有一个实例</li>
+<li>占用内存及资源较少，可防止对象不停的创建和销毁</li>
+<li>全局访问</li>
+<li>扩展性差</li>
+<li>与单一职责原则有冲突</li>
+</ul>
+<p>根据其特点，我们去看源码或者设计应用就可以做到有据可循了。</p>
+<h4 id="Android系统源码中"><a href="#Android系统源码中" class="headerlink" title="Android系统源码中"></a>Android系统源码中</h4><h5 id="示例一【饿汉单例】：android-text-Editable-Factory-java"><a href="#示例一【饿汉单例】：android-text-Editable-Factory-java" class="headerlink" title="示例一【饿汉单例】：android.text.Editable.Factory.java"></a>示例一【饿汉单例】：android.text.Editable.Factory.java</h5><pre><code>/**
+  * Factory used by TextView to create new Editables.  You can subclass
+  * it to provide something other than SpannableStringBuilder.
+  */
+ public static class Factory {
+     private static Editable.Factory sInstance = new Editable.Factory();
+
+     public static Editable.Factory getInstance() {
+         return sInstance;
+     }
+
+     public Editable newEditable(CharSequence source) {
+         return new SpannableStringBuilder(source);
+     }
+ }
+</code></pre><blockquote>
+<p>Editable 即 <code>android.widget.EditText#getText()</code> 返回的对象。最常用的大概是<code>et.getText().toString()</code>吧。</p>
+</blockquote>
+<p>然后从EditText-&gt; TextView可以看到：</p>
+<pre><code>private Editable.Factory mEditableFactory = Editable.Factory.getInstance();
+private Spannable.Factory mSpannableFactory = Spannable.Factory.getInstance();
+</code></pre><p>然后考察其应用：</p>
+<pre><code> private InputFilter[] mFilters = NO_FILTERS;
+ private void setText(CharSequence text, BufferType type,
+                         boolean notifyBefore, int oldlen) {
+    .
+    .
+    .
+
+    Editable t = mEditableFactory.newEditable(text);
+    text = t;
+    setFilters(t, mFilters);
+
+    .
+    .
+    .
+}
+</code></pre><p>得到其用途：提供一个Editable的实现类【SpannableStringBuilder】的实例，然后应用filter。</p>
+<h5 id="示例二【懒汉单例】：ArrowKeyMovementMethod-java"><a href="#示例二【懒汉单例】：ArrowKeyMovementMethod-java" class="headerlink" title="示例二【懒汉单例】：ArrowKeyMovementMethod.java"></a>示例二【懒汉单例】：ArrowKeyMovementMethod.java</h5><pre><code>private static ArrowKeyMovementMethod sInstance;    
+public static MovementMethod getInstance() {
+    if (sInstance == null) {
+        sInstance = new ArrowKeyMovementMethod();
+    }
+
+    return sInstance;
+}
+</code></pre><blockquote>
+<p>看类名好像是光标移动相关的东东，跟进去看一下好了。<br><br><code>initialize</code>初始化，把光标放在末尾位置；<br><br><code>onTouchEvent</code>处理触摸拖拽事件；<br><br><code>canSelectArbitrarily</code> 根据名字，是否可以任意选择，固定返回true；<br><br><code>onTakeFocus</code> 获取焦点后的默认操作：光标放末尾</p>
+</blockquote>
+<h5 id="示例三【线程同步锁单例】：LocalBroadcastManager-java"><a href="#示例三【线程同步锁单例】：LocalBroadcastManager-java" class="headerlink" title="示例三【线程同步锁单例】：LocalBroadcastManager.java"></a>示例三【线程同步锁单例】：LocalBroadcastManager.java</h5><pre><code>private static final Object mLock = new Object();
+private static LocalBroadcastManager mInstance;
+
+public static LocalBroadcastManager getInstance(Context context) {
+    synchronized (mLock) {
+        if (mInstance == null) {
+            mInstance = new LocalBroadcastManager(context.getApplicationContext());
+        }
+        return mInstance;
+    }
+}
+</code></pre><blockquote>
+<p>看类名是本地广播管理类，先看其类注释：<br></p>
+</blockquote>
+<p>&gt;<br> Helper to register for and send broadcasts of Intents to local objects<br> within your process.  This has a number of advantages over sending<br> global broadcasts with {@link android.content.Context#sendBroadcast}<br><br>进程内帮助注册和发送广播给本地对象。相比于<code>Context#sendBroadcast</code>有巨大优势！<br></p>
+<p>优势有三：<br></p>
+<ol>
+<li>应用内发送，不必担心私有数据泄露；<br></li>
+<li>别的应用无法发送我自己的应用本地广播，不必担心安全漏洞；<br></li>
+<li>比通过系统发送广播更加有效。</li>
+</ol>
+<h5 id="示例四【线程同步锁单例】：InputMethodManager-java"><a href="#示例四【线程同步锁单例】：InputMethodManager-java" class="headerlink" title="示例四【线程同步锁单例】：InputMethodManager.java"></a>示例四【线程同步锁单例】：InputMethodManager.java</h5><pre><code>static InputMethodManager sInstance;
+public static InputMethodManager getInstance() {
+        synchronized (InputMethodManager.class) {
+            if (sInstance == null) {
+                IBinder b = ServiceManager.getService(Context.INPUT_METHOD_SERVICE);
+                IInputMethodManager service = IInputMethodManager.Stub.asInterface(b);
+                sInstance = new InputMethodManager(service, Looper.getMainLooper());
+            }
+            return sInstance;
+        }
+    }
+</code></pre><blockquote>
+<p>用来控制显示和隐藏输入法面板。</p>
+<h5 id="示例五【容器单例】：FocusFinder-java"><a href="#示例五【容器单例】：FocusFinder-java" class="headerlink" title="示例五【容器单例】：FocusFinder.java"></a>示例五【容器单例】：FocusFinder.java</h5></blockquote>
+<p>FocusFinder.java</p>
+<pre><code>private static final ThreadLocal&lt;FocusFinder&gt; tlFocusFinder =
+    new ThreadLocal&lt;FocusFinder&gt;() {
+        @Override
+        protected FocusFinder initialValue() {
+            return new FocusFinder();
+        }
+    };
+
+public static FocusFinder getInstance() {
+    return tlFocusFinder.get();
+}
+</code></pre><p>ThreadLocal.java</p>
+<pre><code>/**
+ * Returns the value in the current thread&apos;s copy of this
+ * thread-local variable.  If the variable has no value for the
+ * current thread, it is first initialized to the value returned
+ * by an invocation of the {@link #initialValue} method.
+ *
+ * @return the current thread&apos;s value of this thread-local
+ */
+public T get() {
+    Thread t = Thread.currentThread();
+    ThreadLocalMap map = getMap(t);
+    if (map != null) {
+        ThreadLocalMap.Entry e = map.getEntry(this);
+        if (e != null)
+            return (T)e.value;
+    }
+    return setInitialValue();
+}
+</code></pre><p>-</p>
+<pre><code>/**
+ * Variant of set() to establish initialValue. Used instead
+ * of set() in case user has overridden the set() method.
+ *
+ * @return the initial value
+ */
+private T setInitialValue() {
+    T value = initialValue();
+    Thread t = Thread.currentThread();
+    ThreadLocalMap map = getMap(t);
+    if (map != null)
+        map.set(this, value);
+    else
+        createMap(t, value);
+    return value;
+}
+
+protected T initialValue() {
+    return null;
+}
+</code></pre><blockquote>
+<p>一个用来从当前焦点视图给定的方向中找到下个焦点视图的算法。主要功能代码在此方法里：</p>
+</blockquote>
+<pre><code>private View findNextFocus(ViewGroup root, View focused, Rect focusedRect, int direction) {
+    View next = null;
+    if (focused != null) {
+        next = findNextUserSpecifiedFocus(root, focused, direction);
+    }
+    if (next != null) {
+        return next;
+    }
+    ArrayList&lt;View&gt; focusables = mTempList;
+    try {
+        focusables.clear();
+        root.addFocusables(focusables, direction);
+        if (!focusables.isEmpty()) {
+            next = findNextFocus(root, focused, focusedRect, direction, focusables);
+        }
+    } finally {
+        focusables.clear();
+    }
+    return next;
+}
+</code></pre><h5 id="示例六【容器单例】：android-app-SystemServiceRegistry-java"><a href="#示例六【容器单例】：android-app-SystemServiceRegistry-java" class="headerlink" title="示例六【容器单例】：android.app.SystemServiceRegistry.java"></a>示例六【容器单例】：android.app.SystemServiceRegistry.java</h5><p>&gt;<br>该类我们就不粘贴代码了，因为Android里所有的系统的单例都维护在这里。</p>
+<p><a href="https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/app/SystemServiceRegistry.java" target="_blank" rel="external">源码地址</a>。</p>
+<p><a href="http://xusx1024.com/2017/02/22/android-system-service/" target="_blank" rel="external">服务说明在此</a>。</p>
+<h5 id="示例七【别样的单例】：BidiFormatter-java"><a href="#示例七【别样的单例】：BidiFormatter-java" class="headerlink" title="示例七【别样的单例】：BidiFormatter.java"></a>示例七【别样的单例】：BidiFormatter.java</h5><p>实例</p>
+<pre><code>private static final BidiFormatter DEFAULT_LTR_INSTANCE = new BidiFormatter(
+        false /* LTR context */,
+        DEFAULT_FLAGS,
+        DEFAULT_TEXT_DIRECTION_HEURISTIC);
+
+private static final BidiFormatter DEFAULT_RTL_INSTANCE = new BidiFormatter(
+        true /* RTL context */,
+        DEFAULT_FLAGS,
+        DEFAULT_TEXT_DIRECTION_HEURISTIC);
+</code></pre><p>构造</p>
+<pre><code>private BidiFormatter(boolean isRtlContext, int flags, TextDirectionHeuristic heuristic) {
+     mIsRtlContext = isRtlContext;
+     mFlags = flags;
+     mDefaultTextDirectionHeuristic = heuristic;
+ }
+</code></pre><p>获取实例：</p>
+<pre><code>public static BidiFormatter getInstance() {
+    return getDefaultInstanceFromContext(isRtlLocale(Locale.getDefault()));
+}
+
+public static BidiFormatter getInstance(boolean rtlContext) {
+    return getDefaultInstanceFromContext(rtlContext);
+}
+
+public static BidiFormatter getInstance(Locale locale) {
+    return getDefaultInstanceFromContext(isRtlLocale(locale));
+}
+</code></pre><blockquote>
+<p>BidiFormatter中的单例让我耳目一新。多种类型的static final 修饰的实例。<br><br>这个类是4.2之后增加的新功能，通常文本是从左到右的顺序排列和阅读的。如果你是用阿拉伯语或者希伯来语，那么文本就从右往左排序才方便了。<br><br>如果要开启，在Manifest.xml中，修改Application结点的属性<code>android:supportsRtl</code>为true<br><br>另外，我们在xml布局时，经常看到提示：使用<code>android:layout_marginStart</code>替代<code>android:layout_marginLeft</code>这样的提示，这就是因为，在LTR和RTL模式下，view的布局是相反的，其相对距离也是相反，使用建议api，可省却该麻烦，真良心。</p>
+</blockquote>
+<p>注1：</p>
+<blockquote>
+<p>其中volatial修饰的实例没有找到，Enum实现的单例也没找到。</p>
+</blockquote>
+<p>注2：Android 源码中常见单例(在AS中ctrl+alt+shift+n)：</p>
+<p><img src="/images/android-singleton-1.png" alt="Android 源码中常见单例 图一"></p>
+<p><img src="/images/android-singleton-2.png" alt="Android 源码中常见单例 图二"></p>
+<h4 id="Android-App开发中"><a href="#Android-App开发中" class="headerlink" title="Android App开发中"></a>Android App开发中</h4><p>分析上半部可得：</p>
+<ul>
+<li>内部类单例-饿汉式</li>
+<li>简单单例-懒汉式</li>
+<li>多线程调用-带线程锁的懒汉式</li>
+<li>多种单例-容器管理单例</li>
+</ul>
+<p>我负责的app中，整理了一下，大概有如下会需要到单例：</p>
+<ol>
+<li>Application</li>
+<li>定位、汉字转拼音、crash抓取、图片、网络、以及其他工具类</li>
+<li>升级管理</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/20/decrease-apk-size/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -713,209 +1068,6 @@ public class MaxTree {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/get-max-window/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/16/get-max-window/" itemprop="url">生成窗口最大值数组</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-16T00:00:00Z">
-                2017-02-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="生成窗口最大值数组"><a href="#生成窗口最大值数组" class="headerlink" title="生成窗口最大值数组"></a>生成窗口最大值数组</h5><p>有一个整型数组arr和一个大小为w的窗口从数组的最左边滑倒最右边，窗口每次向右边滑一个位置。<br>例如，数组[4,3,5,4,3,3,6,7]，窗口大小为3时：</p>
-<blockquote>
-<p>[4 3 5] 4 3 3 6 7 窗口中最大值为5 <br><br>4 [3 5 4] 3 3 6 7 窗口中最大值为5 <br><br>4 3 [5 4 3] 3 6 7 窗口中最大值为5 <br><br>4 3 5 [4 3 3] 6 7 窗口中最大值为4 <br><br>4 3 5 4 [3 3 6] 7 窗口中最大值为6 <br><br>4 3 5 4 3 [3 6 7] 窗口中最大值为7 <br></p>
-<p>请实现一个函数：</p>
-<ul>
-<li>输入：整型数组arr，窗口大小为w</li>
-<li>输出：一个长度为n-w+1的数组res，res[i]表示每一种窗口状态下的最大值。</li>
-</ul>
-</blockquote>
-<p>以上例，结果应为：{5,5,5,4,6,7}.</p>
-<h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><h5 id="方法一-O-N-w"><a href="#方法一-O-N-w" class="headerlink" title="方法一:O(N * w)"></a>方法一:O(N * w)</h5><pre><code> public class Demo {
-
-    public static void main(String[] args) {
-        int[] arr = getMaxWindow(new int[] { 4, 3, 5, 4, 3, 3, 6, 7 }, 3);
-        for (int i = 0; i &lt; arr.length; i++) {
-            System.out.println(arr[i]);
-        }
-    }
-
-    public static int[] getMaxWindow(int[] arr, int w) {
-        int[] result = new int[arr.length - w + 1];
-        for (int i = 0; i &lt; arr.length - w + 1; i++) {
-            int x = arr[i];
-            for (int j = 0; j &lt; w; j++) {
-                if (arr[i + j] &gt;= x)
-                    x = arr[i + j];
-            }
-            result[i] = x;
-        }
-        return result;
-    }
-}
-</code></pre><h5 id="方法二-O-N"><a href="#方法二-O-N" class="headerlink" title="方法二:O(N)"></a>方法二:O(N)</h5><blockquote>
-<p>本题的关键在于利用双端队列来实现窗口最大值的更新。生成双端队列qmax存放数组arr中的下标。<br>放入规则：</p>
-<ol>
-<li>如果qmax为空，直接把下标i放入；</li>
-<li>如果qmax不为空，比较arr[i]和qmax队尾下标对应的数组元素，如果arr[i]比较大，则持续弹出qmax中的元素，直至arr[i]小于qmax下标对应的元素或者qmax符合第一条；</li>
-</ol>
-<p>弹出规则：<br>如果qmax对头的下标等于i-w，说明当前qmax队头的下标已过期，弹出队头。</p>
-<p>上述过程，每个下标最多进入qmax一次，出qmax一次，所以遍历的过程中进出双端队列的操作时间复杂度是O(n).</p>
-<p>注意，我们的目的数组的大小为：n-w+1，在arr的循环过程中，录入数据进入目的数组时，注意过滤其边界，否则<code>java.lang.ArrayIndexOutOfBoundsException</code>.</p>
-</blockquote>
-<pre><code>public static int[] getMaxWindow2(int[] arr, int w) {
-        int[] result = new int[arr.length - w + 1];
-        LinkedList&lt;Integer&gt; qmax = new LinkedList&lt;&gt;();
-        int index = 0;
-        for (int i = 0; i &lt; arr.length; i++) {
-
-            while (!qmax.isEmpty() &amp;&amp; arr[qmax.peekLast()] &lt;= arr[i]) {
-                qmax.pollLast();
-            }
-            qmax.addLast(i);
-            if (qmax.peekFirst() == i - w) {
-                qmax.pollFirst();
-            }
-            if (i &gt;= w - 1)
-                result[index++] = arr[qmax.peekFirst()];
-
-        }
-        return result;
-    }
-</code></pre><h6 id="双端队列的实现类"><a href="#双端队列的实现类" class="headerlink" title="双端队列的实现类"></a>双端队列的实现类</h6><pre><code>public class LinkedList&lt;E&gt; extends AbstractSequentialList&lt;E&gt;
-    implements List&lt;E&gt;, Deque&lt;E&gt;, Cloneable, java.io.Serializable
-
-
-
-public class ArrayDeque&lt;E&gt; extends AbstractCollection&lt;E&gt;
-                           implements Deque&lt;E&gt;, Cloneable, Serializable
-</code></pre><p><a href="http://shmilyaw-hotmail-com.iteye.com/blog/1700599" target="_blank" rel="external">java集合类深入分析之Queue篇</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/hanoi-problom/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1142,6 +1294,209 @@ enum Action {
 
 } 
 </code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/get-max-window/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/16/get-max-window/" itemprop="url">生成窗口最大值数组</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-16T00:00:00Z">
+                2017-02-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="生成窗口最大值数组"><a href="#生成窗口最大值数组" class="headerlink" title="生成窗口最大值数组"></a>生成窗口最大值数组</h5><p>有一个整型数组arr和一个大小为w的窗口从数组的最左边滑倒最右边，窗口每次向右边滑一个位置。<br>例如，数组[4,3,5,4,3,3,6,7]，窗口大小为3时：</p>
+<blockquote>
+<p>[4 3 5] 4 3 3 6 7 窗口中最大值为5 <br><br>4 [3 5 4] 3 3 6 7 窗口中最大值为5 <br><br>4 3 [5 4 3] 3 6 7 窗口中最大值为5 <br><br>4 3 5 [4 3 3] 6 7 窗口中最大值为4 <br><br>4 3 5 4 [3 3 6] 7 窗口中最大值为6 <br><br>4 3 5 4 3 [3 6 7] 窗口中最大值为7 <br></p>
+<p>请实现一个函数：</p>
+<ul>
+<li>输入：整型数组arr，窗口大小为w</li>
+<li>输出：一个长度为n-w+1的数组res，res[i]表示每一种窗口状态下的最大值。</li>
+</ul>
+</blockquote>
+<p>以上例，结果应为：{5,5,5,4,6,7}.</p>
+<h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><h5 id="方法一-O-N-w"><a href="#方法一-O-N-w" class="headerlink" title="方法一:O(N * w)"></a>方法一:O(N * w)</h5><pre><code> public class Demo {
+
+    public static void main(String[] args) {
+        int[] arr = getMaxWindow(new int[] { 4, 3, 5, 4, 3, 3, 6, 7 }, 3);
+        for (int i = 0; i &lt; arr.length; i++) {
+            System.out.println(arr[i]);
+        }
+    }
+
+    public static int[] getMaxWindow(int[] arr, int w) {
+        int[] result = new int[arr.length - w + 1];
+        for (int i = 0; i &lt; arr.length - w + 1; i++) {
+            int x = arr[i];
+            for (int j = 0; j &lt; w; j++) {
+                if (arr[i + j] &gt;= x)
+                    x = arr[i + j];
+            }
+            result[i] = x;
+        }
+        return result;
+    }
+}
+</code></pre><h5 id="方法二-O-N"><a href="#方法二-O-N" class="headerlink" title="方法二:O(N)"></a>方法二:O(N)</h5><blockquote>
+<p>本题的关键在于利用双端队列来实现窗口最大值的更新。生成双端队列qmax存放数组arr中的下标。<br>放入规则：</p>
+<ol>
+<li>如果qmax为空，直接把下标i放入；</li>
+<li>如果qmax不为空，比较arr[i]和qmax队尾下标对应的数组元素，如果arr[i]比较大，则持续弹出qmax中的元素，直至arr[i]小于qmax下标对应的元素或者qmax符合第一条；</li>
+</ol>
+<p>弹出规则：<br>如果qmax对头的下标等于i-w，说明当前qmax队头的下标已过期，弹出队头。</p>
+<p>上述过程，每个下标最多进入qmax一次，出qmax一次，所以遍历的过程中进出双端队列的操作时间复杂度是O(n).</p>
+<p>注意，我们的目的数组的大小为：n-w+1，在arr的循环过程中，录入数据进入目的数组时，注意过滤其边界，否则<code>java.lang.ArrayIndexOutOfBoundsException</code>.</p>
+</blockquote>
+<pre><code>public static int[] getMaxWindow2(int[] arr, int w) {
+        int[] result = new int[arr.length - w + 1];
+        LinkedList&lt;Integer&gt; qmax = new LinkedList&lt;&gt;();
+        int index = 0;
+        for (int i = 0; i &lt; arr.length; i++) {
+
+            while (!qmax.isEmpty() &amp;&amp; arr[qmax.peekLast()] &lt;= arr[i]) {
+                qmax.pollLast();
+            }
+            qmax.addLast(i);
+            if (qmax.peekFirst() == i - w) {
+                qmax.pollFirst();
+            }
+            if (i &gt;= w - 1)
+                result[index++] = arr[qmax.peekFirst()];
+
+        }
+        return result;
+    }
+</code></pre><h6 id="双端队列的实现类"><a href="#双端队列的实现类" class="headerlink" title="双端队列的实现类"></a>双端队列的实现类</h6><pre><code>public class LinkedList&lt;E&gt; extends AbstractSequentialList&lt;E&gt;
+    implements List&lt;E&gt;, Deque&lt;E&gt;, Cloneable, java.io.Serializable
+
+
+
+public class ArrayDeque&lt;E&gt; extends AbstractCollection&lt;E&gt;
+                           implements Deque&lt;E&gt;, Cloneable, Serializable
+</code></pre><p><a href="http://shmilyaw-hotmail-com.iteye.com/blog/1700599" target="_blank" rel="external">java集合类深入分析之Queue篇</a></p>
+
           
         
       
@@ -1919,7 +2274,7 @@ public class TwoStackQueue {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/different-between-ADT/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/reverse-stack/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -1938,7 +2293,7 @@ public class TwoStackQueue {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/11/different-between-ADT/" itemprop="url">队列、堆栈与数组链表的关系</a></h1>
+                <a class="post-title-link" href="/2017/02/11/reverse-stack/" itemprop="url">如何仅用递归函数和栈操作逆序一个栈</a></h1>
         
 
         <div class="post-meta">
@@ -2009,276 +2364,36 @@ public class TwoStackQueue {
       
         
           
-            <h4 id="数据结构的概念"><a href="#数据结构的概念" class="headerlink" title="数据结构的概念"></a>数据结构的概念</h4><pre><code>指相互之间存在一种或多种特定关系的数据元素的集合。简单的理解就是：数据结构就是描述对象逻辑关系的学科。比如：队列就是一种先进先出的逻辑结构，栈是一种先进后出的逻辑结构，家谱是一种树形的逻辑结构。
-</code></pre><h4 id="数据存储结构的概念"><a href="#数据存储结构的概念" class="headerlink" title="数据存储结构的概念"></a>数据存储结构的概念</h4><pre><code>这是计算机的一个概念，即描述数据在计算机中存储方式的学科；常用的存储方式就两种：顺序存储、非顺序存储。顺序存储就是把数据存储在一块连续的存储介质(硬盘)上，数组就是典型的连续存储。
-非顺序存储就是各个数据不一定存在一个连续的位置上，只要每个数据知道它前面的数据和后面的数据，就能把所有的数据连续起来，链表就是典型的非顺序存储。
-</code></pre><h5 id="数组和链表"><a href="#数组和链表" class="headerlink" title="数组和链表"></a>数组和链表</h5><pre><code>数组属于顺序存储，通过直接访问数组下标即可得到元素的存储位置，所以访问时间都是相同。
-链表属于数据的链接存储，由于每个元素的位置保存在它的前驱或者后继中，所以只有访问到其前驱结点或后继结点后才能够按指针访问到自己，访问元素的时间与该元素结点在链接存储中的位置有关。
-</code></pre><table>
-<thead>
-<tr>
-<th>类型</th>
-<th style="text-align:center">内存空间</th>
-<th style="text-align:center">长度的可变性</th>
-<th style="text-align:center">对数据的访问</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>数组</td>
-<td style="text-align:center">连续的内存空间，相同多数据下占用较小内存</td>
-<td style="text-align:center">需要提前给定</td>
-<td style="text-align:center">移动数据麻烦，访问数据方便</td>
-</tr>
-<tr>
-<td>链表</td>
-<td style="text-align:center">可以连续，也可以不连续，占用较大内存，需要存放前驱和后继的空间</td>
-<td style="text-align:center">可以伸缩</td>
-<td style="text-align:center">移动数据方便，访问数据麻烦</td>
-</tr>
-</tbody>
-</table>
-<h5 id="堆栈和栈"><a href="#堆栈和栈" class="headerlink" title="堆栈和栈"></a>堆栈和栈</h5><pre><code>[堆栈](https://zh.wikipedia.org/wiki/%E5%A0%86%E6%A0%88)（英语：stack），也可直接称栈（港澳台作堆叠）
-</code></pre><h5 id="Java中的堆和栈"><a href="#Java中的堆和栈" class="headerlink" title="Java中的堆和栈"></a>Java中的堆和栈</h5><pre><code>1. 栈具有数据结构中栈的特点，所有存放在它里面的数据都是生命周期很明确，能够快速反应的，所以在Java中使用栈来存放8个基本数据类型和引用变量，用完就马上销毁。
-2. 堆可以理解它就是一个可大可小，任人分配的内存操作单元，因此它的特点就是动态分配内存，适合存放大的数据量，比如一个对象的所有信息，虽然它的引用指向栈中的某个引用变量；所以Java中堆是存放new出来的对象的。
-</code></pre>
-          
-        
-      
-    </div>
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>一个栈中一次压入1，2，3，那么从栈顶到栈底依次为3，2，1.将这个栈逆序，从栈顶到栈底依次为1，2，3.但是只能用递归函数来实现，不能用其他数据结构。
+</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>需要设计两个递归函数。
+1，将stack的栈底元素返回并移除；
+2，将stack逆序；
+</code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>import java.util.Stack;
 
-    <div>
-      
-    </div>
+public class ReverseStack {
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-1/" itemprop="url">单例设计模式(一)基础知识</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><h5 id="来自wiki"><a href="#来自wiki" class="headerlink" title="来自wiki"></a>来自wiki</h5><blockquote>
-<p><a href="https://zh.wikipedia.org/wiki/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F" target="_blank" rel="external">单例模式</a>又叫单子模式，是一种常用的软件设计模式。在应用这个模式时，单例对象的类必须保证只有一个实例存在。许多时候整个系统只需要拥有一个全局对象，这样有利于我们协调系统整体的行为。<br>比如：在某个服务器程序中，该服务器的配置信息存放在一个文件中，这些配置数据由一个单例对象统一读取，然后服务进程中的其他对象再通过这个单例对象获取这些配置信息。这种方式简化了在复杂环境下的配置管理。</p>
-</blockquote>
-<h5 id="来自IBM"><a href="#来自IBM" class="headerlink" title="来自IBM"></a>来自IBM</h5><blockquote>
-<p>与wiki相重复的内容，不再摘录。<br><a href="http://www.ibm.com/developerworks/cn/java/j-lo-Singleton/" target="_blank" rel="external">单例模式</a>是一种对象创建模式，它用于产生一个对象的具体实例，它可以确保系统中一个类只产生一个实例。Java里面实现单例是一个虚拟机的范围，因为装载类的功能是由虚拟机做的，所以一个虚拟机在通过自己的ClassLoader装载实现单例类的时候就会创建一个类实例。在Java语言中，这样的行为有两大好处：<br>1.对于频繁使用的对象，可以省略创建对象所话费的时间，这对于那些重量级对象而言，是非常可观的一笔系统开销；<br>2.由于new操作的次数减少，因而对系统内存的使用频率降低，这将减轻GC压力，缩短GC停顿时间。 </p>
-</blockquote>
-<h4 id="how"><a href="#how" class="headerlink" title="how"></a>how</h4><h5 id="饿汉单例"><a href="#饿汉单例" class="headerlink" title="饿汉单例"></a>饿汉单例</h5><pre><code>public class Singleton {
- private Singleton(){}
- private static Singleton instance = new Singleton();
- public static Singleton getInsatnce(){
- return instance;
- }
-}
-</code></pre><blockquote>
-<p>上述代码不足之处是无法对instance实例做延时加载，假如单例的创建过程很慢，而由于instance成员变量是static定义的，因此在JVM加载单例类时，单例对象就会被建立，如果此时这个单例类在系统中还扮演其他角色，那么在任何使用这个单例类的地方都会初始化这个单例变量，而不管是否会用到。</p>
-</blockquote>
-<h5 id="懒汉单例"><a href="#懒汉单例" class="headerlink" title="懒汉单例"></a>懒汉单例</h5><pre><code>public class LazySingleton {
-
-    private LazySingleton() {
-    }
-
-    public static LazySingleton instance = null;
-
-    public static synchronized LazySingleton getInstance() {
-        if (instance == null) {
-            instance = new LazySingleton();
-        }
-        return instance;
+private static int getAndRemoveLastElement(Stack&lt;Integer&gt; stack) {
+    int result = stack.pop();
+    if (stack.empty()) {
+        return result;
+    } else {
+        int last = getAndRemoveLastElement(stack);
+        stack.push(result);//此处将除栈底外的元素重新压入
+        return last;
     }
 }
-</code></pre><blockquote>
-<p>上述代码首先对于静态成员变量instance初始化复赋值为null，确保系统启动时没有额外的负载；其次在getInstance()工厂方法中判断单例是否已经存在；注意，我们的getInstance()方法中添加了synchronized关键字，这就是注意事项中，在多线程情况下保证单例对象唯一性的手段。因此每次调用都要进行同步，造成不必要的开销，明显增加多线程环境下耗时。<br></p>
-<p>在多线程的应用场合下。如果当唯一实例尚未创建时，有两个线程同时调用创建方法，那么它们同时没有检测到唯一实例的存在，从而同时各自创建了一个实例，这样就有两个实例被构造出来，解决该问题的办法是为指示类是否已经实例化的变量提供一个互斥锁(会降低效率)。</p>
-</blockquote>
-<h5 id="懒汉单例的改进：静态内部类单例"><a href="#懒汉单例的改进：静态内部类单例" class="headerlink" title="懒汉单例的改进：静态内部类单例"></a>懒汉单例的改进：静态内部类单例</h5><pre><code>public class StaticInnerClassSingleton {
 
-    private StaticInnerClassSingleton() {
-    }
-
-    public StaticInnerClassSingleton getInstance() {
-        return SingletonHolder.instance;
-    }
-
-    private static class SingletonHolder {
-        private static final StaticInnerClassSingleton instance = new StaticInnerClassSingleton();
+public static void reverse(Stack&lt;Integer&gt; stack) {
+    if (stack.empty()) {
+        return;
+    } else {
+        int i = getAndRemoveLastElement(stack);
+        reverse(stack);
+        stack.push(i);
     }
 }
-</code></pre><blockquote>
-<p>使用内部类来维护单例的实例，第一次加载StaticInnerClassSingleton类时，不会初始化instance，只有在第一次调用getInstance()时，才会加载SingletonHolder，初始化instance。由于实例的建立是在类加载时完成，不仅可以确保线程安全，也无需使用synchronized关键字，因此推荐使用。</p>
-</blockquote>
-<h5 id="DoubleCheckLock-实现单例"><a href="#DoubleCheckLock-实现单例" class="headerlink" title="DoubleCheckLock 实现单例"></a>DoubleCheckLock 实现单例</h5><pre><code>public class DCLSingleton {
-
-    private static DCLSingleton instance = null;
-
-    private DCLSingleton() {
-    }
-
-    public DCLSingleton getInstance() {
-        if (instance == null) {
-            synchronized (DCLSingleton.class) {
-                if (instance == null) {
-                    instance = new DCLSingleton();
-                }
-
-            }
-        }
-        return instance;
-    }
-}
-</code></pre><blockquote>
-<p>同步关键字加载方法上，如懒汉式单例，增加系统开销，影响效率。上述代码，第一次判空，可以避免不必要的同步，第二次判空是避免多线程情况下，instance实例为空，DCL失效。<br>因为<br><code>instance = new DCLSingleton();</code><br>并非原子操作，这句代码最终会被编译成多条汇编命令，大致做了三件事：<br><br>1.给DCLSingleton的实例分配内存<br><br>2.调用DCLSingleton的构造，初始化成员字段<br><br>3.将instance对象指向分配的内存空间<br></p>
-<p>由于Java编译器允许处理器乱序执行，以及JDK1.5之前的JMM(java memory model即Java内存模型)中<em>Cache、寄存器到主内存回写顺序</em>的规定，上面2、3的顺序无法保证先后执行的。<br>如果线程A的3执行完，此时instance不为null，2却没有执行，被切换到线程B上，B可以直接取走instance，使用就会报错，这就是DCL失效。<br><br>解决：JDK1.5之后，<code>private static volatile DCLSingleton instance = null;</code><br>使用volatile关键字，可以保证instance对象<em>每次都是从主内存中读取</em>。</p>
-</blockquote>
-<h5 id="容器维护多个单例"><a href="#容器维护多个单例" class="headerlink" title="容器维护多个单例"></a>容器维护多个单例</h5><pre><code>import java.util.HashMap;
-import java.util.Map;
-
-public class SingletonManager {
-    private static Map&lt;String,Object&gt; objMap = new HashMap&lt;&gt;();
-
-    private SingletonManager(){}
-
-    public static void registerService(String key,Object instance){
-        if(!objMap.containsKey(key)){
-            objMap.put(key, instance);
-        }
-    }
-
-    public static Object getService(String key){
-        return objMap.get(key);
-    }
-
-}
-</code></pre><blockquote>
-<p>根据key,使用map管理多种类型的单例，在使用时可以统一进行获取操作，可降低用户的使用成本。(个人感觉没啥用)</p>
-</blockquote>
-<h5 id="枚举单例"><a href="#枚举单例" class="headerlink" title="枚举单例"></a>枚举单例</h5><pre><code>public enum EnumSingleton {
-
-    INSTANCE;
-
-    public void doSomething() {
-    }
-}
-</code></pre><blockquote>
-<p>写法简单，线程安全，在任何情况下都是单例！</p>
-</blockquote>
+</code></pre><p>}</p>
 
           
         
@@ -2362,7 +2477,7 @@ public class SingletonManager {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">78</span>
+                <span class="site-state-item-count">79</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

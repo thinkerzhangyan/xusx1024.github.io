@@ -1,0 +1,839 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.jpg?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="using setjavascriptenabled can introduce xss vulnerabilities into your application在WebView中，如果你启用js，kotlin代码如下： webview.settings.javaScriptEnabled = true 会得到题目的警告提示。 原因是：启用js可能不安全，如果你真的需要，好好检查这些js。消除：">
+<meta name="keywords" content="android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="android代码的警告收集">
+<meta property="og:url" content="http://yoursite.com/2017/07/14/android-notes/index.html">
+<meta property="og:site_name" content="行次">
+<meta property="og:description" content="using setjavascriptenabled can introduce xss vulnerabilities into your application在WebView中，如果你启用js，kotlin代码如下： webview.settings.javaScriptEnabled = true 会得到题目的警告提示。 原因是：启用js可能不安全，如果你真的需要，好好检查这些js。消除：">
+<meta property="og:updated_time" content="2017-07-14T10:53:07.041Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="android代码的警告收集">
+<meta name="twitter:description" content="using setjavascriptenabled can introduce xss vulnerabilities into your application在WebView中，如果你启用js，kotlin代码如下： webview.settings.javaScriptEnabled = true 会得到题目的警告提示。 原因是：启用js可能不安全，如果你真的需要，好好检查这些js。消除：">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/14/android-notes/"/>
+
+
+
+
+
+  <title>android代码的警告收集 | 行次</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">行次</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/14/android-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">android代码的警告收集</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-14T08:00:00+08:00">
+                2017-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="using-setjavascriptenabled-can-introduce-xss-vulnerabilities-into-your-application"><a href="#using-setjavascriptenabled-can-introduce-xss-vulnerabilities-into-your-application" class="headerlink" title="using setjavascriptenabled can introduce xss vulnerabilities into your application"></a>using setjavascriptenabled can introduce xss vulnerabilities into your application</h4><p>在WebView中，如果你启用js，kotlin代码如下：</p>
+<pre><code>webview.settings.javaScriptEnabled = true
+</code></pre><p>会得到题目的警告提示。</p>
+<p>原因是：启用js可能不安全，如果你真的需要，好好检查这些js。<br>消除：</p>
+<pre><code>@SuppressLint(&quot;SetJavaScriptEnabled&quot;)
+</code></pre><h4 id="WebView-addJavascriptInterface-should-not-be-called-with-minSdkVersion-lt-17-for-security-reasons-JavaScript-can-use-reflection-to-manipulate-application"><a href="#WebView-addJavascriptInterface-should-not-be-called-with-minSdkVersion-lt-17-for-security-reasons-JavaScript-can-use-reflection-to-manipulate-application" class="headerlink" title="WebView.addJavascriptInterface should not be called with minSdkVersion &lt; 17 for security reasons: JavaScript can use reflection to manipulate application"></a><code>WebView.addJavascriptInterface</code> should not be called with minSdkVersion &lt; 17 for security reasons: JavaScript can use reflection to manipulate application</h4><p>在WebView中，如果添加JS调用Java代码，kotlin代码如下：</p>
+<pre><code>webview.addJavascriptInterface(JsObject(), &quot;onClick&quot;)
+</code></pre><p>会得到题目的警告提示。</p>
+<p>原因题目说的很清楚，“JavaScript可以通过反射操作应用”</p>
+<p>官方的说明：<a href="https://developer.android.com/reference/android/webkit/WebView.html#addJavascriptInterface%28java.lang.Object,%20java.lang.String%29" target="_blank" rel="external">JavaScript安全不</a></p>
+<p>一篇不错的<a href="http://blog.csdn.net/leehong2005/article/details/11808557" target="_blank" rel="external">blog</a></p>
+<p>可以确定的是4.2，也就是17，JELLY BEAN之前，可以获取到SD读写权限，然后操作你的联系人、短信、etc</p>
+<p>这个问题相当的经典。一般的应用估计都不会修复它。但如果应用用户太大，不得不修复。</p>
+<h4 id="加载JS的时机"><a href="#加载JS的时机" class="headerlink" title="加载JS的时机"></a>加载JS的时机</h4><p>引申问题，你有一段JS，何时加载？</p>
+<ul>
+<li>onLoadResource</li>
+<li>doUpdateVisitedHistory</li>
+<li>onPageStarted</li>
+<li>onPageFinished</li>
+<li>onReceivedTitle</li>
+<li>onProgressChanged</li>
+</ul>
+<h4 id="setRenderPriority-android-webkit-WebSettings-RenderPriority-’-is-deprecated"><a href="#setRenderPriority-android-webkit-WebSettings-RenderPriority-’-is-deprecated" class="headerlink" title="setRenderPriority(android.webkit.WebSettings.RenderPriority)’ is deprecated"></a>setRenderPriority(android.webkit.WebSettings.RenderPriority)’ is deprecated</h4><p>源码中：</p>
+<blockquote>
+<p>It is not recommended to adjust thread priorities, and this will not be supported in future versions.</p>
+</blockquote>
+<h4 id="webView-加载缓慢"><a href="#webView-加载缓慢" class="headerlink" title="webView 加载缓慢"></a>webView 加载缓慢</h4><pre><code>if (Build.VERSION.SDK_INT &gt;= 19) {//4.4，KK
+           mWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+       }
+       else {
+           mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+       }
+</code></pre><h4 id="This-Handler-class-should-be-static-or-leaks-might-occur-anonymous-android-os-Handler"><a href="#This-Handler-class-should-be-static-or-leaks-might-occur-anonymous-android-os-Handler" class="headerlink" title="This Handler class should be static or leaks might occur (anonymous android.os.Handler)"></a>This Handler class should be static or leaks might occur (anonymous android.os.Handler)</h4><p>我们在使用Handler发送消息时，往往使用内部类来实现Handler，这样可能导致内存泄露。</p>
+<p>原因：</p>
+<p>handler实例做为一个嵌套类，确切的说是做为一个内部类时，默认持有外部类的引用，</p>
+<p>假设外部类为<code>SampleActivity</code>，并且Handler里有延时执行的任务，并且Activity提前finish</p>
+<p>这样，由于activity的引用还在Handler的延时任务里，GC判定，该Activity虽然finish，但是不可回收，此时就发生了内存泄露</p>
+<p>解决：</p>
+<p>Handler使用静态内部类</p>
+<p>Handler类中使用弱引用维护对activity的引用：</p>
+<pre><code>private static class MyHandler extends Handler {
+    private final WeakReference&lt;SampleActivity&gt; mActivity;
+
+    public MyHandler(SampleActivity activity) {
+      mActivity = new WeakReference&lt;SampleActivity&gt;(activity);
+    }
+
+    @Override
+    public void handleMessage(Message msg) {
+      SampleActivity activity = mActivity.get();
+      if (activity != null) {
+        // ...
+      }
+    }
+  }
+
+  private final MyHandler mHandler = new MyHandler(this);
+</code></pre><p><a href="http://www.androiddesignpatterns.com/2013/01/inner-class-handler-memory-leak.html" target="_blank" rel="external">E文传送</a><br><a href="http://www.jianshu.com/p/1b39416f1508" target="_blank" rel="external">译文传送</a></p>
+<h4 id="Warning-168-72-Unchecked-assignment-‘java-util-List’-to-‘java-util-List‘-Reason-‘queries’-has-raw-type-so-result-of-list-is-erased"><a href="#Warning-168-72-Unchecked-assignment-‘java-util-List’-to-‘java-util-List‘-Reason-‘queries’-has-raw-type-so-result-of-list-is-erased" class="headerlink" title="Warning:(168, 72) Unchecked assignment: ‘java.util.List’ to ‘java.util.List‘. Reason: ‘queries’ has raw type, so result of list is erased"></a>Warning:(168, 72) Unchecked assignment: ‘java.util.List’ to ‘java.util.List<com.xxx.greendao.xxbean>‘. Reason: ‘queries’ has raw type, so result of list is erased</com.xxx.greendao.xxbean></h4><p>只能添加指定类型，不会有警告：</p>
+<pre><code>ArrayList&lt;String&gt; arr = new ArrayList&lt;String&gt;();
+</code></pre><p>如果添加了String之外的类型，会有编译时警告：</p>
+<pre><code>ArrayList&lt;String&gt; arr = new ArrayList();
+</code></pre><p>这就是raw type，可以添加Object类型的对象，此时会提示<code>Unchecked assignment...</code>，</p>
+<pre><code>ArrayList arr = new ArrayList&lt;String&gt;();
+</code></pre><p>考察如下DEMO，可以编译通过，但是运行异常：</p>
+<pre><code>import java.util.ArrayList;
+
+public class TestRawType {
+
+    public static void main(String[] args) {
+          ArrayList arr = new ArrayList&lt;String&gt;();
+
+          arr.add(&quot;qwer&quot;);
+          arr.add(1234);
+          arr.add(new Integer(2));
+
+          System.out.println(arr.toString());
+
+          for(Object o : arr){
+              System.out.println((String)o);
+          }
+    }
+
+}
+</code></pre><blockquote>
+<p>控制台输出：[qwer, 1234, 2]<br>qwer<br>Exception in thread “main” java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.String<br>    at TestRawType.main(TestRawType.java:17)</p>
+</blockquote>
+<p>更加详细的解释，参考《effective java》 2nd 第23条：请不要在新代码中使用原生态类型</p>
+<h4 id="Static-member-‘android-support-v4-app-FragmentActivity-RESULT-OK’-accessed-via-instance-reference"><a href="#Static-member-‘android-support-v4-app-FragmentActivity-RESULT-OK’-accessed-via-instance-reference" class="headerlink" title="Static member ‘android.support.v4.app.FragmentActivity.RESULT_OK’ accessed via instance reference"></a>Static member ‘android.support.v4.app.FragmentActivity.RESULT_OK’ accessed via instance reference</h4><p>原因：通过实例引用了某个类的静态变量，如下：</p>
+<pre><code>getActivity().RESULT_OK
+</code></pre><p>修改：</p>
+<pre><code>Activity.RESULT_OK;
+</code></pre><p><code>update @ 2017年7月14日18:50:52</code></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag"># android</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/05/net-work-day03/" rel="next" title="《图解HTTP》第5、6、7章">
+                <i class="fa fa-chevron-left"></i> 《图解HTTP》第5、6、7章
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/favicon.jpg"
+               alt="XuShengSing" />
+          <p class="site-author-name" itemprop="name">XuShengSing</p>
+           
+              <p class="site-description motion-element" itemprop="description">博观而约取，厚积而薄发。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">79</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xusx1024" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#using-setjavascriptenabled-can-introduce-xss-vulnerabilities-into-your-application"><span class="nav-number">1.</span> <span class="nav-text">using setjavascriptenabled can introduce xss vulnerabilities into your application</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WebView-addJavascriptInterface-should-not-be-called-with-minSdkVersion-lt-17-for-security-reasons-JavaScript-can-use-reflection-to-manipulate-application"><span class="nav-number">2.</span> <span class="nav-text">WebView.addJavascriptInterface should not be called with minSdkVersion < 17 for security reasons: JavaScript can use reflection to manipulate application</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加载JS的时机"><span class="nav-number">3.</span> <span class="nav-text">加载JS的时机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#setRenderPriority-android-webkit-WebSettings-RenderPriority-’-is-deprecated"><span class="nav-number">4.</span> <span class="nav-text">setRenderPriority(android.webkit.WebSettings.RenderPriority)’ is deprecated</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#webView-加载缓慢"><span class="nav-number">5.</span> <span class="nav-text">webView 加载缓慢</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#This-Handler-class-should-be-static-or-leaks-might-occur-anonymous-android-os-Handler"><span class="nav-number">6.</span> <span class="nav-text">This Handler class should be static or leaks might occur (anonymous android.os.Handler)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Warning-168-72-Unchecked-assignment-‘java-util-List’-to-‘java-util-List‘-Reason-‘queries’-has-raw-type-so-result-of-list-is-erased"><span class="nav-number">7.</span> <span class="nav-text">Warning:(168, 72) Unchecked assignment: ‘java.util.List’ to ‘java.util.List‘. Reason: ‘queries’ has raw type, so result of list is erased</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Static-member-‘android-support-v4-app-FragmentActivity-RESULT-OK’-accessed-via-instance-reference"><span class="nav-number">8.</span> <span class="nav-text">Static member ‘android.support.v4.app.FragmentActivity.RESULT_OK’ accessed via instance reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">XuShengSing</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<div class="theme-info">
+
+  <div class="powered-by"></div>
+
+<!-- <span class="post-count">博客共字</span> -->
+
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <!-- 背景动画 -->
+<script type="text/javascript" src="/js/src/particle.js"></script>
+
+</body>
+</html>

@@ -267,6 +267,232 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/14/android-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/14/android-notes/" itemprop="url">android代码的警告收集</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-14T00:00:00Z">
+                2017-07-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="using-setjavascriptenabled-can-introduce-xss-vulnerabilities-into-your-application"><a href="#using-setjavascriptenabled-can-introduce-xss-vulnerabilities-into-your-application" class="headerlink" title="using setjavascriptenabled can introduce xss vulnerabilities into your application"></a>using setjavascriptenabled can introduce xss vulnerabilities into your application</h4><p>在WebView中，如果你启用js，kotlin代码如下：</p>
+<pre><code>webview.settings.javaScriptEnabled = true
+</code></pre><p>会得到题目的警告提示。</p>
+<p>原因是：启用js可能不安全，如果你真的需要，好好检查这些js。<br>消除：</p>
+<pre><code>@SuppressLint(&quot;SetJavaScriptEnabled&quot;)
+</code></pre><h4 id="WebView-addJavascriptInterface-should-not-be-called-with-minSdkVersion-lt-17-for-security-reasons-JavaScript-can-use-reflection-to-manipulate-application"><a href="#WebView-addJavascriptInterface-should-not-be-called-with-minSdkVersion-lt-17-for-security-reasons-JavaScript-can-use-reflection-to-manipulate-application" class="headerlink" title="WebView.addJavascriptInterface should not be called with minSdkVersion &lt; 17 for security reasons: JavaScript can use reflection to manipulate application"></a><code>WebView.addJavascriptInterface</code> should not be called with minSdkVersion &lt; 17 for security reasons: JavaScript can use reflection to manipulate application</h4><p>在WebView中，如果添加JS调用Java代码，kotlin代码如下：</p>
+<pre><code>webview.addJavascriptInterface(JsObject(), &quot;onClick&quot;)
+</code></pre><p>会得到题目的警告提示。</p>
+<p>原因题目说的很清楚，“JavaScript可以通过反射操作应用”</p>
+<p>官方的说明：<a href="https://developer.android.com/reference/android/webkit/WebView.html#addJavascriptInterface%28java.lang.Object,%20java.lang.String%29" target="_blank" rel="external">JavaScript安全不</a></p>
+<p>一篇不错的<a href="http://blog.csdn.net/leehong2005/article/details/11808557" target="_blank" rel="external">blog</a></p>
+<p>可以确定的是4.2，也就是17，JELLY BEAN之前，可以获取到SD读写权限，然后操作你的联系人、短信、etc</p>
+<p>这个问题相当的经典。一般的应用估计都不会修复它。但如果应用用户太大，不得不修复。</p>
+<h4 id="加载JS的时机"><a href="#加载JS的时机" class="headerlink" title="加载JS的时机"></a>加载JS的时机</h4><p>引申问题，你有一段JS，何时加载？</p>
+<ul>
+<li>onLoadResource</li>
+<li>doUpdateVisitedHistory</li>
+<li>onPageStarted</li>
+<li>onPageFinished</li>
+<li>onReceivedTitle</li>
+<li>onProgressChanged</li>
+</ul>
+<h4 id="setRenderPriority-android-webkit-WebSettings-RenderPriority-’-is-deprecated"><a href="#setRenderPriority-android-webkit-WebSettings-RenderPriority-’-is-deprecated" class="headerlink" title="setRenderPriority(android.webkit.WebSettings.RenderPriority)’ is deprecated"></a>setRenderPriority(android.webkit.WebSettings.RenderPriority)’ is deprecated</h4><p>源码中：</p>
+<blockquote>
+<p>It is not recommended to adjust thread priorities, and this will not be supported in future versions.</p>
+</blockquote>
+<h4 id="webView-加载缓慢"><a href="#webView-加载缓慢" class="headerlink" title="webView 加载缓慢"></a>webView 加载缓慢</h4><pre><code>if (Build.VERSION.SDK_INT &gt;= 19) {//4.4，KK
+           mWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+       }
+       else {
+           mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+       }
+</code></pre><h4 id="This-Handler-class-should-be-static-or-leaks-might-occur-anonymous-android-os-Handler"><a href="#This-Handler-class-should-be-static-or-leaks-might-occur-anonymous-android-os-Handler" class="headerlink" title="This Handler class should be static or leaks might occur (anonymous android.os.Handler)"></a>This Handler class should be static or leaks might occur (anonymous android.os.Handler)</h4><p>我们在使用Handler发送消息时，往往使用内部类来实现Handler，这样可能导致内存泄露。</p>
+<p>原因：</p>
+<p>handler实例做为一个嵌套类，确切的说是做为一个内部类时，默认持有外部类的引用，</p>
+<p>假设外部类为<code>SampleActivity</code>，并且Handler里有延时执行的任务，并且Activity提前finish</p>
+<p>这样，由于activity的引用还在Handler的延时任务里，GC判定，该Activity虽然finish，但是不可回收，此时就发生了内存泄露</p>
+<p>解决：</p>
+<p>Handler使用静态内部类</p>
+<p>Handler类中使用弱引用维护对activity的引用：</p>
+<pre><code>private static class MyHandler extends Handler {
+    private final WeakReference&lt;SampleActivity&gt; mActivity;
+
+    public MyHandler(SampleActivity activity) {
+      mActivity = new WeakReference&lt;SampleActivity&gt;(activity);
+    }
+
+    @Override
+    public void handleMessage(Message msg) {
+      SampleActivity activity = mActivity.get();
+      if (activity != null) {
+        // ...
+      }
+    }
+  }
+
+  private final MyHandler mHandler = new MyHandler(this);
+</code></pre><p><a href="http://www.androiddesignpatterns.com/2013/01/inner-class-handler-memory-leak.html" target="_blank" rel="external">E文传送</a><br><a href="http://www.jianshu.com/p/1b39416f1508" target="_blank" rel="external">译文传送</a></p>
+<h4 id="Warning-168-72-Unchecked-assignment-‘java-util-List’-to-‘java-util-List‘-Reason-‘queries’-has-raw-type-so-result-of-list-is-erased"><a href="#Warning-168-72-Unchecked-assignment-‘java-util-List’-to-‘java-util-List‘-Reason-‘queries’-has-raw-type-so-result-of-list-is-erased" class="headerlink" title="Warning:(168, 72) Unchecked assignment: ‘java.util.List’ to ‘java.util.List‘. Reason: ‘queries’ has raw type, so result of list is erased"></a>Warning:(168, 72) Unchecked assignment: ‘java.util.List’ to ‘java.util.List<com.xxx.greendao.xxbean>‘. Reason: ‘queries’ has raw type, so result of list is erased</com.xxx.greendao.xxbean></h4><p>只能添加指定类型，不会有警告：</p>
+<pre><code>ArrayList&lt;String&gt; arr = new ArrayList&lt;String&gt;();
+</code></pre><p>如果添加了String之外的类型，会有编译时警告：</p>
+<pre><code>ArrayList&lt;String&gt; arr = new ArrayList();
+</code></pre><p>这就是raw type，可以添加Object类型的对象，此时会提示<code>Unchecked assignment...</code>，</p>
+<pre><code>ArrayList arr = new ArrayList&lt;String&gt;();
+</code></pre><p>考察如下DEMO，可以编译通过，但是运行异常：</p>
+<pre><code>import java.util.ArrayList;
+
+public class TestRawType {
+
+    public static void main(String[] args) {
+          ArrayList arr = new ArrayList&lt;String&gt;();
+
+          arr.add(&quot;qwer&quot;);
+          arr.add(1234);
+          arr.add(new Integer(2));
+
+          System.out.println(arr.toString());
+
+          for(Object o : arr){
+              System.out.println((String)o);
+          }
+    }
+
+}
+</code></pre><blockquote>
+<p>控制台输出：[qwer, 1234, 2]<br>qwer<br>Exception in thread “main” java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.String<br>    at TestRawType.main(TestRawType.java:17)</p>
+</blockquote>
+<p>更加详细的解释，参考《effective java》 2nd 第23条：请不要在新代码中使用原生态类型</p>
+<h4 id="Static-member-‘android-support-v4-app-FragmentActivity-RESULT-OK’-accessed-via-instance-reference"><a href="#Static-member-‘android-support-v4-app-FragmentActivity-RESULT-OK’-accessed-via-instance-reference" class="headerlink" title="Static member ‘android.support.v4.app.FragmentActivity.RESULT_OK’ accessed via instance reference"></a>Static member ‘android.support.v4.app.FragmentActivity.RESULT_OK’ accessed via instance reference</h4><p>原因：通过实例引用了某个类的静态变量，如下：</p>
+<pre><code>getActivity().RESULT_OK
+</code></pre><p>修改：</p>
+<pre><code>Activity.RESULT_OK;
+</code></pre><p><code>update @ 2017年7月14日18:50:52</code></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/05/net-work-day03/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1301,6 +1527,156 @@ android:required=false /&gt;
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/26/design-patterns-composite/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/26/design-patterns-composite/" itemprop="url">组合模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-26T00:00:00Z">
+                2017-06-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/work/" itemprop="url" rel="index">
+                    <span itemprop="name">work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>组合模式(Composite Pattern):组合多个对象形成树形结构以表示具有“整体-部分”关系的层次结构。组合模式对单个对象和组合对象的使用具有一致性，组合模式又可以称为“整体-部分”（Part-Whole）模式，它是一种对象结构型模式。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li>Component：抽象构件。给参加组合的对象定义公共的接口及其默认行为，可以用来管理所有的子对象。在安全式中，可以为接口，不定义具体的方法；在透明式中，定义为抽象类，给出具体的操作及默认处理。</li>
+<li>Leaf：树叶构件。没有下级子对象的对象。</li>
+<li>Composite：具体构件。拥有下级子对象的对象。树枝构件类给出所有的管理子对象的方法，如add,get,remove</li>
+</ul>
+<h5 id="安全式组合模式"><a href="#安全式组合模式" class="headerlink" title="安全式组合模式"></a>安全式组合模式</h5><p><img src="/images/composite_pattern_class_diagram_1.png" alt="类图"></p>
+<h5 id="透明式组合模式"><a href="#透明式组合模式" class="headerlink" title="透明式组合模式"></a>透明式组合模式</h5><p><img src="/images/composite_pattern_class_diagram_2.png" alt="类图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/CompositePattern" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><h5 id="安全式"><a href="#安全式" class="headerlink" title="安全式"></a>安全式</h5><ul>
+<li>具体构件给出了add、get、remove等方法的声明和实现，而树叶构件类则没有，这样是安全的做法，客户端不可能错误的调用树叶构件的方法，因为树叶构件没有这些方法</li>
+<li>由于树叶类和树枝类具有不同的接口，无法面向抽象编程</li>
+</ul>
+<h5 id="透明式"><a href="#透明式" class="headerlink" title="透明式"></a>透明式</h5><ul>
+<li>透明式要求所有的具体构件类、树叶类，均符合一个固定的接口</li>
+<li>客户端调用的时候，不再需要区分树枝类、树叶类，可以面向接口编程，对客户端来说，是透明的</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/26/design-patterns-facade/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1452,156 +1828,6 @@ public class SystemA {
 <h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
 <li>不能很好地限制客户使用子系统类，如果对客户访问子系统类做太多限制则减少了可变性和灵活性</li>
 <li>在不引入抽象外观类的情况下，增加新的子系统可能需要修改外观类或客户端的源代码，违背了“开闭原则”</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/26/design-patterns-composite/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/26/design-patterns-composite/" itemprop="url">组合模式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-26T00:00:00Z">
-                2017-06-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>组合模式(Composite Pattern):组合多个对象形成树形结构以表示具有“整体-部分”关系的层次结构。组合模式对单个对象和组合对象的使用具有一致性，组合模式又可以称为“整体-部分”（Part-Whole）模式，它是一种对象结构型模式。</p>
-<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
-<li>Component：抽象构件。给参加组合的对象定义公共的接口及其默认行为，可以用来管理所有的子对象。在安全式中，可以为接口，不定义具体的方法；在透明式中，定义为抽象类，给出具体的操作及默认处理。</li>
-<li>Leaf：树叶构件。没有下级子对象的对象。</li>
-<li>Composite：具体构件。拥有下级子对象的对象。树枝构件类给出所有的管理子对象的方法，如add,get,remove</li>
-</ul>
-<h5 id="安全式组合模式"><a href="#安全式组合模式" class="headerlink" title="安全式组合模式"></a>安全式组合模式</h5><p><img src="/images/composite_pattern_class_diagram_1.png" alt="类图"></p>
-<h5 id="透明式组合模式"><a href="#透明式组合模式" class="headerlink" title="透明式组合模式"></a>透明式组合模式</h5><p><img src="/images/composite_pattern_class_diagram_2.png" alt="类图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/CompositePattern" target="_blank" rel="external">GitHub</a></p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><h5 id="安全式"><a href="#安全式" class="headerlink" title="安全式"></a>安全式</h5><ul>
-<li>具体构件给出了add、get、remove等方法的声明和实现，而树叶构件类则没有，这样是安全的做法，客户端不可能错误的调用树叶构件的方法，因为树叶构件没有这些方法</li>
-<li>由于树叶类和树枝类具有不同的接口，无法面向抽象编程</li>
-</ul>
-<h5 id="透明式"><a href="#透明式" class="headerlink" title="透明式"></a>透明式</h5><ul>
-<li>透明式要求所有的具体构件类、树叶类，均符合一个固定的接口</li>
-<li>客户端调用的时候，不再需要区分树枝类、树叶类，可以面向接口编程，对客户端来说，是透明的</li>
 </ul>
 
           
@@ -1808,166 +2034,6 @@ public class SystemA {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/22/design-patterns-bridge/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/22/design-patterns-bridge/" itemprop="url">桥接模式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-22T00:00:00Z">
-                2017-06-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>桥接模式(Bridge Pattern)：将抽象部分与它的实现部分分离，使它们都可以独立地变化。它是一种对象结构型模式，又称为柄体(Handle and Body)模式或接口(Interface)模式。</p>
-<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
-<li>Abstraction： 抽象化角色，里面维持一个实现化实例的引用</li>
-<li>RefinedAbstraction：扩展抽象化角色，改变和修正父类对抽象化的定义</li>
-<li>Implementor：实现化角色。给出实现化角色的接口，但不给出具体的实现。这个接口不一定和抽象化角色的接口定义相同，实际上，这两个接口可以非常不一样。实现化角色应当只给出底层操作，而抽象化角色应当只给出基于底层操作的更高一层的操作</li>
-<li>ConcreteImplementor：具体实现化角色。</li>
-</ul>
-<p>如图所示，两个继承等级结构之间存在一座桥梁即Abstraction持有Implementor的一个引用。</p>
-<p><img src="/images/bridge_pattern_class_diagram.png" alt="类图"></p>
-<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/bridge_pattern_sequence_diagram.png" alt="时序图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/BridgePattern" target="_blank" rel="external">GitHub</a></p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>理解桥接模式，重点需要理解如何将抽象化（abstraction）与实现化（implementor）脱耦，使得二者可以独立地变化。</p>
-<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
-<li>分离抽象接口及其实现部分</li>
-<li>桥接模式有时类似于多继承方案，但是多继承方案违背类类的单一职责原则，复用性比较差，而且多继承结构中类的个数非常庞大，桥接模式是比多继承方案更好的解决方法</li>
-<li>桥接模式提高了 系统的可扩充性，在两个变化维度中任意扩展一个维度，都不需要修改原有系统</li>
-<li>实现细节对客户透明，可以对用户隐藏实现细节</li>
-</ul>
-<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
-<li>桥接模式会增加系统的理解与设计难度，由于聚合关联关系建立在抽象层，要求开发者对抽象进行设计与编程</li>
-<li>桥接模式要求正确识别出系统中两个独立变化的维度，因此使用范围有一定的局限性</li>
-</ul>
-<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><p>桥接模式和适配器模式用于设计的不同阶段，桥接模式用于系统的初步设计，对于存在两个独立变化维度的类可以将其分为抽象化和实现化两个角色，使它们可以分别进行变化；而在初步设计完成之后，当发现系统与已有类无法协同工作时，可以采用适配器模式。有时在设计初期也需要考虑适配器模式，特别是那些涉及到大量第三方应用接口的情况。</p>
-<h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><ul>
-<li>跨平台的播放器(播放器、平台两个维度)</li>
-<li>OA的提醒消息（消息类型、发送方式两个维度）</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2017,7 +2083,7 @@ public class SystemA {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">78</span>
+                <span class="site-state-item-count">79</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
