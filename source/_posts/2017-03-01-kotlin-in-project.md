@@ -257,3 +257,16 @@ kotlin<br/>
 	}
 
 `update @ 2017年7月14日18:51:09`
+
+#### list 如何添加元素 ####
+
+声明list，则使用plus
+声明ArrayList，则使用add
+
+#### 可见性修饰词 ####
+
+- 默认public
+- private
+- private
+- internal
+- protected
