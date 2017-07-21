@@ -120,6 +120,8 @@ Java server page
 
 ##### taglib #####
 
+- <%@ taglib prefix="fn" uri=""%> //引入EL函数库
+
 #### JSP九大内置对象 ####
 
 - out:jsp输出流，用了向客户端享元
@@ -177,3 +179,14 @@ Java server page
 
 `update @ 2017年7月14日18:51:25`
  
+#### EL函数库 ####
+
+- <%@ taglib prefix="fn" uri=""%> //引入标签库
+
+
+##### 自定义函数库 #####
+
+- 写一个java类，类中可以定义0-N个方法，但必须是static，并且有返回值的
+- 写一个.tld文件
+- 在jsp页面中导入标签库
+- 使用
