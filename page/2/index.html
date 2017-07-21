@@ -1615,10 +1615,13 @@ public class MementoCaretaker3 {
 <li>extends：让jsp生成的servlet去继承该属性指定的类</li>
 </ul>
 <h5 id="include"><a href="#include" class="headerlink" title="include"></a>include</h5><ul>
-<li><a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#37;&#x40;&#x69;&#x6e;&#x63;&#108;&#117;&#x64;&#x65;&#37;">&#37;&#x40;&#x69;&#x6e;&#x63;&#108;&#117;&#x64;&#x65;&#37;</a> 在jsp编译成java文件时完成，他们共同生成一个java文件，然后再生成一个class</li>
+<li><a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#x25;&#64;&#105;&#110;&#99;&#108;&#117;&#x64;&#x65;&#37;">&#x25;&#64;&#105;&#110;&#99;&#108;&#117;&#x64;&#x65;&#37;</a> 在jsp编译成java文件时完成，他们共同生成一个java文件，然后再生成一个class</li>
 <li>RequestDispatcher的include是一个方法，包含和被包含是两个文件</li>
 </ul>
-<h5 id="taglib"><a href="#taglib" class="headerlink" title="taglib"></a>taglib</h5><h4 id="JSP九大内置对象"><a href="#JSP九大内置对象" class="headerlink" title="JSP九大内置对象"></a>JSP九大内置对象</h4><ul>
+<h5 id="taglib"><a href="#taglib" class="headerlink" title="taglib"></a>taglib</h5><ul>
+<li>&lt;%@ taglib prefix=”fn” uri=””%&gt; //引入EL函数库</li>
+</ul>
+<h4 id="JSP九大内置对象"><a href="#JSP九大内置对象" class="headerlink" title="JSP九大内置对象"></a>JSP九大内置对象</h4><ul>
 <li>out:jsp输出流，用了向客户端享元</li>
 <li>config：servletConfig对象</li>
 <li>exception：Throwable</li>
@@ -1678,6 +1681,15 @@ public class MementoCaretaker3 {
 </li>
 </ul>
 <p><code>update @ 2017年7月14日18:51:25</code></p>
+<h4 id="EL函数库"><a href="#EL函数库" class="headerlink" title="EL函数库"></a>EL函数库</h4><ul>
+<li>&lt;%@ taglib prefix=”fn” uri=””%&gt; //引入标签库</li>
+</ul>
+<h5 id="自定义函数库"><a href="#自定义函数库" class="headerlink" title="自定义函数库"></a>自定义函数库</h5><ul>
+<li>写一个java类，类中可以定义0-N个方法，但必须是static，并且有返回值的</li>
+<li>写一个.tld文件</li>
+<li>在jsp页面中导入标签库</li>
+<li>使用</li>
+</ul>
 
           
         
@@ -1888,152 +1900,6 @@ public class MementoCaretaker3 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/ambiguity-effect/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/13/ambiguity-effect/" itemprop="url">认知偏差之决策、信念与行为偏误</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-13T00:00:00Z">
-                2017-06-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/psychology/" itemprop="url" rel="index">
-                    <span itemprop="name">psychology</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="不明确性效应"><a href="#不明确性效应" class="headerlink" title="不明确性效应"></a>不明确性效应</h4><p>人的决策会因为信息的缺乏或“模糊”而受到影响，决策时倾向避开资讯不足的选项。</p>
-<p>该效应意味着，人们倾向于选择具有已知可能性的有利结果，而不是未知可能性的有利结果。</p>
-<p>人们有一个经验法则来避开信息缺失的选项。这通常会引导他们去寻找缺失的信息。然而，在许多情况下，信息是无法获得的。</p>
-<p><a href="https://en.wikipedia.org/wiki/Ambiguity_effect" target="_blank" rel="external">Ambiguity effect</a></p>
-<p><a href="http://www.jianshu.com/p/7c2a1a9ee31d" target="_blank" rel="external">译文</a></p>
-<h4 id="锚定效应"><a href="#锚定效应" class="headerlink" title="锚定效应"></a>锚定效应</h4><p>为不熟悉的事物估值时，会把熟悉的类似事物或不久前接触到的无关数值当做“锚”，估出来的数值会大大倾向“锚”。</p>
-<p><a href="https://zh.wikipedia.org/wiki/%E9%8C%A8%E5%AE%9A%E6%95%88%E6%87%89" target="_blank" rel="external">WIKI</a></p>
-<p>人类在进行决策时会过度偏重最早取得的第一笔资讯(这称为锚点)，即使这个资讯与这项决定明显无关。在进行决策时，人类倾向于利用最早取得的片段资讯，以快速做出决定，在接下来的决定中，再用第一个决定为基准点，逐步修正。但是人类容易过度利用第一个锚点，来对其他资讯与决定做出诠释，当第一个参考用的锚点与实际上的事实之间的有很大出入，就会造成偏误。</p>
-<h5 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h5><ul>
-<li>我们在公众场合亮相时，谁和我们在一起。因为所以这一切都会影响到别人对我们的评价，我们身边的“锚定”成为评定我们个人价值的基准</li>
-<li>一个新产品在货架紧挨着可口可乐、百事可乐，那么他的定价也是这么高，容易被消费者接受</li>
-<li>一个店铺，不断在高端百货商店扩展专卖店，常常和名牌店比邻，有利于建立其高端产品的形象</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/design-patterns-mediator/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2156,6 +2022,152 @@ public class MementoCaretaker3 {
 <h4 id="相较于观察者"><a href="#相较于观察者" class="headerlink" title="相较于观察者"></a>相较于观察者</h4><ul>
 <li>中介者涉及到中介和客户，解决的是客户之间消息传递的问题</li>
 <li>观察者设计到观察者和目标，解决的是观察者和众多目标之间通信的问题，并非目标之间的通信</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/ambiguity-effect/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/13/ambiguity-effect/" itemprop="url">认知偏差之决策、信念与行为偏误</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-13T00:00:00Z">
+                2017-06-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/psychology/" itemprop="url" rel="index">
+                    <span itemprop="name">psychology</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="不明确性效应"><a href="#不明确性效应" class="headerlink" title="不明确性效应"></a>不明确性效应</h4><p>人的决策会因为信息的缺乏或“模糊”而受到影响，决策时倾向避开资讯不足的选项。</p>
+<p>该效应意味着，人们倾向于选择具有已知可能性的有利结果，而不是未知可能性的有利结果。</p>
+<p>人们有一个经验法则来避开信息缺失的选项。这通常会引导他们去寻找缺失的信息。然而，在许多情况下，信息是无法获得的。</p>
+<p><a href="https://en.wikipedia.org/wiki/Ambiguity_effect" target="_blank" rel="external">Ambiguity effect</a></p>
+<p><a href="http://www.jianshu.com/p/7c2a1a9ee31d" target="_blank" rel="external">译文</a></p>
+<h4 id="锚定效应"><a href="#锚定效应" class="headerlink" title="锚定效应"></a>锚定效应</h4><p>为不熟悉的事物估值时，会把熟悉的类似事物或不久前接触到的无关数值当做“锚”，估出来的数值会大大倾向“锚”。</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E9%8C%A8%E5%AE%9A%E6%95%88%E6%87%89" target="_blank" rel="external">WIKI</a></p>
+<p>人类在进行决策时会过度偏重最早取得的第一笔资讯(这称为锚点)，即使这个资讯与这项决定明显无关。在进行决策时，人类倾向于利用最早取得的片段资讯，以快速做出决定，在接下来的决定中，再用第一个决定为基准点，逐步修正。但是人类容易过度利用第一个锚点，来对其他资讯与决定做出诠释，当第一个参考用的锚点与实际上的事实之间的有很大出入，就会造成偏误。</p>
+<h5 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h5><ul>
+<li>我们在公众场合亮相时，谁和我们在一起。因为所以这一切都会影响到别人对我们的评价，我们身边的“锚定”成为评定我们个人价值的基准</li>
+<li>一个新产品在货架紧挨着可口可乐、百事可乐，那么他的定价也是这么高，容易被消费者接受</li>
+<li>一个店铺，不断在高端百货商店扩展专卖店，常常和名牌店比邻，有利于建立其高端产品的形象</li>
 </ul>
 
           
