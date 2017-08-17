@@ -2,7 +2,7 @@
 layout: post
 title:  状态模式
 date:   2017-05-26
-categories: work
+categories: Design Pattern
 tags: 设计模式
 ---
  

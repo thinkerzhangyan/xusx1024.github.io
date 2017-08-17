@@ -2,7 +2,7 @@
 layout: post
 title:  设计一个有getMin功能的栈
 date:   2017-02-07
-categories: work
+categories: Algorithm
 tag: 算法
 ---
  

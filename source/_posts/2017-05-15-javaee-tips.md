@@ -2,7 +2,7 @@
 layout: post
 title:  JavaEE学习路线图
 date:   2017-05-17
-categories: work
+categories: JAVA & kotlin
 tag: 杂项
 ---
  

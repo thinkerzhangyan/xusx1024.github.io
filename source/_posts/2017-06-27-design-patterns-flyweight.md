@@ -2,7 +2,7 @@
 title: 享元模式
 date: 2017-06-27
 tags: 设计模式
-categories: work
+categories: Design Pattern
 ---
 
 #### 定义 ####

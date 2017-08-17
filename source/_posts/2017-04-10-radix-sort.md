@@ -2,7 +2,7 @@
 layout: post
 title:  非比较排序之基数排序
 date:   2017-04-10
-categories: work
+categories: Algorithm
 tag: 算法
 ---
 

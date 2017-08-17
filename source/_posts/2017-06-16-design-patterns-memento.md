@@ -2,7 +2,7 @@
 title: 备忘录模式
 date: 2017-06-16
 tags: 设计模式
-categories: work
+categories: Design Pattern
 ---
 
 #### 定义 ####

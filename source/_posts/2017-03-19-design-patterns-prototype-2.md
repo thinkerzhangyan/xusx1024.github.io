@@ -2,7 +2,7 @@
 layout: post
 title:  原型设计模式(二) Android中的应用
 date:   2017-03-19
-categories: work
+categories: Design Pattern
 tag: 设计模式
 ---
  

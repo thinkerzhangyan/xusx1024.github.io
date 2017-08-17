@@ -2,7 +2,7 @@
 layout: post
 title:  单例设计模式(一)基础知识
 date:   2017-02-11
-categories: work
+categories: Design Pattern
 tag: 设计模式
 ---
 

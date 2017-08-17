@@ -2,7 +2,7 @@
 layout: post
 title:  AndroidSDK开发注意事项
 date:   2017-05-09
-categories: work
+categories: Project Management
 tag: android
 ---
 

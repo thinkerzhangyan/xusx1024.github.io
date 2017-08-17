@@ -2,7 +2,7 @@
 layout: post
 title:  单例设计模式(五) Android中单例的应用
 date:   2017-02-21
-categories: work
+categories: Design Pattern
 tag: 设计模式
 ---
 

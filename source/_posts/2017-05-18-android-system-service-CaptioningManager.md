@@ -2,7 +2,7 @@
 layout: post
 title:  Android系统服务：CaptioningManager
 date:   2017-05-18
-categories: work
+categories: Android System Framework
 tags: android
 ---
  

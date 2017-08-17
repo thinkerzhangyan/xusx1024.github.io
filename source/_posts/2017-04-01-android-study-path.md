@@ -2,7 +2,7 @@
 layout: post
 title:  Android学习路线图
 date:   2017-04-01
-categories: work
+categories: Others
 tag: 杂项
 ---
  

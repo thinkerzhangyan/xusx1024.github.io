@@ -2,7 +2,7 @@
 title: 使用Messenger进行进程间通信注意事项
 date: 2017-06-08 15:49:35
 tags: android
-categories: work
+categories: Android Advance
 ---
 
 #### 需求 ####

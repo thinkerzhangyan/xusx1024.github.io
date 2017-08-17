@@ -2,7 +2,7 @@
 layout: post
 title:  由两个栈组成的队列
 date:   2017-02-11
-categories: work
+categories: Algorithm
 tag: 算法
 ---
  

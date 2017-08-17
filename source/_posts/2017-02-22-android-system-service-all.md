@@ -2,7 +2,7 @@
 layout: post
 title:  Android系统服务:服务概览
 date:   2017-02-22
-categories: work
+categories: Android System Framework
 tag: android
 ---
  

@@ -2,7 +2,7 @@
 layout: post
 title:  责任链模式
 date:   2017-05-31
-categories: work
+categories: Design Pattern
 tag: 设计模式
 ---
 

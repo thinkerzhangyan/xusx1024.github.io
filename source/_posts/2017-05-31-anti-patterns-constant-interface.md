@@ -2,7 +2,7 @@
 layout: post
 title:  接口常量反模式
 date:   2017-05-31
-categories: work
+categories: Design Pattern
 tags: 设计模式
 ---
  

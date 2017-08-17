@@ -2,7 +2,7 @@
 layout: post
 title:  Java并发中的关键字：volatile
 date:   2017-02-23
-categories: work
+categories: JAVA & kotlin
 tag: 杂项
 ---
  

@@ -2,7 +2,7 @@
 layout: post
 title:  生成窗口最大值数组
 date:   2017-02-16
-categories: work
+categories: Algorithm
 tag: 算法
 ---
  

@@ -2,7 +2,7 @@
 layout: post
 title:  如何仅用递归函数和栈操作逆序一个栈
 date:   2017-02-11
-categories: work
+categories: Algorithm
 tag: 算法
 ---
  

@@ -2,7 +2,7 @@
 layout: post
 title:  Android Device Monitor不显示App进程信息问题
 date:   2017-02-10
-categories: work
+categories: Android Advance
 tag: android
 ---
 

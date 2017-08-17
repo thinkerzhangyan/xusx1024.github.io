@@ -2,7 +2,7 @@
 layout: post
 title:  工厂方法模式
 date:   2017-05-24
-categories: work
+categories: Design Pattern
 tags: 设计模式
 ---
  

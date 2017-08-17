@@ -2,7 +2,7 @@
 layout: post
 title:  用栈来求解汉诺塔的问题
 date:   2017-02-16
-categories: work
+categories: Algorithm
 tag: 算法
 ---
  

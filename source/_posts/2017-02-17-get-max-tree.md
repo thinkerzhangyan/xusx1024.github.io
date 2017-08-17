@@ -2,7 +2,7 @@
 layout: post
 title:  构造数组的MaxTree
 date:   2017-02-17
-categories: work
+categories: Algorithm
 tag: 算法
 ---
  

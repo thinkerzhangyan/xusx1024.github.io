@@ -2,7 +2,7 @@
 layout: post
 title:  设计模式开篇
 date:   2017-03-18
-categories: work
+categories: Design Pattern
 tag: 设计模式
 ---
  

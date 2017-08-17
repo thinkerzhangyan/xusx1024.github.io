@@ -2,7 +2,7 @@
 title: 解释器模式
 date: 2017-06-02 09:39:35
 tags: 设计模式
-categories: work
+categories: Design Pattern
 ---
 
 #### 定义 ####

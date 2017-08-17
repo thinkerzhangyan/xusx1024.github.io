@@ -2,8 +2,8 @@
 layout: post
 title:  Tinker学习(二)标准java虚拟机动态加载代码示例
 date:   2017-03-30
-categories: work
-tag: android
+categories: Android Development Framework
+tag: hotfix
 ---
  
 

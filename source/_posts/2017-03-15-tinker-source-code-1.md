@@ -2,8 +2,8 @@
 layout: post
 title:  Tinker学习(一)热修复基础知识
 date:   2017-03-15
-categories: work
-tag: android
+categories: Android Development Framework
+tag: hotfix
 ---
   
 

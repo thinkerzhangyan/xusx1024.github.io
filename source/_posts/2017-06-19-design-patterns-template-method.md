@@ -2,7 +2,7 @@
 title: 模版方法模式
 date: 2017-06-19
 tags: 设计模式
-categories: work
+categories: Design Pattern
 ---
 
 #### 定义 ####

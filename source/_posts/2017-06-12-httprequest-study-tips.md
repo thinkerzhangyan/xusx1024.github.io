@@ -2,7 +2,7 @@
 title: HttpRequest学习笔记
 date: 2017-06-12 20:13:51 
 tags: javaEE
-categories: work
+categories: NetWork
 ---
 
 #### cvc-complex-type.2.4.a: Invalid content was found starting with element 'display-name' ####

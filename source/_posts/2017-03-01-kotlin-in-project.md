@@ -2,7 +2,7 @@
 layout: post
 title:  kotlin在实际使用中的一些问题解决
 date:   2017-03-01
-categories: work
+categories: JAVA & kotlin
 tag: 杂项
 ---
  

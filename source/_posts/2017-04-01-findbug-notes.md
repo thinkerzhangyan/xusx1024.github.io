@@ -2,7 +2,7 @@
 layout: post
 title:  FindBugs常见错误提示及解决
 date:   2017-04-01
-categories: work
+categories: JAVA & kotlin
 tag: 杂项
 ---
  

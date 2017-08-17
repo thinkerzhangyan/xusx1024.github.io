@@ -2,7 +2,7 @@
 title: 字符编码学习笔记
 date: 2017-06-13
 tags: javaEE
-categories: work
+categories: JAVA & kotlin
 ---
 
 #### 常见字符编码 ####

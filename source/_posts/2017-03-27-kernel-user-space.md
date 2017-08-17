@@ -2,7 +2,7 @@
 layout: post
 title:  Linux基础知识：内核空间和用户空间
 date:   2017-03-27
-categories: work
+categories: Operation System
 tag: 杂项
 ---
  

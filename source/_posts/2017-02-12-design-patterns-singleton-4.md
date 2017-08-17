@@ -2,7 +2,7 @@
 layout: post
 title:  单例设计模式(四)并不总是有效的readResolve
 date:   2017-02-12
-categories: work
+categories: Design Pattern
 tag: 设计模式
 ---
  

@@ -2,7 +2,7 @@
 layout: post
 title:  first test post
 date:   2017-02-06
-categories: work
+categories: Others
 tag: 杂项
 ---
  

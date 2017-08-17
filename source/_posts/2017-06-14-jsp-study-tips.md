@@ -2,7 +2,7 @@
 title: JSP、Cookie、Session学习
 date: 2017-06-14 
 tags: javaEE
-categories: work
+categories: JAVA & kotlin
 ---
 
 #### JSP定义 ####
@@ -189,4 +189,4 @@ Java server page
 - 写一个java类，类中可以定义0-N个方法，但必须是static，并且有返回值的
 - 写一个.tld文件
 - 在jsp页面中导入标签库
-- 使用
+- 在jsp中使用

@@ -2,7 +2,7 @@
 layout: post
 title:  Git使用笔记
 date:   2017-04-07
-categories: work
+categories: Others
 tag: 杂项
 ---
  

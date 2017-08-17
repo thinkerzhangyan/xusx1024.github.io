@@ -2,7 +2,7 @@
 layout: post
 title:  建造者设计模式(一) 基础知识
 date:   2017-03-03
-categories: work
+categories: Design Pattern
 tag: 设计模式
 ---
  

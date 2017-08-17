@@ -2,7 +2,7 @@
 layout: post
 title:  队列、堆栈与数组链表的关系
 date:   2017-02-11
-categories: work
+categories: Algorithm
 tag: 算法
 ---
  

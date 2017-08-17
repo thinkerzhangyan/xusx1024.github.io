@@ -2,7 +2,7 @@
 title: 适配器模式
 date: 2017-06-21
 tags: 设计模式
-categories: work
+categories: Design Pattern
 ---
 
 #### 定义 ####

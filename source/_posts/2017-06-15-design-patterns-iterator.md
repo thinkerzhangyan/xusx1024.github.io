@@ -2,7 +2,7 @@
 title: 迭代器模式
 date: 2017-06-15
 tags: 设计模式
-categories: work
+categories: Design Pattern
 ---
 
 #### 定义 ####

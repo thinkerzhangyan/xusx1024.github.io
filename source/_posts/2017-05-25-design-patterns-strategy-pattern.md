@@ -2,7 +2,7 @@
 layout: post
 title:  策略模式
 date:   2017-05-25
-categories: work
+categories: Design Pattern
 tags: 设计模式
 ---
  

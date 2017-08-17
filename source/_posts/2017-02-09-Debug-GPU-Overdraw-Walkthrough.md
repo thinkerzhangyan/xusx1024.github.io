@@ -2,7 +2,7 @@
 layout: post
 title:  Android过度绘制优化
 date:   2017-02-09
-categories: work
+categories: Android Advance
 tag: android
 ---
 

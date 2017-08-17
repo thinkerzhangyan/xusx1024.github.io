@@ -2,7 +2,7 @@
 layout: post
 title:  Android系统服务：WindowManager
 date:   2017-03-02
-categories: work
+categories: Android System Framework
 tag: android
 ---
  

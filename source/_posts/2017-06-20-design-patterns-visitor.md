@@ -2,7 +2,7 @@
 title: 访问者模式
 date: 2017-06-20
 tags: 设计模式
-categories: work
+categories: Design Pattern
 ---
 
 #### 定义 ####

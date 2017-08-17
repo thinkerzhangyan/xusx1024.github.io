@@ -2,7 +2,7 @@
 layout: post
 title:  用一个栈实现另一个栈的排序
 date:   2017-02-14
-categories: work
+categories: Algorithm
 tag: 算法
 ---
  

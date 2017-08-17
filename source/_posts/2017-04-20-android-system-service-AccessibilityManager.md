@@ -2,7 +2,7 @@
 layout: post
 title:  Android系统服务：AccessibilityManager
 date:   2017-04-20
-categories: work
+categories: Android System Framework
 tag: android
 ---
  

@@ -2,7 +2,7 @@
 layout: post
 title:  Android系统服务：LayoutInflater
 date:   2017-02-23
-categories: work
+categories: Android System Framework
 tag: android
 ---
  
