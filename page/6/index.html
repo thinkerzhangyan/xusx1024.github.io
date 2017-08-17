@@ -267,6 +267,333 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/19/design-patterns-prototype-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/19/design-patterns-prototype-2/" itemprop="url">原型设计模式(二) Android中的应用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-19T00:00:00Z">
+                2017-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="Intent-Bundle"><a href="#Intent-Bundle" class="headerlink" title="Intent/Bundle"></a>Intent/Bundle</h4><pre><code>/**
+ * Copy constructor.
+ */
+public Intent(Intent o) {
+    this.mAction = o.mAction;
+    this.mData = o.mData;
+    this.mType = o.mType;
+    this.mPackage = o.mPackage;
+    this.mComponent = o.mComponent;
+    this.mFlags = o.mFlags;
+    this.mContentUserHint = o.mContentUserHint;
+    if (o.mCategories != null) {
+        this.mCategories = new ArraySet&lt;String&gt;(o.mCategories);
+    }
+    if (o.mExtras != null) {
+        this.mExtras = new Bundle(o.mExtras);
+    }
+    if (o.mSourceBounds != null) {
+        this.mSourceBounds = new Rect(o.mSourceBounds);
+    }
+    if (o.mSelector != null) {
+        this.mSelector = new Intent(o.mSelector);
+    }
+    if (o.mClipData != null) {
+        this.mClipData = new ClipData(o.mClipData);
+    }
+}
+
+@Override
+public Object clone() {
+    return new Intent(this);
+}
+</code></pre><p>发现并没有调用<code>super.clone()</code>，《effective java》建议使用拷贝构造器，看来Intent即采用了此种方式。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/18/design-patterns-prototype-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/18/design-patterns-prototype-1/" itemprop="url">原型设计模式(一) 基础知识</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-18T00:00:00Z">
+                2017-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>content<br>{:toc}</li>
+</ul>
+<h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>创建型模式的一种。通过复制一个已经存在的实例来返回新的实例，而不是新建实例。</p>
+<blockquote>
+<p>《设计模式》：<br> 使用原型实例指定创建对象的种类，然后通过拷贝这些原型来创建新的对象。</p>
+</blockquote>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li>创建重复的新对象的成本较大—— 创建复杂，初始化消耗资源过多，初始化耗时，繁琐的数据准备，访问权限</li>
+<li>一个对象多个修改者-浅拷贝</li>
+<li>一个对象需要提供给其他对象访问，而且各个调用者可能都需要修改其值</li>
+<li>在实际项目中，原型模式很少单独出现，一般是和工厂方法模式一起出现，通过clone的方法创建一个对象，然后由工厂方法提供给调用者</li>
+<li>如果系统要保存对象的状态，而对象的状态变化很小，或者对象本身占内存不大的时候，也可以使用原型模式配合备忘录模式来应用。相反，如果对象的状态变化很大，或者对象占用的内存很大，那么采用状态模式会比原型模式更好</li>
+</ul>
+<h4 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h4><p><img src="/images/prototype_class_uml.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/prototype_sequence_uml.png" alt="时序图"></p>
+<h4 id="优点-缺点"><a href="#优点-缺点" class="headerlink" title="优点/缺点"></a>优点/缺点</h4><ul>
+<li>clone并不一定比new一个对象速度快，只有new构造对象耗时或成功高时，clone才有明显的效率提升</li>
+<li>逃避构造函数的约束(既是优点也是缺点)</li>
+<li>配备克隆方法需要对类的功能进行通盘考虑，这对于全新的类不是很难，但对于已有的类不一定很容易，特别当一个类引用不支持串行化的间接对象，或者引用含有循环结构的时候</li>
+<li>必须实现cloneable接口(java)</li>
+</ul>
+<h4 id="深-浅复制"><a href="#深-浅复制" class="headerlink" title="深/浅复制"></a>深/浅复制</h4><p> 浅复制：<br><br>复制了值类型对象，对于引用类型对象，只复制了引用，它指向原来引用的对象。<br><br><br>深复制：<br><br>对值类型和引用类型的对象都生成一份新的拷贝，java中可以通过串行化来进行深复制，前提是对象以及其内部所引用的对象都是可串行化的，否则需要考虑把不可串行话的对象设为transient，排除在复制过程之外。<br><br>被复制对象的任何变量都含有和原来的对象相同的值，除去那些引用其他对象的变量。那些引用其他对象的变量将指向被复制过的新对象，而不再是原有的那些被引用的对象。换言之，深复制把要复制的对象所引用的对象都复制了一遍。</p>
+<h4 id="来自《effective-java》的建议"><a href="#来自《effective-java》的建议" class="headerlink" title="来自《effective java》的建议"></a>来自《effective java》的建议</h4><blockquote>
+<p>第11条：谨慎地覆盖clone</p>
+</blockquote>
+<p>克隆复杂对象，可以使用deep copy，也可以先调用super.clone，然后把结果对象中的所有域都设置成它们的空白状态，然后调用高层的方法来重新产生对象的状态。</p>
+<p>建议使用拷贝构造器/拷贝工厂，确切地说是转换构造器/转换工厂。<br></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/18/design-patterns-start/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -321,8 +648,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
                   </a>
                 </span>
 
@@ -500,167 +827,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/18/design-patterns-prototype-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/18/design-patterns-prototype-1/" itemprop="url">原型设计模式(一) 基础知识</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-18T00:00:00Z">
-                2017-03-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>content<br>{:toc}</li>
-</ul>
-<h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>创建型模式的一种。通过复制一个已经存在的实例来返回新的实例，而不是新建实例。</p>
-<blockquote>
-<p>《设计模式》：<br> 使用原型实例指定创建对象的种类，然后通过拷贝这些原型来创建新的对象。</p>
-</blockquote>
-<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
-<li>创建重复的新对象的成本较大—— 创建复杂，初始化消耗资源过多，初始化耗时，繁琐的数据准备，访问权限</li>
-<li>一个对象多个修改者-浅拷贝</li>
-<li>一个对象需要提供给其他对象访问，而且各个调用者可能都需要修改其值</li>
-<li>在实际项目中，原型模式很少单独出现，一般是和工厂方法模式一起出现，通过clone的方法创建一个对象，然后由工厂方法提供给调用者</li>
-<li>如果系统要保存对象的状态，而对象的状态变化很小，或者对象本身占内存不大的时候，也可以使用原型模式配合备忘录模式来应用。相反，如果对象的状态变化很大，或者对象占用的内存很大，那么采用状态模式会比原型模式更好</li>
-</ul>
-<h4 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h4><p><img src="/images/prototype_class_uml.png" alt="类图"></p>
-<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/prototype_sequence_uml.png" alt="时序图"></p>
-<h4 id="优点-缺点"><a href="#优点-缺点" class="headerlink" title="优点/缺点"></a>优点/缺点</h4><ul>
-<li>clone并不一定比new一个对象速度快，只有new构造对象耗时或成功高时，clone才有明显的效率提升</li>
-<li>逃避构造函数的约束(既是优点也是缺点)</li>
-<li>配备克隆方法需要对类的功能进行通盘考虑，这对于全新的类不是很难，但对于已有的类不一定很容易，特别当一个类引用不支持串行化的间接对象，或者引用含有循环结构的时候</li>
-<li>必须实现cloneable接口(java)</li>
-</ul>
-<h4 id="深-浅复制"><a href="#深-浅复制" class="headerlink" title="深/浅复制"></a>深/浅复制</h4><p> 浅复制：<br><br>复制了值类型对象，对于引用类型对象，只复制了引用，它指向原来引用的对象。<br><br><br>深复制：<br><br>对值类型和引用类型的对象都生成一份新的拷贝，java中可以通过串行化来进行深复制，前提是对象以及其内部所引用的对象都是可串行化的，否则需要考虑把不可串行话的对象设为transient，排除在复制过程之外。<br><br>被复制对象的任何变量都含有和原来的对象相同的值，除去那些引用其他对象的变量。那些引用其他对象的变量将指向被复制过的新对象，而不再是原有的那些被引用的对象。换言之，深复制把要复制的对象所引用的对象都复制了一遍。</p>
-<h4 id="来自《effective-java》的建议"><a href="#来自《effective-java》的建议" class="headerlink" title="来自《effective java》的建议"></a>来自《effective java》的建议</h4><blockquote>
-<p>第11条：谨慎地覆盖clone</p>
-</blockquote>
-<p>克隆复杂对象，可以使用deep copy，也可以先调用super.clone，然后把结果对象中的所有域都设置成它们的空白状态，然后调用高层的方法来重新产生对象的状态。</p>
-<p>建议使用拷贝构造器/拷贝工厂，确切地说是转换构造器/转换工厂。<br></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/15/tinker-source-code-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -715,8 +881,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
+                  <a href="/categories/Android-Development-Framework/" itemprop="url" rel="index">
+                    <span itemprop="name">Android Development Framework</span>
                   </a>
                 </span>
 
@@ -882,8 +1048,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
                   </a>
                 </span>
 
@@ -1020,8 +1186,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
                   </a>
                 </span>
 
@@ -1313,8 +1479,8 @@ public class BuilderPatternDemo {
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
+                  <a href="/categories/Android-System-Framework/" itemprop="url" rel="index">
+                    <span itemprop="name">Android System Framework</span>
                   </a>
                 </span>
 
@@ -1469,8 +1635,8 @@ public class BuilderPatternDemo {
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
+                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA & kotlin</span>
                   </a>
                 </span>
 
@@ -1751,8 +1917,8 @@ fun main(args: Array&lt;String&gt;) {
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
+                  <a href="/categories/Android-System-Framework/" itemprop="url" rel="index">
+                    <span itemprop="name">Android System Framework</span>
                   </a>
                 </span>
 
@@ -2142,8 +2308,8 @@ try {
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
+                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA & kotlin</span>
                   </a>
                 </span>
 
@@ -2338,540 +2504,6 @@ public class CheesyCounter {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/22/android-system-service-all/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/22/android-system-service-all/" itemprop="url">Android系统服务:服务概览</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-22T00:00:00Z">
-                2017-02-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/work/" itemprop="url" rel="index">
-                    <span itemprop="name">work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="一些说明"><a href="#一些说明" class="headerlink" title="一些说明"></a>一些说明</h4><p>这个系列学习的系统服务，绝大多数是<code>android.app.SystemServiceRegistry</code>里面注册的，包括核心平台服务以及硬件服务。如图，集中在第二层<code>Application framework</code>。</p>
-<p><img src="/images/android-framework.png" alt="application framework"></p>
-<p>其中核心平台服务包括：</p>
-<ul>
-<li>Context.ACTIVITY_SERVICE -&gt; ActivityManager</li>
-<li>Context.WINDOW_SERVICE -&gt; WindowManager</li>
-<li>PackageManagerService [该服务并非在SystemServiceRegistry中注册]</li>
-</ul>
-<p><img src="/images/android-start-1.png" alt="android start 1"></p>
-<p><img src="/images/android-start-2.png" alt="android start 2"></p>
-<p>对比图一和图二，发现对本地系统服务和java系统服务定义是相反的，由于本地系统服务由C/C++编写，所以判定图一的定义是正确的。保留图二的原因是，图二展示了android系统init后的更多信息。<br><br><br><br></p>
-<p>再来看图二，android init进程是对各种设备进行初始化，运行android framework所需要的各种daemon ，Context Manager，Media Serve, Zygote。</p>
-<h5 id="daemon"><a href="#daemon" class="headerlink" title="daemon"></a>daemon</h5><ul>
-<li>USB Daemon(usbd):管理USB连接</li>
-<li>Android Debug Bridge Daemon(adbd):安卓调试桥链接管理</li>
-<li>Debugger Daemon(debuggerd):启动Debugger系统</li>
-<li>Radio Interface Layer Daemon(rild):管理无线通信连接</li>
-</ul>
-<h5 id="Context-Manager"><a href="#Context-Manager" class="headerlink" title="Context Manager"></a>Context Manager</h5><p>管理android系统服务的重要进程。系统服务是组成Android Framework的重要组件，提供从相机、音频、视频处理到应用程序制作所有重要API。</p>
-<p>Context Manager提供运行与Android的各种系统服务的查询信息。应用程序或者Framework模块调用系统服务时，都要通过Binder IPC向Context Manager进行查询申请，获得相应的系统服务的信息。</p>
-<p>同样，Android的系统服务也要通过Bindr IPC向Context Manager注册自己的Handle信息，以供查询。</p>
-<h5 id="Media-Server"><a href="#Media-Server" class="headerlink" title="Media Server"></a>Media Server</h5><p>Media Server运行基于C/C++的本地系统服务，如Audio Flinger,Camera,Media play service.</p>
-<h5 id="Zygote"><a href="#Zygote" class="headerlink" title="Zygote"></a>Zygote</h5><p>Zygote用于缩短android应用程序的加载时间，每当执行java应用程序时候，Zygote就会派生一个子进程，这个子进程就是用来执行java程序的虚拟机。</p>
-<h5 id="System-Server"><a href="#System-Server" class="headerlink" title="System Server"></a>System Server</h5><p>System Server是Android的一个系统进程，它是由Zygote创建的，在Android的启动过程中，位于Zygote之后。在System Server中可以看到它建立了android中的大部分服务，这些java层的系统服务需要通过JNI注册到ContextManager中去。</p>
-<h5 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h5><p>IPC(InterProcess Communication)进程间通信方式。<br><br>RPC:远程过程调用就是一种在两个原本相互独立的进程间建立一种类似于单个程序内函数间调用的函数调用机制。<br><br>Binder即支持IPC也支持RPC。</p>
-<h4 id="android系统服务列表-基于7-0"><a href="#android系统服务列表-基于7-0" class="headerlink" title="android系统服务列表[基于7.0]"></a>android系统服务列表[基于7.0]</h4><table>
-<thead>
-<tr>
-<th>name</th>
-<th style="text-align:center">class</th>
-<th style="text-align:right">note</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ACCESSIBILITY_SERVICE</td>
-<td style="text-align:center">AccessibilityManager</td>
-<td style="text-align:right">无障碍辅助服务 <a href="http://xusx1024.com/2017/04/20/android-system-service-AccessibilityManager/" target="_blank" rel="external">传送</a></td>
-</tr>
-<tr>
-<td>CAPTIONING_SERVICE</td>
-<td style="text-align:center">CaptioningManager</td>
-<td style="text-align:right">弹幕、字幕管理<a href="http://xusx1024.com/2017/05/18/android-system-service-CaptioningManager/" target="_blank" rel="external">传送</a></td>
-</tr>
-<tr>
-<td>ACCOUNT_SERVICE</td>
-<td style="text-align:center">AccountManager</td>
-<td style="text-align:right">账户管理器</td>
-</tr>
-<tr>
-<td>ACTIVITY_SERVICE</td>
-<td style="text-align:center">ActivityManager</td>
-<td style="text-align:right">管理应用程序的系统状态</td>
-</tr>
-<tr>
-<td>ALARM_SERVICE</td>
-<td style="text-align:center">AlarmManager</td>
-<td style="text-align:right">闹钟的服务</td>
-</tr>
-<tr>
-<td>AUDIO_SERVICE</td>
-<td style="text-align:center">AudioManager</td>
-<td style="text-align:right">声音管理</td>
-</tr>
-<tr>
-<td>MEDIA_ROUTER_SERVICE</td>
-<td style="text-align:center">MediaRouter</td>
-<td style="text-align:right">扩展屏幕</td>
-</tr>
-<tr>
-<td>BLUETOOTH_SERVICE</td>
-<td style="text-align:center">BluetoothManager</td>
-<td style="text-align:right">蓝牙</td>
-</tr>
-<tr>
-<td>HDMI_CONTROL_SERVICE</td>
-<td style="text-align:center">HdmiControlManager</td>
-<td style="text-align:right">管理所有的HDMI-CEC设备  HDMI-CEC标准允许多媒体消费产品之间沟通和交换信息， HDMI-CEC支持许多功能，比如遥控器直通，系统音频控制，一键播放等等。</td>
-</tr>
-<tr>
-<td>CLIPBOARD_SERVICE</td>
-<td style="text-align:center">ClipboardManager</td>
-<td style="text-align:right">剪贴板管理器</td>
-</tr>
-<tr>
-<td>CONNECTIVITY_SERVICE</td>
-<td style="text-align:center">ConnectivityManager</td>
-<td style="text-align:right">网络连接管理器</td>
-</tr>
-<tr>
-<td>COUNTRY_DETECTOR</td>
-<td style="text-align:center">CountryDetector</td>
-<td style="text-align:right">获取用户所在地国家码</td>
-</tr>
-<tr>
-<td>DEVICE_POLICY_SERVICE</td>
-<td style="text-align:center">DevicePolicyManager</td>
-<td style="text-align:right">设备管理器</td>
-</tr>
-<tr>
-<td>DOWNLOAD_SERVICE</td>
-<td style="text-align:center">DownloadManager</td>
-<td style="text-align:right">下载管理器</td>
-</tr>
-<tr>
-<td>BATTERY_SERVICE</td>
-<td style="text-align:center">BatteryManager</td>
-<td style="text-align:right">电池管理器</td>
-</tr>
-<tr>
-<td>NFC_SERVICE</td>
-<td style="text-align:center">NfcManager</td>
-<td style="text-align:right">NFC管理器</td>
-</tr>
-<tr>
-<td>DROPBOX_SERVICE</td>
-<td style="text-align:center">DropBoxManager</td>
-<td style="text-align:right">持续化存储系统数据管理器</td>
-</tr>
-<tr>
-<td>INPUT_SERVICE</td>
-<td style="text-align:center">InputManager</td>
-<td style="text-align:right">输入事件管理器如触摸点击etc</td>
-</tr>
-<tr>
-<td>DISPLAY_SERVICE</td>
-<td style="text-align:center">DisplayManager</td>
-<td style="text-align:right">显示管理，支持多种显示类型的多个显示器的镜像显示，包括内建的显示类型（本地）、HDMI显示类型以及支持WIFI Display 协议( MIRACAST)，实现本地设备在远程显示器上的镜像显示。</td>
-</tr>
-<tr>
-<td>INPUT_METHOD_SERVICE</td>
-<td style="text-align:center">InputMethodManager</td>
-<td style="text-align:right">输入法管理器</td>
-</tr>
-<tr>
-<td>TEXT_SERVICES_MANAGER_SERVICE</td>
-<td style="text-align:center">TextServicesManager</td>
-<td style="text-align:right">检查拼写管理器</td>
-</tr>
-<tr>
-<td>KEYGUARD_SERVICE</td>
-<td style="text-align:center">KeyguardManager</td>
-<td style="text-align:right">屏保管理器</td>
-</tr>
-<tr>
-<td>LAYOUT_INFLATER_SERVICE</td>
-<td style="text-align:center"><a href="http://xusx1024.com/2017/02/23/android-system-service-LayoutInflater/" target="_blank" rel="external">LayoutInflater</a></td>
-<td style="text-align:right">布局填充管理器 <a href="http://xusx1024.com/2017/02/23/android-system-service-LayoutInflater/" target="_blank" rel="external">传送</a></td>
-</tr>
-<tr>
-<td>NETWORK_POLICY_SERVICE</td>
-<td style="text-align:center">NetworkPolicyManager</td>
-<td style="text-align:right">网络链接策略管理器</td>
-</tr>
-<tr>
-<td>NOTIFICATION_SERVICE</td>
-<td style="text-align:center">NotificationManager</td>
-<td style="text-align:right">通知管理器</td>
-</tr>
-<tr>
-<td>NSD_SERVICE</td>
-<td style="text-align:center">NsdManager</td>
-<td style="text-align:right">网络服务发现协议管理器</td>
-</tr>
-<tr>
-<td>POWER_SERVICE</td>
-<td style="text-align:center">PowerManager</td>
-<td style="text-align:right">电源管理器</td>
-</tr>
-<tr>
-<td>RECOVERY_SERVICE</td>
-<td style="text-align:center">RecoverySystem</td>
-<td style="text-align:right">刷机相关的-恢复模式服务</td>
-</tr>
-<tr>
-<td>SEARCH_SERVICE</td>
-<td style="text-align:center">SearchManager</td>
-<td style="text-align:right">搜索服务，利用此服务可以实现对系统中的应用、联系人、SMS等进行搜索，也提供转入浏览器中的搜索</td>
-</tr>
-<tr>
-<td>SENSOR_SERVICE</td>
-<td style="text-align:center">SensorManager</td>
-<td style="text-align:right">传感器管理器</td>
-</tr>
-<tr>
-<td>STATUS_BAR_SERVICE</td>
-<td style="text-align:center">StatusBarManager</td>
-<td style="text-align:right">状态栏管理器</td>
-</tr>
-<tr>
-<td>STORAGE_SERVICE</td>
-<td style="text-align:center">StorageManager</td>
-<td style="text-align:right">磁盘管理器</td>
-</tr>
-<tr>
-<td>TELEPHONY_SERVICE</td>
-<td style="text-align:center">TelephonyManager</td>
-<td style="text-align:right">电话管理器</td>
-</tr>
-<tr>
-<td>TELEPHONY_SUBSCRIPTION_SERVICE</td>
-<td style="text-align:center">SubscriptionManager</td>
-<td style="text-align:right">SIM卡管理器</td>
-</tr>
-<tr>
-<td>CARRIER_CONFIG_SERVICE</td>
-<td style="text-align:center">CarrierConfigManager</td>
-<td style="text-align:right">提供对特定于运营商的电话配置值的访问</td>
-</tr>
-<tr>
-<td>TELECOM_SERVICE</td>
-<td style="text-align:center">TelecomManager</td>
-<td style="text-align:right">电话管理器</td>
-</tr>
-<tr>
-<td>UI_MODE_SERVICE</td>
-<td style="text-align:center">UiModeManager</td>
-<td style="text-align:right">夜间模式这样的切换</td>
-</tr>
-<tr>
-<td>USB_SERVICE</td>
-<td style="text-align:center">UsbManager</td>
-<td style="text-align:right">USB管理器</td>
-</tr>
-<tr>
-<td>SERIAL_SERVICE</td>
-<td style="text-align:center">SerialManager</td>
-<td style="text-align:right">端口管理器</td>
-</tr>
-<tr>
-<td>VIBRATOR_SERVICE</td>
-<td style="text-align:center">Vibrator</td>
-<td style="text-align:right">振动器管理器</td>
-</tr>
-<tr>
-<td>WALLPAPER_SERVICE</td>
-<td style="text-align:center">WallpaperManager</td>
-<td style="text-align:right">壁纸管理器</td>
-</tr>
-<tr>
-<td>WIFI_SERVICE</td>
-<td style="text-align:center">WifiManager</td>
-<td style="text-align:right">无线网络管理器</td>
-</tr>
-<tr>
-<td>WIFI_P2P_SERVICE</td>
-<td style="text-align:center">WifiP2pManager</td>
-<td style="text-align:right">点对点设备连接管理器，无需连接到网络</td>
-</tr>
-<tr>
-<td>WIFI_NAN_SERVICE</td>
-<td style="text-align:center">WifiNanManager</td>
-<td style="text-align:right">neighborhood area network (NAN)的管理器- 邻区网（NAN）是Wi-Fi热点和无线局域网（WLAN）的分支，使用户能够以非常小的费用快速连接到互联网。</td>
-</tr>
-<tr>
-<td>WIFI_SCANNING_SERVICE</td>
-<td style="text-align:center">WifiScanner</td>
-<td style="text-align:right">wifi扫描管理器</td>
-</tr>
-<tr>
-<td>WIFI_RTT_SERVICE</td>
-<td style="text-align:center">RttManager</td>
-<td style="text-align:right">round-trip time (RTT)管理器</td>
-</tr>
-<tr>
-<td>ETHERNET_SERVICE</td>
-<td style="text-align:center">EthernetManager</td>
-<td style="text-align:right">以太网IP配置管理器</td>
-</tr>
-<tr>
-<td>WINDOW_SERVICE</td>
-<td style="text-align:center">WindowManager</td>
-<td style="text-align:right">窗口管理器</td>
-</tr>
-<tr>
-<td>USER_SERVICE</td>
-<td style="text-align:center">UserManager</td>
-<td style="text-align:right">多用户管理器</td>
-</tr>
-<tr>
-<td>APP_OPS_SERVICE</td>
-<td style="text-align:center">AppOpsManager</td>
-<td style="text-align:right">Application Operations权限管理器</td>
-</tr>
-<tr>
-<td>CAMERA_SERVICE</td>
-<td style="text-align:center">CameraManager</td>
-<td style="text-align:right">相机管理器</td>
-</tr>
-<tr>
-<td>LAUNCHER_APPS_SERVICE</td>
-<td style="text-align:center">LauncherApps</td>
-<td style="text-align:right">不同用户的不同package管理器</td>
-</tr>
-<tr>
-<td>RESTRICTIONS_SERVICE</td>
-<td style="text-align:center">RestrictionsManager</td>
-<td style="text-align:right">限制管理器</td>
-</tr>
-<tr>
-<td>PRINT_SERVICE</td>
-<td style="text-align:center">PrintManager</td>
-<td style="text-align:right">打印管理器</td>
-</tr>
-<tr>
-<td>CONSUMER_IR_SERVICE</td>
-<td style="text-align:center">ConsumerIrManager</td>
-<td style="text-align:right">红外发射管理器</td>
-</tr>
-<tr>
-<td>MEDIA_SESSION_SERVICE</td>
-<td style="text-align:center">MediaSessionManager</td>
-<td style="text-align:right">MediaSession概念用于播放器与控制器之间进行交互，媒体回话管理器</td>
-</tr>
-<tr>
-<td>TRUST_SERVICE</td>
-<td style="text-align:center">TrustManager</td>
-<td style="text-align:right">信任证书管理器</td>
-</tr>
-<tr>
-<td>FINGERPRINT_SERVICE</td>
-<td style="text-align:center">FingerprintManager</td>
-<td style="text-align:right">指纹管理器</td>
-</tr>
-<tr>
-<td>TV_INPUT_SERVICE</td>
-<td style="text-align:center">TvInputManager</td>
-<td style="text-align:right">电视管理器</td>
-</tr>
-<tr>
-<td>NETWORK_SCORE_SERVICE</td>
-<td style="text-align:center">NetworkScoreManager</td>
-<td style="text-align:right">网络子系统和网络记分器之间的通信管理器</td>
-</tr>
-<tr>
-<td>USAGE_STATS_SERVICE</td>
-<td style="text-align:center">UsageStatsManager</td>
-<td style="text-align:right">使用情况统计管理器</td>
-</tr>
-<tr>
-<td>NETWORK_STATS_SERVICE</td>
-<td style="text-align:center">NetworkStatsManager</td>
-<td style="text-align:right">流量统计管理器</td>
-</tr>
-<tr>
-<td>JOB_SCHEDULER_SERVICE</td>
-<td style="text-align:center">JobScheduler</td>
-<td style="text-align:right">定时任务管理器</td>
-</tr>
-<tr>
-<td>PERSISTENT_DATA_BLOCK_SERVICE</td>
-<td style="text-align:center">PersistentDataBlockManager</td>
-<td style="text-align:right">持久数据区管理器-出厂设置擦除数据相关</td>
-</tr>
-<tr>
-<td>MEDIA_PROJECTION_SERVICE</td>
-<td style="text-align:center">MediaProjectionManager</td>
-<td style="text-align:right">系统屏幕截图管理器</td>
-</tr>
-<tr>
-<td>APPWIDGET_SERVICE</td>
-<td style="text-align:center">AppWidgetManager</td>
-<td style="text-align:right">桌面组件管理器</td>
-</tr>
-<tr>
-<td>MIDI_SERVICE</td>
-<td style="text-align:center">MidiManager</td>
-<td style="text-align:right">（Musical Instrument Digital Interface，简称MIDI）是一个工业标准的电子通信协议.为电子乐器等演奏设备（如合成器）定义各种音符或弹奏码，容许电子乐器、电脑、手机或其它的舞台演出配备彼此连接，调整和同步，得以即时交换演奏数据。MIDI不发送声音，只发送像是音调和音乐强度的数据，音量，颤音和相位[1]等参数的控制信号，还有设置节奏的时钟信号。 比如钢琴学习应用。</td>
-</tr>
-<tr>
-<td>RADIO_SERVICE</td>
-<td style="text-align:center">RadioManager</td>
-<td style="text-align:right">收音机管理器</td>
-</tr>
-<tr>
-<td>HARDWARE_PROPERTIES_SERVICE</td>
-<td style="text-align:center">HardwarePropertiesManager</td>
-<td style="text-align:right">硬件属性管理器-CPU,GPU,电池温度,CPU各个核的使用,风扇速度</td>
-</tr>
-<tr>
-<td>SOUND_TRIGGER_SERVICE</td>
-<td style="text-align:center">SoundTriggerManager</td>
-<td style="text-align:right">语音识别管理器</td>
-</tr>
-<tr>
-<td>SHORTCUT_SERVICE</td>
-<td style="text-align:center">ShortcutManager</td>
-<td style="text-align:right">App Shortcuts是指在桌面长按app图标而出现的快捷方式</td>
-</tr>
-<tr>
-<td>SYSTEM_HEALTH_SERVICE</td>
-<td style="text-align:center">SystemHealthManager</td>
-<td style="text-align:right">系统资源使用情况管理器</td>
-</tr>
-<tr>
-<td>CONTEXTHUB_SERVICE</td>
-<td style="text-align:center">ContextHubManager</td>
-<td style="text-align:right">上下文中心管理器</td>
-</tr>
-</tbody>
-</table>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2921,7 +2553,7 @@ public class CheesyCounter {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">79</span>
+                <span class="site-state-item-count">80</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2932,7 +2564,7 @@ public class CheesyCounter {
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2943,7 +2575,7 @@ public class CheesyCounter {
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
