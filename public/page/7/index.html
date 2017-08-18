@@ -267,6 +267,397 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/android-system-service-LayoutInflater/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/23/android-system-service-LayoutInflater/" itemprop="url">Android系统服务：LayoutInflater</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-23T00:00:00Z">
+                2017-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-System-Framework/" itemprop="url" rel="index">
+                    <span itemprop="name">Android System Framework</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h4><p>activity是android中最常用的UI容器。把写好的xml布局通过<code>setContentView(int ResId)</code>，就可以实现页面的绑定，然后我们根据控件的ID，根据业务代码展示UI就可以了。关于xml的解析和绘制，就是系统服务<code>LayoutInflater</code>的工作了。</p>
+<h5 id="追踪android-app-Activity"><a href="#追踪android-app-Activity" class="headerlink" title="追踪android.app.Activity"></a>追踪android.app.Activity</h5><p>Activity源码中有3个<code>setContentView</code>的重载方法。</p>
+<pre><code>public void setContentView(@LayoutRes int layoutResID) {
+    getWindow().setContentView(layoutResID);
+    initWindowDecorActionBar();
+}
+
+public void setContentView(View view) {
+    getWindow().setContentView(view);
+    initWindowDecorActionBar();
+}
+
+public void setContentView(View view, ViewGroup.LayoutParams params) {
+    getWindow().setContentView(view, params);
+    initWindowDecorActionBar();
+}
+</code></pre><p>可以看到，调用当前Activity的window的<code>setContentView</code>来布局，这里我们上一张图看一下activity，window，view(xml布局)的关系：</p>
+<p><img src="/images/activity-window-layer.jpg" alt="activity、window层级关系图"></p>
+<p>其中<code>com.android.internal.policy.PhoneWindow</code>是<code>android.view.Window</code>的子类。<br><br>DecorView是的PhoneWindow的顶级view，继承自FrameLayout，其内部包含一个竖直的LinearLayout。<br><br>TitleView即ActionBar所在位置，通常使用Theme来配置其状态，一般开发会屏蔽该ActionBar，使用自定义顶部栏。<br><br>ContentView即需要展示在UI上的xml布局文件。<br></p>
+<p>继续看源码，getWindow()方法获取的是一个PhoneWindow的实例。所以setContentView可以去PhoneWindow中去查看其实现。<br><br><code>initWindowDecorActionBar();</code>里面主要是设置ActionBar。</p>
+<h5 id="追踪com-android-internal-policy-PhoneWindow"><a href="#追踪com-android-internal-policy-PhoneWindow" class="headerlink" title="追踪com.android.internal.policy.PhoneWindow"></a>追踪com.android.internal.policy.PhoneWindow</h5><p>先简后繁，看一下现成的view如何添加到ContentView的：</p>
+<pre><code> @Override
+    public void setContentView(View view) {
+        setContentView(view, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+    }
+
+ @Override
+public void setContentView(View view, ViewGroup.LayoutParams params) {
+
+    ...
+
+    mContentParent.addView(view, params);
+
+    ...
+
+ }
+</code></pre><p>把已有的view设置进入<code>ContentView</code>，只需要调用<code>ViewGroup.addView(View view)</code>添加到DecorView即可。<br><br>这里提一句：view都是要添加到父view上的。 </p>
+<pre><code>public static final int ID_ANDROID_CONTENT = com.android.internal.R.id.content;
+</code></pre><p>这个ID对应的ViewGroup，即xml布局的父view。其源码注释：</p>
+<blockquote>
+<p>   This is the view in which the window contents are placed. It is either mDecor itself, or a child of mDecor where the contents go.<br>   这是要放置window内容的view。是DecorView本身，或是DecorView的孩子。</p>
+</blockquote>
+<p>总之，一句话，现成的view，亦或是将来的LayoutInflater生成的view，都要添加到ID_ANDROID_CONTENT之内。</p>
+<p>下面，来看一下xml文件如何变成view的：</p>
+<pre><code>@Override
+    public void setContentView(int layoutResID) {
+
+    ...
+
+            mLayoutInflater.inflate(layoutResID, mContentParent);
+
+    ...
+
+    }
+</code></pre><p>一目了然，调用系统服务LayoutInflater的inflate方法。</p>
+<h4 id="追踪LayoutInflater源码"><a href="#追踪LayoutInflater源码" class="headerlink" title="追踪LayoutInflater源码"></a>追踪LayoutInflater源码</h4><p>关键方法：</p>
+<ul>
+<li>inflate * n</li>
+<li>rInflate</li>
+<li>createViewFromTag</li>
+<li>createView</li>
+</ul>
+<h5 id="inflate"><a href="#inflate" class="headerlink" title="inflate"></a>inflate</h5><pre><code>public View inflate(@LayoutRes int resource, @Nullable ViewGroup root, boolean attachToRoot) {
+    final Resources res = getContext().getResources();
+    if (DEBUG) {
+        Log.d(TAG, &quot;INFLATING from resource: \&quot;&quot; + res.getResourceName(resource) + &quot;\&quot; (&quot;
+                + Integer.toHexString(resource) + &quot;)&quot;);
+    }
+
+    final XmlResourceParser parser = res.getLayout(resource);
+    try {
+        return inflate(parser, root, attachToRoot);
+    } finally {
+        parser.close();
+    }
+}
+</code></pre><p>获取XmlResourceParser(XmlPullParser的子类)的实例，用于待会遍历xml文件结点。</p>
+<pre><code>public View inflate(XmlPullParser parser, @Nullable ViewGroup root, boolean attachToRoot) {
+    synchronized (mConstructorArgs) {
+
+...
+
+ final String name = parser.getName();
+ if (TAG_MERGE.equals(name)) {
+
+...
+
+rInflate(parser, root, inflaterContext, attrs, false);
+
+...
+
+} else {
+
+...
+
+ rInflateChildren(parser, temp, attrs, true);
+
+...
+
+        }
+    }
+}
+</code></pre><p>由于merge标签，只能作为xml根标签使用，所以分开处理。</p>
+<h5 id="rInflate"><a href="#rInflate" class="headerlink" title="rInflate"></a>rInflate</h5><pre><code>void rInflate(XmlPullParser parser, View parent, Context context,
+           AttributeSet attrs, boolean finishInflate) throws XmlPullParserException, IOException {
+
+       final int depth = parser.getDepth();
+       int type;
+
+       while (((type = parser.next()) != XmlPullParser.END_TAG ||
+               parser.getDepth() &gt; depth) &amp;&amp; type != XmlPullParser.END_DOCUMENT) {
+
+           if (type != XmlPullParser.START_TAG) {
+               continue;
+           }
+
+           final String name = parser.getName();
+
+           if (TAG_REQUEST_FOCUS.equals(name)) {
+               parseRequestFocus(parser, parent);
+           } else if (TAG_TAG.equals(name)) {
+               parseViewTag(parser, parent, attrs);
+           } else if (TAG_INCLUDE.equals(name)) {
+               if (parser.getDepth() == 0) {
+                   throw new InflateException(&quot;&lt;include /&gt; cannot be the root element&quot;);
+               }
+               parseInclude(parser, context, parent, attrs);
+           } else if (TAG_MERGE.equals(name)) {
+               throw new InflateException(&quot;&lt;merge /&gt; must be the root element&quot;);
+           } else {
+               final View view = createViewFromTag(parent, name, context, attrs);
+               final ViewGroup viewGroup = (ViewGroup) parent;
+               final ViewGroup.LayoutParams params = viewGroup.generateLayoutParams(attrs);
+               rInflateChildren(parser, view, attrs, true);
+               viewGroup.addView(view, params);
+           }
+       }
+
+       if (finishInflate) {
+           parent.onFinishInflate();
+       }
+   }
+</code></pre><p>深度优先遍历xml树，判断标签类型，循环递归直至<code>XmlPullParser.END_DOCUMENT</code>。</p>
+<h5 id="createViewFromTag"><a href="#createViewFromTag" class="headerlink" title="createViewFromTag"></a>createViewFromTag</h5><pre><code>    View createViewFromTag(View parent, String name, Context context, AttributeSet attrs,
+                boolean ignoreThemeAttr) {
+            if (name.equals(&quot;view&quot;)) {
+                name = attrs.getAttributeValue(null, &quot;class&quot;);
+            }
+
+    ...
+
+                  if (name.equals(TAG_1995)) {
+            // Let&apos;s party like it&apos;s 1995!
+            return new BlinkLayout(context, attrs);
+        }
+
+    ...
+
+try {
+        View view;
+        if (mFactory2 != null) {
+            view = mFactory2.onCreateView(parent, name, context, attrs);
+        } else if (mFactory != null) {
+            view = mFactory.onCreateView(name, context, attrs);
+        } else {
+            view = null;
+        }
+
+        if (view == null &amp;&amp; mPrivateFactory != null) {
+            view = mPrivateFactory.onCreateView(parent, name, context, attrs);
+        }
+
+        if (view == null) {
+            final Object lastContext = mConstructorArgs[0];
+            mConstructorArgs[0] = context;
+            try {
+                if (-1 == name.indexOf(&apos;.&apos;)) {
+                    view = onCreateView(parent, name, attrs);
+                } else {
+                    view = createView(name, null, attrs);
+                }
+            } finally {
+                mConstructorArgs[0] = lastContext;
+            }
+        }
+
+        return view;
+    } 
+
+...
+
+}
+</code></pre><p>如果view为属性标签，那么name就是属性的值。<br><br>如果TAG_1995，做出来的布局会一闪一闪的。<br><br>如果该LayoutInflater被复制过，比如用于做换肤之类的功能，那么通过调用复制后的LayoutInflater的Factory定义的onCreateView——主要是看其定义的view的属性，最后还是调用的createView——生成view<br><br>如果是普通的view，标签名里如果含有“.”，那么说明是自定义view，不需要往createView中添加name的前缀，直接name就带有包名了；否则是系统的view，需要往createView中添加name的前缀，比如<code>android.widget</code>。<br></p>
+<h5 id="createView"><a href="#createView" class="headerlink" title="createView"></a>createView</h5><pre><code>public final View createView(String name, String prefix, AttributeSet attrs)
+        throws ClassNotFoundException, InflateException {
+    Constructor&lt;? extends View&gt; constructor = sConstructorMap.get(name);
+    if (constructor != null &amp;&amp; !verifyClassLoader(constructor)) {
+        constructor = null;
+        sConstructorMap.remove(name);
+    }
+    Class&lt;? extends View&gt; clazz = null;
+
+    try {
+        Trace.traceBegin(Trace.TRACE_TAG_VIEW, name);
+
+        if (constructor == null) {
+            // Class not found in the cache, see if it&apos;s real, and try to add it
+            clazz = mContext.getClassLoader().loadClass(
+                    prefix != null ? (prefix + name) : name).asSubclass(View.class);
+
+            if (mFilter != null &amp;&amp; clazz != null) {
+                boolean allowed = mFilter.onLoadClass(clazz);
+                if (!allowed) {
+                    failNotAllowed(name, prefix, attrs);
+                }
+            }
+            constructor = clazz.getConstructor(mConstructorSignature);
+            constructor.setAccessible(true);
+            sConstructorMap.put(name, constructor);
+        } else {
+            // If we have a filter, apply it to cached constructor
+            if (mFilter != null) {
+                // Have we seen this name before?
+                Boolean allowedState = mFilterMap.get(name);
+                if (allowedState == null) {
+                    // New class -- remember whether it is allowed
+                    clazz = mContext.getClassLoader().loadClass(
+                            prefix != null ? (prefix + name) : name).asSubclass(View.class);
+
+                    boolean allowed = clazz != null &amp;&amp; mFilter.onLoadClass(clazz);
+                    mFilterMap.put(name, allowed);
+                    if (!allowed) {
+                        failNotAllowed(name, prefix, attrs);
+                    }
+                } else if (allowedState.equals(Boolean.FALSE)) {
+                    failNotAllowed(name, prefix, attrs);
+                }
+            }
+        }
+
+        Object[] args = mConstructorArgs;
+        args[1] = attrs;
+
+        final View view = constructor.newInstance(args);
+        if (view instanceof ViewStub) {
+            // Use the same context when inflating ViewStub later.
+            final ViewStub viewStub = (ViewStub) view;
+            viewStub.setLayoutInflater(cloneInContext((Context) args[0]));
+        }
+        return view;
+
+    } 
+}
+</code></pre><ul>
+<li>根据view的名字，缓存的构造器map中是否存在；</li>
+<li>如果不存在或者存在但没通过验证，就重新生成并缓存，生成时如果name有前缀就拼装上，通过反射获取其构造函数；</li>
+<li>通过其构造生成view。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/22/android-system-service-all/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2620,190 +3011,11 @@ Android进程与Linux进程一样。默认情况下，每个apk运行在自己�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/two-stacks-makeup-queue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/two-stacks-makeup-queue/" itemprop="url">由两个栈组成的队列</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="由两个栈组成的队列"><a href="#由两个栈组成的队列" class="headerlink" title="由两个栈组成的队列"></a>由两个栈组成的队列</h5><pre><code>编写一个类，使用两个栈实现队列，支持队列的基本操作(add,poll,peek)
-</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>栈的特点是先进后出，而队列的特点是先进先出。我们用两个栈，互相反序，实现类似队列的操作。
-具体实现上是一个栈作为压入栈，在压入数据时只往这个栈中压入，记为stackPush，另一个栈只作为弹出栈，记为stackPop。
-根据栈的特点，循环把stackPush中的数据压入stackPop中，stackPop的栈顶元素即为队列的dequeue元素。
-</code></pre><h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><pre><code>1. 如果stackPush要往stackPop中压入数据，必须一次性压入完毕；
-2. 如果stackPop要接收数据，必须保证stackPop为空。
-</code></pre><h5 id="stackPush压入stackPop的操作时机"><a href="#stackPush压入stackPop的操作时机" class="headerlink" title="stackPush压入stackPop的操作时机"></a>stackPush压入stackPop的操作时机</h5><pre><code>调用add、poll、peek三种方法中任何一种时发生都是可以，只要满足注意事项提到的两点，就不会出错。下面的例子是在调用poll和peek方法时进行压入数据的。
-</code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>import java.util.Stack;
-
-public class TwoStackQueue {
-
-    public Stack&lt;Integer&gt; stackPush;
-    public Stack&lt;Integer&gt; stackPop;
-
-    public TwoStackQueue() {
-        stackPop = new Stack&lt;&gt;();
-        stackPush = new Stack&lt;&gt;();
-    }
-
-    public void add(int pushInt) {
-        stackPush.push(pushInt);
-    }
-
-    public int poll() {
-        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
-            throw new RuntimeException(&quot;Queue is empty!&quot;);
-        } else if (stackPop.empty()) {
-            while (!stackPush.empty()) {
-                stackPop.push(stackPush.pop());
-            }
-        }
-        return stackPop.pop();
-    }
-
-    public int peek(){
-        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
-            throw new RuntimeException(&quot;Queue is empty!&quot;);
-        } else if (stackPop.empty()) {
-            while (!stackPush.empty()) {
-                stackPop.push(stackPush.pop());
-            }
-        }
-        return stackPop.peek();
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2848,7 +3060,7 @@ public class TwoStackQueue {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">80</span>
+                <span class="site-state-item-count">81</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
