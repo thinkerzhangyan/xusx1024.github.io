@@ -56,4 +56,16 @@ tag: 杂项
 
 git与svn不同，git只跟踪文件的变化，不跟踪目录，如果想要提交一个空目录，我们可以在该目录添加一个文件，命名为.gitignore，这是一个变通的方法。
 
- 
+#### git 克隆分支 ####
+
+多个分支的仓库，使用git clone的方法，只能把HEAD复制下来，如果有多个分支，可以考虑使用：
+
+`git branch -r`来查看各个分支
+
+`git checkout xxx`来clone指定的分支
+
+#### filename too long ####
+
+文件夹的层级过多，导致在clone的时候，出现该提示，可以考虑使用：
+
+`git config --system core.longpaths true`
