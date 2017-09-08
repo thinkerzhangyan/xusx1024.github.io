@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="前面以AccountManager为例，撸一把源码。由类到类，逐行。 #">
+<meta name="description" content="前面以AccountManager为例，read the fucking code. 协议可以看到该类遵循Apache协议。也就是说允许商用，私用，分发，修改，专利授权，附件协议，作者不允许商业使用，不承担责任。 详细的各种协议区分，请看：here package类所在的包：package android.accounts;   AbstractAccountAuthenticator Accou">
 <meta name="keywords" content="android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android系统服务：AccountManager">
 <meta property="og:url" content="http://yoursite.com/2017/08/17/android-system-service-Account-Manager/index.html">
 <meta property="og:site_name" content="行次">
-<meta property="og:description" content="前面以AccountManager为例，撸一把源码。由类到类，逐行。 #">
-<meta property="og:updated_time" content="2017-08-22T01:23:27.256Z">
+<meta property="og:description" content="前面以AccountManager为例，read the fucking code. 协议可以看到该类遵循Apache协议。也就是说允许商用，私用，分发，修改，专利授权，附件协议，作者不允许商业使用，不承担责任。 详细的各种协议区分，请看：here package类所在的包：package android.accounts;   AbstractAccountAuthenticator Accou">
+<meta property="og:updated_time" content="2017-09-08T02:00:51.430Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android系统服务：AccountManager">
-<meta name="twitter:description" content="前面以AccountManager为例，撸一把源码。由类到类，逐行。 #">
+<meta name="twitter:description" content="前面以AccountManager为例，read the fucking code. 协议可以看到该类遵循Apache协议。也就是说允许商用，私用，分发，修改，专利授权，附件协议，作者不允许商业使用，不承担责任。 详细的各种协议区分，请看：here package类所在的包：package android.accounts;   AbstractAccountAuthenticator Accou">
 
 
 
@@ -353,8 +353,133 @@
       
 
       
-        <h4 id="前面"><a href="#前面" class="headerlink" title="前面"></a>前面</h4><p>以<code>AccountManager</code>为例，撸一把源码。由类到类，逐行。</p>
-<h4 id=""><a href="#" class="headerlink" title="#"></a>#</h4>
+        <h4 id="前面"><a href="#前面" class="headerlink" title="前面"></a>前面</h4><p>以<code>AccountManager</code>为例，read the fucking code.</p>
+<h4 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h4><p>可以看到该类遵循Apache协议。也就是说允许商用，私用，分发，修改，专利授权，附件协议，作者不允许商业使用，不承担责任。</p>
+<p>详细的各种协议区分，请看：<a href="http://xusx1024.com/2017/08/22/license-introduce/" target="_blank" rel="external">here</a></p>
+<h4 id="package"><a href="#package" class="headerlink" title="package"></a>package</h4><p>类所在的包：<code>package android.accounts;</code> </p>
+<ul>
+<li>AbstractAccountAuthenticator</li>
+<li>Account</li>
+<li>AccountAuthenticatorActivity</li>
+<li>AccountAuthenticatorResponse</li>
+<li>AccountManagerCallback</li>
+<li>AccountManagerFuture</li>
+<li>AccountsException</li>
+<li>AuthenticatorDescription</li>
+<li>AuthenticatorException</li>
+<li>NetworkErrorException</li>
+<li>OnAccountsUpdateListener</li>
+<li>OperationCanceledException</li>
+</ul>
+<h4 id="类说明"><a href="#类说明" class="headerlink" title="类说明"></a>类说明</h4><p>This class provides access to a centralized registry of the user’s online accounts.<br>The user enters credentials (username and password) once per account, granting applications access to online resources with “one-click” approval.</p>
+<p>此类提供了用户在线账户集中注册的访问。<br>用户为每个账户输入用户密码作为证书，准许应用通过一次授权访问在线资源。</p>
+<p></p><p>Different online services have different ways of handling accounts and authentication, so the account manager uses pluggable <em>authenticator</em> modules for different <em>account types</em>.<br>Authenticators (which may be written by third parties) handle the actual details of validating account credentials and storing account information.<br>For example, Google, Facebook, and Microsoft Exchange each have their own authenticator.</p>
+<p>不同的线上服务处理账户和认证有不同的方式，因此账户管理者为不同的账户类型应用可插拔的认证模块。<br>验证者(也许是第三方写入)处理具体的账户证书细节，并且存储账户信息。<br>例如：Google，Facebook,Microsoft Exchange有各自的验证者。</p>
+<p></p><p>Many servers support some notion[概念] of an <em>authentication token</em>, which can be used to authenticate a request to the server without sending the user’s actual password.<br>(Auth tokens are normally created with a separate request which does include the user’s credentials.)<br>AccountManager can generate auth tokens for applications, so the application doesn’t need to handle passwords directly.<br>Auth tokens are normally reusable and cached by AccountManager, but must be refreshed periodically[定期].<br>It’s the responsibility of applications to <em>invalidate</em> auth tokens when they stop working so the AccountManager knows it needs to regenerate them.</p>
+<p>许多服务支持认证令牌的概念，可以无需用户确切的密码，即可向服务端认证一个请求。<br>(授权令牌通常创建在包含用户证书的一个单独的请求里。)<br>账户管理者可以为应用生成授权令牌，因此应用无需直接操作密码。<br>授权令牌通常是可重用的并由账户管理者缓存，但必须定期刷新。<br>当授权令牌停止工作时，应用的职责是废止这些授权，账户管理者依此得知需要重新生成。</p>
+<p></p><p>Applications accessing a server normally go through these steps:</p>
+<ul><br><li>Get an instance of AccountManager using {@link #get(Context)}.<br><br></li><li>List the available accounts using {@link #getAccountsByType} or {@link #getAccountsByTypeAndFeatures}.<br>Normally applications will only be interested in accounts with one particular <em>type</em>, which identifies the authenticator.<br>Account <em>features</em> are used to identify particular account subtypes and capabilities[功能].<br>Both the account type and features are authenticator-specific strings, and must be known by the application in coordination with its preferred authenticators.<br><br></li><li>Select one or more of the available accounts, possibly by asking the user for their preference.<br>If no suitable accounts are available, {@link #addAccount} may be called to prompt the user to create an account of the appropriate type.<br><br></li><li><b>Important:</b> If the application is using a previously remembered account selection, it must make sure the account is still in the list of accounts returned by {@link #getAccountsByType}.  Requesting an auth token for an account no longer on the device results in an undefined failure.<br><br></li><li>Request an auth token for the selected account(s) using one of the {@link #getAuthToken} methods or related helpers.<br>Refer to the description of each method for exact usage and error handling details.<br><br></li><li>Make the request using the auth token.  The form of the auth token, the format of the request, and the protocol used are all specific to the service you are accessing.<br>The application may use whatever network and protocol libraries are useful.<br><br></li><li><b>Important:</b> If the request fails with an authentication error, it could be that a cached auth token is stale and no longer honored by the server.<br>The application must call {@link #invalidateAuthToken} to remove the token from the cache, otherwise requests will continue failing!<br>After invalidating the auth token, immediately go back to the “Request an auth token” step above.<br>If the process fails the second time, then it can be treated as a “genuine” authentication failure and the user notified or other appropriate actions taken.<br></li></ul>
+
+<p>应用访问服务一般有以下几个步骤：</p>
+<ul><br><li>使用<code>get(Context)</code>获取账户管理者的实例<br></li><li>使用<code>getAccountsByType</code>或者<code>getAccountsByTypeAndFeatures</code>列出可用的账户。<br>通常应用只会被一个特定类型所吸引，该类型可用于识别验证者。<br>账户特征用来识别特定的账户子类型和功能。<br>账户类型和特征是验证者特定的字符串，必须由应用程序与其首选验证着协调知道。<br></li><li>选一或多个可用账户，可能通过询问用户的偏好。<br>如果没有适合的账户可用，指示用户调用<code>addAccount</code>创建一个适当类型的账户。<br></li><li><b>重要：</b>如果应用程序正在使用以前记录的账户选择，一定要确保此账户仍在<code>getAccountsByType</code>返回的账户列表里。<br>为不再在设备上的账户请求授权令牌，会导致未定义的错误。<br></li><li>为选择的账户请求授权令牌使用<code>getAuthToken</code>方法，或者相关的帮助者。<br>参考各个方法的描述，以确定用例使用、错误处理细节。<br></li><li>使用授权令牌发起请求。令牌的形式，请求的格式，使用的协议，这些都由你正在访问的服务指定。<br>应用程序可以使用任何网络和协议库都是可用的。<br></li><li><b>重要：</b>如果请求失败出现了授权错误，可能是缓存的令牌陈旧，不再由服务器兑现。<br>应用程序必须调用<code>invalidateAuthToken</code>去移除缓存的令牌，否则请求就会持续失败！<br>废止授权令牌之后，可以直接重复上面的步骤。<br>如果第二次操作也失败，就可以被对待为真实身份认证失败，用户需要被通知或采取别的行动.<br></li></ul>
+
+<p></p><p>Some AccountManager methods may need to interact with the user to prompt for credentials, present options, or ask the user to add an account.<br>The caller may choose whether to allow AccountManager to directly launch the necessary user interface and wait for the user, or to return an Intent which the caller may use to launch the interface, or (in some cases) to install a notification which the user can select at any time to launch the interface.<br>To have AccountManager launch the interface directly, the caller must supply the current foreground {@link Activity} context.</p>
+<p>一些账户管理者方法也许需要与用户交互来提示凭据，呈现选项，或要求用户添加一个账户。<br>调用者可以选择允许账户管理者直接登录必要的用户接口并且等待用户返回，也可以返回一个可以用来登录用户接口的意图，也可以展示一个通知，用户可以在任意时间选择去登录该接口。<br>要让账户管理者直接登录接口，调用者必须提供当前前台活动的上下文。</p>
+<p></p><p>Many AccountManager methods take {@link AccountManagerCallback} and {@link Handler} as parameters.<br>These methods return immediately and run asynchronously.<br>If a callback is provided then {@link AccountManagerCallback#run} will be invoked on the Handler’s thread when the request completes, successfully or not.<br>The result is retrieved by calling {@link AccountManagerFuture#getResult()} on the {@link AccountManagerFuture} returned by the method (and also passed to the callback).<br>This method waits for the operation to complete (if necessary) and either returns the result or throws an exception if an error occurred during the operation.<br>To make the request synchronously, call {@link AccountManagerFuture#getResult()} immediately on receiving the future from the method; no callback need be supplied.</p>
+<p></p><p>许多账户管理者持有<code>AccountManagerCallback</code>和<code>Handler</code>实例作为参数。<br>这些方法会异步执行并且立即返回。<br>如果一个回调被提供，在请求完成，成功或失败时，<code>AccountManagerCallback</code>将会在Handler的线程中被调用。<br>结果检索调用的方法是<code>AccountManagerFuture#getResult()</code>。<br>如果有必要，此方法等待操作的完成并且无论是返回结果或是在操作过程中产生错误并抛出异常。<br>为了异步执行请求，在接受到方法的未来时，直接调用<code>AccountManagerFuture#getResult()</code>；不需要提供回调。</p>
+<p></p><p>Requests which may block, including {@link AccountManagerFuture#getResult()}, must never be called on the application’s main event thread.<br>These operations throw {@link IllegalStateException} if they are used on the main thread.</p>
+<p>请求也许会阻塞，包括<code>AccountManagerFuture#getResult()</code>,绝对禁止在应用程序的主线程调用。<br>否则，这些操作会抛出<code>IllegalStateException</code>异常。</p>
+<h4 id="类结构"><a href="#类结构" class="headerlink" title="类结构"></a>类结构</h4><p><code>public class AccountManager{ ... }</code></p>
+<p>public的类，没有实现任何接口。</p>
+<h5 id="内部类-AmsTask"><a href="#内部类-AmsTask" class="headerlink" title="内部类-AmsTask"></a>内部类-AmsTask</h5><p><code>private abstract class AmsTask extends FutureTask&lt;Bundle&gt; implements AccountManagerFuture&lt;Bundle&gt; { ... }</code></p>
+<p>看类修饰符：</p>
+<ul>
+<li>abstract ： 说明该类是一个模板类，必定有抽象方法，需要被子类化，实现具体的操作，</li>
+<li>private：子类化应该是在外部类中<br>符合Java编码原则：使用函数对象代替策略。使类和成员的可访问性最小化。</li>
+</ul>
+<p>该类继承自一个可取消的异步计算，实现了一个处理计算结果的回调。</p>
+<p>发现<code>AccountManagerFuture</code> 和<code>Future</code>两个接口的行为是一样的，一个在<code>android.accounts</code>里，另一个在<code>java.util.concurrent</code>.</p>
+<p>AmsTask的构造方法为public，由于父类<code>FutureTask</code>的构造，必须要求传递<code>Callable</code>实例，如果没有这个实例，就会<code>NullPointerException</code>，所以直接在此截断抛出了。<br>因此，虽然传递了Callable，却禁止使用了，使用的还是Future。</p>
+<pre><code>public AmsTask(Activity activity, Handler handler, AccountManagerCallback&lt;Bundle&gt; callback) {
+      super(new Callable&lt;Bundle&gt;() {
+          public Bundle call() throws Exception {
+              throw new IllegalStateException(&quot;this should never be called&quot;);
+          }
+      });
+
+      mHandler = handler;
+      mCallback = callback;
+      mActivity = activity;
+      mResponse = new Response();
+  }
+</code></pre><ul>
+<li>abstract void doWork()  由函数对象来具体实现操作</li>
+<li>AccountManagerFuture<bundle> start() 开始执行<code>doWork()</code></bundle></li>
+<li>void set(Bundle bundle) 父类方法，把结果设置给指定的Future，除非Future已经有结果或者已经被取消</li>
+<li>Bundle getResult()、Bundle getResult(long timeout, TimeUnit unit)、Bundle internalGetResult(Long timeout, TimeUnit unit) 获取处理结果<blockquote>
+<p>getResult最后都调用了<code>internalGetResult</code>方法。大概流程如下：</p>
+<ul>
+<li>判断线程是否执行结束</li>
+<li>判断时间是否为null或已结束</li>
+<li>获取结果</li>
+<li>异常后取消线程执行</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<p>确保当前线程不在主线程的代码：</p>
+<pre><code>private void ensureNotOnMainThread() {
+    final Looper looper = Looper.myLooper();
+    if (looper != null &amp;&amp; looper == mContext.getMainLooper()) {
+        final IllegalStateException exception = new IllegalStateException(
+                &quot;calling this from your main thread can lead to deadlock&quot;);
+        Log.e(TAG, &quot;calling this from your main thread can lead to deadlock and/or ANRs&quot;,
+                exception);
+        if (mContext.getApplicationInfo().targetSdkVersion &gt;= Build.VERSION_CODES.FROYO) {
+            throw exception;
+        }
+    }
+}
+</code></pre><p>跟踪到<code>FutureTask</code>的<code>get</code>方法里，这里返回父类的一个Object实例：<code>outcome</code>存放我们想要的结果对象。</p>
+<p>在<code>get</code>里还有许多操作，比如判断线程执行的状态：</p>
+<ul>
+<li>NEW         </li>
+<li>COMPLETING  </li>
+<li>NORMAL      </li>
+<li>EXCEPTIONAL </li>
+<li>CANCELLED   </li>
+<li>INTERRUPTING</li>
+<li>INTERRUPTED </li>
+</ul>
+<p>我看到在操作线程状态的时候，使用了该类：<code>private static final sun.misc.Unsafe U = sun.misc.Unsafe.getUnsafe();</code>，用来保证原子操作，确定一个线程是<code>RUNNER</code>,<code>WAITER</code>.<br>这是一个JDK私有API，在Java9的时候可能移除，并使用<code>java.util.concurrent.LockSupport</code>实现。下面摘抄一段说明：</p>
+<blockquote>
+<p>原子访问是<code>sun.misc.Unsafe</code>被广泛应用的特性之一，特性包括简单的put、get操作(带有volatile语义或不带有volatile语义)以及比较并交换(compare and swap，CAS)操作。</p>
+</blockquote>
+<h5 id="AmsTask的内部类-Response"><a href="#AmsTask的内部类-Response" class="headerlink" title="AmsTask的内部类-Response"></a>AmsTask的内部类-Response</h5><p>AmsTask中有一个public的Response的引用。</p>
+<p>操作一：<code>onResult</code></p>
+<blockquote>
+<p>响应有结果，跳转至用户提供的Activity，或是重试，再次调用<code>doWork()</code>，否则把响应数据bundle设置回父类的<code>outcome</code>里</p>
+</blockquote>
+<p>操作二：<code>onError</code></p>
+<blockquote>
+<p>取消线程的执行</p>
+</blockquote>
+<h5 id="内部类-BaseFutureTask"><a href="#内部类-BaseFutureTask" class="headerlink" title="内部类-BaseFutureTask"></a>内部类-BaseFutureTask</h5><p>可以看到这是一个抽象类，我们只要知道什么是需要子类实现的，什么是已经实现的。</p>
+<pre><code>protected void postRunnableToHandler(Runnable runnable) {
+       Handler handler = (mHandler == null) ? mMainHandler : mHandler;
+       handler.post(runnable);
+   }
+</code></pre><p>把Runnable加入消息队列，可以当前线程的handler执行。</p>
+<p><code>abstract void doWork()</code>  由函数对象来具体实现操作<br><code>abstract T bundleToResult(Bundle bundle)</code> 由函数对象来具体实现操作</p>
+<h5 id="BaseFutureTask的内部类-Response"><a href="#BaseFutureTask的内部类-Response" class="headerlink" title="BaseFutureTask的内部类-Response"></a>BaseFutureTask的内部类-Response</h5><ul>
+<li>onResult 调用外部类的<code>bundleToResult</code></li>
+<li>onError 中断线程，抛出异常</li>
+</ul>
+<h5 id="内部类-Future2Task"><a href="#内部类-Future2Task" class="headerlink" title="内部类-Future2Task"></a>内部类-Future2Task</h5><ul>
+<li>BaseFutureTask的子类，同时也是个抽象类，实现了<code>internalGetResult</code>，具体的贱<code>AmsTask$internalGetResult</code></li>
+</ul>
+<h5 id="内部类-GetAuthTokenByTypeAndFeaturesTask"><a href="#内部类-GetAuthTokenByTypeAndFeaturesTask" class="headerlink" title="内部类-GetAuthTokenByTypeAndFeaturesTask"></a>内部类-GetAuthTokenByTypeAndFeaturesTask</h5><p><code>AmsTask</code>的子类，顾名思义，根据类型和特征获取授权令牌的任务。</p>
+
       
     </div>
 
@@ -554,7 +679,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前面"><span class="nav-number">1.</span> <span class="nav-text">前面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">#</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前面"><span class="nav-number">1.</span> <span class="nav-text">前面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#协议"><span class="nav-number">2.</span> <span class="nav-text">协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#package"><span class="nav-number">3.</span> <span class="nav-text">package</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类说明"><span class="nav-number">4.</span> <span class="nav-text">类说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类结构"><span class="nav-number">5.</span> <span class="nav-text">类结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-AmsTask"><span class="nav-number">5.1.</span> <span class="nav-text">内部类-AmsTask</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AmsTask的内部类-Response"><span class="nav-number">5.2.</span> <span class="nav-text">AmsTask的内部类-Response</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-BaseFutureTask"><span class="nav-number">5.3.</span> <span class="nav-text">内部类-BaseFutureTask</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BaseFutureTask的内部类-Response"><span class="nav-number">5.4.</span> <span class="nav-text">BaseFutureTask的内部类-Response</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-Future2Task"><span class="nav-number">5.5.</span> <span class="nav-text">内部类-Future2Task</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-GetAuthTokenByTypeAndFeaturesTask"><span class="nav-number">5.6.</span> <span class="nav-text">内部类-GetAuthTokenByTypeAndFeaturesTask</span></a></li></ol></li></ol></div>
             
 
           </div>

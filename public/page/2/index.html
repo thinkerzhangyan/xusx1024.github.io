@@ -1953,7 +1953,7 @@ public class MementoCaretaker3 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/design-patterns-command/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/jsp-study-tips/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -1972,7 +1972,7 @@ public class MementoCaretaker3 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/06/14/design-patterns-command/" itemprop="url">命令模式</a></h1>
+                <a class="post-title-link" href="/2017/06/14/jsp-study-tips/" itemprop="url">JSP、Cookie、Session学习</a></h1>
         
 
         <div class="post-meta">
@@ -2007,8 +2007,8 @@ public class MementoCaretaker3 {
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
+                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA & kotlin</span>
                   </a>
                 </span>
 
@@ -2043,39 +2043,178 @@ public class MementoCaretaker3 {
       
         
           
-            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>命令模式(Command Pattern):将一个请求封装为一个对象，从而使我们可用不同的请求对客户进行参数化；对请求排队或者记录请求日志，以及支持可撤销的操作。命令模式是一种对象行为型模式，又叫做动作(Action)模式或事务(Transaction)模式。</p>
-<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
-<li>client：创建具体的命令和接收者</li>
-<li>command：命令的抽象类</li>
-<li>ConcreteCommand：具体的命令，定义接收者和行为之间的弱耦合</li>
-<li>Invoker：负责调用命令对象，执行请求</li>
-<li>receiver：处理请求，任何一个类都可以成为接收者</li>
+            <h4 id="JSP定义"><a href="#JSP定义" class="headerlink" title="JSP定义"></a>JSP定义</h4><p>Java server page</p>
+<h5 id="jsp和servlet"><a href="#jsp和servlet" class="headerlink" title="jsp和servlet"></a>jsp和servlet</h5><ul>
+<li>servlet不适合设置HTML响应体，需要大量的response.getWriter().pring(“”);</li>
+<li>servlet 动态资源，可以编程</li>
+<li>HTML是静态页面，不能包含动态信息</li>
+<li>HTML不用为输出HTML标签而发愁</li>
+<li>jsp在原有HTML的基础上添加Java脚本，构成jsp页面</li>
+<li>jsp作为请求发起/结束页面</li>
+<li>servlet作为请求中处理数据的环节</li>
 </ul>
-<p><img src="/images/command_pattern_class_diagram.png" alt="类图"></p>
-<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/command_pattern_sequence_diagram.png" alt="时序图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/CommandPattern" target="_blank" rel="external">GitHub</a></p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>使用频率非常高的设计模式，它可以将请求发送者与接收者解耦，请求发送者通过命令对象来间接引用请求接收者，使得系统具有更换的灵活性和可扩展性。</p>
-<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
-<li>新的命令可以很容易地添加</li>
-<li>比较容易地设计一个命令队列或宏命令</li>
-<li>为请求的撤销和恢复操作提供了一种设计和实现方案</li>
+<h5 id="jsp组成"><a href="#jsp组成" class="headerlink" title="jsp组成"></a>jsp组成</h5><ul>
+<li>jsp = html + java脚本 + jsp标签</li>
+<li>jsp中无需创建即可使用的对象共9个，被称之为9大内置对象。例如：request对象、out对象</li>
+<li>3中Java脚本<ul>
+<li>&lt;%…%&gt;放置Java代码</li>
+<li>&lt;%=…%&gt;Java表达式，用于输出一条表达式或变量的结果</li>
+<li>&lt;%!…%&gt;声明，用来创建类的成员变量和成员方法</li>
+<li>&lt;%– … —%&gt; jsp注释</li>
 </ul>
-<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
-<li>可能会导致某些系统有过多的具体命令类。</li>
+</li>
 </ul>
-<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><ul>
-<li>系统需要在不同的时间指定请求、将请求排队和执行请求。一个命令对象和请求的初始调用者可以有不同的生命期，换言之，最初的请求发出者可能已经不在了，而命令对象本身仍然是活动的，可以通过该命令对象去调用请求接收者，无须关心请求调用者的存在性，可以通过请求日志文件等机制来具体实现。</li>
-<li>系统需要支持命令的撤销和恢复操作</li>
-<li>系统需要将一组操作组合在一起形成宏命令</li>
+<h5 id="jsp原理"><a href="#jsp原理" class="headerlink" title="jsp原理"></a>jsp原理</h5><ul>
+<li>jsp其实是一个特殊的servlet。</li>
+<li>当jsp第一次被访问，服务器会把jsp编译成Java文件，这个Java文件其实实现了servlet接口</li>
+<li>把该Java编译成.class文件</li>
+<li>然后创建该类对象</li>
+<li>最好调用其service方法</li>
+<li>第二次请求时，直接调用其service方法</li>
 </ul>
-<h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><ul>
-<li>电视遥控器</li>
-<li>宏命令</li>
-<li>收音机</li>
+<h4 id="会话跟踪技术"><a href="#会话跟踪技术" class="headerlink" title="会话跟踪技术"></a>会话跟踪技术</h4><ul>
+<li>Cookie</li>
 </ul>
-<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><ul>
-<li>基于敏捷开发的原则，我们在设计程序的时候，如果按照目前的需求，不使用某种模式也能很好地解决，那么我们就不要引入它，因为要引入一种设计模式并不困难，我们大可以在真正需要用到的时候再对系统进行一下，引入这个设计模式。</li>
-<li>在实际操作中，可省略接收者角色，让命令对象直接实现请求而不是将工作委托给接收者。</li>
+<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4><ul>
+<li>由服务器创建保存到客户端的浏览器的一个键值对，服务器保存Cookie的响应头：Set-Cookie:aaa=AAA</li>
+<li>Cookie由HTTP协议制定的</li>
+<li>当浏览器请求服务器时，会把该服务器保存的Cookie随请求发送给服务器。浏览器归还Cookie的请求头</li>
+<li>1个Cookie最大4kb</li>
+<li>1个服务器最多向一个浏览器保存20个Cookie</li>
+<li>1个浏览器最多保存300个Cookie，由于浏览器竞争，肯定都超4kb,20,300了。</li>
+</ul>
+<h5 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h5><ul>
+<li>服务端使用Cookie来跟踪客户端状态</li>
+<li>保存商品浏览记录</li>
+<li>显示上次登录名</li>
+</ul>
+<h5 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h5><ul>
+<li>response.addCookie()</li>
+<li>request.getCookies()</li>
+</ul>
+<h5 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h5><ul>
+<li>maxAge:最大生命时长以秒为单位</li>
+<li>path：并非Cookie在客户端的路径，而是浏览器访问服务器的路径，如果包含某个Cookie的路径，那么就会归还这个Cookie</li>
+<li>domain：指定Cookie的域名，当多个二级域中共享Cookie时才有用<ul>
+<li>例如：www.baidu.com,zhidao.baidu.com,news.baidu.com,tieba.baidu.com共用Cookie时使用domain,设置domain为:cookie.setDomain(“.baidu.com”);</li>
+<li>必须设置path为：cookie.setPath(“/“);</li>
+</ul>
+</li>
+</ul>
+<h4 id="HttpSession"><a href="#HttpSession" class="headerlink" title="HttpSession"></a>HttpSession</h4><ul>
+<li>JavaWeb提供的类，用来会话跟踪的类。session是服务端对象，保存在服务器</li>
+<li>HttpSession是Servlet三大域对象之一</li>
+<li>HttpSession底层依赖Cookie，或是URL重写</li>
+<li>会话范围</li>
+<li>session是JSP内置对象</li>
+</ul>
+<h5 id="session原理"><a href="#session原理" class="headerlink" title="session原理"></a>session原理</h5><ul>
+<li>UUID生成session，32位长，不重复的</li>
+<li>getSession</li>
+<li>getMaxInactiveInterval(),获取最大不活动时间，秒单位</li>
+<li>invalidate() 让session立刻失效，用于用户登出</li>
+<li>isNew() session是否为最新</li>
+<li>web.xml中可以配置session的最大不活动时间<ul>
+<li><session-config><session-timeout>4</session-timeout></session-config></li>
+</ul>
+</li>
+</ul>
+<h5 id="URL重写"><a href="#URL重写" class="headerlink" title="URL重写"></a>URL重写</h5><ul>
+<li>浏览器禁用cookie时，URL重写添加JSession字段</li>
+<li>response.encodeURL(“/xxxxservlet”);会查看cookie是否存在，如果存在就只encode这个url，否则在url添加JSessionId。这就是智能URL重写</li>
+</ul>
+<h4 id="JSP三大指令"><a href="#JSP三大指令" class="headerlink" title="JSP三大指令"></a>JSP三大指令</h4><h5 id="page"><a href="#page" class="headerlink" title="page"></a>page</h5><ul>
+<li>&lt;%@page language=”java” info=”xxx” …%&gt;一个jsp页面中可以0-N个指令定义</li>
+<li>习惯性放在jsp文件的首行</li>
+<li>pageEncoding：指定当前jsp页面的编码</li>
+<li>contentType</li>
+<li>errorPage 出错时转发到指定页面</li>
+<li>isErrorPage 指定当前页面是否为处理错误的页面，该页面会设置状态为500！只有该页面可以使用9大内置对象exception</li>
+<li>web.xml配置errorpage，<error-page><error-code>404</error-code><location></location></error-page></li>
+<li>autoFlush：指定jsp的输出流，缓冲区满时是否自动刷新，默认为true，如果为false，那么缓冲区满时会抛出异常。</li>
+<li>buffer：指定缓冲区的大小，默认8kb，通常不需要修改。</li>
+<li>isELIgnored：是否忽略el表达式，默认是false，不忽略，即支持el表达式</li>
+<li>language：指定当前jsp编译后的语言类型，默认值java。也只能是java</li>
+<li>info：信息</li>
+<li>isThreadSafe：当前的jsp是否支持并发访问。默认为false，支持。</li>
+<li>session：当前页面是否支持session，如果为false，那么当前页面就没有session这个内置对象。</li>
+<li>extends：让jsp生成的servlet去继承该属性指定的类</li>
+</ul>
+<h5 id="include"><a href="#include" class="headerlink" title="include"></a>include</h5><ul>
+<li><a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#x25;&#x40;&#105;&#x6e;&#x63;&#x6c;&#117;&#x64;&#101;&#x25;">&#x25;&#x40;&#105;&#x6e;&#x63;&#x6c;&#117;&#x64;&#101;&#x25;</a> 在jsp编译成java文件时完成，他们共同生成一个java文件，然后再生成一个class</li>
+<li>RequestDispatcher的include是一个方法，包含和被包含是两个文件</li>
+</ul>
+<h5 id="taglib"><a href="#taglib" class="headerlink" title="taglib"></a>taglib</h5><ul>
+<li>&lt;%@ taglib prefix=”fn” uri=””%&gt; //引入EL函数库</li>
+</ul>
+<h4 id="JSP九大内置对象"><a href="#JSP九大内置对象" class="headerlink" title="JSP九大内置对象"></a>JSP九大内置对象</h4><ul>
+<li>out:jsp输出流，用了向客户端享元</li>
+<li>config：servletConfig对象</li>
+<li>exception：Throwable</li>
+<li>session：httpSession</li>
+<li>response：httpServletResponse</li>
+<li>request：HttpServletRequest</li>
+<li>page：当前jsp对象，他的引用类型为Object。Object page = this；</li>
+<li>application：servletContext</li>
+<li>*pageContext：最重要。<ul>
+<li>Servlet中有三大对象，jsp中有四大域<ul>
+<li>servletContext</li>
+<li>session</li>
+<li>request</li>
+<li>pageContext：一个jsp页面！这个域是在当前jsp页面和当前jsp页面中使用的标签之间共享数据<ul>
+<li>域对象</li>
+<li>代理其他域</li>
+<li>获取其他8个内置对象</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="JSP动作标签"><a href="#JSP动作标签" class="headerlink" title="JSP动作标签"></a>JSP动作标签</h4><ul>
+<li>与html标签有本质的区别，动作标签是由tomcat解释执行，html由浏览器来执行</li>
+<li>20个，用处不大</li>
+<li><jsp:forward>:转发！</jsp:forward></li>
+<li><jsp:include>:包含</jsp:include></li>
+<li><jsp:param>:forward和include的子标签，用来传递参数</jsp:param></li>
+</ul>
+<h4 id="JavaBean概念"><a href="#JavaBean概念" class="headerlink" title="JavaBean概念"></a>JavaBean概念</h4><ul>
+<li>必须为成员提供get/set方法，只提供一个也行</li>
+<li>必须要有默认构造</li>
+<li>此时称成员为属性</li>
+</ul>
+<h4 id="EL表达式"><a href="#EL表达式" class="headerlink" title="EL表达式"></a>EL表达式</h4><ul>
+<li>EL是JSP内置的表达式语言</li>
+<li>${}</li>
+<li>EL替代的是&lt;%= %&gt;，只能做输出</li>
+<li></li>
+<li>EL表达式读取四大域<ul>
+<li>${xxx}</li>
+<li>${pageScope.xxx},${requestScope.xxx},${sessionScope.xxx},${applicationScope.xxx}，指定域获取信息</li>
+</ul>
+</li>
+<li>javaBean导航</li>
+<li>11个内置对象<ul>
+<li>param</li>
+<li>initParam</li>
+<li>paramValues</li>
+<li>header</li>
+<li>headerValues</li>
+<li>Cookie:Map<string ,cookie=""></string></li>
+<li>pageContext</li>
+</ul>
+</li>
+</ul>
+<p><code>update @ 2017年7月14日18:51:25</code></p>
+<h4 id="EL函数库"><a href="#EL函数库" class="headerlink" title="EL函数库"></a>EL函数库</h4><ul>
+<li>&lt;%@ taglib prefix=”fn” uri=””%&gt; //引入标签库</li>
+</ul>
+<h5 id="自定义函数库"><a href="#自定义函数库" class="headerlink" title="自定义函数库"></a>自定义函数库</h5><ul>
+<li>写一个java类，类中可以定义0-N个方法，但必须是static，并且有返回值的</li>
+<li>写一个.tld文件</li>
+<li>在jsp页面中导入标签库</li>
+<li>在jsp中使用</li>
 </ul>
 
           
