@@ -12,7 +12,7 @@ tag: android
 以`AccountManager`为例，read the fucking code.
 #### 协议 ####
 
-可以看到该类遵循Apache协议。也就是说允许商用，私用，分发，修改，专利授权，附件协议，作者不允许商业使用，不承担责任。
+可以看到该类遵循Apache协议。也就是说允许商用，私用，分发，修改，专利授权，附件协议，作者不允许商标使用，不承担责任。
 
 详细的各种协议区分，请看：[here](http://xusx1024.com/2017/08/22/license-introduce/)
 
