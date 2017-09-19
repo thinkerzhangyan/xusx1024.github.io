@@ -267,6 +267,150 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/android-special-api/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/21/android-special-api/" itemprop="url">Android开发中特别的api</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-21T00:00:00Z">
+                2017-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-Advance/" itemprop="url" rel="index">
+                    <span itemprop="name">Android Advance</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p> android库很大，开发中会遇到一些不常用的api，记录在此。</p>
+<h4 id="ActionBar相关"><a href="#ActionBar相关" class="headerlink" title="ActionBar相关"></a>ActionBar相关</h4><ul>
+<li>setHomeButtonEnabled这个小于4.0版本的默认值为true的。但是在4.0及其以上是false，该方法的作用：决定左上角的图标是否可以点击。没有向左的小图标。 true 图标可以点击  false 不可以点击</li>
+<li>actionBar.setDisplayHomeAsUpEnabled(true)    // 给左上角图标的左边加上一个返回的图标 。对应ActionBar.DISPLAY_HOME_AS_UP</li>
+<li>actionBar.setDisplayShowHomeEnabled(true)   //使左上角图标是否显示，如果设成false，则没有程序图标，仅仅就个标题，否则，显示应用程序图标，对应id为Android.R.id.home，对应ActionBar.DISPLAY_SHOW_HOME</li>
+<li>actionBar.setDisplayShowCustomEnabled(true)  // 使自定义的普通View能在title栏显示，即actionBar.setCustomView能起作用，对应ActionBar.DISPLAY_SHOW_CUSTOM</li>
+<li>actionBar.setDisplayShowTitleEnabled(true)   //对应去掉ActionBar是否显示</li>
+</ul>
+<h4 id="判断Activity是否仍在运行"><a href="#判断Activity是否仍在运行" class="headerlink" title="判断Activity是否仍在运行"></a>判断Activity是否仍在运行</h4><pre><code>if (activity == null || activity.isDestroyed() || activity.isFinishing()) {
+    return;
+}
+</code></pre><h4 id="开关使用ToggleButton或者Switch"><a href="#开关使用ToggleButton或者Switch" class="headerlink" title="开关使用ToggleButton或者Switch"></a>开关使用ToggleButton或者Switch</h4>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/20/android-system-service-AccessibilityManager/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -940,260 +1084,6 @@ public class DC3 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/11/counting-sort/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/04/11/counting-sort/" itemprop="url">非比较排序之计数排序</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-11T00:00:00Z">
-                2017-04-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><a href="https://zh.wikipedia.org/wiki/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F" target="_blank" rel="external">计数排序wiki</a> <br></p>
-<ul>
-<li>计数排序是用来排序0到100之间的数字的最好的算法</li>
-<li>计数排序可以用在基数排序中的算法来排序数据范围很大的数组</li>
-<li>计数排序是一种算法复杂度 O(n) 的排序方法，适合于小范围集合的排序</li>
-<li>计数排序的优势是对已知数量范围的数组进行排序</li>
-<li>基于比较的排序算法是不能突破O(NlogN)</li>
-</ul>
-<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><ol>
-<li>找出待排序的数组中最大和最小的元素</li>
-<li>统计数组中每个值为i的元素出现的次数，存入数组 C 的第 i 项</li>
-<li>对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）</li>
-<li>反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1</li>
-</ol>
-<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>具体的分步动画演示详见：<a href="http://www.cs.usfca.edu/~galles/visualization/CountingSort.html" target="_blank" rel="external">Data Structure Visualizations</a></p>
-<p><br><br>对于数据2 5 3 0 2 3 0 3程序执行的过程如下图所示：</p>
-<p><img src="/images/counting_sort_1.png" alt="示例图"><br><br><img src="/images/counting_sort_2.png" alt="示例图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>package CountingSort;
-
-/**
- * 计数排序
- * 
- * @author sxx.xu
- *
- */
-public class CountingSort {
-
-    private static void countingSort(int[] array) {
-        int min = array[0], max = array[0];
-        for (int i : array) {
-            if (i &lt; min)
-                min = i;
-            if (i &gt; max)
-                max = i;
-        }
-
-        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
-        int[] countArray = new int[max + 1];// 此处使用max+1太粗暴，见countingSort2
-        int[] countResult = new int[array.length];
-
-        for (int i : array) {
-            countArray[i]++;
-        }
-
-        for (int i = 1; i &lt; countArray.length; i++) {
-            countArray[i] += countArray[i - 1];
-        }
-
-        for (int i = array.length - 1; i &gt;= 0; i--) {
-            int elem = array[i];
-            int index = countArray[elem] - 1;
-            countResult[index] = elem;
-            System.out.println(&quot;当前元素为：&quot; + elem + &quot;;在排序数组中的位置是：&quot; + index);
-            countArray[elem]--;
-        }
-
-        for (int i : countResult) {
-            System.out.println(i);
-        }
-
-        // 桶排序
-        // int[][] resultArray = new int[countArray.length][countArray.length];
-        // for (int i = 0; i &lt; countArray.length; i++) {
-        // for (int j = 0; j &lt; countArray[i]; j++) {
-        // resultArray[i][j] = i;
-        // }
-        // }
-        //
-        // for (int i = 0; i &lt; resultArray.length; i++) {
-        // for (int j = 0; j &lt; resultArray[i].length; j++) {
-        // if (resultArray[i][j] != 0)
-        // System.out.println(resultArray[i][j]);// 这里直接输出，属于桶排序
-        // }
-        // }
-    }
-
-    /**
-     * 优化后的，减少中间数组大小
-     * @param array
-     */
-    private static void countingSort2(int[] array) {
-
-        int min = array[0], max = array[0];
-        for (int i : array) {
-            if (i &lt; min)
-                min = i;
-            if (i &gt; max)
-                max = i;
-        }
-
-        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
-        int[] countArray = new int[max - min + 1];
-        int[] countResult = new int[array.length];
-
-        for (int i : array) {
-            countArray[i - min]++;
-        }
-
-        for (int i = 1; i &lt; countArray.length; i++) {
-            countArray[i] += countArray[i - 1];
-        }
-
-        for (int i = array.length - 1; i &gt;= 0; i--) {
-            int elem = array[i] - min;
-            int index = countArray[array[i] - min] - 1;
-            countResult[index] = array[i];
-            countArray[elem]--;
-        }
-
-        for (int i : countResult) {
-            System.out.println(i);
-        }
-    }
-
-    public static void main(String[] args) {
-        int[] array = { 8, 2, 3, 4, 3, 6, 6, 3, 9 };
-        int[] array2 = { 2, 8, 5, 1, 10, 5, 9, 9, 3, 5, 6, 6, 2, 8, 2 };
-        countingSort(array);
-        countingSort2(array);
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/11/suffix-sort-baseon-prefix-doubleing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1562,7 +1452,7 @@ public class PrefixDoubling {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/bucket-sort/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/11/counting-sort/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -1581,7 +1471,7 @@ public class PrefixDoubling {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/04/10/bucket-sort/" itemprop="url">非比较排序之桶/箱排序</a></h1>
+                <a class="post-title-link" href="/2017/04/11/counting-sort/" itemprop="url">非比较排序之计数排序</a></h1>
         
 
         <div class="post-meta">
@@ -1593,8 +1483,8 @@ public class PrefixDoubling {
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-10T00:00:00Z">
-                2017-04-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-11T00:00:00Z">
+                2017-04-11
               </time>
             
 
@@ -1652,161 +1542,125 @@ public class PrefixDoubling {
       
         
           
-            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>探究Tinker的BSDiff算法的过程中，发现用到了<code>后缀排序</code>，就去研究后缀排序，然后发现用到<code>倍增算法</code>的思想。而倍增是排序的一种策略，这种策略要求必须对<a href="http://xusx1024.com/2017/04/10/radix-sort/" target="_blank" rel="external">基数排序</a>有一定的理解 T.T，而基数排序是<code>桶排序</code>的一种特例。<br></p>
-<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><blockquote>
-<p>简单暴力的来说，我们有一组数据，该组数据比如说是高数成绩，那么肯定有最大值，最小值，申请大小为100的桶数组，数组的下标即分数，数组的值代表相同分数的学生有几个。大概如图所示：</p>
-<p><img src="/images/buckets_sort.png" alt="示例图"></p>
-<p>当然，上述只能有一个大概印象和基本理解，如果想要实际使用或者分析问题，还得看正规军。</p>
-</blockquote>
-<p><br></p>
-<p>桶排序的思想近乎彻底的分治思想。假设现在需要对一亿个数进行排序。我们可以将其等分到10000个虚拟的桶里，平均每个桶只有10000个数。如果每个桶都有序了，则只需顺次输出桶里的有序序列即可。思路如下：<br></p>
-<ol>
-<li>将待排数据按一个映射函数f(x)分为连续的若干段。理论上最佳的分段方法应该使数据平均分布，实际上通常采用的方法都做不到这一点。显然，对于一个已知输入范围在[0,10000]的数组，最简单的分段莫过于x/m,例如f(x) = x/100.“连续的”这个条件非常重要，它是后面数据按顺序输出的理论保证。</li>
-<li>分配足够的桶，按照f(x)从数组起始处向后扫描，并把数据放到合适的桶中。对于上面的例子，如果数据有10000个，则我们需要分配101个桶（因为要考虑边界条件：f(x)=x/100会产生【0，100】共101种情况），理想情况下，每个桶有大约100个数据。</li>
-<li>对每个桶进行内部排序，例如，使用快速排序。注意，如果数据足够大，这里可以继续递归使用桶排序，直到数据大小降到合适的范围。</li>
-<li>按顺序从每个桶输出数据,排序完成。</li>
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><a href="https://zh.wikipedia.org/wiki/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F" target="_blank" rel="external">计数排序wiki</a> <br></p>
+<ul>
+<li>计数排序是用来排序0到100之间的数字的最好的算法</li>
+<li>计数排序可以用在基数排序中的算法来排序数据范围很大的数组</li>
+<li>计数排序是一种算法复杂度 O(n) 的排序方法，适合于小范围集合的排序</li>
+<li>计数排序的优势是对已知数量范围的数组进行排序</li>
+<li>基于比较的排序算法是不能突破O(NlogN)</li>
+</ul>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><ol>
+<li>找出待排序的数组中最大和最小的元素</li>
+<li>统计数组中每个值为i的元素出现的次数，存入数组 C 的第 i 项</li>
+<li>对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）</li>
+<li>反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1</li>
 </ol>
-<p><a href="http://www.cs.usfca.edu/~galles/visualization/BucketSort.html" target="_blank" rel="external">Data Structure Visualizations</a> 提供了一个桶排序的分步动画演示。</p>
-<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>设有数组 array = [29, 25, 3, 49, 9, 37, 21, 43]，那么数组中最大数为 49，先设置 5 个桶，那么每个桶可存放数的范围为：0~9、10~19、20~29、30~39、40~49，然后分别将这些数放人自己所属的桶，如下图：</p>
-<p><img src="/images/bucket-sort-1.png" alt="示例图"></p>
-<p>然后，分别对每个桶里面的数进行排序，或者在将数放入桶的同时用插入排序进行排序。最后，将各个桶中的数据有序的合并起来，如下图：</p>
-<p><img src="/images/bucket-sort-2.png" alt="示例图"></p>
-<h4 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h4><pre><code>package BuketsSort;
-
-import java.util.Arrays;
+<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>具体的分步动画演示详见：<a href="http://www.cs.usfca.edu/~galles/visualization/CountingSort.html" target="_blank" rel="external">Data Structure Visualizations</a></p>
+<p><br><br>对于数据2 5 3 0 2 3 0 3程序执行的过程如下图所示：</p>
+<p><img src="/images/counting_sort_1.png" alt="示例图"><br><br><img src="/images/counting_sort_2.png" alt="示例图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>package CountingSort;
 
 /**
- * 桶排序
+ * 计数排序
  * 
  * @author sxx.xu
  *
  */
-public class BuketsSort {
+public class CountingSort {
 
-    /*
-     * 桶排序
-     *
-     * 参数说明： a -- 待排序数组 max -- 数组a中最大值的范围
+    private static void countingSort(int[] array) {
+        int min = array[0], max = array[0];
+        for (int i : array) {
+            if (i &lt; min)
+                min = i;
+            if (i &gt; max)
+                max = i;
+        }
+
+        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
+        int[] countArray = new int[max + 1];// 此处使用max+1太粗暴，见countingSort2
+        int[] countResult = new int[array.length];
+
+        for (int i : array) {
+            countArray[i]++;
+        }
+
+        for (int i = 1; i &lt; countArray.length; i++) {
+            countArray[i] += countArray[i - 1];
+        }
+
+        for (int i = array.length - 1; i &gt;= 0; i--) {
+            int elem = array[i];
+            int index = countArray[elem] - 1;
+            countResult[index] = elem;
+            System.out.println(&quot;当前元素为：&quot; + elem + &quot;;在排序数组中的位置是：&quot; + index);
+            countArray[elem]--;
+        }
+
+        for (int i : countResult) {
+            System.out.println(i);
+        }
+
+        // 桶排序
+        // int[][] resultArray = new int[countArray.length][countArray.length];
+        // for (int i = 0; i &lt; countArray.length; i++) {
+        // for (int j = 0; j &lt; countArray[i]; j++) {
+        // resultArray[i][j] = i;
+        // }
+        // }
+        //
+        // for (int i = 0; i &lt; resultArray.length; i++) {
+        // for (int j = 0; j &lt; resultArray[i].length; j++) {
+        // if (resultArray[i][j] != 0)
+        // System.out.println(resultArray[i][j]);// 这里直接输出，属于桶排序
+        // }
+        // }
+    }
+
+    /**
+     * 优化后的，减少中间数组大小
+     * @param array
      */
-    public static void bucketSort(int[] a, int max) {
-        int[] buckets;
+    private static void countingSort2(int[] array) {
 
-        if (a == null || max &lt; 1)
-            return;
-
-        // 创建一个容量为max的数组buckets，并且将buckets中的所有数据都初始化为0。
-        buckets = new int[max];
-
-        // 1. 计数
-        for (int i = 0; i &lt; a.length; i++)
-            buckets[a[i]]++;
-
-        // 2. 排序
-        for (int i = 0, j = 0; i &lt; max; i++) {
-            while ((buckets[i]--) &gt; 0) {
-                a[j++] = i;
-            }
+        int min = array[0], max = array[0];
+        for (int i : array) {
+            if (i &lt; min)
+                min = i;
+            if (i &gt; max)
+                max = i;
         }
 
-        buckets = null;
-    }
+        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
+        int[] countArray = new int[max - min + 1];
+        int[] countResult = new int[array.length];
 
-    public static void bucketSort(int[] arr) {
-        // 分桶，这里采用映射函数f(x)=x/10。
-        // 输入数据为0~99之间的数字
-        int bucketCount = 10;
-        Integer[][] bucket = new Integer[bucketCount][arr.length]; // Integer初始为null,以与数字0区别。
-        for (int i = 0; i &lt; arr.length; i++) {
-            int quotient = arr[i] / 10; // 这里即是使用f(x)
-            for (int j = 0; j &lt; arr.length; j++) {
-                if (bucket[quotient][j] == null) {
-                    bucket[quotient][j] = arr[i];
-                    break;
-                }
-            }
+        for (int i : array) {
+            countArray[i - min]++;
         }
-        // 小桶排序
-        for (int i = 0; i &lt; bucket.length; i++) {
-            // insertion sort
-            for (int j = 1; j &lt; bucket[i].length; ++j) {
-                if (bucket[i][j] == null) {
-                    break;
-                }
-                int value = bucket[i][j];
-                int position = j;
-                while (position &gt; 0 &amp;&amp; bucket[i][position - 1] &gt; value) {
-                    bucket[i][position] = bucket[i][position - 1];
-                    position--;
-                }
-                bucket[i][position] = value;
-            }
 
+        for (int i = 1; i &lt; countArray.length; i++) {
+            countArray[i] += countArray[i - 1];
         }
-        // 输出
-        for (int i = 0, index = 0; i &lt; bucket.length; i++) {
-            for (int j = 0; j &lt; bucket[i].length; j++) {
-                if (bucket[i][j] != null) {
-                    arr[index] = bucket[i][j];
-                    index++;
-                } else {
-                    break;
-                }
-            }
+
+        for (int i = array.length - 1; i &gt;= 0; i--) {
+            int elem = array[i] - min;
+            int index = countArray[array[i] - min] - 1;
+            countResult[index] = array[i];
+            countArray[elem]--;
+        }
+
+        for (int i : countResult) {
+            System.out.println(i);
         }
     }
-
- public static void bucketSort2(int [] arr){  
-        //寻找数组中min，max，用于建桶  
-        int min = 0, max = 0;  
-        for(int i = 0; i &lt;= arr.length - 1; i++){  
-            if(arr[i] &lt; min){  
-                min = arr[i];  
-            }  
-            if(arr[i] &gt; max){  
-                max = arr[i];  
-            }  
-        }  
-        //开始建桶，注意桶的数量等于max - min + 1  
-        int bucketCount = max - min + 1;  
-        int[] bucket = new int[bucketCount];  
-        for(int i = 0; i &lt;= arr.length - 1; i++){  
-            bucket[arr[i] - min]++;  
-        }  
-        for(int i = 1; i &lt; bucketCount; i++){  
-            bucket[i] = bucket[i] + bucket[i - 1];  
-        }  
-        //开始排序  
-        int [] copy = new int[arr.length];  
-        System.arraycopy(arr, 0, copy, 0, arr.length);  
-
-        //从后往前排序，保持元素相对位置，保证算法稳定性。  
-        for(int i = arr.length - 1; i &gt;= 0; i--){  
-            arr[--bucket[copy[i] - min]] = copy[i];  
-        }  
-        //若从前往后排序，虽然排序结果相同，但会破坏元素相对位置和算法稳定性  
-//      for(int i = 0; i &lt;= arr.length - 1; i++){  
-//          arr[--bucket[copy[i] - min]] = copy[i];  
-//      }  
-    }  
-
 
     public static void main(String[] args) {
-        int i;
-        int a[] = { 8, 2, 3, 4, 3, 6, 6, 3, 9 };
-
-        System.out.printf(&quot;before sort:&quot;);
-        for (i = 0; i &lt; a.length; i++)
-            System.out.printf(&quot;%d &quot;, a[i]);
-        System.out.printf(&quot;\n&quot;);
-
-//        bucketSort(a, 10); // 桶排序
-//        bucketSort(a); // 桶排序
-        bucketSort2(a); // 桶排序
-
-        System.out.printf(&quot;after  sort:&quot;);
-        for (i = 0; i &lt; a.length; i++)
-            System.out.printf(&quot;%d &quot;, a[i]);
-        System.out.printf(&quot;\n&quot;);
+        int[] array = { 8, 2, 3, 4, 3, 6, 6, 3, 9 };
+        int[] array2 = { 2, 8, 5, 1, 10, 5, 9, 9, 3, 5, 6, 6, 2, 8, 2 };
+        countingSort(array);
+        countingSort2(array);
     }
 }
 </code></pre>
@@ -2057,6 +1911,296 @@ public class RadixSort {
         for (int i : A) {
             System.out.print(i + &quot;  &quot;);
         }
+    }
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/bucket-sort/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/10/bucket-sort/" itemprop="url">非比较排序之桶/箱排序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-10T00:00:00Z">
+                2017-04-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>探究Tinker的BSDiff算法的过程中，发现用到了<code>后缀排序</code>，就去研究后缀排序，然后发现用到<code>倍增算法</code>的思想。而倍增是排序的一种策略，这种策略要求必须对<a href="http://xusx1024.com/2017/04/10/radix-sort/" target="_blank" rel="external">基数排序</a>有一定的理解 T.T，而基数排序是<code>桶排序</code>的一种特例。<br></p>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><blockquote>
+<p>简单暴力的来说，我们有一组数据，该组数据比如说是高数成绩，那么肯定有最大值，最小值，申请大小为100的桶数组，数组的下标即分数，数组的值代表相同分数的学生有几个。大概如图所示：</p>
+<p><img src="/images/buckets_sort.png" alt="示例图"></p>
+<p>当然，上述只能有一个大概印象和基本理解，如果想要实际使用或者分析问题，还得看正规军。</p>
+</blockquote>
+<p><br></p>
+<p>桶排序的思想近乎彻底的分治思想。假设现在需要对一亿个数进行排序。我们可以将其等分到10000个虚拟的桶里，平均每个桶只有10000个数。如果每个桶都有序了，则只需顺次输出桶里的有序序列即可。思路如下：<br></p>
+<ol>
+<li>将待排数据按一个映射函数f(x)分为连续的若干段。理论上最佳的分段方法应该使数据平均分布，实际上通常采用的方法都做不到这一点。显然，对于一个已知输入范围在[0,10000]的数组，最简单的分段莫过于x/m,例如f(x) = x/100.“连续的”这个条件非常重要，它是后面数据按顺序输出的理论保证。</li>
+<li>分配足够的桶，按照f(x)从数组起始处向后扫描，并把数据放到合适的桶中。对于上面的例子，如果数据有10000个，则我们需要分配101个桶（因为要考虑边界条件：f(x)=x/100会产生【0，100】共101种情况），理想情况下，每个桶有大约100个数据。</li>
+<li>对每个桶进行内部排序，例如，使用快速排序。注意，如果数据足够大，这里可以继续递归使用桶排序，直到数据大小降到合适的范围。</li>
+<li>按顺序从每个桶输出数据,排序完成。</li>
+</ol>
+<p><a href="http://www.cs.usfca.edu/~galles/visualization/BucketSort.html" target="_blank" rel="external">Data Structure Visualizations</a> 提供了一个桶排序的分步动画演示。</p>
+<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>设有数组 array = [29, 25, 3, 49, 9, 37, 21, 43]，那么数组中最大数为 49，先设置 5 个桶，那么每个桶可存放数的范围为：0~9、10~19、20~29、30~39、40~49，然后分别将这些数放人自己所属的桶，如下图：</p>
+<p><img src="/images/bucket-sort-1.png" alt="示例图"></p>
+<p>然后，分别对每个桶里面的数进行排序，或者在将数放入桶的同时用插入排序进行排序。最后，将各个桶中的数据有序的合并起来，如下图：</p>
+<p><img src="/images/bucket-sort-2.png" alt="示例图"></p>
+<h4 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h4><pre><code>package BuketsSort;
+
+import java.util.Arrays;
+
+/**
+ * 桶排序
+ * 
+ * @author sxx.xu
+ *
+ */
+public class BuketsSort {
+
+    /*
+     * 桶排序
+     *
+     * 参数说明： a -- 待排序数组 max -- 数组a中最大值的范围
+     */
+    public static void bucketSort(int[] a, int max) {
+        int[] buckets;
+
+        if (a == null || max &lt; 1)
+            return;
+
+        // 创建一个容量为max的数组buckets，并且将buckets中的所有数据都初始化为0。
+        buckets = new int[max];
+
+        // 1. 计数
+        for (int i = 0; i &lt; a.length; i++)
+            buckets[a[i]]++;
+
+        // 2. 排序
+        for (int i = 0, j = 0; i &lt; max; i++) {
+            while ((buckets[i]--) &gt; 0) {
+                a[j++] = i;
+            }
+        }
+
+        buckets = null;
+    }
+
+    public static void bucketSort(int[] arr) {
+        // 分桶，这里采用映射函数f(x)=x/10。
+        // 输入数据为0~99之间的数字
+        int bucketCount = 10;
+        Integer[][] bucket = new Integer[bucketCount][arr.length]; // Integer初始为null,以与数字0区别。
+        for (int i = 0; i &lt; arr.length; i++) {
+            int quotient = arr[i] / 10; // 这里即是使用f(x)
+            for (int j = 0; j &lt; arr.length; j++) {
+                if (bucket[quotient][j] == null) {
+                    bucket[quotient][j] = arr[i];
+                    break;
+                }
+            }
+        }
+        // 小桶排序
+        for (int i = 0; i &lt; bucket.length; i++) {
+            // insertion sort
+            for (int j = 1; j &lt; bucket[i].length; ++j) {
+                if (bucket[i][j] == null) {
+                    break;
+                }
+                int value = bucket[i][j];
+                int position = j;
+                while (position &gt; 0 &amp;&amp; bucket[i][position - 1] &gt; value) {
+                    bucket[i][position] = bucket[i][position - 1];
+                    position--;
+                }
+                bucket[i][position] = value;
+            }
+
+        }
+        // 输出
+        for (int i = 0, index = 0; i &lt; bucket.length; i++) {
+            for (int j = 0; j &lt; bucket[i].length; j++) {
+                if (bucket[i][j] != null) {
+                    arr[index] = bucket[i][j];
+                    index++;
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+ public static void bucketSort2(int [] arr){  
+        //寻找数组中min，max，用于建桶  
+        int min = 0, max = 0;  
+        for(int i = 0; i &lt;= arr.length - 1; i++){  
+            if(arr[i] &lt; min){  
+                min = arr[i];  
+            }  
+            if(arr[i] &gt; max){  
+                max = arr[i];  
+            }  
+        }  
+        //开始建桶，注意桶的数量等于max - min + 1  
+        int bucketCount = max - min + 1;  
+        int[] bucket = new int[bucketCount];  
+        for(int i = 0; i &lt;= arr.length - 1; i++){  
+            bucket[arr[i] - min]++;  
+        }  
+        for(int i = 1; i &lt; bucketCount; i++){  
+            bucket[i] = bucket[i] + bucket[i - 1];  
+        }  
+        //开始排序  
+        int [] copy = new int[arr.length];  
+        System.arraycopy(arr, 0, copy, 0, arr.length);  
+
+        //从后往前排序，保持元素相对位置，保证算法稳定性。  
+        for(int i = arr.length - 1; i &gt;= 0; i--){  
+            arr[--bucket[copy[i] - min]] = copy[i];  
+        }  
+        //若从前往后排序，虽然排序结果相同，但会破坏元素相对位置和算法稳定性  
+//      for(int i = 0; i &lt;= arr.length - 1; i++){  
+//          arr[--bucket[copy[i] - min]] = copy[i];  
+//      }  
+    }  
+
+
+    public static void main(String[] args) {
+        int i;
+        int a[] = { 8, 2, 3, 4, 3, 6, 6, 3, 9 };
+
+        System.out.printf(&quot;before sort:&quot;);
+        for (i = 0; i &lt; a.length; i++)
+            System.out.printf(&quot;%d &quot;, a[i]);
+        System.out.printf(&quot;\n&quot;);
+
+//        bucketSort(a, 10); // 桶排序
+//        bucketSort(a); // 桶排序
+        bucketSort2(a); // 桶排序
+
+        System.out.printf(&quot;after  sort:&quot;);
+        for (i = 0; i &lt; a.length; i++)
+            System.out.printf(&quot;%d &quot;, a[i]);
+        System.out.printf(&quot;\n&quot;);
     }
 }
 </code></pre>
@@ -2668,162 +2812,6 @@ public class RadixSort {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/30/tinker-source-code-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/30/tinker-source-code-3/" itemprop="url">Tinker学习(三) 核心的算法BSDiff、BSPatch</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-30T00:00:00Z">
-                2017-03-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-Development-Framework/" itemprop="url" rel="index">
-                    <span itemprop="name">Android Development Framework</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>BSDiff，用于服务端比较二进制文件并生成差异补丁；<br><br>BSPatch，将旧文件和补丁文件合并生成新的文件。</p>
-<p>比较差异使用的算法是<code>suffix sort</code>后缀排序算法。其中：<br></p>
-<ul>
-<li>C实现可以参照：<a href="https://github.com/cperciva" target="_blank" rel="external">Colin Percival</a>的<a href="https://github.com/cperciva/bsdiff" target="_blank" rel="external">bsdiff</a></li>
-<li>Java实现可以参照：<a href="https://github.com/jdesbonnet" target="_blank" rel="external">Joe Desbonnet</a>的<a href="https://github.com/jdesbonnet/jbdiff" target="_blank" rel="external">jbdiff</a><br></li>
-</ul>
-<p>Tinker的<code>com.tencent.tinker.bsdiff</code>实现基本上和Joe Desbonnet的实现并无两样。</p>
-<h4 id="BSDiff基本步骤"><a href="#BSDiff基本步骤" class="headerlink" title="BSDiff基本步骤"></a>BSDiff基本步骤</h4><ol>
-<li>将old文件中所有子字符串形成一个字典 </li>
-<li>对比old文件和new文件，产生diff string 和 extra string</li>
-<li>将diffstring和extra string以及相应的控制字用zip压缩成一个patch包。</li>
-</ol>
-<p>所有差量更新算法的瓶颈，时间复杂度为O(nlogn)，空间复杂度为O(n)，n为old的文件长度，BSDiff采用了Fast suffix sorting方法生成后缀数组<br><br>关于后缀数组概念，需要懂得非比较排序算法：<br></p>
-<ul>
-<li><a href="http://xusx1024.com/2017/04/11/counting-sort/" target="_blank" rel="external">非比较排序之计数排序</a></li>
-<li><a href="http://xusx1024.com/2017/04/10/bucket-sort/" target="_blank" rel="external">非比较排序之桶/箱排序</a></li>
-<li><a href="http://xusx1024.com/2017/04/10/radix-sort/" target="_blank" rel="external">非比较排序之基数排序</a></li>
-</ul>
-<p>需要懂得生成后缀数组算法：<br></p>
-<ul>
-<li><a href="http://xusx1024.com/2017/04/11/suffix-sort-baseon-prefix-doubleing/" target="_blank" rel="external">基于倍增算法实现后缀数组</a></li>
-<li><a href="http://xusx1024.com/2017/04/13/suffix-sort-baseon-dc3/" target="_blank" rel="external">基于DC3算法实现后缀数组</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2873,7 +2861,7 @@ public class RadixSort {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-count">83</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

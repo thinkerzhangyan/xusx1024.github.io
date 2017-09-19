@@ -267,6 +267,228 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/13/optimization-app-launch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/13/optimization-app-launch/" itemprop="url">Android app 启动优化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-13T00:00:00Z">
+                2017-02-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-Advance/" itemprop="url" rel="index">
+                    <span itemprop="name">Android Advance</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><pre><code>Android Application与其他移动平台有两个重大不同点：
+
+1.每个Android App都在一个独立空间里，意味着其运行在一个单独的进程中，拥有自己的VM，被系统分配一个唯一的user ID.
+
+2.Android App由很多不同组件(四大组件)组成，这些组件还可以启动其他App的组件，因此，Android App并没有一个类似程序入口的main()方法。
+
+
+
+Android进程与Linux进程一样。默认情况下，每个apk运行在自己的Linux进程中。另外，默认一个进程里面只有一个线程-主线程。这个主线程中有一个Looper实例，通过调用Looper.loop()从Message队列里面取出Message来做相应的处理。
+</code></pre><h4 id="进程启动策略"><a href="#进程启动策略" class="headerlink" title="进程启动策略"></a>进程启动策略</h4><pre><code>简单的说，进程在其需要时被启动。任意时候，当用户或其他组件调取你apk中的任意组件时，如果你的apk没有运行，系统会为其创建一个新的进程并启动。通常，这个进程会持续运行直到被系统杀死。关键是：进程是在被需要的时候才创建。
+</code></pre><h4 id="Android系统的启动"><a href="#Android系统的启动" class="headerlink" title="Android系统的启动"></a>Android系统的启动</h4><pre><code>与众多基于Linux内核的系统类似，Android系统启动时，bootloader启动内核和init进程，init进程分裂出更多名为&quot;daemons&quot;的底层的Linux进程(守护进程)。诸如android debug daemon,USB daemon等。这些守护进程处理底层硬件相关的接口。
+
+随后，init进程会启动一个非常有意思的进程：“Zygote”。这是一个Android平台的非常基础的进程。这个进程初始化了第一个VM，并且预加载了framework和众多App所需要的通用资源。然后它开启一个Socket接口来监听请求，一旦收到新的请求，Zygote会根据请求，基于自身预加载的VM来孵化出一个新的VM创建一个新的进程。
+
+启动Zygote之后，init进程会启动runtime进程。Zygote会孵化出一个超级管理进程：System Server。 SystemServer会启动所有系统核心服务，例如Activity Manger Service,硬件相关的Service等。到此，系统准备好启动它的第一个App进程：Home进程了。
+</code></pre><h4 id="App的启动"><a href="#App的启动" class="headerlink" title="App的启动"></a>App的启动</h4><p><img src="/images/Application_launch.jpg" alt="app launch"></p>
+<p>&gt;<br>click事件会调用<code>startActivity(Intent)</code>，会通过Binder IPC机制，最终调用到ActivityManagerService.该Service会执行如下操作：<br>&gt;</p>
+<ul>
+<li>第一步通过PackageManager的resolveIntent()收集这个intent对象的指向信息</li>
+<li>指向信息被存储在一个intent对象中</li>
+<li>下面重要的一步是通过<code>grantUriPermissionLocked()</code>方法来验证用户是否有足够的权限去调用该Intent对象指向的Activity</li>
+<li>如果有权限，ActivityManagerService会检查并在新的task中启动目标activity</li>
+<li>现在，是时候检查这个进程的ProcessRecord是否存在了</li>
+<li>如果PrecessRecord为null，ActivityManagerService会创建新的进程来实例化目标activity。</li>
+</ul>
+<h5 id="创建进程"><a href="#创建进程" class="headerlink" title="创建进程"></a>创建进程</h5><blockquote>
+<p>ActivityManagerService调用<code>startProcessLocked()</code>方法来创建新的进程，该方法通过前面讲到的socket通道传递参数给Zygote进程。Zygote孵化自身，并调用<code>ZygoteInit.main()</code>方法来实例化ActivityThread对象并最终返回新进程的pid.<br>ActivityThread随后依次调用<code>Looper.prepareLoop()</code>和<code>Looper.loop()</code>来开启消息循环。</p>
+</blockquote>
+<p>流程图如下：<br><img src="/images/process_creation.jpg" alt="process creation"></p>
+<h5 id="绑定Application"><a href="#绑定Application" class="headerlink" title="绑定Application"></a>绑定Application</h5><blockquote>
+<p>接下来要做的就是将进程和指定的Application绑定起来。这个是通过上一节的ActivityThread对象中调用<code>bindApplication()</code>方法完成的。该方法发送一个BIND_APPLICATION的消息到消息队列中，最终通过<code>handleBindApplication()</code>处理该消息。然后调用<code>makeApplication()</code>方法来加载App的classes到内存中。<br> 流程如下：</p>
+</blockquote>
+<p><img src="/images/bind_application.jpg" alt="bind application"></p>
+<h5 id="启动Activity"><a href="#启动Activity" class="headerlink" title="启动Activity"></a>启动Activity</h5><blockquote>
+<p>经过前两个步骤之后，系统已经拥有了该application的进程。后面的调用顺序就是普通的从一个已经存在的进程中启动一个新进程的activity了。<br>实际调用方法是<code>realStartActivity()</code>，它会调用application线程对象中的<code>sheduleLaunchActivity()</code>发送一个LAUNCH_ACTIVITY消息到消息队列中，通过<code>handleLaunchActivity()</code>来处理该消息。</p>
+</blockquote>
+<p> 假设点击的是一个视频浏览的App，其流程如下：</p>
+<p><img src="/images/start_activity.jpg" alt="start activity"></p>
+<h5 id="Activity显示"><a href="#Activity显示" class="headerlink" title="Activity显示"></a>Activity显示</h5><blockquote>
+<p>Activity被创建出来后，会依次加载主题样式Theme中的windowBackground等属性，以及配置Activity层级上的一些属性，再inflate布局，当onCreate、onStart、onResume方法都走完，最后才进行setContentView的measure、layout、draw显示在界面上，此时可以看到App的第一帧画面了。</p>
+</blockquote>
+<p>如图：<br><img src="/images/display_activity.png" alt="display activity"></p>
+<h4 id="测量App的启动时间"><a href="#测量App的启动时间" class="headerlink" title="测量App的启动时间"></a>测量App的启动时间</h4><pre><code>activity的启动时执行的方法：onCreat()、onStart()、onResume()的生命周期结束了，应用也不算是完全启动，还需要等View树全部构建完毕，一般认为，setContentView中的View全部显示结束了，算作是应用完全启动了。
+</code></pre><h5 id="Display-Time"><a href="#Display-Time" class="headerlink" title="Display Time"></a>Display Time</h5><pre><code>api19之后，Android系统Log中增加了ActivityManager:Displayed [packageName/activityName]: time。所以，在Android Monitor中使用 ActivityManager:Displayed filter，查看启动首页的时间，这个时间是Activity启动到Layout全部显示的时间。
+</code></pre><p>图为抓取微信开启时间：<br><img src="/images/display_time.png" alt="wechat display time"></p>
+<h5 id="ADB命令查看启动时间"><a href="#ADB命令查看启动时间" class="headerlink" title="ADB命令查看启动时间"></a>ADB命令查看启动时间</h5><p><code>adb shell am start -W [packageName]/[packageName.MainActivity]</code></p>
+<p><img src="/images/adb_launch_time.png" alt="adb see launch time"><br>&gt;</p>
+<ul>
+<li>ThisTime：最后一个启动的Activity的启动耗时；</li>
+<li>TotalTime:到达当前页面的所有Activity的启动耗时；</li>
+<li>WaitTime：ActivityManagerService启动App的Activity时的总时间，包括当前Activity的onPause()和目的Activity的启动。</li>
+</ul>
+<p><code>adb shell screenrecord --bugreport /sdcard/ScreenRecord.mp4</code></p>
+<p>&gt;<br>这是一个录屏命令，和Android Monitor的Screen Recorder Options的功能一样，<code>bugreport</code>参数决定了视屏左上角会增加录制视频的时间和当前画面所在的帧数。个人感觉这玩意儿比较鸡肋。</p>
+<h5 id="代码中自定义上报启动时间"><a href="#代码中自定义上报启动时间" class="headerlink" title="代码中自定义上报启动时间"></a>代码中自定义上报启动时间</h5><p>由于我们在一个App启动的开始，会做一些预操作，比如：</p>
+<ul>
+<li>加载第三方黑盒SDK</li>
+<li>网络、图片等框架的构造</li>
+<li>业务数据预请求</li>
+</ul>
+<p>所以ActivityManager:Displayed并不能精确我们App完全的启动时间。我们可以在API&gt;=19的版本，在这些预操作做完之后手动调用<code>reportFullyDrawn</code>。这样Log中会增加一条日志：</p>
+<p><img src="/images/report_full_drawn.png" alt="reportFullyDrawn time"></p>
+<h4 id="优化点"><a href="#优化点" class="headerlink" title="优化点"></a>优化点</h4><h5 id="背景Theme"><a href="#背景Theme" class="headerlink" title="背景Theme"></a>背景Theme</h5><pre><code>当系统加载一个Activity的时候，onCreate()是一个耗时过程，为增加用户体验，系统会优先绘制一些初始界面：根据当前Activity的Theme来绘制，当Activity加载完毕后，才会替换为真正的界面。代码如下：
+</code></pre><blockquote>
+<pre><code>&lt;layer-list xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+            android:opacity=&quot;opaque&quot;&gt;
+&lt;!-- android:opacity=&quot;opaque&quot;防止在启动的时候出现背景的闪烁 --&gt;
+    &lt;item android:drawable=&quot;@android:color/darker_gray&quot;/&gt;
+    &lt;item&gt;
+        &lt;bitmap
+            android:gravity=&quot;center&quot;
+            android:src=&quot;@mipmap/ic_launcher&quot;/&gt;
+    &lt;/item&gt;
+&lt;/layer-list&gt;
+</code></pre></blockquote>
+<p>&gt;<br>    <style name="StartStyle" parent="AppTheme"><br>        <item name="android:windowBackground">@drawable/start_window</item><br>    </style></p>
+<h5 id="异步初始化"><a href="#异步初始化" class="headerlink" title="异步初始化"></a>异步初始化</h5><pre><code>根据业务，利用多线程，IntentService等来异步和延迟初始化的操作 
+</code></pre><h5 id="资源优化"><a href="#资源优化" class="headerlink" title="资源优化"></a>资源优化</h5><blockquote>
+<ul>
+<li>布局宽而浅，不要窄而深</li>
+<li>使用.9</li>
+<li>tinyPNG</li>
+<li>混淆</li>
+</ul>
+</blockquote>
+<h4 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h4><p><a href="https://developer.android.com/topic/performance/launch-time.html" target="_blank" rel="external">Launch-Time Performance </a></p>
+<p><a href="http://www.jianshu.com/p/a5532ecc8377" target="_blank" rel="external">Android Application启动流程分析</a></p>
+<p><a href="https://segmentfault.com/a/1190000007406875#articleHeader9" target="_blank" rel="external">一触即发 App启动优化最佳实践</a></p>
+<p>在线检测App：<a href="https://nimbledroid.com/" target="_blank" rel="external">nimbledroid</a> </p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/12/design-patterns-singleton-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -431,7 +653,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/two-stacks-makeup-queue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -450,7 +672,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-3/" itemprop="url">单例设计模式(三)真●单例唯一$反射</a></h1>
+                <a class="post-title-link" href="/2017/02/11/two-stacks-makeup-queue/" itemprop="url">由两个栈组成的队列</a></h1>
         
 
         <div class="post-meta">
@@ -485,8 +707,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
                   </a>
                 </span>
 
@@ -521,65 +743,52 @@
       
         
           
-            <h4 id="反射对单例的破坏"><a href="#反射对单例的破坏" class="headerlink" title="反射对单例的破坏"></a>反射对单例的破坏</h4><p>先看一个DCL单例：</p>
-<pre><code>import java.io.Serializable;
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="由两个栈组成的队列"><a href="#由两个栈组成的队列" class="headerlink" title="由两个栈组成的队列"></a>由两个栈组成的队列</h5><pre><code>编写一个类，使用两个栈实现队列，支持队列的基本操作(add,poll,peek)
+</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>栈的特点是先进后出，而队列的特点是先进先出。我们用两个栈，互相反序，实现类似队列的操作。
+具体实现上是一个栈作为压入栈，在压入数据时只往这个栈中压入，记为stackPush，另一个栈只作为弹出栈，记为stackPop。
+根据栈的特点，循环把stackPush中的数据压入stackPop中，stackPop的栈顶元素即为队列的dequeue元素。
+</code></pre><h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><pre><code>1. 如果stackPush要往stackPop中压入数据，必须一次性压入完毕；
+2. 如果stackPop要接收数据，必须保证stackPop为空。
+</code></pre><h5 id="stackPush压入stackPop的操作时机"><a href="#stackPush压入stackPop的操作时机" class="headerlink" title="stackPush压入stackPop的操作时机"></a>stackPush压入stackPop的操作时机</h5><pre><code>调用add、poll、peek三种方法中任何一种时发生都是可以，只要满足注意事项提到的两点，就不会出错。下面的例子是在调用poll和peek方法时进行压入数据的。
+</code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>import java.util.Stack;
 
-/**
- * double check lock 实现单例
- */
-public class Singleton implements Serializable {
-    private Singleton() {
-    };
+public class TwoStackQueue {
 
-    public static volatile Singleton singleton;
+    public Stack&lt;Integer&gt; stackPush;
+    public Stack&lt;Integer&gt; stackPop;
 
-    public static Singleton getInstance() {
-        if (singleton == null) {
-            synchronized (Singleton.class) {
-                if (singleton == null) {
-                    singleton = new Singleton();
-                }
+    public TwoStackQueue() {
+        stackPop = new Stack&lt;&gt;();
+        stackPush = new Stack&lt;&gt;();
+    }
+
+    public void add(int pushInt) {
+        stackPush.push(pushInt);
+    }
+
+    public int poll() {
+        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
+            throw new RuntimeException(&quot;Queue is empty!&quot;);
+        } else if (stackPop.empty()) {
+            while (!stackPush.empty()) {
+                stackPop.push(stackPush.pop());
             }
         }
-        return singleton;
+        return stackPop.pop();
     }
 
-}
-</code></pre><p>然后看我们的测试代码：</p>
-<pre><code>import java.lang.reflect.Constructor;
-
-public class ReflectAttackSingleton {
-
-    public static void main(String[] args) {
-        try {
-            Class&lt;?&gt; classType = Singleton.class;
-            Constructor&lt;?&gt; c;
-            c = classType.getDeclaredConstructor(null);
-            c.setAccessible(true);
-            Singleton instance1 = (Singleton) c.newInstance();
-            Singleton instance2 = Singleton.getInstance();
-            System.out.println(&quot;反射得到的实例与单例中的实例是否相等？&quot; +(instance1 == instance2));
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+    public int peek(){
+        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
+            throw new RuntimeException(&quot;Queue is empty!&quot;);
+        } else if (stackPop.empty()) {
+            while (!stackPush.empty()) {
+                stackPop.push(stackPush.pop());
+            }
         }
-
+        return stackPop.peek();
     }
 }
-</code></pre><blockquote>
-<p>运行后： <code>反射得到的实例与单例中的实例是否相等？false</code></p>
-<p>通过反射获取构造函数，然后调用即可获取新的单例的实例，这就破坏了Singleton的单例性。</p>
-</blockquote>
-<h4 id="修改构造器抵御攻击"><a href="#修改构造器抵御攻击" class="headerlink" title="修改构造器抵御攻击"></a>修改构造器抵御攻击</h4><pre><code>private static boolean flag = false;
-private Singleton() {
-    synchronized (Singleton.class) {
-        if(flag == false)
-            flag = !flag;
-        else
-            throw new RuntimeException(&quot;单例模式被攻击！&quot;);
-    }
-};
-</code></pre><h4 id="终极方法"><a href="#终极方法" class="headerlink" title="终极方法"></a>终极方法</h4><pre><code>使用枚举单例
 </code></pre>
           
         
@@ -861,6 +1070,363 @@ public class SingletonManager {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/different-between-ADT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/11/different-between-ADT/" itemprop="url">队列、堆栈与数组链表的关系</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
+                2017-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="数据结构的概念"><a href="#数据结构的概念" class="headerlink" title="数据结构的概念"></a>数据结构的概念</h4><pre><code>指相互之间存在一种或多种特定关系的数据元素的集合。简单的理解就是：数据结构就是描述对象逻辑关系的学科。比如：队列就是一种先进先出的逻辑结构，栈是一种先进后出的逻辑结构，家谱是一种树形的逻辑结构。
+</code></pre><h4 id="数据存储结构的概念"><a href="#数据存储结构的概念" class="headerlink" title="数据存储结构的概念"></a>数据存储结构的概念</h4><pre><code>这是计算机的一个概念，即描述数据在计算机中存储方式的学科；常用的存储方式就两种：顺序存储、非顺序存储。顺序存储就是把数据存储在一块连续的存储介质(硬盘)上，数组就是典型的连续存储。
+非顺序存储就是各个数据不一定存在一个连续的位置上，只要每个数据知道它前面的数据和后面的数据，就能把所有的数据连续起来，链表就是典型的非顺序存储。
+</code></pre><h5 id="数组和链表"><a href="#数组和链表" class="headerlink" title="数组和链表"></a>数组和链表</h5><pre><code>数组属于顺序存储，通过直接访问数组下标即可得到元素的存储位置，所以访问时间都是相同。
+链表属于数据的链接存储，由于每个元素的位置保存在它的前驱或者后继中，所以只有访问到其前驱结点或后继结点后才能够按指针访问到自己，访问元素的时间与该元素结点在链接存储中的位置有关。
+</code></pre><table>
+<thead>
+<tr>
+<th>类型</th>
+<th style="text-align:center">内存空间</th>
+<th style="text-align:center">长度的可变性</th>
+<th style="text-align:center">对数据的访问</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数组</td>
+<td style="text-align:center">连续的内存空间，相同多数据下占用较小内存</td>
+<td style="text-align:center">需要提前给定</td>
+<td style="text-align:center">移动数据麻烦，访问数据方便</td>
+</tr>
+<tr>
+<td>链表</td>
+<td style="text-align:center">可以连续，也可以不连续，占用较大内存，需要存放前驱和后继的空间</td>
+<td style="text-align:center">可以伸缩</td>
+<td style="text-align:center">移动数据方便，访问数据麻烦</td>
+</tr>
+</tbody>
+</table>
+<h5 id="堆栈和栈"><a href="#堆栈和栈" class="headerlink" title="堆栈和栈"></a>堆栈和栈</h5><pre><code>[堆栈](https://zh.wikipedia.org/wiki/%E5%A0%86%E6%A0%88)（英语：stack），也可直接称栈（港澳台作堆叠）
+</code></pre><h5 id="Java中的堆和栈"><a href="#Java中的堆和栈" class="headerlink" title="Java中的堆和栈"></a>Java中的堆和栈</h5><pre><code>1. 栈具有数据结构中栈的特点，所有存放在它里面的数据都是生命周期很明确，能够快速反应的，所以在Java中使用栈来存放8个基本数据类型和引用变量，用完就马上销毁。
+2. 堆可以理解它就是一个可大可小，任人分配的内存操作单元，因此它的特点就是动态分配内存，适合存放大的数据量，比如一个对象的所有信息，虽然它的引用指向栈中的某个引用变量；所以Java中堆是存放new出来的对象的。
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-3/" itemprop="url">单例设计模式(三)真●单例唯一$反射</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
+                2017-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="反射对单例的破坏"><a href="#反射对单例的破坏" class="headerlink" title="反射对单例的破坏"></a>反射对单例的破坏</h4><p>先看一个DCL单例：</p>
+<pre><code>import java.io.Serializable;
+
+/**
+ * double check lock 实现单例
+ */
+public class Singleton implements Serializable {
+    private Singleton() {
+    };
+
+    public static volatile Singleton singleton;
+
+    public static Singleton getInstance() {
+        if (singleton == null) {
+            synchronized (Singleton.class) {
+                if (singleton == null) {
+                    singleton = new Singleton();
+                }
+            }
+        }
+        return singleton;
+    }
+
+}
+</code></pre><p>然后看我们的测试代码：</p>
+<pre><code>import java.lang.reflect.Constructor;
+
+public class ReflectAttackSingleton {
+
+    public static void main(String[] args) {
+        try {
+            Class&lt;?&gt; classType = Singleton.class;
+            Constructor&lt;?&gt; c;
+            c = classType.getDeclaredConstructor(null);
+            c.setAccessible(true);
+            Singleton instance1 = (Singleton) c.newInstance();
+            Singleton instance2 = Singleton.getInstance();
+            System.out.println(&quot;反射得到的实例与单例中的实例是否相等？&quot; +(instance1 == instance2));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+}
+</code></pre><blockquote>
+<p>运行后： <code>反射得到的实例与单例中的实例是否相等？false</code></p>
+<p>通过反射获取构造函数，然后调用即可获取新的单例的实例，这就破坏了Singleton的单例性。</p>
+</blockquote>
+<h4 id="修改构造器抵御攻击"><a href="#修改构造器抵御攻击" class="headerlink" title="修改构造器抵御攻击"></a>修改构造器抵御攻击</h4><pre><code>private static boolean flag = false;
+private Singleton() {
+    synchronized (Singleton.class) {
+        if(flag == false)
+            flag = !flag;
+        else
+            throw new RuntimeException(&quot;单例模式被攻击！&quot;);
+    }
+};
+</code></pre><h4 id="终极方法"><a href="#终极方法" class="headerlink" title="终极方法"></a>终极方法</h4><pre><code>使用枚举单例
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1064,350 +1630,6 @@ public class Singleton implements Serializable {
         return singleton;
     }
 
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/different-between-ADT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/different-between-ADT/" itemprop="url">队列、堆栈与数组链表的关系</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="数据结构的概念"><a href="#数据结构的概念" class="headerlink" title="数据结构的概念"></a>数据结构的概念</h4><pre><code>指相互之间存在一种或多种特定关系的数据元素的集合。简单的理解就是：数据结构就是描述对象逻辑关系的学科。比如：队列就是一种先进先出的逻辑结构，栈是一种先进后出的逻辑结构，家谱是一种树形的逻辑结构。
-</code></pre><h4 id="数据存储结构的概念"><a href="#数据存储结构的概念" class="headerlink" title="数据存储结构的概念"></a>数据存储结构的概念</h4><pre><code>这是计算机的一个概念，即描述数据在计算机中存储方式的学科；常用的存储方式就两种：顺序存储、非顺序存储。顺序存储就是把数据存储在一块连续的存储介质(硬盘)上，数组就是典型的连续存储。
-非顺序存储就是各个数据不一定存在一个连续的位置上，只要每个数据知道它前面的数据和后面的数据，就能把所有的数据连续起来，链表就是典型的非顺序存储。
-</code></pre><h5 id="数组和链表"><a href="#数组和链表" class="headerlink" title="数组和链表"></a>数组和链表</h5><pre><code>数组属于顺序存储，通过直接访问数组下标即可得到元素的存储位置，所以访问时间都是相同。
-链表属于数据的链接存储，由于每个元素的位置保存在它的前驱或者后继中，所以只有访问到其前驱结点或后继结点后才能够按指针访问到自己，访问元素的时间与该元素结点在链接存储中的位置有关。
-</code></pre><table>
-<thead>
-<tr>
-<th>类型</th>
-<th style="text-align:center">内存空间</th>
-<th style="text-align:center">长度的可变性</th>
-<th style="text-align:center">对数据的访问</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>数组</td>
-<td style="text-align:center">连续的内存空间，相同多数据下占用较小内存</td>
-<td style="text-align:center">需要提前给定</td>
-<td style="text-align:center">移动数据麻烦，访问数据方便</td>
-</tr>
-<tr>
-<td>链表</td>
-<td style="text-align:center">可以连续，也可以不连续，占用较大内存，需要存放前驱和后继的空间</td>
-<td style="text-align:center">可以伸缩</td>
-<td style="text-align:center">移动数据方便，访问数据麻烦</td>
-</tr>
-</tbody>
-</table>
-<h5 id="堆栈和栈"><a href="#堆栈和栈" class="headerlink" title="堆栈和栈"></a>堆栈和栈</h5><pre><code>[堆栈](https://zh.wikipedia.org/wiki/%E5%A0%86%E6%A0%88)（英语：stack），也可直接称栈（港澳台作堆叠）
-</code></pre><h5 id="Java中的堆和栈"><a href="#Java中的堆和栈" class="headerlink" title="Java中的堆和栈"></a>Java中的堆和栈</h5><pre><code>1. 栈具有数据结构中栈的特点，所有存放在它里面的数据都是生命周期很明确，能够快速反应的，所以在Java中使用栈来存放8个基本数据类型和引用变量，用完就马上销毁。
-2. 堆可以理解它就是一个可大可小，任人分配的内存操作单元，因此它的特点就是动态分配内存，适合存放大的数据量，比如一个对象的所有信息，虽然它的引用指向栈中的某个引用变量；所以Java中堆是存放new出来的对象的。
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/two-stacks-makeup-queue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/two-stacks-makeup-queue/" itemprop="url">由两个栈组成的队列</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="由两个栈组成的队列"><a href="#由两个栈组成的队列" class="headerlink" title="由两个栈组成的队列"></a>由两个栈组成的队列</h5><pre><code>编写一个类，使用两个栈实现队列，支持队列的基本操作(add,poll,peek)
-</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>栈的特点是先进后出，而队列的特点是先进先出。我们用两个栈，互相反序，实现类似队列的操作。
-具体实现上是一个栈作为压入栈，在压入数据时只往这个栈中压入，记为stackPush，另一个栈只作为弹出栈，记为stackPop。
-根据栈的特点，循环把stackPush中的数据压入stackPop中，stackPop的栈顶元素即为队列的dequeue元素。
-</code></pre><h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><pre><code>1. 如果stackPush要往stackPop中压入数据，必须一次性压入完毕；
-2. 如果stackPop要接收数据，必须保证stackPop为空。
-</code></pre><h5 id="stackPush压入stackPop的操作时机"><a href="#stackPush压入stackPop的操作时机" class="headerlink" title="stackPush压入stackPop的操作时机"></a>stackPush压入stackPop的操作时机</h5><pre><code>调用add、poll、peek三种方法中任何一种时发生都是可以，只要满足注意事项提到的两点，就不会出错。下面的例子是在调用poll和peek方法时进行压入数据的。
-</code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>import java.util.Stack;
-
-public class TwoStackQueue {
-
-    public Stack&lt;Integer&gt; stackPush;
-    public Stack&lt;Integer&gt; stackPop;
-
-    public TwoStackQueue() {
-        stackPop = new Stack&lt;&gt;();
-        stackPush = new Stack&lt;&gt;();
-    }
-
-    public void add(int pushInt) {
-        stackPush.push(pushInt);
-    }
-
-    public int poll() {
-        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
-            throw new RuntimeException(&quot;Queue is empty!&quot;);
-        } else if (stackPop.empty()) {
-            while (!stackPush.empty()) {
-                stackPop.push(stackPush.pop());
-            }
-        }
-        return stackPop.pop();
-    }
-
-    public int peek(){
-        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
-            throw new RuntimeException(&quot;Queue is empty!&quot;);
-        } else if (stackPop.empty()) {
-            while (!stackPush.empty()) {
-                stackPop.push(stackPush.pop());
-            }
-        }
-        return stackPop.peek();
-    }
 }
 </code></pre>
           
@@ -1766,203 +1988,6 @@ public static void reverse(Stack&lt;Integer&gt; stack) {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/Debug-GPU-Overdraw-Walkthrough/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/09/Debug-GPU-Overdraw-Walkthrough/" itemprop="url">Android过度绘制优化</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-09T00:00:00Z">
-                2017-02-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-Advance/" itemprop="url" rel="index">
-                    <span itemprop="name">Android Advance</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><h5 id="过渡绘制"><a href="#过渡绘制" class="headerlink" title="过渡绘制"></a>过渡绘制</h5><pre><code>过渡绘制(OverDraw)，屏幕上的某个像素，在同一帧内被重绘多次。如果App中过渡绘制问题严重，会浪费大量CPU、GPU资源，直接表现为App卡顿。
-</code></pre><h5 id="开启"><a href="#开启" class="headerlink" title="开启"></a>开启</h5><pre><code>开发者选项 - 调试GPU过渡绘制
-</code></pre><h5 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h5><p><img src="/images/color-key-for-debug-GPU-overdraw-output.png" alt="示例图"></p>
-<ul>
-<li>True color: No overdraw</li>
-<li>Blue: Overdrawn once</li>
-<li>Green: Overdrawn twice</li>
-<li>Pink: Overdrawn three times</li>
-<li>Red: Overdrawn four or more times</li>
-</ul>
-<h4 id="how"><a href="#how" class="headerlink" title="how"></a>how</h4><ol>
-<li><blockquote>
-<p>去掉window默认背景。在Activity中，使用setContentView绑定布局时，android会自动填充一个背景，如果我们App有自己的页面底色，因此不需要默认分配的背景。</p>
-<pre><code>修改页面的主题：
-&lt;item name=&quot;android:windowBackground&quot;&gt;@android:color/transparent&lt;/item&gt;
-&lt;item name=&quot;android:windowBackground&quot;&gt;@null&lt;/item&gt;
-
-代码中修改：
-getWindow().setBackgroundDrawable(null)
-getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-null和transparent差别不大，如果有activity右滑返回功能，null,在某些机型(Nexus6p)上，会出现错乱, 建议使用transparent。 
-</code></pre></blockquote>
-</li>
-<li><blockquote>
-<p>移除不必要的背景，xml布局编码时，防止背景重复，比如ListView的背景和item的背景都是白色，那么可以选择去掉其中一个。一般情况下，背景重复会引起大部分重绘问题。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>选择适当父布局。LinearLayout、ReleativeLayout，最常用的两种布局。RL表达能力强，LL易用，层级多，所以在层级相同的情况下，使用LL，尽量不要使用AbsoluteLayout。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>对于那些过于复杂的自定义的View(通常重写了onDraw方法)，我们可以通过<a href="https://developer.android.com/reference/android/graphics/Canvas.html" target="_blank" rel="external">canvas.clipRect()</a>来帮助系统识别那些可见的区域。这个方法可以指定一块矩形区域，只有在这个区域内才会被绘制，其他的区域会被忽视。我们还可以使用<a href="https://developer.android.com/reference/android/graphics/Canvas.html" target="_blank" rel="external">canvas.quickreject()</a>来判断是否没和某个矩形相交，从而跳过那些非矩形区域内的绘制操作。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>使用merge标签，减少布局嵌套层次。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>使用动态inflate或者ViewStub替代setVisibility。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>对于使用Selector当背景的Layout(比如ListView的Item,会使用Selector来标记点击,选择等不同的状态),可以将normal状态的color设置为”@android:color/transparent”,来解决对应的问题。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>使用.9图，透明区域会被android的2D渲染器优化。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>好的展示设计和交互。使UI宽而浅而不是浅而深。</p>
-</blockquote>
-</li>
-</ol>
-<h4 id="标准"><a href="#标准" class="headerlink" title="标准"></a>标准</h4><pre><code>过度绘制不可避免
-
-尽量控制在绿色及其以下
-
-尽可能避免出现粉红及以上，如果不可避免，尽可能减少
-
-不允许出现超过屏幕1/4的红色区域
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/Profile-Gpu-rendering/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2145,7 +2170,7 @@ null和transparent差别不大，如果有activity右滑返回功能，null,在�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-count">83</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
