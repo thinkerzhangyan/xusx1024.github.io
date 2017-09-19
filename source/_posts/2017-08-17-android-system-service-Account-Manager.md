@@ -138,7 +138,45 @@ These operations throw {@link IllegalStateException} if they are used on the mai
 请求也许会阻塞，包括`AccountManagerFuture#getResult()`,绝对禁止在应用程序的主线程调用。
 否则，这些操作会抛出`IllegalStateException`异常。
 
+#### 变量 ####
 
+##### 静态常量 #####
+
+- `ERROR_CODE_REMOTE_EXCEPTION`:远程异常
+- `ERROR_CODE_NETWORK_ERROR`:网络错误
+- `ERROR_CODE_CANCELED`:取消
+- `ERROR_CODE_INVALID_RESPONSE`:无效的响应
+- `ERROR_CODE_UNSUPPORTED_OPERATION`:不支持的操作
+- `ERROR_CODE_BAD_ARGUMENTS`:错误的参数
+- `ERROR_CODE_BAD_REQUEST`:错误的请求
+- `ERROR_CODE_BAD_AUTHENTICATION`:错误的授权
+- `ERROR_CODE_BAD_AUTHENTICATION`:错误的已注册用户
+- `ERROR_CODE_MANAGEMENT_DISABLED_FOR_ACCOUNT_TYPE`:当前账户类型管理失效错误
+- `KEY_ACCOUNT_NAME`:传值常量键，用于获取账户名
+- `KEY_ACCOUNT_TYPE`:传值常量键，用于获取账户类型值
+- `KEY_AUTHTOKEN`:传值常量键，用于获取授权令牌
+- `KEY_INTENT`:传值常量键，用于启动相关的用户接口页面
+- `KEY_PASSWORD`:传值常量键，用于获取密码
+- `KEY_ACCOUNTS`:传值常量键，用于获取账户
+- `KEY_ACCOUNT_AUTHENTICATOR_RESPONSE`:传值常量键，用于获取账户授权响应
+- `KEY_ACCOUNT_MANAGER_RESPONSE`:传值常量键，用于获取账户管理者响应
+- `KEY_AUTHENTICATOR_TYPES`:传值常量键，用于获取授权类型
+- `KEY_AUTH_FAILED_MESSAGE`:授权失败信息
+- `KEY_AUTH_TOKEN_LABEL`:授权令牌标签
+- `KEY_BOOLEAN_RESULT`:结果布尔值
+- `KEY_ERROR_CODE`:错误码
+- `KEY_ERROR_MESSAGE`:错误消息
+- `KEY_USERDATA`:用户数据
+- `KEY_LAST_AUTHENTICATED_TIME`:上次授权时间
+- `KEY_CALLER_UID`:调用者的UID
+- `KEY_CALLER_PID`:调用者的PID
+- `KEY_ANDROID_PACKAGE_NAME`:Android包名
+- `KEY_NOTIFY_ON_FAILURE`:授权失败时是否提示，boolean值
+- `ACTION_AUTHENTICATOR_INTENT`:`android.accounts.AccountAuthenticator`
+- `AUTHENTICATOR_META_DATA_NAME`:`android.accounts.AccountAuthenticator`
+- `AUTHENTICATOR_ATTRIBUTES_NAME`:授权者的name属性
+
+#### 构造方法 ####
 #### 类结构 ####
 
 `public class AccountManager{ ... }`
@@ -253,3 +291,11 @@ AmsTask中有一个public的Response的引用。
 ##### 内部类-GetAuthTokenByTypeAndFeaturesTask #####
 
 `AmsTask`的子类，顾名思义，根据类型和特征获取授权令牌的任务。
+
+`doWork()`的作用：
+- 根据类型和特征尝试获取已授权账户
+- 未获取到账户，如果提示添加账户的activity为空，则把`KEY_ACCOUNT_NAME`,`KEY_ACCOUNT_TYPE`,`KEY_AUTHTOKEN`置为空，并返回
+- 未获取到账户，如果提示添加账户的activity不为空，调用`addAccount`方法，这是一个Future，可以中断和等待结果的子线程
+- 如果只获取到一个账户，获取AuthToken，放入响应
+- 如果获取到了多个账户，启动`android.accounts.ChooseAccountActivity`,选择一个后，获取AuthToken，放入响应
+
