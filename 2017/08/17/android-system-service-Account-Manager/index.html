@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/08/17/android-system-service-Account-Manager/index.html">
 <meta property="og:site_name" content="行次">
 <meta property="og:description" content="前面以AccountManager为例，read the fucking code. 协议可以看到该类遵循Apache协议。也就是说允许商用，私用，分发，修改，专利授权，附件协议，作者不允许商标使用，不承担责任。 详细的各种协议区分，请看：here package类所在的包：package android.accounts;   AbstractAccountAuthenticator Accou">
-<meta property="og:updated_time" content="2017-09-19T01:19:38.144Z">
+<meta property="og:updated_time" content="2017-09-19T08:05:36.629Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android系统服务：AccountManager">
 <meta name="twitter:description" content="前面以AccountManager为例，read the fucking code. 协议可以看到该类遵循Apache协议。也就是说允许商用，私用，分发，修改，专利授权，附件协议，作者不允许商标使用，不承担责任。 详细的各种协议区分，请看：here package类所在的包：package android.accounts;   AbstractAccountAuthenticator Accou">
@@ -389,7 +389,42 @@
 <p></p><p>许多账户管理者持有<code>AccountManagerCallback</code>和<code>Handler</code>实例作为参数。<br>这些方法会异步执行并且立即返回。<br>如果一个回调被提供，在请求完成，成功或失败时，<code>AccountManagerCallback</code>将会在Handler的线程中被调用。<br>结果检索调用的方法是<code>AccountManagerFuture#getResult()</code>。<br>如果有必要，此方法等待操作的完成并且无论是返回结果或是在操作过程中产生错误并抛出异常。<br>为了异步执行请求，在接受到方法的未来时，直接调用<code>AccountManagerFuture#getResult()</code>；不需要提供回调。</p>
 <p></p><p>Requests which may block, including {@link AccountManagerFuture#getResult()}, must never be called on the application’s main event thread.<br>These operations throw {@link IllegalStateException} if they are used on the main thread.</p>
 <p>请求也许会阻塞，包括<code>AccountManagerFuture#getResult()</code>,绝对禁止在应用程序的主线程调用。<br>否则，这些操作会抛出<code>IllegalStateException</code>异常。</p>
-<h4 id="类结构"><a href="#类结构" class="headerlink" title="类结构"></a>类结构</h4><p><code>public class AccountManager{ ... }</code></p>
+<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><h5 id="静态常量"><a href="#静态常量" class="headerlink" title="静态常量"></a>静态常量</h5><ul>
+<li><code>ERROR_CODE_REMOTE_EXCEPTION</code>:远程异常</li>
+<li><code>ERROR_CODE_NETWORK_ERROR</code>:网络错误</li>
+<li><code>ERROR_CODE_CANCELED</code>:取消</li>
+<li><code>ERROR_CODE_INVALID_RESPONSE</code>:无效的响应</li>
+<li><code>ERROR_CODE_UNSUPPORTED_OPERATION</code>:不支持的操作</li>
+<li><code>ERROR_CODE_BAD_ARGUMENTS</code>:错误的参数</li>
+<li><code>ERROR_CODE_BAD_REQUEST</code>:错误的请求</li>
+<li><code>ERROR_CODE_BAD_AUTHENTICATION</code>:错误的授权</li>
+<li><code>ERROR_CODE_BAD_AUTHENTICATION</code>:错误的已注册用户</li>
+<li><code>ERROR_CODE_MANAGEMENT_DISABLED_FOR_ACCOUNT_TYPE</code>:当前账户类型管理失效错误</li>
+<li><code>KEY_ACCOUNT_NAME</code>:传值常量键，用于获取账户名</li>
+<li><code>KEY_ACCOUNT_TYPE</code>:传值常量键，用于获取账户类型值</li>
+<li><code>KEY_AUTHTOKEN</code>:传值常量键，用于获取授权令牌</li>
+<li><code>KEY_INTENT</code>:传值常量键，用于启动相关的用户接口页面</li>
+<li><code>KEY_PASSWORD</code>:传值常量键，用于获取密码</li>
+<li><code>KEY_ACCOUNTS</code>:传值常量键，用于获取账户</li>
+<li><code>KEY_ACCOUNT_AUTHENTICATOR_RESPONSE</code>:传值常量键，用于获取账户授权响应</li>
+<li><code>KEY_ACCOUNT_MANAGER_RESPONSE</code>:传值常量键，用于获取账户管理者响应</li>
+<li><code>KEY_AUTHENTICATOR_TYPES</code>:传值常量键，用于获取授权类型</li>
+<li><code>KEY_AUTH_FAILED_MESSAGE</code>:授权失败信息</li>
+<li><code>KEY_AUTH_TOKEN_LABEL</code>:授权令牌标签</li>
+<li><code>KEY_BOOLEAN_RESULT</code>:结果布尔值</li>
+<li><code>KEY_ERROR_CODE</code>:错误码</li>
+<li><code>KEY_ERROR_MESSAGE</code>:错误消息</li>
+<li><code>KEY_USERDATA</code>:用户数据</li>
+<li><code>KEY_LAST_AUTHENTICATED_TIME</code>:上次授权时间</li>
+<li><code>KEY_CALLER_UID</code>:调用者的UID</li>
+<li><code>KEY_CALLER_PID</code>:调用者的PID</li>
+<li><code>KEY_ANDROID_PACKAGE_NAME</code>:Android包名</li>
+<li><code>KEY_NOTIFY_ON_FAILURE</code>:授权失败时是否提示，boolean值</li>
+<li><code>ACTION_AUTHENTICATOR_INTENT</code>:<code>android.accounts.AccountAuthenticator</code></li>
+<li><code>AUTHENTICATOR_META_DATA_NAME</code>:<code>android.accounts.AccountAuthenticator</code></li>
+<li><code>AUTHENTICATOR_ATTRIBUTES_NAME</code>:授权者的name属性</li>
+</ul>
+<h4 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h4><h4 id="类结构"><a href="#类结构" class="headerlink" title="类结构"></a>类结构</h4><p><code>public class AccountManager{ ... }</code></p>
 <p>public的类，没有实现任何接口。</p>
 <h5 id="内部类-AmsTask"><a href="#内部类-AmsTask" class="headerlink" title="内部类-AmsTask"></a>内部类-AmsTask</h5><p><code>private abstract class AmsTask extends FutureTask&lt;Bundle&gt; implements AccountManagerFuture&lt;Bundle&gt; { ... }</code></p>
 <p>看类修饰符：</p>
@@ -479,6 +514,14 @@
 <li>BaseFutureTask的子类，同时也是个抽象类，实现了<code>internalGetResult</code>，具体的贱<code>AmsTask$internalGetResult</code></li>
 </ul>
 <h5 id="内部类-GetAuthTokenByTypeAndFeaturesTask"><a href="#内部类-GetAuthTokenByTypeAndFeaturesTask" class="headerlink" title="内部类-GetAuthTokenByTypeAndFeaturesTask"></a>内部类-GetAuthTokenByTypeAndFeaturesTask</h5><p><code>AmsTask</code>的子类，顾名思义，根据类型和特征获取授权令牌的任务。</p>
+<p><code>doWork()</code>的作用：</p>
+<ul>
+<li>根据类型和特征尝试获取已授权账户</li>
+<li>未获取到账户，如果提示添加账户的activity为空，则把<code>KEY_ACCOUNT_NAME</code>,<code>KEY_ACCOUNT_TYPE</code>,<code>KEY_AUTHTOKEN</code>置为空，并返回</li>
+<li>未获取到账户，如果提示添加账户的activity不为空，调用<code>addAccount</code>方法，这是一个Future，可以中断和等待结果的子线程</li>
+<li>如果只获取到一个账户，获取AuthToken，放入响应</li>
+<li>如果获取到了多个账户，启动<code>android.accounts.ChooseAccountActivity</code>,选择一个后，获取AuthToken，放入响应</li>
+</ul>
 
       
     </div>
@@ -521,8 +564,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/14/android-notes/" rel="next" title="android - 消除非受检的警告">
-                <i class="fa fa-chevron-left"></i> android - 消除非受检的警告
+              <a href="/2017/08/17/raspbarry-first/" rel="next" title="Raspbarry first">
+                <i class="fa fa-chevron-left"></i> Raspbarry first
               </a>
             
           </div>
@@ -531,8 +574,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/08/17/raspbarry-first/" rel="prev" title="Raspbarry first">
-                Raspbarry first <i class="fa fa-chevron-right"></i>
+              <a href="/2017/08/22/license-introduce/" rel="prev" title="代码开源协议">
+                代码开源协议 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -679,7 +722,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前面"><span class="nav-number">1.</span> <span class="nav-text">前面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#协议"><span class="nav-number">2.</span> <span class="nav-text">协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#package"><span class="nav-number">3.</span> <span class="nav-text">package</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类说明"><span class="nav-number">4.</span> <span class="nav-text">类说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类结构"><span class="nav-number">5.</span> <span class="nav-text">类结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-AmsTask"><span class="nav-number">5.1.</span> <span class="nav-text">内部类-AmsTask</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AmsTask的内部类-Response"><span class="nav-number">5.2.</span> <span class="nav-text">AmsTask的内部类-Response</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-BaseFutureTask"><span class="nav-number">5.3.</span> <span class="nav-text">内部类-BaseFutureTask</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BaseFutureTask的内部类-Response"><span class="nav-number">5.4.</span> <span class="nav-text">BaseFutureTask的内部类-Response</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-Future2Task"><span class="nav-number">5.5.</span> <span class="nav-text">内部类-Future2Task</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-GetAuthTokenByTypeAndFeaturesTask"><span class="nav-number">5.6.</span> <span class="nav-text">内部类-GetAuthTokenByTypeAndFeaturesTask</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前面"><span class="nav-number">1.</span> <span class="nav-text">前面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#协议"><span class="nav-number">2.</span> <span class="nav-text">协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#package"><span class="nav-number">3.</span> <span class="nav-text">package</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类说明"><span class="nav-number">4.</span> <span class="nav-text">类说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#变量"><span class="nav-number">5.</span> <span class="nav-text">变量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#静态常量"><span class="nav-number">5.1.</span> <span class="nav-text">静态常量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构造方法"><span class="nav-number">6.</span> <span class="nav-text">构造方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类结构"><span class="nav-number">7.</span> <span class="nav-text">类结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-AmsTask"><span class="nav-number">7.1.</span> <span class="nav-text">内部类-AmsTask</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AmsTask的内部类-Response"><span class="nav-number">7.2.</span> <span class="nav-text">AmsTask的内部类-Response</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-BaseFutureTask"><span class="nav-number">7.3.</span> <span class="nav-text">内部类-BaseFutureTask</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BaseFutureTask的内部类-Response"><span class="nav-number">7.4.</span> <span class="nav-text">BaseFutureTask的内部类-Response</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-Future2Task"><span class="nav-number">7.5.</span> <span class="nav-text">内部类-Future2Task</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-GetAuthTokenByTypeAndFeaturesTask"><span class="nav-number">7.6.</span> <span class="nav-text">内部类-GetAuthTokenByTypeAndFeaturesTask</span></a></li></ol></li></ol></div>
             
 
           </div>
