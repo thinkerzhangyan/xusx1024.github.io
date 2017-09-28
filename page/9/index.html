@@ -267,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/Debug-GPU-Overdraw-Walkthrough/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/09/Profile-Gpu-rendering/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -286,7 +286,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/09/Debug-GPU-Overdraw-Walkthrough/" itemprop="url">Android过度绘制优化</a></h1>
+                <a class="post-title-link" href="/2017/02/09/Profile-Gpu-rendering/" itemprop="url">Gpu呈现模式分析</a></h1>
         
 
         <div class="post-meta">
@@ -357,70 +357,15 @@
       
         
           
-            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><h5 id="过渡绘制"><a href="#过渡绘制" class="headerlink" title="过渡绘制"></a>过渡绘制</h5><pre><code>过渡绘制(OverDraw)，屏幕上的某个像素，在同一帧内被重绘多次。如果App中过渡绘制问题严重，会浪费大量CPU、GPU资源，直接表现为App卡顿。
-</code></pre><h5 id="开启"><a href="#开启" class="headerlink" title="开启"></a>开启</h5><pre><code>开发者选项 - 调试GPU过渡绘制
-</code></pre><h5 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h5><p><img src="/images/color-key-for-debug-GPU-overdraw-output.png" alt="示例图"></p>
-<ul>
-<li>True color: No overdraw</li>
-<li>Blue: Overdrawn once</li>
-<li>Green: Overdrawn twice</li>
-<li>Pink: Overdrawn three times</li>
-<li>Red: Overdrawn four or more times</li>
-</ul>
-<h4 id="how"><a href="#how" class="headerlink" title="how"></a>how</h4><ol>
-<li><blockquote>
-<p>去掉window默认背景。在Activity中，使用setContentView绑定布局时，android会自动填充一个背景，如果我们App有自己的页面底色，因此不需要默认分配的背景。</p>
-<pre><code>修改页面的主题：
-&lt;item name=&quot;android:windowBackground&quot;&gt;@android:color/transparent&lt;/item&gt;
-&lt;item name=&quot;android:windowBackground&quot;&gt;@null&lt;/item&gt;
-
-代码中修改：
-getWindow().setBackgroundDrawable(null)
-getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-null和transparent差别不大，如果有activity右滑返回功能，null,在某些机型(Nexus6p)上，会出现错乱, 建议使用transparent。 
-</code></pre></blockquote>
-</li>
-<li><blockquote>
-<p>移除不必要的背景，xml布局编码时，防止背景重复，比如ListView的背景和item的背景都是白色，那么可以选择去掉其中一个。一般情况下，背景重复会引起大部分重绘问题。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>选择适当父布局。LinearLayout、ReleativeLayout，最常用的两种布局。RL表达能力强，LL易用，层级多，所以在层级相同的情况下，使用LL，尽量不要使用AbsoluteLayout。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>对于那些过于复杂的自定义的View(通常重写了onDraw方法)，我们可以通过<a href="https://developer.android.com/reference/android/graphics/Canvas.html" target="_blank" rel="external">canvas.clipRect()</a>来帮助系统识别那些可见的区域。这个方法可以指定一块矩形区域，只有在这个区域内才会被绘制，其他的区域会被忽视。我们还可以使用<a href="https://developer.android.com/reference/android/graphics/Canvas.html" target="_blank" rel="external">canvas.quickreject()</a>来判断是否没和某个矩形相交，从而跳过那些非矩形区域内的绘制操作。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>使用merge标签，减少布局嵌套层次。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>使用动态inflate或者ViewStub替代setVisibility。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>对于使用Selector当背景的Layout(比如ListView的Item,会使用Selector来标记点击,选择等不同的状态),可以将normal状态的color设置为”@android:color/transparent”,来解决对应的问题。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>使用.9图，透明区域会被android的2D渲染器优化。</p>
-</blockquote>
-</li>
-<li><blockquote>
-<p>好的展示设计和交互。使UI宽而浅而不是浅而深。</p>
-</blockquote>
-</li>
-</ol>
-<h4 id="标准"><a href="#标准" class="headerlink" title="标准"></a>标准</h4><pre><code>过度绘制不可避免
-
-尽量控制在绿色及其以下
-
-尽可能避免出现粉红及以上，如果不可避免，尽可能减少
-
-不允许出现超过屏幕1/4的红色区域
+            <h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><pre><code>在android手机中，会发现开发者选项 - GPU呈现模式分析的选项。很多道友用之来测试其手机的流畅度。开启之后大概就是这样子了：
+</code></pre><p><img src="/images/profileGPURendering.png" alt="玄学曲线"></p>
+<h4 id="说说这张图片"><a href="#说说这张图片" class="headerlink" title="说说这张图片"></a>说说这张图片</h4><h5 id="绿横线"><a href="#绿横线" class="headerlink" title="绿横线"></a>绿横线</h5><pre><code>在android系统中是以每秒60帧为满帧的，所以1000ms / 60 = 16ms/帧。即每帧快于16ms为流畅，这根绿线即16ms线，低于该绿线为流畅。
+</code></pre><h5 id="红柱"><a href="#红柱" class="headerlink" title="红柱"></a>红柱</h5><pre><code>红色代表了“执行时间”，它指的是Android渲染引擎执行绘制命令的时间，为了绘制到屏幕上，Android需要使用OpenGL ES的API接口来绘制Display List。这些API有效地将数据发送到GPU，最后在屏幕上显示出来。假如当前界面的视图越多，那么红色便会“跳”得越高。实际使用中，比如平时刷App遇到许多缩略图需要加载，那么红色会突然跳很高，但是此时你的页面滑动其实是流畅的，虽然等了零点几秒图片才加载出来，但并不意味着你卡住了。
+</code></pre><p><img src="/images/executePhase.png" alt="绘图执行图"></p>
+<h5 id="黄柱"><a href="#黄柱" class="headerlink" title="黄柱"></a>黄柱</h5><pre><code>黄色通常较短，它代表CPU通知GPU“你已经完成一帧视图的渲染了”，不过这是一个阻塞调用，CPU会等待GPU的回话，当GPU说“好了，知道了”，才算完事儿。假如黄色很高，说明当前GPU过于忙碌，有很多命令需要去处理。
+</code></pre><h5 id="蓝柱"><a href="#蓝柱" class="headerlink" title="蓝柱"></a>蓝柱</h5><pre><code>假如通过蓝色来判断流畅度，参考意义比较大。蓝色代表了视图测量绘制所花费的时间，或者说它代表需要多长时间去创建和更新你的DisplayList。
+在Android中，一个视图在可以实际的进行渲染之前，它必须被转换成GPU所熟悉的格式，简单来说就是几条绘图命令，即执行每一个View的onDraw方法，创建或者更新每一个View的DisplayList对象。
+所以蓝色越短，体验越流畅，当你看到蓝色很高，可能是因为你的一堆视图突然变得无效了，需要重新绘制，或者你的几个自定义视图的onDraw方法过于复杂。
 </code></pre>
           
         
