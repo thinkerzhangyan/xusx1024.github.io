@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/08/17/android-system-service-Account-Manager/index.html">
 <meta property="og:site_name" content="行次">
 <meta property="og:description" content="前面以AccountManager为例，read the fucking code. 协议可以看到该类遵循Apache协议。也就是说允许商用，私用，分发，修改，专利授权，附件协议，作者不允许商标使用，不承担责任。 详细的各种协议区分，请看：here package类所在的包：package android.accounts;   AbstractAccountAuthenticator Accou">
-<meta property="og:updated_time" content="2017-09-19T08:05:36.629Z">
+<meta property="og:updated_time" content="2017-09-28T03:16:46.749Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android系统服务：AccountManager">
 <meta name="twitter:description" content="前面以AccountManager为例，read the fucking code. 协议可以看到该类遵循Apache协议。也就是说允许商用，私用，分发，修改，专利授权，附件协议，作者不允许商标使用，不承担责任。 详细的各种协议区分，请看：here package类所在的包：package android.accounts;   AbstractAccountAuthenticator Accou">
@@ -424,7 +424,17 @@
 <li><code>AUTHENTICATOR_META_DATA_NAME</code>:<code>android.accounts.AccountAuthenticator</code></li>
 <li><code>AUTHENTICATOR_ATTRIBUTES_NAME</code>:授权者的name属性</li>
 </ul>
-<h4 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h4><h4 id="类结构"><a href="#类结构" class="headerlink" title="类结构"></a>类结构</h4><p><code>public class AccountManager{ ... }</code></p>
+<h4 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h4><pre><code>public AccountManager(Context context, IAccountManager service) {
+   mContext = context;
+   mService = service;
+   mMainHandler = new Handler(mContext.getMainLooper());
+}
+</code></pre><p>不会用到，获取一个账户管理者的实例，使用如下方法即可：</p>
+<pre><code>public static AccountManager get(Context context) {
+       if (context == null) throw new IllegalArgumentException(&quot;context is null&quot;);
+       return (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
+   }
+</code></pre><h4 id="类结构"><a href="#类结构" class="headerlink" title="类结构"></a>类结构</h4><p><code>public class AccountManager{ ... }</code></p>
 <p>public的类，没有实现任何接口。</p>
 <h5 id="内部类-AmsTask"><a href="#内部类-AmsTask" class="headerlink" title="内部类-AmsTask"></a>内部类-AmsTask</h5><p><code>private abstract class AmsTask extends FutureTask&lt;Bundle&gt; implements AccountManagerFuture&lt;Bundle&gt; { ... }</code></p>
 <p>看类修饰符：</p>
@@ -522,6 +532,56 @@
 <li>如果只获取到一个账户，获取AuthToken，放入响应</li>
 <li>如果获取到了多个账户，启动<code>android.accounts.ChooseAccountActivity</code>,选择一个后，获取AuthToken，放入响应</li>
 </ul>
+<h4 id="主要方法"><a href="#主要方法" class="headerlink" title="主要方法"></a>主要方法</h4><h5 id="sanitizeResult"><a href="#sanitizeResult" class="headerlink" title="sanitizeResult"></a>sanitizeResult</h5><pre><code>public static Bundle sanitizeResult(Bundle result) {
+      if (result != null) {
+          if (result.containsKey(KEY_AUTHTOKEN)
+                  &amp;&amp; !TextUtils.isEmpty(result.getString(KEY_AUTHTOKEN))) {
+              final Bundle newResult = new Bundle(result);
+              newResult.putString(KEY_AUTHTOKEN, &quot;&lt;omitted for logging purposes&gt;&quot;);
+              return newResult;
+          }
+      }
+      return result;
+  }
+</code></pre><p>如果返回的结果bundle中包含<code>KEY_AUTHTOKEN</code>，就把这个值变成“为了日志的目的而省略”，是对结果做一次“消毒”</p>
+<h5 id="IAccountManager相关"><a href="#IAccountManager相关" class="headerlink" title="IAccountManager相关"></a>IAccountManager相关</h5><ul>
+<li>getPassword</li>
+<li>setPassword</li>
+<li>clearPassword</li>
+<li>getUserData</li>
+<li>setUserData</li>
+<li>getAuthenticatorTypes：此处返回一个数组，一个账户可以有多重类型，不需要权限</li>
+<li>getAuthenticatorTypesAsUser：需要权限，或者相同的用户</li>
+<li>getAccounts：需要权限</li>
+<li>getAccountsAsUser</li>
+<li>getAccountsForPackage：调用者可用的账户列表</li>
+<li>updateAppPermission：仅被系统页面调用，不包含于SDK中</li>
+<li>getAuthTokenLabel：获取与认证者相关联的用户友好标签，返回一个Future</li>
+<li>hasFeatures：需要权限，指定的账户是拥有指定的权限。可用在任意线程，但返回结果不可用于主线程。</li>
+<li>getAccountsByTypeAndFeatures：需要权限，根据类型和功能获取账户列表</li>
+<li>addAccount</li>
+<li>addSharedAccount</li>
+<li>addAccountExplicitly：直接添加一个账户。这个方法不会刷新最近一次的时间戳，需要主动<code>notifyAccountAuthenticated</code>。但是，如果该方法触发了<code>addAccount()</code>或者<code>addAccountAsUser</code>，就不需要刷新时间戳，可以自动刷新了。可在主线程调用此方法。需要API22以上。</li>
+<li>notifyAccountAuthenticated：通知系统账户刚刚被授权。可被其他程序用来验证账户。只有在授权成功方可调用。主线程不安全的。</li>
+<li>renameAccount：先移除已有的账户，再添加重命名后的账户。</li>
+<li>getPreviousName：获取改名前的名字，可能返回null，主线程安全的。</li>
+<li>removeAccount：如果有，就从AccountManager删除账户，不会从服务器上删除。API22之前调用需要权限。</li>
+<li>removeAccountAsUser</li>
+<li>invalidateAuthToken：从AccountManager的缓存中移除授权。API22之前需要权限。</li>
+<li>peekAuthToken：从缓存中取授权令牌，如果没有，生成一个新的，不会链接服务器。</li>
+<li>setAuthToken</li>
+<li>getAuthToken</li>
+<li>getAuthTokenByFeatures</li>
+<li>blockingGetAuthToken：会阻塞，不要在主线程调用，API22之前需要权限</li>
+<li>copyAccountToUser</li>
+<li>confirmCredentialsAsUser：</li>
+<li>updateCredentials</li>
+<li>editProperties：提供一个用户修改授权设置的机会。</li>
+<li>ensureNotOnMainThread：确保不在主线程</li>
+<li>postToHandler</li>
+<li>convertErrorToException</li>
+<li>newChooseAccountIntent：提供给用户一个可选账户的列表</li>
+</ul>
 
       
     </div>
@@ -564,8 +624,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/17/raspbarry-first/" rel="next" title="Raspbarry first">
-                <i class="fa fa-chevron-left"></i> Raspbarry first
+              <a href="/2017/07/14/android-notes/" rel="next" title="android - 消除非受检的警告">
+                <i class="fa fa-chevron-left"></i> android - 消除非受检的警告
               </a>
             
           </div>
@@ -574,8 +634,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/08/22/license-introduce/" rel="prev" title="代码开源协议">
-                代码开源协议 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/08/17/raspbarry-first/" rel="prev" title="Raspbarry first">
+                Raspbarry first <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -722,7 +782,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前面"><span class="nav-number">1.</span> <span class="nav-text">前面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#协议"><span class="nav-number">2.</span> <span class="nav-text">协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#package"><span class="nav-number">3.</span> <span class="nav-text">package</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类说明"><span class="nav-number">4.</span> <span class="nav-text">类说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#变量"><span class="nav-number">5.</span> <span class="nav-text">变量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#静态常量"><span class="nav-number">5.1.</span> <span class="nav-text">静态常量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构造方法"><span class="nav-number">6.</span> <span class="nav-text">构造方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类结构"><span class="nav-number">7.</span> <span class="nav-text">类结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-AmsTask"><span class="nav-number">7.1.</span> <span class="nav-text">内部类-AmsTask</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AmsTask的内部类-Response"><span class="nav-number">7.2.</span> <span class="nav-text">AmsTask的内部类-Response</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-BaseFutureTask"><span class="nav-number">7.3.</span> <span class="nav-text">内部类-BaseFutureTask</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BaseFutureTask的内部类-Response"><span class="nav-number">7.4.</span> <span class="nav-text">BaseFutureTask的内部类-Response</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-Future2Task"><span class="nav-number">7.5.</span> <span class="nav-text">内部类-Future2Task</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-GetAuthTokenByTypeAndFeaturesTask"><span class="nav-number">7.6.</span> <span class="nav-text">内部类-GetAuthTokenByTypeAndFeaturesTask</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前面"><span class="nav-number">1.</span> <span class="nav-text">前面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#协议"><span class="nav-number">2.</span> <span class="nav-text">协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#package"><span class="nav-number">3.</span> <span class="nav-text">package</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类说明"><span class="nav-number">4.</span> <span class="nav-text">类说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#变量"><span class="nav-number">5.</span> <span class="nav-text">变量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#静态常量"><span class="nav-number">5.1.</span> <span class="nav-text">静态常量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构造方法"><span class="nav-number">6.</span> <span class="nav-text">构造方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类结构"><span class="nav-number">7.</span> <span class="nav-text">类结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-AmsTask"><span class="nav-number">7.1.</span> <span class="nav-text">内部类-AmsTask</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AmsTask的内部类-Response"><span class="nav-number">7.2.</span> <span class="nav-text">AmsTask的内部类-Response</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-BaseFutureTask"><span class="nav-number">7.3.</span> <span class="nav-text">内部类-BaseFutureTask</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BaseFutureTask的内部类-Response"><span class="nav-number">7.4.</span> <span class="nav-text">BaseFutureTask的内部类-Response</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-Future2Task"><span class="nav-number">7.5.</span> <span class="nav-text">内部类-Future2Task</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内部类-GetAuthTokenByTypeAndFeaturesTask"><span class="nav-number">7.6.</span> <span class="nav-text">内部类-GetAuthTokenByTypeAndFeaturesTask</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主要方法"><span class="nav-number">8.</span> <span class="nav-text">主要方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#sanitizeResult"><span class="nav-number">8.1.</span> <span class="nav-text">sanitizeResult</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#IAccountManager相关"><span class="nav-number">8.2.</span> <span class="nav-text">IAccountManager相关</span></a></li></ol></li></ol></div>
             
 
           </div>

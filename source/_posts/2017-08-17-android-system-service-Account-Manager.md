@@ -177,6 +177,20 @@ These operations throw {@link IllegalStateException} if they are used on the mai
 - `AUTHENTICATOR_ATTRIBUTES_NAME`:授权者的name属性
 
 #### 构造方法 ####
+
+	 public AccountManager(Context context, IAccountManager service) {
+        mContext = context;
+        mService = service;
+        mMainHandler = new Handler(mContext.getMainLooper());
+     }
+
+不会用到，获取一个账户管理者的实例，使用如下方法即可：
+	
+	 public static AccountManager get(Context context) {
+	        if (context == null) throw new IllegalArgumentException("context is null");
+	        return (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
+	    }
+	
 #### 类结构 ####
 
 `public class AccountManager{ ... }`
@@ -298,4 +312,61 @@ AmsTask中有一个public的Response的引用。
 - 未获取到账户，如果提示添加账户的activity不为空，调用`addAccount`方法，这是一个Future，可以中断和等待结果的子线程
 - 如果只获取到一个账户，获取AuthToken，放入响应
 - 如果获取到了多个账户，启动`android.accounts.ChooseAccountActivity`,选择一个后，获取AuthToken，放入响应
+
+#### 主要方法 ####
+
+##### sanitizeResult #####
+
+	  public static Bundle sanitizeResult(Bundle result) {
+	        if (result != null) {
+	            if (result.containsKey(KEY_AUTHTOKEN)
+	                    && !TextUtils.isEmpty(result.getString(KEY_AUTHTOKEN))) {
+	                final Bundle newResult = new Bundle(result);
+	                newResult.putString(KEY_AUTHTOKEN, "<omitted for logging purposes>");
+	                return newResult;
+	            }
+	        }
+	        return result;
+	    }
+
+如果返回的结果bundle中包含`KEY_AUTHTOKEN`，就把这个值变成“为了日志的目的而省略”，是对结果做一次“消毒”
+
+##### IAccountManager相关 #####
+
+- getPassword
+- setPassword
+- clearPassword
+- getUserData
+- setUserData
+- getAuthenticatorTypes：此处返回一个数组，一个账户可以有多重类型，不需要权限
+- getAuthenticatorTypesAsUser：需要权限，或者相同的用户
+- getAccounts：需要权限
+- getAccountsAsUser
+- getAccountsForPackage：调用者可用的账户列表
+- updateAppPermission：仅被系统页面调用，不包含于SDK中
+- getAuthTokenLabel：获取与认证者相关联的用户友好标签，返回一个Future
+- hasFeatures：需要权限，指定的账户是拥有指定的权限。可用在任意线程，但返回结果不可用于主线程。
+- getAccountsByTypeAndFeatures：需要权限，根据类型和功能获取账户列表
+- addAccount
+- addSharedAccount
+- addAccountExplicitly：直接添加一个账户。这个方法不会刷新最近一次的时间戳，需要主动`notifyAccountAuthenticated`。但是，如果该方法触发了`addAccount()`或者`addAccountAsUser`，就不需要刷新时间戳，可以自动刷新了。可在主线程调用此方法。需要API22以上。
+- notifyAccountAuthenticated：通知系统账户刚刚被授权。可被其他程序用来验证账户。只有在授权成功方可调用。主线程不安全的。
+- renameAccount：先移除已有的账户，再添加重命名后的账户。
+- getPreviousName：获取改名前的名字，可能返回null，主线程安全的。
+- removeAccount：如果有，就从AccountManager删除账户，不会从服务器上删除。API22之前调用需要权限。
+- removeAccountAsUser
+- invalidateAuthToken：从AccountManager的缓存中移除授权。API22之前需要权限。
+- peekAuthToken：从缓存中取授权令牌，如果没有，生成一个新的，不会链接服务器。
+- setAuthToken
+- getAuthToken
+- getAuthTokenByFeatures
+- blockingGetAuthToken：会阻塞，不要在主线程调用，API22之前需要权限
+- copyAccountToUser
+- confirmCredentialsAsUser：
+- updateCredentials
+- editProperties：提供一个用户修改授权设置的机会。
+- ensureNotOnMainThread：确保不在主线程
+- postToHandler
+- convertErrorToException
+- newChooseAccountIntent：提供给用户一个可选账户的列表
 

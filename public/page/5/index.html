@@ -1084,6 +1084,260 @@ public class DC3 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/11/counting-sort/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/11/counting-sort/" itemprop="url">非比较排序之计数排序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-11T00:00:00Z">
+                2017-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><a href="https://zh.wikipedia.org/wiki/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F" target="_blank" rel="external">计数排序wiki</a> <br></p>
+<ul>
+<li>计数排序是用来排序0到100之间的数字的最好的算法</li>
+<li>计数排序可以用在基数排序中的算法来排序数据范围很大的数组</li>
+<li>计数排序是一种算法复杂度 O(n) 的排序方法，适合于小范围集合的排序</li>
+<li>计数排序的优势是对已知数量范围的数组进行排序</li>
+<li>基于比较的排序算法是不能突破O(NlogN)</li>
+</ul>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><ol>
+<li>找出待排序的数组中最大和最小的元素</li>
+<li>统计数组中每个值为i的元素出现的次数，存入数组 C 的第 i 项</li>
+<li>对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）</li>
+<li>反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1</li>
+</ol>
+<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>具体的分步动画演示详见：<a href="http://www.cs.usfca.edu/~galles/visualization/CountingSort.html" target="_blank" rel="external">Data Structure Visualizations</a></p>
+<p><br><br>对于数据2 5 3 0 2 3 0 3程序执行的过程如下图所示：</p>
+<p><img src="/images/counting_sort_1.png" alt="示例图"><br><br><img src="/images/counting_sort_2.png" alt="示例图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>package CountingSort;
+
+/**
+ * 计数排序
+ * 
+ * @author sxx.xu
+ *
+ */
+public class CountingSort {
+
+    private static void countingSort(int[] array) {
+        int min = array[0], max = array[0];
+        for (int i : array) {
+            if (i &lt; min)
+                min = i;
+            if (i &gt; max)
+                max = i;
+        }
+
+        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
+        int[] countArray = new int[max + 1];// 此处使用max+1太粗暴，见countingSort2
+        int[] countResult = new int[array.length];
+
+        for (int i : array) {
+            countArray[i]++;
+        }
+
+        for (int i = 1; i &lt; countArray.length; i++) {
+            countArray[i] += countArray[i - 1];
+        }
+
+        for (int i = array.length - 1; i &gt;= 0; i--) {
+            int elem = array[i];
+            int index = countArray[elem] - 1;
+            countResult[index] = elem;
+            System.out.println(&quot;当前元素为：&quot; + elem + &quot;;在排序数组中的位置是：&quot; + index);
+            countArray[elem]--;
+        }
+
+        for (int i : countResult) {
+            System.out.println(i);
+        }
+
+        // 桶排序
+        // int[][] resultArray = new int[countArray.length][countArray.length];
+        // for (int i = 0; i &lt; countArray.length; i++) {
+        // for (int j = 0; j &lt; countArray[i]; j++) {
+        // resultArray[i][j] = i;
+        // }
+        // }
+        //
+        // for (int i = 0; i &lt; resultArray.length; i++) {
+        // for (int j = 0; j &lt; resultArray[i].length; j++) {
+        // if (resultArray[i][j] != 0)
+        // System.out.println(resultArray[i][j]);// 这里直接输出，属于桶排序
+        // }
+        // }
+    }
+
+    /**
+     * 优化后的，减少中间数组大小
+     * @param array
+     */
+    private static void countingSort2(int[] array) {
+
+        int min = array[0], max = array[0];
+        for (int i : array) {
+            if (i &lt; min)
+                min = i;
+            if (i &gt; max)
+                max = i;
+        }
+
+        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
+        int[] countArray = new int[max - min + 1];
+        int[] countResult = new int[array.length];
+
+        for (int i : array) {
+            countArray[i - min]++;
+        }
+
+        for (int i = 1; i &lt; countArray.length; i++) {
+            countArray[i] += countArray[i - 1];
+        }
+
+        for (int i = array.length - 1; i &gt;= 0; i--) {
+            int elem = array[i] - min;
+            int index = countArray[array[i] - min] - 1;
+            countResult[index] = array[i];
+            countArray[elem]--;
+        }
+
+        for (int i : countResult) {
+            System.out.println(i);
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] array = { 8, 2, 3, 4, 3, 6, 6, 3, 9 };
+        int[] array2 = { 2, 8, 5, 1, 10, 5, 9, 9, 3, 5, 6, 6, 2, 8, 2 };
+        countingSort(array);
+        countingSort2(array);
+    }
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/11/suffix-sort-baseon-prefix-doubleing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1408,260 +1662,6 @@ public class PrefixDoubling {
 
     }
 
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/11/counting-sort/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/04/11/counting-sort/" itemprop="url">非比较排序之计数排序</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-11T00:00:00Z">
-                2017-04-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><a href="https://zh.wikipedia.org/wiki/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F" target="_blank" rel="external">计数排序wiki</a> <br></p>
-<ul>
-<li>计数排序是用来排序0到100之间的数字的最好的算法</li>
-<li>计数排序可以用在基数排序中的算法来排序数据范围很大的数组</li>
-<li>计数排序是一种算法复杂度 O(n) 的排序方法，适合于小范围集合的排序</li>
-<li>计数排序的优势是对已知数量范围的数组进行排序</li>
-<li>基于比较的排序算法是不能突破O(NlogN)</li>
-</ul>
-<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><ol>
-<li>找出待排序的数组中最大和最小的元素</li>
-<li>统计数组中每个值为i的元素出现的次数，存入数组 C 的第 i 项</li>
-<li>对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）</li>
-<li>反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1</li>
-</ol>
-<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>具体的分步动画演示详见：<a href="http://www.cs.usfca.edu/~galles/visualization/CountingSort.html" target="_blank" rel="external">Data Structure Visualizations</a></p>
-<p><br><br>对于数据2 5 3 0 2 3 0 3程序执行的过程如下图所示：</p>
-<p><img src="/images/counting_sort_1.png" alt="示例图"><br><br><img src="/images/counting_sort_2.png" alt="示例图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>package CountingSort;
-
-/**
- * 计数排序
- * 
- * @author sxx.xu
- *
- */
-public class CountingSort {
-
-    private static void countingSort(int[] array) {
-        int min = array[0], max = array[0];
-        for (int i : array) {
-            if (i &lt; min)
-                min = i;
-            if (i &gt; max)
-                max = i;
-        }
-
-        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
-        int[] countArray = new int[max + 1];// 此处使用max+1太粗暴，见countingSort2
-        int[] countResult = new int[array.length];
-
-        for (int i : array) {
-            countArray[i]++;
-        }
-
-        for (int i = 1; i &lt; countArray.length; i++) {
-            countArray[i] += countArray[i - 1];
-        }
-
-        for (int i = array.length - 1; i &gt;= 0; i--) {
-            int elem = array[i];
-            int index = countArray[elem] - 1;
-            countResult[index] = elem;
-            System.out.println(&quot;当前元素为：&quot; + elem + &quot;;在排序数组中的位置是：&quot; + index);
-            countArray[elem]--;
-        }
-
-        for (int i : countResult) {
-            System.out.println(i);
-        }
-
-        // 桶排序
-        // int[][] resultArray = new int[countArray.length][countArray.length];
-        // for (int i = 0; i &lt; countArray.length; i++) {
-        // for (int j = 0; j &lt; countArray[i]; j++) {
-        // resultArray[i][j] = i;
-        // }
-        // }
-        //
-        // for (int i = 0; i &lt; resultArray.length; i++) {
-        // for (int j = 0; j &lt; resultArray[i].length; j++) {
-        // if (resultArray[i][j] != 0)
-        // System.out.println(resultArray[i][j]);// 这里直接输出，属于桶排序
-        // }
-        // }
-    }
-
-    /**
-     * 优化后的，减少中间数组大小
-     * @param array
-     */
-    private static void countingSort2(int[] array) {
-
-        int min = array[0], max = array[0];
-        for (int i : array) {
-            if (i &lt; min)
-                min = i;
-            if (i &gt; max)
-                max = i;
-        }
-
-        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
-        int[] countArray = new int[max - min + 1];
-        int[] countResult = new int[array.length];
-
-        for (int i : array) {
-            countArray[i - min]++;
-        }
-
-        for (int i = 1; i &lt; countArray.length; i++) {
-            countArray[i] += countArray[i - 1];
-        }
-
-        for (int i = array.length - 1; i &gt;= 0; i--) {
-            int elem = array[i] - min;
-            int index = countArray[array[i] - min] - 1;
-            countResult[index] = array[i];
-            countArray[elem]--;
-        }
-
-        for (int i : countResult) {
-            System.out.println(i);
-        }
-    }
-
-    public static void main(String[] args) {
-        int[] array = { 8, 2, 3, 4, 3, 6, 6, 3, 9 };
-        int[] array2 = { 2, 8, 5, 1, 10, 5, 9, 9, 3, 5, 6, 6, 2, 8, 2 };
-        countingSort(array);
-        countingSort2(array);
-    }
 }
 </code></pre>
           
@@ -2398,176 +2398,6 @@ public class BuketsSort {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/01/findbug-notes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/04/01/findbug-notes/" itemprop="url">FindBugs常见错误提示及解决</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-01T00:00:00Z">
-                2017-04-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA & kotlin</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD"><a href="#ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD" class="headerlink" title="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"></a>ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD</h4><blockquote>
-<p>This instance method writes to a static field. This is tricky to get correct if multiple instances are being manipulated, and generally bad practice.<br>静态字段被实例方法修改。如果多个实例被操纵，这样获取正确的结果是滑头的，并且通常不是好的实践。</p>
-</blockquote>
-<p>原因：静态私有的成员变量不能在public类里面直接赋值，最好是通过get/set方法进行操作。直接通过类名.常量名获取的方式违背了封装的原则，findbugs不提倡使用。<br><br></p>
-<p>解决：通过get/set方法提供操作。</p>
-<h4 id="DM-BOXED-PRIMITIVE-FOR-PARSING"><a href="#DM-BOXED-PRIMITIVE-FOR-PARSING" class="headerlink" title="DM_BOXED_PRIMITIVE_FOR_PARSING"></a>DM_BOXED_PRIMITIVE_FOR_PARSING</h4><blockquote>
-<p>A boxed primitive is created from a String, just to extract the unboxed primitive value. It is more efficient to just call the static parseXXX method.<br>一个装箱的原语是由字符串创建，只是为了拆箱获取原始值。使用parseXXX方法更加有效。</p>
-</blockquote>
-<p>原因：</p>
-<ul>
-<li>static int parseInt(String s):       将字符串参数作为有符号的十进制整数进行分析，返回一个int值。</li>
-<li>static Integer valueOf(int i) :      返回一个表示指定的 int 值的 Integer 实例。</li>
-<li>static Integer valueOf(String s) :      返回保持指定的 String 的值的 Integer 对象（实例）。</li>
-</ul>
-<p>解决：parseXXX方法代替valueOf</p>
-<h4 id="SS-SHOULD-BE-STATIC"><a href="#SS-SHOULD-BE-STATIC" class="headerlink" title="SS_SHOULD_BE_STATIC"></a>SS_SHOULD_BE_STATIC</h4><blockquote>
-<p>This class contains an instance final field that is initialized to a compile-time static value. Consider making the field static.<br>类包含一个初始化于编译期静态值的不可变实例字段。考虑使用static修饰该字段。</p>
-</blockquote>
-<p>解决方法：final的字段可以定义为static类型</p>
-<h4 id="DLS-DEAD-LOCAL-STORE"><a href="#DLS-DEAD-LOCAL-STORE" class="headerlink" title="DLS_DEAD_LOCAL_STORE"></a>DLS_DEAD_LOCAL_STORE</h4><blockquote>
-<p>This instruction assigns a value to a local variable, but the value is not read or used in any subsequent instruction. Often, this indicates an error, because the value computed is never used.<br><br>Note that Sun’s javac compiler often generates dead stores for final local variables. Because FindBugs is a bytecode-based tool, there is no easy way to eliminate these false positives.<br>该指令把一个值分配给本地变量，但是值并没有被读取或使用。通常这表示错误，因为这个值从来没有被用到过。<br><br>请注意，Sun公司的javac编译器通常为本地final变量生成死存储。因为FindBugs是基于字节码的工具，因此没有简单的方法可以消除这些误报。</p>
-</blockquote>
-<p>解决方法：注释掉。</p>
-<h4 id="SF-SWITCH-NO-DEFAULT"><a href="#SF-SWITCH-NO-DEFAULT" class="headerlink" title="SF_SWITCH_NO_DEFAULT"></a>SF_SWITCH_NO_DEFAULT</h4><blockquote>
-<p>This method contains a switch statement where default case is missing. Usually you need to provide a default case.<br>Because the analysis only looks at the generated bytecode, this warning can be incorrect triggered if the default case is at the end of the switch statement and the switch statement doesn’t contain break statements for other cases.<br>此方法包含一个缺省情况下的switch语句。通常你需要提供一个默认的情况。<br><br><br>因为分析仅查看生成的字节码，这个警告可能会被错误除法。如果默认的情况下是switch语句结尾并且switch语句不包含其他情况的break语句。</p>
-</blockquote>
-<p>解决方法：加上default。</p>
-<h4 id="RV-RETURN-VALUE-IGNORED-BAD-PRACTICE"><a href="#RV-RETURN-VALUE-IGNORED-BAD-PRACTICE" class="headerlink" title="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"></a>RV_RETURN_VALUE_IGNORED_BAD_PRACTICE</h4><blockquote>
-<p>This method returns a value that is not checked.The return value should be checked since it can indicate an unusual or unexpected function. For example, the <code>File.delete()</code> method returns false if the file could not be successfully deleted(rather than throwing an Exception).if you don’t check the result, you won’t notice if the method invocation signals unexpected behavior by returning an a typical return value.<br>此方法返回了一个boolean，但没有去检查。这个值应该被检查，因为他可以指示异常或意外的功能。例如，<code>File.dlete()</code>方法返回false，如果这个文件可以被成功删除，而不是抛出异常。如果你没有检查，你就不会注意到这个方法通过返回一个典型错误，调用出现不可期的行为。</p>
-</blockquote>
-<h4 id="DC-DOUBLECHECK"><a href="#DC-DOUBLECHECK" class="headerlink" title="DC_DOUBLECHECK"></a>DC_DOUBLECHECK</h4><blockquote>
-<p>This method may contain an instance of double-checked locking. This idion is not correct according to the semantics of the Java memory model.</p>
-</blockquote>
-<p>see more:<a href="http://www.infoq.com/cn/articles/double-checked-locking-with-delay-initialization#" target="_blank" rel="external">双重检查锁定与延迟初始化</a></p>
-<h4 id="NM-METHOD-NAMING-CONVENTION"><a href="#NM-METHOD-NAMING-CONVENTION" class="headerlink" title="NM_METHOD_NAMING_CONVENTION"></a>NM_METHOD_NAMING_CONVENTION</h4><blockquote>
-<p>Methods should be verbs, in mixed case with the first letter lowercase, with the first letter of each internal word capitalized.<br>方法名开头要小写。</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/01/android-study-path/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2778,6 +2608,176 @@ public class BuketsSort {
 </tbody>
 </table>
 <h4 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h4><p><a href="https://www.diycode.cc/topics/122" target="_blank" rel="external">一个老鸟发的公司内部整理的 Android 学习路线图 Markdown 版本</a><br> <br><br><a href="https://www.diycode.cc/topics/117" target="_blank" rel="external">另一份 Android 开发学习路线图</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/01/findbug-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/01/findbug-notes/" itemprop="url">FindBugs常见错误提示及解决</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-01T00:00:00Z">
+                2017-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA & kotlin</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD"><a href="#ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD" class="headerlink" title="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"></a>ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD</h4><blockquote>
+<p>This instance method writes to a static field. This is tricky to get correct if multiple instances are being manipulated, and generally bad practice.<br>静态字段被实例方法修改。如果多个实例被操纵，这样获取正确的结果是滑头的，并且通常不是好的实践。</p>
+</blockquote>
+<p>原因：静态私有的成员变量不能在public类里面直接赋值，最好是通过get/set方法进行操作。直接通过类名.常量名获取的方式违背了封装的原则，findbugs不提倡使用。<br><br></p>
+<p>解决：通过get/set方法提供操作。</p>
+<h4 id="DM-BOXED-PRIMITIVE-FOR-PARSING"><a href="#DM-BOXED-PRIMITIVE-FOR-PARSING" class="headerlink" title="DM_BOXED_PRIMITIVE_FOR_PARSING"></a>DM_BOXED_PRIMITIVE_FOR_PARSING</h4><blockquote>
+<p>A boxed primitive is created from a String, just to extract the unboxed primitive value. It is more efficient to just call the static parseXXX method.<br>一个装箱的原语是由字符串创建，只是为了拆箱获取原始值。使用parseXXX方法更加有效。</p>
+</blockquote>
+<p>原因：</p>
+<ul>
+<li>static int parseInt(String s):       将字符串参数作为有符号的十进制整数进行分析，返回一个int值。</li>
+<li>static Integer valueOf(int i) :      返回一个表示指定的 int 值的 Integer 实例。</li>
+<li>static Integer valueOf(String s) :      返回保持指定的 String 的值的 Integer 对象（实例）。</li>
+</ul>
+<p>解决：parseXXX方法代替valueOf</p>
+<h4 id="SS-SHOULD-BE-STATIC"><a href="#SS-SHOULD-BE-STATIC" class="headerlink" title="SS_SHOULD_BE_STATIC"></a>SS_SHOULD_BE_STATIC</h4><blockquote>
+<p>This class contains an instance final field that is initialized to a compile-time static value. Consider making the field static.<br>类包含一个初始化于编译期静态值的不可变实例字段。考虑使用static修饰该字段。</p>
+</blockquote>
+<p>解决方法：final的字段可以定义为static类型</p>
+<h4 id="DLS-DEAD-LOCAL-STORE"><a href="#DLS-DEAD-LOCAL-STORE" class="headerlink" title="DLS_DEAD_LOCAL_STORE"></a>DLS_DEAD_LOCAL_STORE</h4><blockquote>
+<p>This instruction assigns a value to a local variable, but the value is not read or used in any subsequent instruction. Often, this indicates an error, because the value computed is never used.<br><br>Note that Sun’s javac compiler often generates dead stores for final local variables. Because FindBugs is a bytecode-based tool, there is no easy way to eliminate these false positives.<br>该指令把一个值分配给本地变量，但是值并没有被读取或使用。通常这表示错误，因为这个值从来没有被用到过。<br><br>请注意，Sun公司的javac编译器通常为本地final变量生成死存储。因为FindBugs是基于字节码的工具，因此没有简单的方法可以消除这些误报。</p>
+</blockquote>
+<p>解决方法：注释掉。</p>
+<h4 id="SF-SWITCH-NO-DEFAULT"><a href="#SF-SWITCH-NO-DEFAULT" class="headerlink" title="SF_SWITCH_NO_DEFAULT"></a>SF_SWITCH_NO_DEFAULT</h4><blockquote>
+<p>This method contains a switch statement where default case is missing. Usually you need to provide a default case.<br>Because the analysis only looks at the generated bytecode, this warning can be incorrect triggered if the default case is at the end of the switch statement and the switch statement doesn’t contain break statements for other cases.<br>此方法包含一个缺省情况下的switch语句。通常你需要提供一个默认的情况。<br><br><br>因为分析仅查看生成的字节码，这个警告可能会被错误除法。如果默认的情况下是switch语句结尾并且switch语句不包含其他情况的break语句。</p>
+</blockquote>
+<p>解决方法：加上default。</p>
+<h4 id="RV-RETURN-VALUE-IGNORED-BAD-PRACTICE"><a href="#RV-RETURN-VALUE-IGNORED-BAD-PRACTICE" class="headerlink" title="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"></a>RV_RETURN_VALUE_IGNORED_BAD_PRACTICE</h4><blockquote>
+<p>This method returns a value that is not checked.The return value should be checked since it can indicate an unusual or unexpected function. For example, the <code>File.delete()</code> method returns false if the file could not be successfully deleted(rather than throwing an Exception).if you don’t check the result, you won’t notice if the method invocation signals unexpected behavior by returning an a typical return value.<br>此方法返回了一个boolean，但没有去检查。这个值应该被检查，因为他可以指示异常或意外的功能。例如，<code>File.dlete()</code>方法返回false，如果这个文件可以被成功删除，而不是抛出异常。如果你没有检查，你就不会注意到这个方法通过返回一个典型错误，调用出现不可期的行为。</p>
+</blockquote>
+<h4 id="DC-DOUBLECHECK"><a href="#DC-DOUBLECHECK" class="headerlink" title="DC_DOUBLECHECK"></a>DC_DOUBLECHECK</h4><blockquote>
+<p>This method may contain an instance of double-checked locking. This idion is not correct according to the semantics of the Java memory model.</p>
+</blockquote>
+<p>see more:<a href="http://www.infoq.com/cn/articles/double-checked-locking-with-delay-initialization#" target="_blank" rel="external">双重检查锁定与延迟初始化</a></p>
+<h4 id="NM-METHOD-NAMING-CONVENTION"><a href="#NM-METHOD-NAMING-CONVENTION" class="headerlink" title="NM_METHOD_NAMING_CONVENTION"></a>NM_METHOD_NAMING_CONVENTION</h4><blockquote>
+<p>Methods should be verbs, in mixed case with the first letter lowercase, with the first letter of each internal word capitalized.<br>方法名开头要小写。</p>
+</blockquote>
 
           
         
