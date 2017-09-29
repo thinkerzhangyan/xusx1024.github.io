@@ -370,3 +370,6 @@ AmsTask中有一个public的Response的引用。
 - convertErrorToException
 - newChooseAccountIntent：提供给用户一个可选账户的列表
 
+#### DEMO ####
+
+[AccountManagerDemo](https://github.com/xusx1024/AccountManagerDemo)
