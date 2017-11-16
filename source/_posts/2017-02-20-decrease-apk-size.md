@@ -2,7 +2,7 @@
 layout: post
 title:  APK瘦身
 date:   2017-02-20
-categories: Android Advance
+categories: Android 
 tag: android
 ---
  

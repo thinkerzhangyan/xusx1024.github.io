@@ -2,7 +2,7 @@
 title: android - 消除非受检的警告
 date: 2017-07-14
 tags: android
-categories: Android Advance
+categories: Android 
 ---
 
 #### using setjavascriptenabled can introduce xss vulnerabilities into your application ####

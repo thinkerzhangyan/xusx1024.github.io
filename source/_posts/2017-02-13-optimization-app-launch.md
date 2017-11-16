@@ -2,7 +2,7 @@
 layout: post
 title:  Android app 启动优化
 date:   2017-02-13
-categories: Android Advance
+categories: Android 
 tag: android
 ---
  

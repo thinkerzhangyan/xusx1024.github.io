@@ -2,7 +2,7 @@
 layout: post
 title:  Gpu呈现模式分析
 date:   2017-02-09
-categories: Android Advance
+categories: Android 
 tag: android
 ---
  

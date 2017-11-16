@@ -2,7 +2,7 @@
 title: Raspbarry first
 date: 2017-08-17
 tags: raspbarry
-categories: Raspbarry & DuerOS
+categories: Others
 ---
 
 想要利用树莓派+DuerOS做一个可以人机交互的家用终端。

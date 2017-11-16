@@ -2,7 +2,7 @@
 title: AndroidManifest.xml中的uses-feature标签
 date: 2017-07-03
 tags: android
-categories: Android Advance
+categories: Android 
 ---
 
 #### 引子 ####

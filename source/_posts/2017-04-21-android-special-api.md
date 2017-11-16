@@ -2,7 +2,7 @@
 layout: post
 title:  Android开发中特别的api
 date:   2017-04-21
-categories: Android Advance
+categories: Android 
 tag: android
 ---
  

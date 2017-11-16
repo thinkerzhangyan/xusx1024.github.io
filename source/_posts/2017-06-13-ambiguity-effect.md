@@ -2,7 +2,7 @@
 title: 认知偏差之决策、信念与行为偏误
 date: 2017-06-13 
 tags: cognition
-categories: Psychology
+categories: Others
 ---
 
 #### 不明确性效应 ####
