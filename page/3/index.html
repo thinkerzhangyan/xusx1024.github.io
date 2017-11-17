@@ -267,6 +267,223 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/19/design-patterns-template-method/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/19/design-patterns-template-method/" itemprop="url">模版方法模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-19T00:00:00Z">
+                2017-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>模版方法模式：定义一个操作中算法的框架，而将一些步骤延迟到子类中。模版方法模式使得子类可以不改变一个算法的结构即可重定义该算法的某些特定步骤。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li>Abstract Template(抽象模版)：定义一个或多个抽象操作，以便让子类实现，这些抽象操作叫做基本操作，这是一个顶级逻辑的组成步骤。定义并实现一个模版方法，这个模版方法一般是一个具体方法，它给出了一个顶级逻辑的骨架，而逻辑的组成步骤在相应的抽象操作中，推迟到子类实现。顶级逻辑也有可能调用一些具体方法。</li>
+<li>Concrete Template(具体模版)：实现父类定义的一个或多个抽象方法，可以有多个具体模版，同事可以有不同的实现，从而使顶级逻辑的实现各不相同。</li>
+</ul>
+<p><img src="/images/template_method_pattern_class_diagram.png" alt="类图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>package TemplateMethodPattern;
+
+/**
+ * 抽象模版
+ * @author sxx.xu
+ *
+ */
+public abstract class AbstractTemplate {
+
+    /**
+     * 模版方法
+     */
+    public void templateMethod(){
+        abstractMethod();
+        hookMethod();
+        concreteMethod();
+    }
+
+    /**
+     * 子类必须实现
+     */
+    protected abstract void abstractMethod();
+    /**
+     * 钩子方法，子类可以实现
+     */
+    protected void hookMethod(){}
+    /**
+     * 子类不必关心
+     */
+    private final void concreteMethod(){
+
+    }
+}
+</code></pre><hr>
+<pre><code>package TemplateMethodPattern;
+/**
+ * 具体模版
+ * @author sxx.xu
+ *
+ */
+public class ConcreteTemplate extends AbstractTemplate {
+
+    @Override
+    protected void abstractMethod() {
+
+
+    }
+
+    /**
+     * 具体模版可选择实现
+     */
+    @Override
+    protected void hookMethod() {
+        super.hookMethod();
+    }
+}
+</code></pre><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>该模式的方法可以分为两大类：模版方法和基本方法。</p>
+<h5 id="模版方法"><a href="#模版方法" class="headerlink" title="模版方法"></a>模版方法</h5><ul>
+<li>定义在抽象类中，把基本操作方法组合在一起形成一个总算放或一个总行为的方法</li>
+<li>可以有多个模版方法，每个模版方法都可以调用任意多个基本方法</li>
+</ul>
+<h5 id="基本方法"><a href="#基本方法" class="headerlink" title="基本方法"></a>基本方法</h5><ul>
+<li>抽象方法：由抽象类声明，具体子类实现</li>
+<li>具体方法：抽象类声明并实现，子类并不实现或置换</li>
+<li>钩子方法：由抽象类声明并实现，子类可以扩展:<ul>
+<li>通常该方法在抽象类中为空实现作为默认实现，叫做“Do Nothing Hook”</li>
+<li>命名应当以do开始，Java中。例如在HttpServlet类中，doGet(),doPost()</li>
+</ul>
+</li>
+</ul>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
+<li>父类形式化定义一个算法，而由它的子类来实现细节，子类在实现详细的处理算法时并不会改变算法中步骤的执行次序</li>
+<li>一种代码复用技术，鼓励我们恰当使用继承来实现代码复用</li>
+<li>可以实现一种反向控制结构，通过子类覆盖父类的钩子方法来决定某一特定步骤是否需要执行</li>
+</ul>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
+<li>如果父类中可变的基本方法过多，系统庞大，设计抽象，此时，可以配合桥接模式来进行设计。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/16/design-patterns-memento/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -600,173 +817,6 @@ public class MementoCaretaker3 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/design-patterns-command/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/14/design-patterns-command/" itemprop="url">命令模式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T00:00:00Z">
-                2017-06-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>命令模式(Command Pattern):将一个请求封装为一个对象，从而使我们可用不同的请求对客户进行参数化；对请求排队或者记录请求日志，以及支持可撤销的操作。命令模式是一种对象行为型模式，又叫做动作(Action)模式或事务(Transaction)模式。</p>
-<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
-<li>client：创建具体的命令和接收者</li>
-<li>command：命令的抽象类</li>
-<li>ConcreteCommand：具体的命令，定义接收者和行为之间的弱耦合</li>
-<li>Invoker：负责调用命令对象，执行请求</li>
-<li>receiver：处理请求，任何一个类都可以成为接收者</li>
-</ul>
-<p><img src="/images/command_pattern_class_diagram.png" alt="类图"></p>
-<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/command_pattern_sequence_diagram.png" alt="时序图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/CommandPattern" target="_blank" rel="external">GitHub</a></p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>使用频率非常高的设计模式，它可以将请求发送者与接收者解耦，请求发送者通过命令对象来间接引用请求接收者，使得系统具有更换的灵活性和可扩展性。</p>
-<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
-<li>新的命令可以很容易地添加</li>
-<li>比较容易地设计一个命令队列或宏命令</li>
-<li>为请求的撤销和恢复操作提供了一种设计和实现方案</li>
-</ul>
-<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
-<li>可能会导致某些系统有过多的具体命令类。</li>
-</ul>
-<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><ul>
-<li>系统需要在不同的时间指定请求、将请求排队和执行请求。一个命令对象和请求的初始调用者可以有不同的生命期，换言之，最初的请求发出者可能已经不在了，而命令对象本身仍然是活动的，可以通过该命令对象去调用请求接收者，无须关心请求调用者的存在性，可以通过请求日志文件等机制来具体实现。</li>
-<li>系统需要支持命令的撤销和恢复操作</li>
-<li>系统需要将一组操作组合在一起形成宏命令</li>
-</ul>
-<h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><ul>
-<li>电视遥控器</li>
-<li>宏命令</li>
-<li>收音机</li>
-</ul>
-<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><ul>
-<li>基于敏捷开发的原则，我们在设计程序的时候，如果按照目前的需求，不使用某种模式也能很好地解决，那么我们就不要引入它，因为要引入一种设计模式并不困难，我们大可以在真正需要用到的时候再对系统进行一下，引入这个设计模式。</li>
-<li>在实际操作中，可省略接收者角色，让命令对象直接实现请求而不是将工作委托给接收者。</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/jsp-study-tips/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -955,7 +1005,7 @@ public class MementoCaretaker3 {
 <li>extends：让jsp生成的servlet去继承该属性指定的类</li>
 </ul>
 <h5 id="include"><a href="#include" class="headerlink" title="include"></a>include</h5><ul>
-<li><a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#x25;&#x40;&#105;&#110;&#x63;&#108;&#117;&#100;&#101;&#x25;">&#x25;&#x40;&#105;&#110;&#x63;&#108;&#117;&#100;&#101;&#x25;</a> 在jsp编译成java文件时完成，他们共同生成一个java文件，然后再生成一个class</li>
+<li><a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#58;&#37;&#64;&#105;&#x6e;&#x63;&#x6c;&#117;&#x64;&#x65;&#x25;">&#37;&#64;&#105;&#x6e;&#x63;&#x6c;&#117;&#x64;&#x65;&#x25;</a> 在jsp编译成java文件时完成，他们共同生成一个java文件，然后再生成一个class</li>
 <li>RequestDispatcher的include是一个方法，包含和被包含是两个文件</li>
 </ul>
 <h5 id="taglib"><a href="#taglib" class="headerlink" title="taglib"></a>taglib</h5><ul>
@@ -1030,6 +1080,173 @@ public class MementoCaretaker3 {
 <li>在jsp页面中导入标签库</li>
 <li>在jsp中使用</li>
 <li></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/design-patterns-command/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/14/design-patterns-command/" itemprop="url">命令模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T00:00:00Z">
+                2017-06-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>命令模式(Command Pattern):将一个请求封装为一个对象，从而使我们可用不同的请求对客户进行参数化；对请求排队或者记录请求日志，以及支持可撤销的操作。命令模式是一种对象行为型模式，又叫做动作(Action)模式或事务(Transaction)模式。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li>client：创建具体的命令和接收者</li>
+<li>command：命令的抽象类</li>
+<li>ConcreteCommand：具体的命令，定义接收者和行为之间的弱耦合</li>
+<li>Invoker：负责调用命令对象，执行请求</li>
+<li>receiver：处理请求，任何一个类都可以成为接收者</li>
+</ul>
+<p><img src="/images/command_pattern_class_diagram.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/command_pattern_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/CommandPattern" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>使用频率非常高的设计模式，它可以将请求发送者与接收者解耦，请求发送者通过命令对象来间接引用请求接收者，使得系统具有更换的灵活性和可扩展性。</p>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
+<li>新的命令可以很容易地添加</li>
+<li>比较容易地设计一个命令队列或宏命令</li>
+<li>为请求的撤销和恢复操作提供了一种设计和实现方案</li>
+</ul>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
+<li>可能会导致某些系统有过多的具体命令类。</li>
+</ul>
+<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><ul>
+<li>系统需要在不同的时间指定请求、将请求排队和执行请求。一个命令对象和请求的初始调用者可以有不同的生命期，换言之，最初的请求发出者可能已经不在了，而命令对象本身仍然是活动的，可以通过该命令对象去调用请求接收者，无须关心请求调用者的存在性，可以通过请求日志文件等机制来具体实现。</li>
+<li>系统需要支持命令的撤销和恢复操作</li>
+<li>系统需要将一组操作组合在一起形成宏命令</li>
+</ul>
+<h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><ul>
+<li>电视遥控器</li>
+<li>宏命令</li>
+<li>收音机</li>
+</ul>
+<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><ul>
+<li>基于敏捷开发的原则，我们在设计程序的时候，如果按照目前的需求，不使用某种模式也能很好地解决，那么我们就不要引入它，因为要引入一种设计模式并不困难，我们大可以在真正需要用到的时候再对系统进行一下，引入这个设计模式。</li>
+<li>在实际操作中，可省略接收者角色，让命令对象直接实现请求而不是将工作委托给接收者。</li>
 </ul>
 
           
@@ -1868,188 +2085,6 @@ public class MementoCaretaker3 {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/08/android-ipc-messenger-tips/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/08/android-ipc-messenger-tips/" itemprop="url">使用Messenger进行进程间通信注意事项</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-08T15:49:35Z">
-                2017-06-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h4><p><img src="/images/auth_sequence_diagram.png" alt="需求示意图"></p>
-<p>看时序图比较简单，进程间通信，把APPID传过去，把授权码带回来<br>本来懒得费事，一个<code>startActivityForResult</code>即可结束战斗<br>后来发现，我的SDK里没有UI，也就没有处理<code>onActivityResult</code>的地方了，我想过开启一个no ui的Activity，后来还是不要这么简单粗暴了。</p>
-<h4 id="Messenger的使用"><a href="#Messenger的使用" class="headerlink" title="Messenger的使用"></a>Messenger的使用</h4><p>此处不是我想略，网上教程很多，看个比较完善简单的：<a href="http://blog.csdn.net/lmj623565791/article/details/47017485" target="_blank" rel="external">Android 基于Message的进程间通信 Messenger完全解析</a><br>代码有些地方不适合新的Android版本，但是也够用了。</p>
-<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><h5 id="需求问题解决"><a href="#需求问题解决" class="headerlink" title="需求问题解决"></a>需求问题解决</h5><p>SDK发送至目标app的一个远程服务，该服务启动授权activity，获取code后，也绑定式启动该服务，找到SDK的信使，把code回传。<br>其中，通信双方其实是SDK和授权页，远程服务在授权app中，起到一个中间桥梁的作用。<br>kotlin代码如下：</p>
-<pre><code>var remoteMsg: Messenger? = null//全局变量，用于保存SDK端的信使，等待授权页的结果回来后，使用其发送msg
-private val mMessenger = Messenger(object : Handler() {
-    override fun handleMessage(msgfromClient: Message) {
-        val msgToClient = Message.obtain(msgfromClient)//返回给客户端的消息
-        try {
-            when (msgfromClient.what) {
-                REMOTE_CLIENT -&gt; {//远程访问-SDK
-                    remoteMsg = msgfromClient.replyTo
-                    var intent: Intent = Intent()
-                    val bundle: Bundle = msgfromClient.obj as Bundle
-                    val appID: String = bundle.get(&quot;APPID&quot;) as String
-
-                    //开启授权页Activity
-                    intent.setClass(this@AuthMessengerService, AuthActivity::class.java)
-                    intent.putExtra(&quot;appID&quot;, appID)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                }
-                LOCAL_CLIENT -&gt; {//本地访问-授权页
-                    val bundle: Bundle = msgfromClient.obj as Bundle
-                    msgToClient.obj = bundle//拿到授权页信使带来的code
-                    remoteMsg!!.send(msgToClient)//使用SDK端的信使发送，即发送给SDK端
-                }
-            }
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        } catch (e: RemoteException) {
-            e.printStackTrace()
-        }
-
-        super.handleMessage(msgfromClient)
-    }
-})
-</code></pre><p>根据代码，可以看到SDK和service是双向通信，授权页和service是单向通信。因此授权页通信完成后立刻unbind即可。</p>
-<h5 id="单向双向"><a href="#单向双向" class="headerlink" title="单向双向"></a>单向双向</h5><pre><code>msgFromLocalClient.replyTo = mMessenger//单向通信,不需要回传信使
-</code></pre><p>这句话决定了是否需要信使带回结果，如果需要，在mMessenger 里处理。在示例blog中类似代码可以参考。</p>
-<h5 id="多向通信"><a href="#多向通信" class="headerlink" title="多向通信"></a>多向通信</h5><p>在这个里<a href="https://developer.android.com/reference/android/app/Service.html#RemoteMessengerServiceSample" target="_blank" rel="external">Remote Messenger Service Sample</a>可以看到多个客户端互相通信的官方示例。<br>官方示例应该只适应于多对一，如果多对多的话，自个儿实现AIDL比较靠谱。</p>
-<h5 id="隐式启动service"><a href="#隐式启动service" class="headerlink" title="隐式启动service"></a>隐式启动service</h5><p> 5.0之后需要：</p>
-<pre><code>Intent intent = new Intent();
-intent.setAction(action);
-intent.setPackage(pkgName);
-context.bindService(intent, mConn, Context.BIND_AUTO_CREATE);
-</code></pre><h5 id="魅族手机无法启动"><a href="#魅族手机无法启动" class="headerlink" title="魅族手机无法启动"></a>魅族手机无法启动</h5><p>设置app权限，允许后台运行即可。话说这手机牌子坑爹。</p>
-<h5 id="Can’t-marshal-non-Parcelable-objects-across-processes"><a href="#Can’t-marshal-non-Parcelable-objects-across-processes" class="headerlink" title="Can’t marshal non-Parcelable objects across processes"></a>Can’t marshal non-Parcelable objects across processes</h5><p>msg里没几个参数，如果要传的东西多，就放入Bundle里面，然后赋值给msg.obj。或者你的自定义对象是Parcelable的也可以直接放入msg.obj。</p>
-<h5 id="MainActivity-has-leaked-ServiceConnection"><a href="#MainActivity-has-leaked-ServiceConnection" class="headerlink" title="MainActivity has leaked ServiceConnection"></a>MainActivity has leaked ServiceConnection</h5><p>页面关闭时，记得unbind</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2099,7 +2134,7 @@ context.bindService(intent, mConn, Context.BIND_AUTO_CREATE);
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">85</span>
+                <span class="site-state-item-count">86</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

@@ -267,6 +267,163 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/18/android-system-service-CaptioningManager/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/05/18/android-system-service-CaptioningManager/" itemprop="url">Android系统服务：CaptioningManager</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-18T00:00:00Z">
+                2017-05-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-System-Framework/" itemprop="url" rel="index">
+                    <span itemprop="name">Android System Framework</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="CaptioningManager是什么"><a href="#CaptioningManager是什么" class="headerlink" title="CaptioningManager是什么"></a>CaptioningManager是什么</h4><ul>
+<li>看名字：字幕管理</li>
+<li><a href="http://informationaccessibilityassociation.github.io/androidAccessibility/checklist.htm" target="_blank" rel="external">Android开发无障碍指南</a>:<blockquote>
+<p>如果应用程序提供视频播放，必须为聋人和重听用户提供字幕和注释来帮助他们理解。视频播放控件必须明确说明字幕是否可用，并提供简单的方式启用字幕。</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="设备如何设置"><a href="#设备如何设置" class="headerlink" title="设备如何设置"></a>设备如何设置</h4><p><a href="https://support.google.com/accessibility/android/answer/6006554" target="_blank" rel="external">google 官方说明</a></p>
+<p> <strong>字幕</strong> </p>
+<p>您可以为设备开启字幕功能以及为字幕选择所需选项（语言、文字和样式）。</p>
+<p>开启字幕功能<br><br>打开设备的“设置”应用<br><br>点按<code>无障碍</code>，然后点按<code>字幕</code><br><br>点按顶部的<code>开启/关闭</code>开关<br><br><br><br><strong>更改字幕设置</strong><br><br>开启字幕功能后，您可以在<code>设置</code> &gt; <code>无障碍</code> &gt; <code>字幕</code>中调整以下设置。<br></p>
+<ul>
+<li>语言：选择您想要以何种语言显示字幕 </li>
+<li>文字大小：选择字幕文字大小 </li>
+<li>字幕样式：为字幕文字和背景选择样式和颜色<br><br></li>
+</ul>
+<p>您的字幕设置可能不适用于某些应用。<br></p>
+<h4 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h4><p><a href="https://developer.android.google.cn/about/versions/android-4.4.html?hl=zh-cn" target="_blank" rel="external">简介</a></p>
+<p>官方文档称之为：隐藏式字幕。4.4版本释出。<br></p>
+<p>现在播放HTTP Live Steam(HLS)视频时，<code>VideoView</code>支持<code>WebVTT</code>字幕跟踪，根据用户在系统设置中定义的隐藏式字幕首选项显示字幕跟踪。<br><br>您也可以使用<code>addSubtitleSource()</code>方法为<code>VideoView</code>提供<code>WebVTT</code>字幕跟踪。此方法接受一个<code>InputStream</code>,其携带字幕数据和指定该字幕数据格式的<code>MediaFormat</code>对象，您可以使用<code>createSubtitleFormat()</code>指定该对象。这些字幕也会按照用户的首选项显示在视频上。<br><br>如果您不使用<code>VideoView</code>显示您的视频内容，则应尽可能使您的字幕叠加层与用户的隐藏式字幕首选项匹配。新的<code>CaptioningManager API</code>允许您查询用户的隐藏式字幕首选项，包括<code>CaptioningManager.CaptionStyle</code>定义的样式，如字体和颜色。如果用户在视频已开始后调整部分首选项，您应侦听首选项的变化，方法是注册一个<code>CaptioningManager.CaptioningChangeListener</code>实例以在任意首选项发生变化时接收回调，然后根据需要更新您的字幕。<br></p>
+<p><a href="https://dev.opera.com/articles/zh-cn/an-introduction-to-webvtt-and-track/" target="_blank" rel="external">WebVTT 及 HTML5 <track> 元素简介</a><br><br><a href="https://www.zhihu.com/question/29789259" target="_blank" rel="external">WebVTT与srt格式转换</a></p>
+<h4 id="题外话：视频弹幕"><a href="#题外话：视频弹幕" class="headerlink" title="题外话：视频弹幕"></a>题外话：视频弹幕</h4><p><a href="http://blog.csdn.net/zhangphil/article/details/52021055" target="_blank" rel="external">基础原理</a><br></p>
+<p><a href="https://github.com/linsea/OpenDanmaku/blob/master/opendanmaku/src/main/java/com/opendanmaku/DanmakuItem.java" target="_blank" rel="external">简单封装</a><br></p>
+<p><a href="https://github.com/Bilibili/DanmakuFlameMaster" target="_blank" rel="external">成熟的B站</a><br></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/17/javaee-tips/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2616,158 +2773,6 @@ public class RadixSort {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/07/git-command/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/04/07/git-command/" itemprop="url">Git使用笔记</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-07T00:00:00Z">
-                2017-04-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Others/" itemprop="url" rel="index">
-                    <span itemprop="name">Others</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="git管理github"><a href="#git管理github" class="headerlink" title="git管理github"></a>git管理github</h4><p>1，需要有Githb账号，然后新建仓库，此时保留SSH，长这样：<code>git@github.com:xusx1024/codewars.git</code></p>
-<p>2，pc端安装git工具，<code>git --info-path</code>打印git所在路径；创建本地仓库；</p>
-<p>3，在本地文件中，右键点击 Git Bash Here，进入git命令行</p>
-<p>4，全局配置 <br><br>    <code>git config --global username &quot;此处定义你的名字&quot;</code><br><br>    <code>git config --global useremail xxxxxxx@gmail.com</code></p>
-<p>5，初始化本地仓库：<br>    <code>git init</code></p>
-<p>6，创建readme，并上传：<br><br>    <code>git add readme.txt</code><br><br>    <code>git commint -m &quot;upload readme&quot;</code><br></p>
-<p>7，生成SSH key，用来和Github连接：<br>    <code>ssh-keygen -C &#39;这里填你刚才配置的email地址&#39; -t rsa</code>然后一路点击enter，最后，得到usr/.ssh中的SSH key</p>
-<p>8，把SSH key配置到 GitHub中<br>    在用户名上，<code>setting -  SSH and GPG keys</code></p>
-<p>9，用到 第一步的那个串了<br><br>    <code>git remote add origin git@github.com:xusx1024/codewars.git</code><br><br>    <code>git push origin master</code><br></p>
-<p>10，以后如果添加的话：<br><br>    <code>git add sth</code><br><br>    <code>git commint -m &quot;文件说明&quot;</code><br><br>    <code>git push origin master</code><br></p>
-<p>11.<code>git add -A .</code><br>添加所有文件，注意后面有个点。</p>
-<p>12.<br><code>git pull</code>  抓取远程仓库所有分支更新并合并到本地</p>
-<p>13.<code>git config -l</code> 查看git的配置信息</p>
-<h4 id="git-提交空目录"><a href="#git-提交空目录" class="headerlink" title="git 提交空目录"></a>git 提交空目录</h4><p>git与svn不同，git只跟踪文件的变化，不跟踪目录，如果想要提交一个空目录，我们可以在该目录添加一个文件，命名为.gitignore，这是一个变通的方法。</p>
-<h4 id="git-克隆分支"><a href="#git-克隆分支" class="headerlink" title="git 克隆分支"></a>git 克隆分支</h4><p>多个分支的仓库，使用git clone的方法，只能把HEAD复制下来，如果有多个分支，可以考虑使用：</p>
-<p><code>git branch -r</code>来查看各个分支</p>
-<p><code>git checkout xxx</code>来clone指定的分支</p>
-<h4 id="filename-too-long"><a href="#filename-too-long" class="headerlink" title="filename too long"></a>filename too long</h4><p>文件夹的层级过多，导致在clone的时候，出现该提示，可以考虑使用：</p>
-<p><code>git config --system core.longpaths true</code></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2817,7 +2822,7 @@ public class RadixSort {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">85</span>
+                <span class="site-state-item-count">86</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
