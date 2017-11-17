@@ -97,7 +97,7 @@
 <meta name="keywords" content="android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 内存泄露">
-<meta property="og:url" content="http://yoursite.com/2017/11/09/android-processes-appLifeCycle/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/11/09/android-memory-leak/index.html">
 <meta property="og:site_name" content="行次">
 <meta property="og:description" content="什么是内存泄露jvm会根据可达性算法,计算每个对象是否可被回收,如果有对象被持有引用,即可达,并且该对象已经无用.此时对象不可被回收但是占用内存的这种状态成为内存泄露.如果内存泄露情况比较多,很有可能引起OOM异常. 原因 根源在android组件的生命周期和底层Java对象的生命周期不是直接匹配的 一个应用程序的启动分为三步: 复刻受精卵进程 系统为该进程添加运行时执行环境 运行时执行环境加载可">
 <meta property="og:updated_time" content="2017-11-16T09:27:41.994Z">
@@ -131,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/11/09/android-processes-appLifeCycle/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/11/09/android-memory-leak/"/>
 
 
 
@@ -267,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/09/android-processes-appLifeCycle/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/09/android-memory-leak/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -296,7 +296,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-09T00:00:00Z">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-09T08:00:00+08:00">
                 2017-11-09
               </time>
             
@@ -440,6 +440,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/11/17/android-zygote/" rel="prev" title="Zygote">
+                Zygote <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -510,7 +514,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">85</span>
+                <span class="site-state-item-count">86</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

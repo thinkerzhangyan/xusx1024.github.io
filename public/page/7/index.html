@@ -560,6 +560,144 @@ public class BuilderPatternDemo {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/design-patterns-builder-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/03/design-patterns-builder-2/" itemprop="url">建造者设计模式(二) Android中的应用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-03T00:00:00Z">
+                2017-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="AlertDialog-Builder"><a href="#AlertDialog-Builder" class="headerlink" title="AlertDialog.Builder"></a>AlertDialog.Builder</h4><p>如何应用窗口主题，各种参数合法性检查，上下文切换，窗口创建内部流程，我们都略过，只看其参数的构建即可。<br><br>那么AlertDialog中的参数，如何传递？<br></p>
+<p>AlertDialog 中有一个AlertController的实例。<br><br>AlertController中有个AlertParams的静态类。<br><br>在AlertDialog中有一个静态类Builder，该Builder中持有AlertParams的一个实例。<br><br>Builder中的方法都把属性传入了AlertParams。<br><br>在Builder的create()方法，调用了AlertParams的applay，把参数传回了AlertController中。而AlertController的实例被AlertDialog持有。<br></p>
+<p>示意图如下：</p>
+<p><img src="/images/alertDialog.png" alt="示例图"></p>
+<h4 id="Uri-Builder"><a href="#Uri-Builder" class="headerlink" title="Uri.Builder"></a>Uri.Builder</h4><p>Uri.Builder;<br>Notification.Builder;<br>ContentProviderOperation.Builder;</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/02/android-system-service-window-manager/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2974,274 +3112,6 @@ public class MaxTree {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/hanoi-problom/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/16/hanoi-problom/" itemprop="url">用栈来求解汉诺塔的问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-16T00:00:00Z">
-                2017-02-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="用栈来求解汉诺塔问题"><a href="#用栈来求解汉诺塔问题" class="headerlink" title="用栈来求解汉诺塔问题"></a>用栈来求解汉诺塔问题</h5><pre><code>汉诺塔问题比较经典，这里修改一下游戏规则：现在限制不能从最左侧的塔直接移动到最右侧，也不能从最右侧直接移动到最左侧，而是必须经过中间。求当塔有N层的时候，打印最优移动过程和最优移动总步数。
-
-例如，当塔数为两层时，最上层的塔记为1，最下层的塔记为2，则打印：
-
-Move 1 from left to mid
-Move 1 from mid to right
-Move 2 from left to mid
-Move 1 from right to mid
-Move 1 from mid to left
-Move 2 from mid to right
-Move 1 from left to mid
-Move 1 from mid to right
-</code></pre><p>用以下两种方法解决</p>
-<ul>
-<li>方法一：递归的方法</li>
-<li>方法二：非递归的方法，用栈来模拟汉诺塔的三个塔</li>
-</ul>
-<h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>校 ★★★☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><h5 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h5><pre><code>/**
- * 递归的方法： 首先，如果只剩最上层(递归的终止条件)的塔需要移动，则有如下处理： 
- * 1.如果希望从“左”移到“中”，打印“Move 1 from left to mid” 
- * 2.如果希望从“中”移到“右”，打印“Move 1 from mid to right” 
- * 3.如果希望从“右”移到“中”，打印“Move 1 from right to mid” 
- * 4.如果希望从“中”移到“左”，打印“Move 1 from mind to left”
- * 5.如果希望从“右”移到“左”，打印“Move 1 from right to mid” 和 “Move 1 from mind to left”
- * 6.如果希望从“左”移到“右”，打印“Move 1 from left to mid” 和 “Move 1 from mid to right”
- * 
- */
-public class HanoiProblem {
-
-    public static void main(String[] args) {
-        System.out.println(process(7, &quot;left&quot;, &quot;mid&quot;, &quot;right&quot;, &quot;left&quot;, &quot;right&quot;));
-    }
-
-    public static int hanoiProblem1(int num, String left, String mid, String right) {
-        if (num &lt; 1)
-            return 0;
-
-        return process(num, left, mid, right, left, right);
-
-    }
-
-    public static int process(int num, String left, String mid, String right, String from, String to) {
-        if (num == 1) {
-            if (from.equals(mid) || to.equals(mid)) {
-                System.out.println(&quot;Move 1 from &quot; + from + &quot; to &quot; + to);
-                return 1;
-            } else {
-                System.out.println(&quot;Move 1 from &quot; + from + &quot; to &quot; + mid);
-                System.out.println(&quot;Move 1 from &quot; + mid + &quot; to &quot; + to);
-                return 1;
-            }
-        }
-        if (from.equals(mid) || to.equals(mid)) {
-            String another = (from.equals(left) || to.equals(left)) ? right : left;
-            int part1 = process(num, left, mid, right, from, another);
-            int part2 = 1;// what&apos;s this?
-            System.out.println(&quot;Move &quot; + num + &quot; from &quot; + from + &quot; to &quot; + to);
-            int part3 = process(num - 1, left, mid, right, another, to);
-            return part1 + part2 + part3;
-        } else {
-            int part1 = process(num - 1, left, mid, right, from, to);
-            int part2 = 1;
-            System.out.println(&quot;Move &quot; + num + &quot; from &quot; + from + &quot; to &quot; + mid);
-            int part3 = process(num - 1, left, mid, right, to, from);
-            int part4 = 1;
-            System.out.println(&quot;Move &quot; + num + &quot; from &quot; + mid + &quot; to &quot; + to);
-            int part5 = process(num - 1, left, mid, right, from, to);
-            return part1 + part2 + part3 + part4 + part5;
-        }
-    }
-}
-</code></pre><h5 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h5><pre><code>import java.util.Stack;
-
-/**
- * 非递归方法 —— 用栈来模拟整个过程 修改后的汉诺塔问题不能让任何塔从“左”直接移动到“右”，也不能从“右”直接移动到“左”，而是要经过
- * 中间。也就是说，实际动作只有4个：“左”到“中”、“中”到“左”、“中”到“右”、“右”到“中”。
- * 
- * 现在我们把左、中、右三个地点抽象成栈，依次记为LS,MS,RS。最初所有的塔都在LS上。
- * 那么如上4个动作就可以看作是：某一个栈(from)把栈顶元素弹出，然后压入另一个栈(to)，做为该栈的栈顶。
- * 
- * 第一原则：小压大的原则；每个栈的栈顶-栈底元素，从小到大。
- * 第二原则：相邻不可逆原则；比如L-&gt;M发生了，那么下一步一定不可为：M-&gt;L这样的操作，没意义。
- * 
- * 非递归方法结论： &lt;br/&gt;
- * 1.第一个动作一定是L-&gt;M；&lt;br/&gt;
- * 2.在走出最少步数过程中的任何时刻，四个动作中只有一个动作不违反小压大和相邻不可逆原则，另外三个动作一定都会违反。
- * 
- * @author sxx.xu
- *
- */
-public class HanoiProblem2 {
-
-    public static void main(String[] args) {
-        System.out.println(hanoi(4, &quot;L&quot;, &quot;M&quot;, &quot;R&quot;));
-    }
-    public static int hanoi(int num, String left, String mid, String right) {
-        Stack&lt;Integer&gt; lS = new Stack&lt;&gt;();
-        Stack&lt;Integer&gt; mS = new Stack&lt;&gt;();
-        Stack&lt;Integer&gt; rS = new Stack&lt;&gt;();
-        lS.push(Integer.MAX_VALUE);
-        mS.push(Integer.MAX_VALUE);
-        rS.push(Integer.MAX_VALUE);
-        for (int i = num; i &gt; 0; i--) {
-            lS.push(i);
-        }
-
-        Action[] record = { Action.No };
-        int step = 0;
-        while (rS.size() != num + 1) {
-            step += fStackToStack(record, Action.MToL, Action.LToM, lS, mS, left, mid);
-            step += fStackToStack(record, Action.LToM, Action.MToL, mS, lS, mid, left);
-            step += fStackToStack(record, Action.RToM, Action.MToR, mS, rS, mid, right);
-            step += fStackToStack(record, Action.MToR, Action.RToM, rS, mS, right, mid);
-        }
-        return step;
-    }
-
-    public static int fStackToStack(Action[] record, Action preNoAct, Action nowAct, Stack&lt;Integer&gt; fStack,
-            Stack&lt;Integer&gt; tStack, String from, String to) {
-        if (record[0] != preNoAct &amp;&amp; fStack.peek() &lt; tStack.peek()) {
-            tStack.push(fStack.pop());
-            System.out.println(&quot;Move &quot; + tStack.peek() + &quot; from &quot; + from + &quot; to &quot; + to);
-            record[0] = nowAct;
-            return 1;
-        }
-        return 0;
-    }
-
-}
-
-enum Action {
-    No, LToM, MToL, MToR, RToM
-
-} 
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -3291,7 +3161,7 @@ enum Action {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">85</span>
+                <span class="site-state-item-count">86</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
