@@ -267,6 +267,213 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/23/design-patterns-simple-factory/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/05/23/design-patterns-simple-factory/" itemprop="url">简单工厂模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-23T00:00:00Z">
+                2017-05-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><p> 简单工厂模式又称为静态工厂模式。根据不同的参数返回不同类的实例。简单工厂模式专门定义一个类来负责创建其他类的实例，被创建的实例通常具有共同的父类。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li><p><strong>Factory：工厂角色</strong><br><br>  工厂角色负责实现创建所有实例</p>
+</li>
+<li><p><strong>Product:抽象产品角色</strong><br><br>  抽象产品角色是所创建的所有对象的父类，负责描述所有实例所共有的公共接口</p>
+</li>
+<li><p><strong>ConcreteProduct:具体的产品角色</strong><br><br>  具体产品角色是创建目标，所有创建的对象都充当这个角色的某个具体类的实例。</p>
+</li>
+</ul>
+<p><img src="/images/simple_factory_class_diagram.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/simple_factory_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/SimpleFactory" target="_blank" rel="external">GitHub</a><br><br><br>抽象产品角色：</p>
+<pre><code>package SimpleFactory;
+
+public interface Product {
+    int TYPEA = 1;
+    int TYPEB = 2;
+
+    void use();
+}
+</code></pre><p>具体的产品角色：</p>
+<pre><code>package SimpleFactory;
+
+public class ConcreteProductA implements Product {
+    @Override
+    public void use() {
+        System.out.println(&quot;useing concrete product A!&quot;);
+    }
+}
+
+package SimpleFactory;
+
+public class ConcreteProductB implements Product {
+    @Override
+    public void use() {
+        System.out.println(&quot;useing concrete product B!&quot;);
+    }
+}
+</code></pre><p>工厂角色：</p>
+<pre><code>package SimpleFactory;
+
+public interface Product {
+    int TYPEA = 1;
+    int TYPEB = 2;
+
+    void use();
+}
+</code></pre><p>测试：</p>
+<pre><code>package SimpleFactory;
+
+import static org.junit.Assert.*;
+
+public class Test {
+    @org.junit.Test
+    public void test() throws Exception {
+        testing(Product.TYPEA);
+        testing(Product.TYPEB);
+        // testing(3);
+    }
+
+    public static void testing(int type) {
+        Product p = ProductFactory.getTypeAConcreteProduct(type);
+        assertNotEquals(p, null);
+        p.use();
+    }
+}
+</code></pre><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><ul>
+<li>创建对象和对象本身业务剥离，屏蔽创建对象的细节，降低耦合度，实现了责任的分割</li>
+<li>简单工厂为静态方法，调用起来方便</li>
+<li>工厂的职责过重，增加新的产品需要改变工厂的判断逻辑，违反了开闭原则，不利于扩展和维护</li>
+</ul>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li>工厂类负责创建的对象比较少</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/18/android-system-service-CaptioningManager/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1620,260 +1827,6 @@ public class DC3 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/11/counting-sort/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/04/11/counting-sort/" itemprop="url">非比较排序之计数排序</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-11T00:00:00Z">
-                2017-04-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><a href="https://zh.wikipedia.org/wiki/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F" target="_blank" rel="external">计数排序wiki</a> <br></p>
-<ul>
-<li>计数排序是用来排序0到100之间的数字的最好的算法</li>
-<li>计数排序可以用在基数排序中的算法来排序数据范围很大的数组</li>
-<li>计数排序是一种算法复杂度 O(n) 的排序方法，适合于小范围集合的排序</li>
-<li>计数排序的优势是对已知数量范围的数组进行排序</li>
-<li>基于比较的排序算法是不能突破O(NlogN)</li>
-</ul>
-<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><ol>
-<li>找出待排序的数组中最大和最小的元素</li>
-<li>统计数组中每个值为i的元素出现的次数，存入数组 C 的第 i 项</li>
-<li>对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）</li>
-<li>反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1</li>
-</ol>
-<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>具体的分步动画演示详见：<a href="http://www.cs.usfca.edu/~galles/visualization/CountingSort.html" target="_blank" rel="external">Data Structure Visualizations</a></p>
-<p><br><br>对于数据2 5 3 0 2 3 0 3程序执行的过程如下图所示：</p>
-<p><img src="/images/counting_sort_1.png" alt="示例图"><br><br><img src="/images/counting_sort_2.png" alt="示例图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>package CountingSort;
-
-/**
- * 计数排序
- * 
- * @author sxx.xu
- *
- */
-public class CountingSort {
-
-    private static void countingSort(int[] array) {
-        int min = array[0], max = array[0];
-        for (int i : array) {
-            if (i &lt; min)
-                min = i;
-            if (i &gt; max)
-                max = i;
-        }
-
-        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
-        int[] countArray = new int[max + 1];// 此处使用max+1太粗暴，见countingSort2
-        int[] countResult = new int[array.length];
-
-        for (int i : array) {
-            countArray[i]++;
-        }
-
-        for (int i = 1; i &lt; countArray.length; i++) {
-            countArray[i] += countArray[i - 1];
-        }
-
-        for (int i = array.length - 1; i &gt;= 0; i--) {
-            int elem = array[i];
-            int index = countArray[elem] - 1;
-            countResult[index] = elem;
-            System.out.println(&quot;当前元素为：&quot; + elem + &quot;;在排序数组中的位置是：&quot; + index);
-            countArray[elem]--;
-        }
-
-        for (int i : countResult) {
-            System.out.println(i);
-        }
-
-        // 桶排序
-        // int[][] resultArray = new int[countArray.length][countArray.length];
-        // for (int i = 0; i &lt; countArray.length; i++) {
-        // for (int j = 0; j &lt; countArray[i]; j++) {
-        // resultArray[i][j] = i;
-        // }
-        // }
-        //
-        // for (int i = 0; i &lt; resultArray.length; i++) {
-        // for (int j = 0; j &lt; resultArray[i].length; j++) {
-        // if (resultArray[i][j] != 0)
-        // System.out.println(resultArray[i][j]);// 这里直接输出，属于桶排序
-        // }
-        // }
-    }
-
-    /**
-     * 优化后的，减少中间数组大小
-     * @param array
-     */
-    private static void countingSort2(int[] array) {
-
-        int min = array[0], max = array[0];
-        for (int i : array) {
-            if (i &lt; min)
-                min = i;
-            if (i &gt; max)
-                max = i;
-        }
-
-        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
-        int[] countArray = new int[max - min + 1];
-        int[] countResult = new int[array.length];
-
-        for (int i : array) {
-            countArray[i - min]++;
-        }
-
-        for (int i = 1; i &lt; countArray.length; i++) {
-            countArray[i] += countArray[i - 1];
-        }
-
-        for (int i = array.length - 1; i &gt;= 0; i--) {
-            int elem = array[i] - min;
-            int index = countArray[array[i] - min] - 1;
-            countResult[index] = array[i];
-            countArray[elem]--;
-        }
-
-        for (int i : countResult) {
-            System.out.println(i);
-        }
-    }
-
-    public static void main(String[] args) {
-        int[] array = { 8, 2, 3, 4, 3, 6, 6, 3, 9 };
-        int[] array2 = { 2, 8, 5, 1, 10, 5, 9, 9, 3, 5, 6, 6, 2, 8, 2 };
-        countingSort(array);
-        countingSort2(array);
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/11/suffix-sort-baseon-prefix-doubleing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2242,7 +2195,7 @@ public class PrefixDoubling {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/bucket-sort/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/11/counting-sort/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -2261,7 +2214,7 @@ public class PrefixDoubling {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/04/10/bucket-sort/" itemprop="url">非比较排序之桶/箱排序</a></h1>
+                <a class="post-title-link" href="/2017/04/11/counting-sort/" itemprop="url">非比较排序之计数排序</a></h1>
         
 
         <div class="post-meta">
@@ -2273,8 +2226,8 @@ public class PrefixDoubling {
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-10T00:00:00Z">
-                2017-04-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-11T00:00:00Z">
+                2017-04-11
               </time>
             
 
@@ -2332,161 +2285,125 @@ public class PrefixDoubling {
       
         
           
-            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>探究Tinker的BSDiff算法的过程中，发现用到了<code>后缀排序</code>，就去研究后缀排序，然后发现用到<code>倍增算法</code>的思想。而倍增是排序的一种策略，这种策略要求必须对<a href="http://xusx1024.com/2017/04/10/radix-sort/" target="_blank" rel="external">基数排序</a>有一定的理解 T.T，而基数排序是<code>桶排序</code>的一种特例。<br></p>
-<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><blockquote>
-<p>简单暴力的来说，我们有一组数据，该组数据比如说是高数成绩，那么肯定有最大值，最小值，申请大小为100的桶数组，数组的下标即分数，数组的值代表相同分数的学生有几个。大概如图所示：</p>
-<p><img src="/images/buckets_sort.png" alt="示例图"></p>
-<p>当然，上述只能有一个大概印象和基本理解，如果想要实际使用或者分析问题，还得看正规军。</p>
-</blockquote>
-<p><br></p>
-<p>桶排序的思想近乎彻底的分治思想。假设现在需要对一亿个数进行排序。我们可以将其等分到10000个虚拟的桶里，平均每个桶只有10000个数。如果每个桶都有序了，则只需顺次输出桶里的有序序列即可。思路如下：<br></p>
-<ol>
-<li>将待排数据按一个映射函数f(x)分为连续的若干段。理论上最佳的分段方法应该使数据平均分布，实际上通常采用的方法都做不到这一点。显然，对于一个已知输入范围在[0,10000]的数组，最简单的分段莫过于x/m,例如f(x) = x/100.“连续的”这个条件非常重要，它是后面数据按顺序输出的理论保证。</li>
-<li>分配足够的桶，按照f(x)从数组起始处向后扫描，并把数据放到合适的桶中。对于上面的例子，如果数据有10000个，则我们需要分配101个桶（因为要考虑边界条件：f(x)=x/100会产生【0，100】共101种情况），理想情况下，每个桶有大约100个数据。</li>
-<li>对每个桶进行内部排序，例如，使用快速排序。注意，如果数据足够大，这里可以继续递归使用桶排序，直到数据大小降到合适的范围。</li>
-<li>按顺序从每个桶输出数据,排序完成。</li>
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><a href="https://zh.wikipedia.org/wiki/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F" target="_blank" rel="external">计数排序wiki</a> <br></p>
+<ul>
+<li>计数排序是用来排序0到100之间的数字的最好的算法</li>
+<li>计数排序可以用在基数排序中的算法来排序数据范围很大的数组</li>
+<li>计数排序是一种算法复杂度 O(n) 的排序方法，适合于小范围集合的排序</li>
+<li>计数排序的优势是对已知数量范围的数组进行排序</li>
+<li>基于比较的排序算法是不能突破O(NlogN)</li>
+</ul>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><ol>
+<li>找出待排序的数组中最大和最小的元素</li>
+<li>统计数组中每个值为i的元素出现的次数，存入数组 C 的第 i 项</li>
+<li>对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）</li>
+<li>反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1</li>
 </ol>
-<p><a href="http://www.cs.usfca.edu/~galles/visualization/BucketSort.html" target="_blank" rel="external">Data Structure Visualizations</a> 提供了一个桶排序的分步动画演示。</p>
-<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>设有数组 array = [29, 25, 3, 49, 9, 37, 21, 43]，那么数组中最大数为 49，先设置 5 个桶，那么每个桶可存放数的范围为：0~9、10~19、20~29、30~39、40~49，然后分别将这些数放人自己所属的桶，如下图：</p>
-<p><img src="/images/bucket-sort-1.png" alt="示例图"></p>
-<p>然后，分别对每个桶里面的数进行排序，或者在将数放入桶的同时用插入排序进行排序。最后，将各个桶中的数据有序的合并起来，如下图：</p>
-<p><img src="/images/bucket-sort-2.png" alt="示例图"></p>
-<h4 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h4><pre><code>package BuketsSort;
-
-import java.util.Arrays;
+<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>具体的分步动画演示详见：<a href="http://www.cs.usfca.edu/~galles/visualization/CountingSort.html" target="_blank" rel="external">Data Structure Visualizations</a></p>
+<p><br><br>对于数据2 5 3 0 2 3 0 3程序执行的过程如下图所示：</p>
+<p><img src="/images/counting_sort_1.png" alt="示例图"><br><br><img src="/images/counting_sort_2.png" alt="示例图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>package CountingSort;
 
 /**
- * 桶排序
+ * 计数排序
  * 
  * @author sxx.xu
  *
  */
-public class BuketsSort {
+public class CountingSort {
 
-    /*
-     * 桶排序
-     *
-     * 参数说明： a -- 待排序数组 max -- 数组a中最大值的范围
+    private static void countingSort(int[] array) {
+        int min = array[0], max = array[0];
+        for (int i : array) {
+            if (i &lt; min)
+                min = i;
+            if (i &gt; max)
+                max = i;
+        }
+
+        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
+        int[] countArray = new int[max + 1];// 此处使用max+1太粗暴，见countingSort2
+        int[] countResult = new int[array.length];
+
+        for (int i : array) {
+            countArray[i]++;
+        }
+
+        for (int i = 1; i &lt; countArray.length; i++) {
+            countArray[i] += countArray[i - 1];
+        }
+
+        for (int i = array.length - 1; i &gt;= 0; i--) {
+            int elem = array[i];
+            int index = countArray[elem] - 1;
+            countResult[index] = elem;
+            System.out.println(&quot;当前元素为：&quot; + elem + &quot;;在排序数组中的位置是：&quot; + index);
+            countArray[elem]--;
+        }
+
+        for (int i : countResult) {
+            System.out.println(i);
+        }
+
+        // 桶排序
+        // int[][] resultArray = new int[countArray.length][countArray.length];
+        // for (int i = 0; i &lt; countArray.length; i++) {
+        // for (int j = 0; j &lt; countArray[i]; j++) {
+        // resultArray[i][j] = i;
+        // }
+        // }
+        //
+        // for (int i = 0; i &lt; resultArray.length; i++) {
+        // for (int j = 0; j &lt; resultArray[i].length; j++) {
+        // if (resultArray[i][j] != 0)
+        // System.out.println(resultArray[i][j]);// 这里直接输出，属于桶排序
+        // }
+        // }
+    }
+
+    /**
+     * 优化后的，减少中间数组大小
+     * @param array
      */
-    public static void bucketSort(int[] a, int max) {
-        int[] buckets;
+    private static void countingSort2(int[] array) {
 
-        if (a == null || max &lt; 1)
-            return;
-
-        // 创建一个容量为max的数组buckets，并且将buckets中的所有数据都初始化为0。
-        buckets = new int[max];
-
-        // 1. 计数
-        for (int i = 0; i &lt; a.length; i++)
-            buckets[a[i]]++;
-
-        // 2. 排序
-        for (int i = 0, j = 0; i &lt; max; i++) {
-            while ((buckets[i]--) &gt; 0) {
-                a[j++] = i;
-            }
+        int min = array[0], max = array[0];
+        for (int i : array) {
+            if (i &lt; min)
+                min = i;
+            if (i &gt; max)
+                max = i;
         }
 
-        buckets = null;
-    }
+        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
+        int[] countArray = new int[max - min + 1];
+        int[] countResult = new int[array.length];
 
-    public static void bucketSort(int[] arr) {
-        // 分桶，这里采用映射函数f(x)=x/10。
-        // 输入数据为0~99之间的数字
-        int bucketCount = 10;
-        Integer[][] bucket = new Integer[bucketCount][arr.length]; // Integer初始为null,以与数字0区别。
-        for (int i = 0; i &lt; arr.length; i++) {
-            int quotient = arr[i] / 10; // 这里即是使用f(x)
-            for (int j = 0; j &lt; arr.length; j++) {
-                if (bucket[quotient][j] == null) {
-                    bucket[quotient][j] = arr[i];
-                    break;
-                }
-            }
+        for (int i : array) {
+            countArray[i - min]++;
         }
-        // 小桶排序
-        for (int i = 0; i &lt; bucket.length; i++) {
-            // insertion sort
-            for (int j = 1; j &lt; bucket[i].length; ++j) {
-                if (bucket[i][j] == null) {
-                    break;
-                }
-                int value = bucket[i][j];
-                int position = j;
-                while (position &gt; 0 &amp;&amp; bucket[i][position - 1] &gt; value) {
-                    bucket[i][position] = bucket[i][position - 1];
-                    position--;
-                }
-                bucket[i][position] = value;
-            }
 
+        for (int i = 1; i &lt; countArray.length; i++) {
+            countArray[i] += countArray[i - 1];
         }
-        // 输出
-        for (int i = 0, index = 0; i &lt; bucket.length; i++) {
-            for (int j = 0; j &lt; bucket[i].length; j++) {
-                if (bucket[i][j] != null) {
-                    arr[index] = bucket[i][j];
-                    index++;
-                } else {
-                    break;
-                }
-            }
+
+        for (int i = array.length - 1; i &gt;= 0; i--) {
+            int elem = array[i] - min;
+            int index = countArray[array[i] - min] - 1;
+            countResult[index] = array[i];
+            countArray[elem]--;
+        }
+
+        for (int i : countResult) {
+            System.out.println(i);
         }
     }
-
- public static void bucketSort2(int [] arr){  
-        //寻找数组中min，max，用于建桶  
-        int min = 0, max = 0;  
-        for(int i = 0; i &lt;= arr.length - 1; i++){  
-            if(arr[i] &lt; min){  
-                min = arr[i];  
-            }  
-            if(arr[i] &gt; max){  
-                max = arr[i];  
-            }  
-        }  
-        //开始建桶，注意桶的数量等于max - min + 1  
-        int bucketCount = max - min + 1;  
-        int[] bucket = new int[bucketCount];  
-        for(int i = 0; i &lt;= arr.length - 1; i++){  
-            bucket[arr[i] - min]++;  
-        }  
-        for(int i = 1; i &lt; bucketCount; i++){  
-            bucket[i] = bucket[i] + bucket[i - 1];  
-        }  
-        //开始排序  
-        int [] copy = new int[arr.length];  
-        System.arraycopy(arr, 0, copy, 0, arr.length);  
-
-        //从后往前排序，保持元素相对位置，保证算法稳定性。  
-        for(int i = arr.length - 1; i &gt;= 0; i--){  
-            arr[--bucket[copy[i] - min]] = copy[i];  
-        }  
-        //若从前往后排序，虽然排序结果相同，但会破坏元素相对位置和算法稳定性  
-//      for(int i = 0; i &lt;= arr.length - 1; i++){  
-//          arr[--bucket[copy[i] - min]] = copy[i];  
-//      }  
-    }  
-
 
     public static void main(String[] args) {
-        int i;
-        int a[] = { 8, 2, 3, 4, 3, 6, 6, 3, 9 };
-
-        System.out.printf(&quot;before sort:&quot;);
-        for (i = 0; i &lt; a.length; i++)
-            System.out.printf(&quot;%d &quot;, a[i]);
-        System.out.printf(&quot;\n&quot;);
-
-//        bucketSort(a, 10); // 桶排序
-//        bucketSort(a); // 桶排序
-        bucketSort2(a); // 桶排序
-
-        System.out.printf(&quot;after  sort:&quot;);
-        for (i = 0; i &lt; a.length; i++)
-            System.out.printf(&quot;%d &quot;, a[i]);
-        System.out.printf(&quot;\n&quot;);
+        int[] array = { 8, 2, 3, 4, 3, 6, 6, 3, 9 };
+        int[] array2 = { 2, 8, 5, 1, 10, 5, 9, 9, 3, 5, 6, 6, 2, 8, 2 };
+        countingSort(array);
+        countingSort2(array);
     }
 }
 </code></pre>
@@ -2822,7 +2739,7 @@ public class RadixSort {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">86</span>
+                <span class="site-state-item-count">87</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2844,7 +2761,7 @@ public class RadixSort {
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
