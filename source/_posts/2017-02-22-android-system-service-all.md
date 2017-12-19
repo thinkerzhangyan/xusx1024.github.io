@@ -70,7 +70,7 @@ Binder即支持IPC也支持RPC。
 | CAPTIONING_SERVICE | CaptioningManager | 弹幕、字幕管理[传送](http://xusx1024.com/2017/05/18/android-system-service-CaptioningManager/) |
 | ACCOUNT_SERVICE | AccountManager | 账户管理器[传送](http://xusx1024.com/2017/08/17/android-system-service-Account-Manager/) |
 | ACTIVITY_SERVICE | ActivityManager | 管理应用程序的系统状态[传送](http://xusx1024.com/2017/09/29/android-system-service-Activity-Manager/) |
-| ALARM_SERVICE | AlarmManager | 闹钟的服务 |
+| ALARM_SERVICE | AlarmManager | 闹钟的服务[传送](https://github.com/xusx1024/AndroidSystemServiceSample/tree/master/alarmmanagersample) |
 | AUDIO_SERVICE | AudioManager | 声音管理 |
 | MEDIA_ROUTER_SERVICE | MediaRouter | 扩展屏幕 |
 | BLUETOOTH_SERVICE | BluetoothManager | 蓝牙 |

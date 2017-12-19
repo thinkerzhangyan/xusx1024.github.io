@@ -511,6 +511,209 @@ public class MaxTree {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/get-max-window/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/16/get-max-window/" itemprop="url">生成窗口最大值数组</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-16T00:00:00Z">
+                2017-02-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="生成窗口最大值数组"><a href="#生成窗口最大值数组" class="headerlink" title="生成窗口最大值数组"></a>生成窗口最大值数组</h5><p>有一个整型数组arr和一个大小为w的窗口从数组的最左边滑倒最右边，窗口每次向右边滑一个位置。<br>例如，数组[4,3,5,4,3,3,6,7]，窗口大小为3时：</p>
+<blockquote>
+<p>[4 3 5] 4 3 3 6 7 窗口中最大值为5 <br><br>4 [3 5 4] 3 3 6 7 窗口中最大值为5 <br><br>4 3 [5 4 3] 3 6 7 窗口中最大值为5 <br><br>4 3 5 [4 3 3] 6 7 窗口中最大值为4 <br><br>4 3 5 4 [3 3 6] 7 窗口中最大值为6 <br><br>4 3 5 4 3 [3 6 7] 窗口中最大值为7 <br></p>
+<p>请实现一个函数：</p>
+<ul>
+<li>输入：整型数组arr，窗口大小为w</li>
+<li>输出：一个长度为n-w+1的数组res，res[i]表示每一种窗口状态下的最大值。</li>
+</ul>
+</blockquote>
+<p>以上例，结果应为：{5,5,5,4,6,7}.</p>
+<h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><h5 id="方法一-O-N-w"><a href="#方法一-O-N-w" class="headerlink" title="方法一:O(N * w)"></a>方法一:O(N * w)</h5><pre><code> public class Demo {
+
+    public static void main(String[] args) {
+        int[] arr = getMaxWindow(new int[] { 4, 3, 5, 4, 3, 3, 6, 7 }, 3);
+        for (int i = 0; i &lt; arr.length; i++) {
+            System.out.println(arr[i]);
+        }
+    }
+
+    public static int[] getMaxWindow(int[] arr, int w) {
+        int[] result = new int[arr.length - w + 1];
+        for (int i = 0; i &lt; arr.length - w + 1; i++) {
+            int x = arr[i];
+            for (int j = 0; j &lt; w; j++) {
+                if (arr[i + j] &gt;= x)
+                    x = arr[i + j];
+            }
+            result[i] = x;
+        }
+        return result;
+    }
+}
+</code></pre><h5 id="方法二-O-N"><a href="#方法二-O-N" class="headerlink" title="方法二:O(N)"></a>方法二:O(N)</h5><blockquote>
+<p>本题的关键在于利用双端队列来实现窗口最大值的更新。生成双端队列qmax存放数组arr中的下标。<br>放入规则：</p>
+<ol>
+<li>如果qmax为空，直接把下标i放入；</li>
+<li>如果qmax不为空，比较arr[i]和qmax队尾下标对应的数组元素，如果arr[i]比较大，则持续弹出qmax中的元素，直至arr[i]小于qmax下标对应的元素或者qmax符合第一条；</li>
+</ol>
+<p>弹出规则：<br>如果qmax对头的下标等于i-w，说明当前qmax队头的下标已过期，弹出队头。</p>
+<p>上述过程，每个下标最多进入qmax一次，出qmax一次，所以遍历的过程中进出双端队列的操作时间复杂度是O(n).</p>
+<p>注意，我们的目的数组的大小为：n-w+1，在arr的循环过程中，录入数据进入目的数组时，注意过滤其边界，否则<code>java.lang.ArrayIndexOutOfBoundsException</code>.</p>
+</blockquote>
+<pre><code>public static int[] getMaxWindow2(int[] arr, int w) {
+        int[] result = new int[arr.length - w + 1];
+        LinkedList&lt;Integer&gt; qmax = new LinkedList&lt;&gt;();
+        int index = 0;
+        for (int i = 0; i &lt; arr.length; i++) {
+
+            while (!qmax.isEmpty() &amp;&amp; arr[qmax.peekLast()] &lt;= arr[i]) {
+                qmax.pollLast();
+            }
+            qmax.addLast(i);
+            if (qmax.peekFirst() == i - w) {
+                qmax.pollFirst();
+            }
+            if (i &gt;= w - 1)
+                result[index++] = arr[qmax.peekFirst()];
+
+        }
+        return result;
+    }
+</code></pre><h6 id="双端队列的实现类"><a href="#双端队列的实现类" class="headerlink" title="双端队列的实现类"></a>双端队列的实现类</h6><pre><code>public class LinkedList&lt;E&gt; extends AbstractSequentialList&lt;E&gt;
+    implements List&lt;E&gt;, Deque&lt;E&gt;, Cloneable, java.io.Serializable
+
+
+
+public class ArrayDeque&lt;E&gt; extends AbstractCollection&lt;E&gt;
+                           implements Deque&lt;E&gt;, Cloneable, Serializable
+</code></pre><p><a href="http://shmilyaw-hotmail-com.iteye.com/blog/1700599" target="_blank" rel="external">java集合类深入分析之Queue篇</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/hanoi-problom/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -737,209 +940,6 @@ enum Action {
 
 } 
 </code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/get-max-window/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/16/get-max-window/" itemprop="url">生成窗口最大值数组</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-16T00:00:00Z">
-                2017-02-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="生成窗口最大值数组"><a href="#生成窗口最大值数组" class="headerlink" title="生成窗口最大值数组"></a>生成窗口最大值数组</h5><p>有一个整型数组arr和一个大小为w的窗口从数组的最左边滑倒最右边，窗口每次向右边滑一个位置。<br>例如，数组[4,3,5,4,3,3,6,7]，窗口大小为3时：</p>
-<blockquote>
-<p>[4 3 5] 4 3 3 6 7 窗口中最大值为5 <br><br>4 [3 5 4] 3 3 6 7 窗口中最大值为5 <br><br>4 3 [5 4 3] 3 6 7 窗口中最大值为5 <br><br>4 3 5 [4 3 3] 6 7 窗口中最大值为4 <br><br>4 3 5 4 [3 3 6] 7 窗口中最大值为6 <br><br>4 3 5 4 3 [3 6 7] 窗口中最大值为7 <br></p>
-<p>请实现一个函数：</p>
-<ul>
-<li>输入：整型数组arr，窗口大小为w</li>
-<li>输出：一个长度为n-w+1的数组res，res[i]表示每一种窗口状态下的最大值。</li>
-</ul>
-</blockquote>
-<p>以上例，结果应为：{5,5,5,4,6,7}.</p>
-<h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><h5 id="方法一-O-N-w"><a href="#方法一-O-N-w" class="headerlink" title="方法一:O(N * w)"></a>方法一:O(N * w)</h5><pre><code> public class Demo {
-
-    public static void main(String[] args) {
-        int[] arr = getMaxWindow(new int[] { 4, 3, 5, 4, 3, 3, 6, 7 }, 3);
-        for (int i = 0; i &lt; arr.length; i++) {
-            System.out.println(arr[i]);
-        }
-    }
-
-    public static int[] getMaxWindow(int[] arr, int w) {
-        int[] result = new int[arr.length - w + 1];
-        for (int i = 0; i &lt; arr.length - w + 1; i++) {
-            int x = arr[i];
-            for (int j = 0; j &lt; w; j++) {
-                if (arr[i + j] &gt;= x)
-                    x = arr[i + j];
-            }
-            result[i] = x;
-        }
-        return result;
-    }
-}
-</code></pre><h5 id="方法二-O-N"><a href="#方法二-O-N" class="headerlink" title="方法二:O(N)"></a>方法二:O(N)</h5><blockquote>
-<p>本题的关键在于利用双端队列来实现窗口最大值的更新。生成双端队列qmax存放数组arr中的下标。<br>放入规则：</p>
-<ol>
-<li>如果qmax为空，直接把下标i放入；</li>
-<li>如果qmax不为空，比较arr[i]和qmax队尾下标对应的数组元素，如果arr[i]比较大，则持续弹出qmax中的元素，直至arr[i]小于qmax下标对应的元素或者qmax符合第一条；</li>
-</ol>
-<p>弹出规则：<br>如果qmax对头的下标等于i-w，说明当前qmax队头的下标已过期，弹出队头。</p>
-<p>上述过程，每个下标最多进入qmax一次，出qmax一次，所以遍历的过程中进出双端队列的操作时间复杂度是O(n).</p>
-<p>注意，我们的目的数组的大小为：n-w+1，在arr的循环过程中，录入数据进入目的数组时，注意过滤其边界，否则<code>java.lang.ArrayIndexOutOfBoundsException</code>.</p>
-</blockquote>
-<pre><code>public static int[] getMaxWindow2(int[] arr, int w) {
-        int[] result = new int[arr.length - w + 1];
-        LinkedList&lt;Integer&gt; qmax = new LinkedList&lt;&gt;();
-        int index = 0;
-        for (int i = 0; i &lt; arr.length; i++) {
-
-            while (!qmax.isEmpty() &amp;&amp; arr[qmax.peekLast()] &lt;= arr[i]) {
-                qmax.pollLast();
-            }
-            qmax.addLast(i);
-            if (qmax.peekFirst() == i - w) {
-                qmax.pollFirst();
-            }
-            if (i &gt;= w - 1)
-                result[index++] = arr[qmax.peekFirst()];
-
-        }
-        return result;
-    }
-</code></pre><h6 id="双端队列的实现类"><a href="#双端队列的实现类" class="headerlink" title="双端队列的实现类"></a>双端队列的实现类</h6><pre><code>public class LinkedList&lt;E&gt; extends AbstractSequentialList&lt;E&gt;
-    implements List&lt;E&gt;, Deque&lt;E&gt;, Cloneable, java.io.Serializable
-
-
-
-public class ArrayDeque&lt;E&gt; extends AbstractCollection&lt;E&gt;
-                           implements Deque&lt;E&gt;, Cloneable, Serializable
-</code></pre><p><a href="http://shmilyaw-hotmail-com.iteye.com/blog/1700599" target="_blank" rel="external">java集合类深入分析之Queue篇</a></p>
-
           
         
       
@@ -1703,6 +1703,253 @@ Android进程与Linux进程一样。默认情况下，每个apk运行在自己�
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-2/" itemprop="url">单例设计模式(二)真●单例唯一$序列化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
+                2017-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="序列化对单例的破坏"><a href="#序列化对单例的破坏" class="headerlink" title="序列化对单例的破坏"></a>序列化对单例的破坏</h4><p>先看一个DCL单例：</p>
+<pre><code>import java.io.Serializable;
+
+/**
+ * double check lock 实现单例
+ */
+public class Singleton implements Serializable {
+    private Singleton() {
+    };
+
+    public static volatile Singleton singleton;
+
+    public static Singleton getInstance() {
+        if (singleton == null) {
+            synchronized (Singleton.class) {
+                if (singleton == null) {
+                    singleton = new Singleton();
+                }
+            }
+        }
+        return singleton;
+    }
+
+}
+</code></pre><p>然后看我们的测试代码：</p>
+<pre><code>import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+public class SerializableDemo1 {
+    public static void main(String[] args) {
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(
+                    new FileOutputStream(&quot;tempFile&quot;));
+            oos.writeObject(Singleton.getInstance());
+            File file = new File(&quot;tempFile&quot;);
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
+                    file));
+            Singleton instance = (Singleton) ois.readObject();
+            System.out.println(&quot;反序列化后的对象和原来的是否相等？&quot;
+                    + (Singleton.getInstance() == instance));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><blockquote>
+<p>运行后： <figure class="highlight plain"><figcaption><span>```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&gt; 通过对Singleton的序列化与反序列化得到的对象是```一个新的对象```，这就破坏了Singleton的单例性。</div><div class="line"></div><div class="line"></div><div class="line">#### 序列化破坏单例の原因 ####</div><div class="line"></div><div class="line">反序列化后，为什么是一个新的对象？我们从```ObjectInputStream$readObject()```方法追踪,&lt;br/&gt;</div><div class="line">发现：``` Object obj = readObject0(false);```&lt;br/&gt;</div><div class="line">继续：</div><div class="line"></div><div class="line">	 case TC_OBJECT:</div><div class="line">	                    return checkResolve(readOrdinaryObject(unshared));</div><div class="line"></div><div class="line">探究： ```ObjectInputStream$readOrdinaryObject</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>该方法关键代码片段一：</p>
+<pre><code>Object obj;
+       try {
+           obj = desc.isInstantiable() ? desc.newInstance() : null;
+       } catch (Exception ex) {
+           throw (IOException) new InvalidClassException(
+               desc.forClass().getName(),
+               &quot;unable to create instance&quot;).initCause(ex);
+       }
+</code></pre><blockquote>
+<p>该obj,就是我们反序列化要得到的对象，即readObject()返回的对象。<br><br><code>isInstantiable</code>：如果一个Serializable/externalizable的类可以在运行时被实例化，那么该方法就返回true。<br><code>desc.newInstance()</code>：该方法通过反射的方式调用无参构造方法新建一个对象</p>
+</blockquote>
+<p>所以：</p>
+<blockquote>
+<p>反序列化会通过反射调用无参的构造创建一个新的对象</p>
+</blockquote>
+<p>该方法关键代码片段二：</p>
+<pre><code>if (obj != null &amp;&amp;
+           handles.lookupException(passHandle) == null &amp;&amp;
+           desc.hasReadResolveMethod())
+       {
+           Object rep = desc.invokeReadResolve(obj);
+           if (unshared &amp;&amp; rep.getClass().isArray()) {
+               rep = cloneArray(rep);
+           }
+           if (rep != obj) {
+               handles.setObject(passHandle, obj = rep);
+           }
+       }
+</code></pre><blockquote>
+<p><code>hasReadResolveMethod</code>： 如果实现了Serializable或者externalizable接口的类中包含readResolve,则返回true<br><br><code>invokeReadResolve</code>： 通过反射的方式调用要被反序列化的类的readResolve方法<br><br><code>if (rep != obj) {
+                    handles.setObject(passHandle, obj = rep);
+                }</code>：<br>如果readResolve得到的对象和desc.newInstance()调用无参构造得到的对象不同，那么使用readResolve方法中返回的Object。</p>
+</blockquote>
+<h4 id="结论一"><a href="#结论一" class="headerlink" title="结论一"></a>结论一</h4><pre><code>由上可得，我们在自己的单例中增加readResolve方法，返回当前单例的实例，即可防止反序列化得到对象不一致问题。如下：
+
+import java.io.Serializable;
+
+/**
+ * double check lock 实现单例
+ */
+public class Singleton implements Serializable {
+    private Singleton() {
+    };
+
+    public static volatile Singleton singleton;
+
+    public static Singleton getInstance() {
+        if (singleton == null) {
+            synchronized (Singleton.class) {
+                if (singleton == null) {
+                    singleton = new Singleton();
+                }
+            }
+        }
+        return singleton;
+    }
+
+    private Object readResolve() {
+        return singleton;
+    }
+
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2090,185 +2337,6 @@ private Singleton() {
     }
 };
 </code></pre><h4 id="终极方法"><a href="#终极方法" class="headerlink" title="终极方法"></a>终极方法</h4><pre><code>使用枚举单例
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/two-stacks-makeup-queue/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/two-stacks-makeup-queue/" itemprop="url">由两个栈组成的队列</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="由两个栈组成的队列"><a href="#由两个栈组成的队列" class="headerlink" title="由两个栈组成的队列"></a>由两个栈组成的队列</h5><pre><code>编写一个类，使用两个栈实现队列，支持队列的基本操作(add,poll,peek)
-</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>栈的特点是先进后出，而队列的特点是先进先出。我们用两个栈，互相反序，实现类似队列的操作。
-具体实现上是一个栈作为压入栈，在压入数据时只往这个栈中压入，记为stackPush，另一个栈只作为弹出栈，记为stackPop。
-根据栈的特点，循环把stackPush中的数据压入stackPop中，stackPop的栈顶元素即为队列的dequeue元素。
-</code></pre><h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><pre><code>1. 如果stackPush要往stackPop中压入数据，必须一次性压入完毕；
-2. 如果stackPop要接收数据，必须保证stackPop为空。
-</code></pre><h5 id="stackPush压入stackPop的操作时机"><a href="#stackPush压入stackPop的操作时机" class="headerlink" title="stackPush压入stackPop的操作时机"></a>stackPush压入stackPop的操作时机</h5><pre><code>调用add、poll、peek三种方法中任何一种时发生都是可以，只要满足注意事项提到的两点，就不会出错。下面的例子是在调用poll和peek方法时进行压入数据的。
-</code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>import java.util.Stack;
-
-public class TwoStackQueue {
-
-    public Stack&lt;Integer&gt; stackPush;
-    public Stack&lt;Integer&gt; stackPop;
-
-    public TwoStackQueue() {
-        stackPop = new Stack&lt;&gt;();
-        stackPush = new Stack&lt;&gt;();
-    }
-
-    public void add(int pushInt) {
-        stackPush.push(pushInt);
-    }
-
-    public int poll() {
-        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
-            throw new RuntimeException(&quot;Queue is empty!&quot;);
-        } else if (stackPop.empty()) {
-            while (!stackPush.empty()) {
-                stackPop.push(stackPush.pop());
-            }
-        }
-        return stackPop.pop();
-    }
-
-    public int peek(){
-        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
-            throw new RuntimeException(&quot;Queue is empty!&quot;);
-        } else if (stackPop.empty()) {
-            while (!stackPush.empty()) {
-                stackPop.push(stackPush.pop());
-            }
-        }
-        return stackPop.peek();
-    }
-}
 </code></pre>
           
         

@@ -7,7 +7,7 @@ categories: Android System Framework
 
 #### 提要 ####
 AMS作为重要的系统服务，涉及到的知识如下：
-* Binder机制
+* [Binder机制](https://github.com/xusx1024/AndroidSystemServiceSample/blob/master/doc/Binder.md)
 * [AIDL机制](https://github.com/xusx1024/AndroidSystemServiceSample/blob/master/aidldemo/README.md)
 * [Zygote](https://github.com/xusx1024/AndroidSystemServiceSample/blob/master/doc/zygot.md)机制，即系统启动过程，包括SystemServer的初始化
 * 应用程序启动过程
