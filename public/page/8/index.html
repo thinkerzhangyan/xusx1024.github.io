@@ -267,6 +267,1488 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/android-system-service-LayoutInflater/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/23/android-system-service-LayoutInflater/" itemprop="url">Android系统服务：LayoutInflater</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-23T00:00:00Z">
+                2017-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-System-Framework/" itemprop="url" rel="index">
+                    <span itemprop="name">Android System Framework</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h4><p>activity是android中最常用的UI容器。把写好的xml布局通过<code>setContentView(int ResId)</code>，就可以实现页面的绑定，然后我们根据控件的ID，根据业务代码展示UI就可以了。关于xml的解析和绘制，就是系统服务<code>LayoutInflater</code>的工作了。</p>
+<h5 id="追踪android-app-Activity"><a href="#追踪android-app-Activity" class="headerlink" title="追踪android.app.Activity"></a>追踪android.app.Activity</h5><p>Activity源码中有3个<code>setContentView</code>的重载方法。</p>
+<pre><code>public void setContentView(@LayoutRes int layoutResID) {
+    getWindow().setContentView(layoutResID);
+    initWindowDecorActionBar();
+}
+
+public void setContentView(View view) {
+    getWindow().setContentView(view);
+    initWindowDecorActionBar();
+}
+
+public void setContentView(View view, ViewGroup.LayoutParams params) {
+    getWindow().setContentView(view, params);
+    initWindowDecorActionBar();
+}
+</code></pre><p>可以看到，调用当前Activity的window的<code>setContentView</code>来布局，这里我们上一张图看一下activity，window，view(xml布局)的关系：</p>
+<p><img src="/images/activity-window-layer.jpg" alt="activity、window层级关系图"></p>
+<p>其中<code>com.android.internal.policy.PhoneWindow</code>是<code>android.view.Window</code>的子类。<br><br>DecorView是的PhoneWindow的顶级view，继承自FrameLayout，其内部包含一个竖直的LinearLayout。<br><br>TitleView即ActionBar所在位置，通常使用Theme来配置其状态，一般开发会屏蔽该ActionBar，使用自定义顶部栏。<br><br>ContentView即需要展示在UI上的xml布局文件。<br></p>
+<p>继续看源码，getWindow()方法获取的是一个PhoneWindow的实例。所以setContentView可以去PhoneWindow中去查看其实现。<br><br><code>initWindowDecorActionBar();</code>里面主要是设置ActionBar。</p>
+<h5 id="追踪com-android-internal-policy-PhoneWindow"><a href="#追踪com-android-internal-policy-PhoneWindow" class="headerlink" title="追踪com.android.internal.policy.PhoneWindow"></a>追踪com.android.internal.policy.PhoneWindow</h5><p>先简后繁，看一下现成的view如何添加到ContentView的：</p>
+<pre><code> @Override
+    public void setContentView(View view) {
+        setContentView(view, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+    }
+
+ @Override
+public void setContentView(View view, ViewGroup.LayoutParams params) {
+
+    ...
+
+    mContentParent.addView(view, params);
+
+    ...
+
+ }
+</code></pre><p>把已有的view设置进入<code>ContentView</code>，只需要调用<code>ViewGroup.addView(View view)</code>添加到DecorView即可。<br><br>这里提一句：view都是要添加到父view上的。 </p>
+<pre><code>public static final int ID_ANDROID_CONTENT = com.android.internal.R.id.content;
+</code></pre><p>这个ID对应的ViewGroup，即xml布局的父view。其源码注释：</p>
+<blockquote>
+<p>   This is the view in which the window contents are placed. It is either mDecor itself, or a child of mDecor where the contents go.<br>   这是要放置window内容的view。是DecorView本身，或是DecorView的孩子。</p>
+</blockquote>
+<p>总之，一句话，现成的view，亦或是将来的LayoutInflater生成的view，都要添加到ID_ANDROID_CONTENT之内。</p>
+<p>下面，来看一下xml文件如何变成view的：</p>
+<pre><code>@Override
+    public void setContentView(int layoutResID) {
+
+    ...
+
+            mLayoutInflater.inflate(layoutResID, mContentParent);
+
+    ...
+
+    }
+</code></pre><p>一目了然，调用系统服务LayoutInflater的inflate方法。</p>
+<h4 id="追踪LayoutInflater源码"><a href="#追踪LayoutInflater源码" class="headerlink" title="追踪LayoutInflater源码"></a>追踪LayoutInflater源码</h4><p>关键方法：</p>
+<ul>
+<li>inflate * n</li>
+<li>rInflate</li>
+<li>createViewFromTag</li>
+<li>createView</li>
+</ul>
+<h5 id="inflate"><a href="#inflate" class="headerlink" title="inflate"></a>inflate</h5><pre><code>public View inflate(@LayoutRes int resource, @Nullable ViewGroup root, boolean attachToRoot) {
+    final Resources res = getContext().getResources();
+    if (DEBUG) {
+        Log.d(TAG, &quot;INFLATING from resource: \&quot;&quot; + res.getResourceName(resource) + &quot;\&quot; (&quot;
+                + Integer.toHexString(resource) + &quot;)&quot;);
+    }
+
+    final XmlResourceParser parser = res.getLayout(resource);
+    try {
+        return inflate(parser, root, attachToRoot);
+    } finally {
+        parser.close();
+    }
+}
+</code></pre><p>获取XmlResourceParser(XmlPullParser的子类)的实例，用于待会遍历xml文件结点。</p>
+<pre><code>public View inflate(XmlPullParser parser, @Nullable ViewGroup root, boolean attachToRoot) {
+    synchronized (mConstructorArgs) {
+
+...
+
+ final String name = parser.getName();
+ if (TAG_MERGE.equals(name)) {
+
+...
+
+rInflate(parser, root, inflaterContext, attrs, false);
+
+...
+
+} else {
+
+...
+
+ rInflateChildren(parser, temp, attrs, true);
+
+...
+
+        }
+    }
+}
+</code></pre><p>由于merge标签，只能作为xml根标签使用，所以分开处理。</p>
+<h5 id="rInflate"><a href="#rInflate" class="headerlink" title="rInflate"></a>rInflate</h5><pre><code>void rInflate(XmlPullParser parser, View parent, Context context,
+           AttributeSet attrs, boolean finishInflate) throws XmlPullParserException, IOException {
+
+       final int depth = parser.getDepth();
+       int type;
+
+       while (((type = parser.next()) != XmlPullParser.END_TAG ||
+               parser.getDepth() &gt; depth) &amp;&amp; type != XmlPullParser.END_DOCUMENT) {
+
+           if (type != XmlPullParser.START_TAG) {
+               continue;
+           }
+
+           final String name = parser.getName();
+
+           if (TAG_REQUEST_FOCUS.equals(name)) {
+               parseRequestFocus(parser, parent);
+           } else if (TAG_TAG.equals(name)) {
+               parseViewTag(parser, parent, attrs);
+           } else if (TAG_INCLUDE.equals(name)) {
+               if (parser.getDepth() == 0) {
+                   throw new InflateException(&quot;&lt;include /&gt; cannot be the root element&quot;);
+               }
+               parseInclude(parser, context, parent, attrs);
+           } else if (TAG_MERGE.equals(name)) {
+               throw new InflateException(&quot;&lt;merge /&gt; must be the root element&quot;);
+           } else {
+               final View view = createViewFromTag(parent, name, context, attrs);
+               final ViewGroup viewGroup = (ViewGroup) parent;
+               final ViewGroup.LayoutParams params = viewGroup.generateLayoutParams(attrs);
+               rInflateChildren(parser, view, attrs, true);
+               viewGroup.addView(view, params);
+           }
+       }
+
+       if (finishInflate) {
+           parent.onFinishInflate();
+       }
+   }
+</code></pre><p>深度优先遍历xml树，判断标签类型，循环递归直至<code>XmlPullParser.END_DOCUMENT</code>。</p>
+<h5 id="createViewFromTag"><a href="#createViewFromTag" class="headerlink" title="createViewFromTag"></a>createViewFromTag</h5><pre><code>    View createViewFromTag(View parent, String name, Context context, AttributeSet attrs,
+                boolean ignoreThemeAttr) {
+            if (name.equals(&quot;view&quot;)) {
+                name = attrs.getAttributeValue(null, &quot;class&quot;);
+            }
+
+    ...
+
+                  if (name.equals(TAG_1995)) {
+            // Let&apos;s party like it&apos;s 1995!
+            return new BlinkLayout(context, attrs);
+        }
+
+    ...
+
+try {
+        View view;
+        if (mFactory2 != null) {
+            view = mFactory2.onCreateView(parent, name, context, attrs);
+        } else if (mFactory != null) {
+            view = mFactory.onCreateView(name, context, attrs);
+        } else {
+            view = null;
+        }
+
+        if (view == null &amp;&amp; mPrivateFactory != null) {
+            view = mPrivateFactory.onCreateView(parent, name, context, attrs);
+        }
+
+        if (view == null) {
+            final Object lastContext = mConstructorArgs[0];
+            mConstructorArgs[0] = context;
+            try {
+                if (-1 == name.indexOf(&apos;.&apos;)) {
+                    view = onCreateView(parent, name, attrs);
+                } else {
+                    view = createView(name, null, attrs);
+                }
+            } finally {
+                mConstructorArgs[0] = lastContext;
+            }
+        }
+
+        return view;
+    } 
+
+...
+
+}
+</code></pre><p>如果view为属性标签，那么name就是属性的值。<br><br>如果TAG_1995，做出来的布局会一闪一闪的。<br><br>如果该LayoutInflater被复制过，比如用于做换肤之类的功能，那么通过调用复制后的LayoutInflater的Factory定义的onCreateView——主要是看其定义的view的属性，最后还是调用的createView——生成view<br><br>如果是普通的view，标签名里如果含有“.”，那么说明是自定义view，不需要往createView中添加name的前缀，直接name就带有包名了；否则是系统的view，需要往createView中添加name的前缀，比如<code>android.widget</code>。<br></p>
+<h5 id="createView"><a href="#createView" class="headerlink" title="createView"></a>createView</h5><pre><code>public final View createView(String name, String prefix, AttributeSet attrs)
+        throws ClassNotFoundException, InflateException {
+    Constructor&lt;? extends View&gt; constructor = sConstructorMap.get(name);
+    if (constructor != null &amp;&amp; !verifyClassLoader(constructor)) {
+        constructor = null;
+        sConstructorMap.remove(name);
+    }
+    Class&lt;? extends View&gt; clazz = null;
+
+    try {
+        Trace.traceBegin(Trace.TRACE_TAG_VIEW, name);
+
+        if (constructor == null) {
+            // Class not found in the cache, see if it&apos;s real, and try to add it
+            clazz = mContext.getClassLoader().loadClass(
+                    prefix != null ? (prefix + name) : name).asSubclass(View.class);
+
+            if (mFilter != null &amp;&amp; clazz != null) {
+                boolean allowed = mFilter.onLoadClass(clazz);
+                if (!allowed) {
+                    failNotAllowed(name, prefix, attrs);
+                }
+            }
+            constructor = clazz.getConstructor(mConstructorSignature);
+            constructor.setAccessible(true);
+            sConstructorMap.put(name, constructor);
+        } else {
+            // If we have a filter, apply it to cached constructor
+            if (mFilter != null) {
+                // Have we seen this name before?
+                Boolean allowedState = mFilterMap.get(name);
+                if (allowedState == null) {
+                    // New class -- remember whether it is allowed
+                    clazz = mContext.getClassLoader().loadClass(
+                            prefix != null ? (prefix + name) : name).asSubclass(View.class);
+
+                    boolean allowed = clazz != null &amp;&amp; mFilter.onLoadClass(clazz);
+                    mFilterMap.put(name, allowed);
+                    if (!allowed) {
+                        failNotAllowed(name, prefix, attrs);
+                    }
+                } else if (allowedState.equals(Boolean.FALSE)) {
+                    failNotAllowed(name, prefix, attrs);
+                }
+            }
+        }
+
+        Object[] args = mConstructorArgs;
+        args[1] = attrs;
+
+        final View view = constructor.newInstance(args);
+        if (view instanceof ViewStub) {
+            // Use the same context when inflating ViewStub later.
+            final ViewStub viewStub = (ViewStub) view;
+            viewStub.setLayoutInflater(cloneInContext((Context) args[0]));
+        }
+        return view;
+
+    } 
+}
+</code></pre><ul>
+<li>根据view的名字，缓存的构造器map中是否存在；</li>
+<li>如果不存在或者存在但没通过验证，就重新生成并缓存，生成时如果name有前缀就拼装上，通过反射获取其构造函数；</li>
+<li>通过其构造生成view。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/22/android-system-service-all/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/22/android-system-service-all/" itemprop="url">Android系统服务:服务概览</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-22T00:00:00Z">
+                2017-02-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-System-Framework/" itemprop="url" rel="index">
+                    <span itemprop="name">Android System Framework</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="一些说明"><a href="#一些说明" class="headerlink" title="一些说明"></a>一些说明</h4><p>这个系列学习的系统服务，绝大多数是<code>android.app.SystemServiceRegistry</code>里面注册的，包括核心平台服务以及硬件服务。如图，集中在第二层<code>Application framework</code>。</p>
+<p><img src="/images/android-framework.png" alt="application framework"></p>
+<p>其中核心平台服务包括：</p>
+<ul>
+<li>Context.ACTIVITY_SERVICE -&gt; ActivityManager</li>
+<li>Context.WINDOW_SERVICE -&gt; WindowManager</li>
+<li>PackageManagerService [该服务并非在SystemServiceRegistry中注册]</li>
+</ul>
+<p><img src="/images/android-start-1.png" alt="android start 1"></p>
+<p><img src="/images/android-start-2.png" alt="android start 2"></p>
+<p>对比图一和图二，发现对本地系统服务和java系统服务定义是相反的，由于本地系统服务由C/C++编写，所以判定图一的定义是正确的。保留图二的原因是，图二展示了android系统init后的更多信息。<br><br><br><br></p>
+<p>再来看图二，android init进程是对各种设备进行初始化，运行android framework所需要的各种daemon ，Context Manager，Media Serve, Zygote。</p>
+<h5 id="daemon"><a href="#daemon" class="headerlink" title="daemon"></a>daemon</h5><ul>
+<li>USB Daemon(usbd):管理USB连接</li>
+<li>Android Debug Bridge Daemon(adbd):安卓调试桥链接管理</li>
+<li>Debugger Daemon(debuggerd):启动Debugger系统</li>
+<li>Radio Interface Layer Daemon(rild):管理无线通信连接</li>
+</ul>
+<h5 id="Context-Manager"><a href="#Context-Manager" class="headerlink" title="Context Manager"></a>Context Manager</h5><p>管理android系统服务的重要进程。系统服务是组成Android Framework的重要组件，提供从相机、音频、视频处理到应用程序制作所有重要API。</p>
+<p>Context Manager提供运行与Android的各种系统服务的查询信息。应用程序或者Framework模块调用系统服务时，都要通过Binder IPC向Context Manager进行查询申请，获得相应的系统服务的信息。</p>
+<p>同样，Android的系统服务也要通过Bindr IPC向Context Manager注册自己的Handle信息，以供查询。</p>
+<h5 id="Media-Server"><a href="#Media-Server" class="headerlink" title="Media Server"></a>Media Server</h5><p>Media Server运行基于C/C++的本地系统服务，如Audio Flinger,Camera,Media play service.</p>
+<h5 id="Zygote"><a href="#Zygote" class="headerlink" title="Zygote"></a>Zygote</h5><p>Zygote用于缩短android应用程序的加载时间，每当执行java应用程序时候，Zygote就会派生一个子进程，这个子进程就是用来执行java程序的虚拟机。</p>
+<h5 id="System-Server"><a href="#System-Server" class="headerlink" title="System Server"></a>System Server</h5><p>System Server是Android的一个系统进程，它是由Zygote创建的，在Android的启动过程中，位于Zygote之后。在System Server中可以看到它建立了android中的大部分服务，这些java层的系统服务需要通过JNI注册到ContextManager中去。</p>
+<h5 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h5><p>IPC(InterProcess Communication)进程间通信方式。<br><br>RPC:远程过程调用就是一种在两个原本相互独立的进程间建立一种类似于单个程序内函数间调用的函数调用机制。<br><br>Binder即支持IPC也支持RPC。</p>
+<h4 id="android系统服务列表-基于7-0"><a href="#android系统服务列表-基于7-0" class="headerlink" title="android系统服务列表[基于7.0]"></a>android系统服务列表[基于7.0]</h4><table>
+<thead>
+<tr>
+<th>name</th>
+<th style="text-align:center">class</th>
+<th style="text-align:right">note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ACCESSIBILITY_SERVICE</td>
+<td style="text-align:center">AccessibilityManager</td>
+<td style="text-align:right">无障碍辅助服务 <a href="http://xusx1024.com/2017/04/20/android-system-service-AccessibilityManager/" target="_blank" rel="external">传送</a></td>
+</tr>
+<tr>
+<td>CAPTIONING_SERVICE</td>
+<td style="text-align:center">CaptioningManager</td>
+<td style="text-align:right">弹幕、字幕管理<a href="http://xusx1024.com/2017/05/18/android-system-service-CaptioningManager/" target="_blank" rel="external">传送</a></td>
+</tr>
+<tr>
+<td>ACCOUNT_SERVICE</td>
+<td style="text-align:center">AccountManager</td>
+<td style="text-align:right">账户管理器<a href="http://xusx1024.com/2017/08/17/android-system-service-Account-Manager/" target="_blank" rel="external">传送</a></td>
+</tr>
+<tr>
+<td>ACTIVITY_SERVICE</td>
+<td style="text-align:center">ActivityManager</td>
+<td style="text-align:right">管理应用程序的系统状态<a href="http://xusx1024.com/2017/09/29/android-system-service-Activity-Manager/" target="_blank" rel="external">传送</a></td>
+</tr>
+<tr>
+<td>ALARM_SERVICE</td>
+<td style="text-align:center">AlarmManager</td>
+<td style="text-align:right">闹钟的服务<a href="https://github.com/xusx1024/AndroidSystemServiceSample/tree/master/alarmmanagersample" target="_blank" rel="external">传送</a></td>
+</tr>
+<tr>
+<td>AUDIO_SERVICE</td>
+<td style="text-align:center">AudioManager</td>
+<td style="text-align:right">声音管理</td>
+</tr>
+<tr>
+<td>MEDIA_ROUTER_SERVICE</td>
+<td style="text-align:center">MediaRouter</td>
+<td style="text-align:right">扩展屏幕</td>
+</tr>
+<tr>
+<td>BLUETOOTH_SERVICE</td>
+<td style="text-align:center">BluetoothManager</td>
+<td style="text-align:right">蓝牙</td>
+</tr>
+<tr>
+<td>HDMI_CONTROL_SERVICE</td>
+<td style="text-align:center">HdmiControlManager</td>
+<td style="text-align:right">管理所有的HDMI-CEC设备  HDMI-CEC标准允许多媒体消费产品之间沟通和交换信息， HDMI-CEC支持许多功能，比如遥控器直通，系统音频控制，一键播放等等。</td>
+</tr>
+<tr>
+<td>CLIPBOARD_SERVICE</td>
+<td style="text-align:center">ClipboardManager</td>
+<td style="text-align:right">剪贴板管理器</td>
+</tr>
+<tr>
+<td>CONNECTIVITY_SERVICE</td>
+<td style="text-align:center">ConnectivityManager</td>
+<td style="text-align:right">网络连接管理器</td>
+</tr>
+<tr>
+<td>COUNTRY_DETECTOR</td>
+<td style="text-align:center">CountryDetector</td>
+<td style="text-align:right">获取用户所在地国家码</td>
+</tr>
+<tr>
+<td>DEVICE_POLICY_SERVICE</td>
+<td style="text-align:center">DevicePolicyManager</td>
+<td style="text-align:right">设备管理器</td>
+</tr>
+<tr>
+<td>DOWNLOAD_SERVICE</td>
+<td style="text-align:center">DownloadManager</td>
+<td style="text-align:right">下载管理器</td>
+</tr>
+<tr>
+<td>BATTERY_SERVICE</td>
+<td style="text-align:center">BatteryManager</td>
+<td style="text-align:right">电池管理器</td>
+</tr>
+<tr>
+<td>NFC_SERVICE</td>
+<td style="text-align:center">NfcManager</td>
+<td style="text-align:right">NFC管理器</td>
+</tr>
+<tr>
+<td>DROPBOX_SERVICE</td>
+<td style="text-align:center">DropBoxManager</td>
+<td style="text-align:right">持续化存储系统数据管理器</td>
+</tr>
+<tr>
+<td>INPUT_SERVICE</td>
+<td style="text-align:center">InputManager</td>
+<td style="text-align:right">输入事件管理器如触摸点击etc</td>
+</tr>
+<tr>
+<td>DISPLAY_SERVICE</td>
+<td style="text-align:center">DisplayManager</td>
+<td style="text-align:right">显示管理，支持多种显示类型的多个显示器的镜像显示，包括内建的显示类型（本地）、HDMI显示类型以及支持WIFI Display 协议( MIRACAST)，实现本地设备在远程显示器上的镜像显示。</td>
+</tr>
+<tr>
+<td>INPUT_METHOD_SERVICE</td>
+<td style="text-align:center">InputMethodManager</td>
+<td style="text-align:right">输入法管理器</td>
+</tr>
+<tr>
+<td>TEXT_SERVICES_MANAGER_SERVICE</td>
+<td style="text-align:center">TextServicesManager</td>
+<td style="text-align:right">检查拼写管理器</td>
+</tr>
+<tr>
+<td>KEYGUARD_SERVICE</td>
+<td style="text-align:center">KeyguardManager</td>
+<td style="text-align:right">屏保管理器</td>
+</tr>
+<tr>
+<td>LAYOUT_INFLATER_SERVICE</td>
+<td style="text-align:center"><a href="http://xusx1024.com/2017/02/23/android-system-service-LayoutInflater/" target="_blank" rel="external">LayoutInflater</a></td>
+<td style="text-align:right">布局填充管理器 <a href="http://xusx1024.com/2017/02/23/android-system-service-LayoutInflater/" target="_blank" rel="external">传送</a></td>
+</tr>
+<tr>
+<td>NETWORK_POLICY_SERVICE</td>
+<td style="text-align:center">NetworkPolicyManager</td>
+<td style="text-align:right">网络链接策略管理器</td>
+</tr>
+<tr>
+<td>NOTIFICATION_SERVICE</td>
+<td style="text-align:center">NotificationManager</td>
+<td style="text-align:right">通知管理器</td>
+</tr>
+<tr>
+<td>NSD_SERVICE</td>
+<td style="text-align:center">NsdManager</td>
+<td style="text-align:right">网络服务发现协议管理器</td>
+</tr>
+<tr>
+<td>POWER_SERVICE</td>
+<td style="text-align:center">PowerManager</td>
+<td style="text-align:right">电源管理器</td>
+</tr>
+<tr>
+<td>RECOVERY_SERVICE</td>
+<td style="text-align:center">RecoverySystem</td>
+<td style="text-align:right">刷机相关的-恢复模式服务</td>
+</tr>
+<tr>
+<td>SEARCH_SERVICE</td>
+<td style="text-align:center">SearchManager</td>
+<td style="text-align:right">搜索服务，利用此服务可以实现对系统中的应用、联系人、SMS等进行搜索，也提供转入浏览器中的搜索</td>
+</tr>
+<tr>
+<td>SENSOR_SERVICE</td>
+<td style="text-align:center">SensorManager</td>
+<td style="text-align:right">传感器管理器</td>
+</tr>
+<tr>
+<td>STATUS_BAR_SERVICE</td>
+<td style="text-align:center">StatusBarManager</td>
+<td style="text-align:right">状态栏管理器</td>
+</tr>
+<tr>
+<td>STORAGE_SERVICE</td>
+<td style="text-align:center">StorageManager</td>
+<td style="text-align:right">磁盘管理器</td>
+</tr>
+<tr>
+<td>TELEPHONY_SERVICE</td>
+<td style="text-align:center">TelephonyManager</td>
+<td style="text-align:right">电话管理器</td>
+</tr>
+<tr>
+<td>TELEPHONY_SUBSCRIPTION_SERVICE</td>
+<td style="text-align:center">SubscriptionManager</td>
+<td style="text-align:right">SIM卡管理器</td>
+</tr>
+<tr>
+<td>CARRIER_CONFIG_SERVICE</td>
+<td style="text-align:center">CarrierConfigManager</td>
+<td style="text-align:right">提供对特定于运营商的电话配置值的访问</td>
+</tr>
+<tr>
+<td>TELECOM_SERVICE</td>
+<td style="text-align:center">TelecomManager</td>
+<td style="text-align:right">电话管理器</td>
+</tr>
+<tr>
+<td>UI_MODE_SERVICE</td>
+<td style="text-align:center">UiModeManager</td>
+<td style="text-align:right">夜间模式这样的切换</td>
+</tr>
+<tr>
+<td>USB_SERVICE</td>
+<td style="text-align:center">UsbManager</td>
+<td style="text-align:right">USB管理器</td>
+</tr>
+<tr>
+<td>SERIAL_SERVICE</td>
+<td style="text-align:center">SerialManager</td>
+<td style="text-align:right">端口管理器</td>
+</tr>
+<tr>
+<td>VIBRATOR_SERVICE</td>
+<td style="text-align:center">Vibrator</td>
+<td style="text-align:right">振动器管理器</td>
+</tr>
+<tr>
+<td>WALLPAPER_SERVICE</td>
+<td style="text-align:center">WallpaperManager</td>
+<td style="text-align:right">壁纸管理器</td>
+</tr>
+<tr>
+<td>WIFI_SERVICE</td>
+<td style="text-align:center">WifiManager</td>
+<td style="text-align:right">无线网络管理器</td>
+</tr>
+<tr>
+<td>WIFI_P2P_SERVICE</td>
+<td style="text-align:center">WifiP2pManager</td>
+<td style="text-align:right">点对点设备连接管理器，无需连接到网络</td>
+</tr>
+<tr>
+<td>WIFI_NAN_SERVICE</td>
+<td style="text-align:center">WifiNanManager</td>
+<td style="text-align:right">neighborhood area network (NAN)的管理器- 邻区网（NAN）是Wi-Fi热点和无线局域网（WLAN）的分支，使用户能够以非常小的费用快速连接到互联网。</td>
+</tr>
+<tr>
+<td>WIFI_SCANNING_SERVICE</td>
+<td style="text-align:center">WifiScanner</td>
+<td style="text-align:right">wifi扫描管理器</td>
+</tr>
+<tr>
+<td>WIFI_RTT_SERVICE</td>
+<td style="text-align:center">RttManager</td>
+<td style="text-align:right">round-trip time (RTT)管理器</td>
+</tr>
+<tr>
+<td>ETHERNET_SERVICE</td>
+<td style="text-align:center">EthernetManager</td>
+<td style="text-align:right">以太网IP配置管理器</td>
+</tr>
+<tr>
+<td>WINDOW_SERVICE</td>
+<td style="text-align:center">WindowManager</td>
+<td style="text-align:right">窗口管理器</td>
+</tr>
+<tr>
+<td>USER_SERVICE</td>
+<td style="text-align:center">UserManager</td>
+<td style="text-align:right">多用户管理器</td>
+</tr>
+<tr>
+<td>APP_OPS_SERVICE</td>
+<td style="text-align:center">AppOpsManager</td>
+<td style="text-align:right">Application Operations权限管理器</td>
+</tr>
+<tr>
+<td>CAMERA_SERVICE</td>
+<td style="text-align:center">CameraManager</td>
+<td style="text-align:right">相机管理器</td>
+</tr>
+<tr>
+<td>LAUNCHER_APPS_SERVICE</td>
+<td style="text-align:center">LauncherApps</td>
+<td style="text-align:right">不同用户的不同package管理器</td>
+</tr>
+<tr>
+<td>RESTRICTIONS_SERVICE</td>
+<td style="text-align:center">RestrictionsManager</td>
+<td style="text-align:right">限制管理器</td>
+</tr>
+<tr>
+<td>PRINT_SERVICE</td>
+<td style="text-align:center">PrintManager</td>
+<td style="text-align:right">打印管理器</td>
+</tr>
+<tr>
+<td>CONSUMER_IR_SERVICE</td>
+<td style="text-align:center">ConsumerIrManager</td>
+<td style="text-align:right">红外发射管理器</td>
+</tr>
+<tr>
+<td>MEDIA_SESSION_SERVICE</td>
+<td style="text-align:center">MediaSessionManager</td>
+<td style="text-align:right">MediaSession概念用于播放器与控制器之间进行交互，媒体回话管理器</td>
+</tr>
+<tr>
+<td>TRUST_SERVICE</td>
+<td style="text-align:center">TrustManager</td>
+<td style="text-align:right">信任证书管理器</td>
+</tr>
+<tr>
+<td>FINGERPRINT_SERVICE</td>
+<td style="text-align:center">FingerprintManager</td>
+<td style="text-align:right">指纹管理器</td>
+</tr>
+<tr>
+<td>TV_INPUT_SERVICE</td>
+<td style="text-align:center">TvInputManager</td>
+<td style="text-align:right">电视管理器</td>
+</tr>
+<tr>
+<td>NETWORK_SCORE_SERVICE</td>
+<td style="text-align:center">NetworkScoreManager</td>
+<td style="text-align:right">网络子系统和网络记分器之间的通信管理器</td>
+</tr>
+<tr>
+<td>USAGE_STATS_SERVICE</td>
+<td style="text-align:center">UsageStatsManager</td>
+<td style="text-align:right">使用情况统计管理器</td>
+</tr>
+<tr>
+<td>NETWORK_STATS_SERVICE</td>
+<td style="text-align:center">NetworkStatsManager</td>
+<td style="text-align:right">流量统计管理器</td>
+</tr>
+<tr>
+<td>JOB_SCHEDULER_SERVICE</td>
+<td style="text-align:center">JobScheduler</td>
+<td style="text-align:right">定时任务管理器</td>
+</tr>
+<tr>
+<td>PERSISTENT_DATA_BLOCK_SERVICE</td>
+<td style="text-align:center">PersistentDataBlockManager</td>
+<td style="text-align:right">持久数据区管理器-出厂设置擦除数据相关</td>
+</tr>
+<tr>
+<td>MEDIA_PROJECTION_SERVICE</td>
+<td style="text-align:center">MediaProjectionManager</td>
+<td style="text-align:right">系统屏幕截图管理器</td>
+</tr>
+<tr>
+<td>APPWIDGET_SERVICE</td>
+<td style="text-align:center">AppWidgetManager</td>
+<td style="text-align:right">桌面组件管理器</td>
+</tr>
+<tr>
+<td>MIDI_SERVICE</td>
+<td style="text-align:center">MidiManager</td>
+<td style="text-align:right">（Musical Instrument Digital Interface，简称MIDI）是一个工业标准的电子通信协议.为电子乐器等演奏设备（如合成器）定义各种音符或弹奏码，容许电子乐器、电脑、手机或其它的舞台演出配备彼此连接，调整和同步，得以即时交换演奏数据。MIDI不发送声音，只发送像是音调和音乐强度的数据，音量，颤音和相位[1]等参数的控制信号，还有设置节奏的时钟信号。 比如钢琴学习应用。</td>
+</tr>
+<tr>
+<td>RADIO_SERVICE</td>
+<td style="text-align:center">RadioManager</td>
+<td style="text-align:right">收音机管理器</td>
+</tr>
+<tr>
+<td>HARDWARE_PROPERTIES_SERVICE</td>
+<td style="text-align:center">HardwarePropertiesManager</td>
+<td style="text-align:right">硬件属性管理器-CPU,GPU,电池温度,CPU各个核的使用,风扇速度</td>
+</tr>
+<tr>
+<td>SOUND_TRIGGER_SERVICE</td>
+<td style="text-align:center">SoundTriggerManager</td>
+<td style="text-align:right">语音识别管理器</td>
+</tr>
+<tr>
+<td>SHORTCUT_SERVICE</td>
+<td style="text-align:center">ShortcutManager</td>
+<td style="text-align:right">App Shortcuts是指在桌面长按app图标而出现的快捷方式</td>
+</tr>
+<tr>
+<td>SYSTEM_HEALTH_SERVICE</td>
+<td style="text-align:center">SystemHealthManager</td>
+<td style="text-align:right">系统资源使用情况管理器</td>
+</tr>
+<tr>
+<td>CONTEXTHUB_SERVICE</td>
+<td style="text-align:center">ContextHubManager</td>
+<td style="text-align:right">上下文中心管理器</td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/design-patterns-singleton-5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/21/design-patterns-singleton-5/" itemprop="url">单例设计模式(五) Android中单例的应用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-21T00:00:00Z">
+                2017-02-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="写在前面的关键点"><a href="#写在前面的关键点" class="headerlink" title="写在前面的关键点"></a>写在前面的关键点</h4><p>我们知道，单例模式的特点：</p>
+<ul>
+<li>只有一个实例</li>
+<li>占用内存及资源较少，可防止对象不停的创建和销毁</li>
+<li>全局访问</li>
+<li>扩展性差</li>
+<li>与单一职责原则有冲突</li>
+</ul>
+<p>根据其特点，我们去看源码或者设计应用就可以做到有据可循了。</p>
+<h4 id="Android系统源码中"><a href="#Android系统源码中" class="headerlink" title="Android系统源码中"></a>Android系统源码中</h4><h5 id="示例一【饿汉单例】：android-text-Editable-Factory-java"><a href="#示例一【饿汉单例】：android-text-Editable-Factory-java" class="headerlink" title="示例一【饿汉单例】：android.text.Editable.Factory.java"></a>示例一【饿汉单例】：android.text.Editable.Factory.java</h5><pre><code>/**
+  * Factory used by TextView to create new Editables.  You can subclass
+  * it to provide something other than SpannableStringBuilder.
+  */
+ public static class Factory {
+     private static Editable.Factory sInstance = new Editable.Factory();
+
+     public static Editable.Factory getInstance() {
+         return sInstance;
+     }
+
+     public Editable newEditable(CharSequence source) {
+         return new SpannableStringBuilder(source);
+     }
+ }
+</code></pre><blockquote>
+<p>Editable 即 <code>android.widget.EditText#getText()</code> 返回的对象。最常用的大概是<code>et.getText().toString()</code>吧。</p>
+</blockquote>
+<p>然后从EditText-&gt; TextView可以看到：</p>
+<pre><code>private Editable.Factory mEditableFactory = Editable.Factory.getInstance();
+private Spannable.Factory mSpannableFactory = Spannable.Factory.getInstance();
+</code></pre><p>然后考察其应用：</p>
+<pre><code> private InputFilter[] mFilters = NO_FILTERS;
+ private void setText(CharSequence text, BufferType type,
+                         boolean notifyBefore, int oldlen) {
+    .
+    .
+    .
+
+    Editable t = mEditableFactory.newEditable(text);
+    text = t;
+    setFilters(t, mFilters);
+
+    .
+    .
+    .
+}
+</code></pre><p>得到其用途：提供一个Editable的实现类【SpannableStringBuilder】的实例，然后应用filter。</p>
+<h5 id="示例二【懒汉单例】：ArrowKeyMovementMethod-java"><a href="#示例二【懒汉单例】：ArrowKeyMovementMethod-java" class="headerlink" title="示例二【懒汉单例】：ArrowKeyMovementMethod.java"></a>示例二【懒汉单例】：ArrowKeyMovementMethod.java</h5><pre><code>private static ArrowKeyMovementMethod sInstance;    
+public static MovementMethod getInstance() {
+    if (sInstance == null) {
+        sInstance = new ArrowKeyMovementMethod();
+    }
+
+    return sInstance;
+}
+</code></pre><blockquote>
+<p>看类名好像是光标移动相关的东东，跟进去看一下好了。<br><br><code>initialize</code>初始化，把光标放在末尾位置；<br><br><code>onTouchEvent</code>处理触摸拖拽事件；<br><br><code>canSelectArbitrarily</code> 根据名字，是否可以任意选择，固定返回true；<br><br><code>onTakeFocus</code> 获取焦点后的默认操作：光标放末尾</p>
+</blockquote>
+<h5 id="示例三【线程同步锁单例】：LocalBroadcastManager-java"><a href="#示例三【线程同步锁单例】：LocalBroadcastManager-java" class="headerlink" title="示例三【线程同步锁单例】：LocalBroadcastManager.java"></a>示例三【线程同步锁单例】：LocalBroadcastManager.java</h5><pre><code>private static final Object mLock = new Object();
+private static LocalBroadcastManager mInstance;
+
+public static LocalBroadcastManager getInstance(Context context) {
+    synchronized (mLock) {
+        if (mInstance == null) {
+            mInstance = new LocalBroadcastManager(context.getApplicationContext());
+        }
+        return mInstance;
+    }
+}
+</code></pre><blockquote>
+<p>看类名是本地广播管理类，先看其类注释：<br></p>
+</blockquote>
+<p>&gt;<br> Helper to register for and send broadcasts of Intents to local objects<br> within your process.  This has a number of advantages over sending<br> global broadcasts with {@link android.content.Context#sendBroadcast}<br><br>进程内帮助注册和发送广播给本地对象。相比于<code>Context#sendBroadcast</code>有巨大优势！<br></p>
+<p>优势有三：<br></p>
+<ol>
+<li>应用内发送，不必担心私有数据泄露；<br></li>
+<li>别的应用无法发送我自己的应用本地广播，不必担心安全漏洞；<br></li>
+<li>比通过系统发送广播更加有效。</li>
+</ol>
+<h5 id="示例四【线程同步锁单例】：InputMethodManager-java"><a href="#示例四【线程同步锁单例】：InputMethodManager-java" class="headerlink" title="示例四【线程同步锁单例】：InputMethodManager.java"></a>示例四【线程同步锁单例】：InputMethodManager.java</h5><pre><code>static InputMethodManager sInstance;
+public static InputMethodManager getInstance() {
+        synchronized (InputMethodManager.class) {
+            if (sInstance == null) {
+                IBinder b = ServiceManager.getService(Context.INPUT_METHOD_SERVICE);
+                IInputMethodManager service = IInputMethodManager.Stub.asInterface(b);
+                sInstance = new InputMethodManager(service, Looper.getMainLooper());
+            }
+            return sInstance;
+        }
+    }
+</code></pre><blockquote>
+<p>用来控制显示和隐藏输入法面板。</p>
+<h5 id="示例五【容器单例】：FocusFinder-java"><a href="#示例五【容器单例】：FocusFinder-java" class="headerlink" title="示例五【容器单例】：FocusFinder.java"></a>示例五【容器单例】：FocusFinder.java</h5></blockquote>
+<p>FocusFinder.java</p>
+<pre><code>private static final ThreadLocal&lt;FocusFinder&gt; tlFocusFinder =
+    new ThreadLocal&lt;FocusFinder&gt;() {
+        @Override
+        protected FocusFinder initialValue() {
+            return new FocusFinder();
+        }
+    };
+
+public static FocusFinder getInstance() {
+    return tlFocusFinder.get();
+}
+</code></pre><p>ThreadLocal.java</p>
+<pre><code>/**
+ * Returns the value in the current thread&apos;s copy of this
+ * thread-local variable.  If the variable has no value for the
+ * current thread, it is first initialized to the value returned
+ * by an invocation of the {@link #initialValue} method.
+ *
+ * @return the current thread&apos;s value of this thread-local
+ */
+public T get() {
+    Thread t = Thread.currentThread();
+    ThreadLocalMap map = getMap(t);
+    if (map != null) {
+        ThreadLocalMap.Entry e = map.getEntry(this);
+        if (e != null)
+            return (T)e.value;
+    }
+    return setInitialValue();
+}
+</code></pre><p>-</p>
+<pre><code>/**
+ * Variant of set() to establish initialValue. Used instead
+ * of set() in case user has overridden the set() method.
+ *
+ * @return the initial value
+ */
+private T setInitialValue() {
+    T value = initialValue();
+    Thread t = Thread.currentThread();
+    ThreadLocalMap map = getMap(t);
+    if (map != null)
+        map.set(this, value);
+    else
+        createMap(t, value);
+    return value;
+}
+
+protected T initialValue() {
+    return null;
+}
+</code></pre><blockquote>
+<p>一个用来从当前焦点视图给定的方向中找到下个焦点视图的算法。主要功能代码在此方法里：</p>
+</blockquote>
+<pre><code>private View findNextFocus(ViewGroup root, View focused, Rect focusedRect, int direction) {
+    View next = null;
+    if (focused != null) {
+        next = findNextUserSpecifiedFocus(root, focused, direction);
+    }
+    if (next != null) {
+        return next;
+    }
+    ArrayList&lt;View&gt; focusables = mTempList;
+    try {
+        focusables.clear();
+        root.addFocusables(focusables, direction);
+        if (!focusables.isEmpty()) {
+            next = findNextFocus(root, focused, focusedRect, direction, focusables);
+        }
+    } finally {
+        focusables.clear();
+    }
+    return next;
+}
+</code></pre><h5 id="示例六【容器单例】：android-app-SystemServiceRegistry-java"><a href="#示例六【容器单例】：android-app-SystemServiceRegistry-java" class="headerlink" title="示例六【容器单例】：android.app.SystemServiceRegistry.java"></a>示例六【容器单例】：android.app.SystemServiceRegistry.java</h5><p>&gt;<br>该类我们就不粘贴代码了，因为Android里所有的系统的单例都维护在这里。</p>
+<p><a href="https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/app/SystemServiceRegistry.java" target="_blank" rel="external">源码地址</a>。</p>
+<p><a href="http://xusx1024.com/2017/02/22/android-system-service/" target="_blank" rel="external">服务说明在此</a>。</p>
+<h5 id="示例七【别样的单例】：BidiFormatter-java"><a href="#示例七【别样的单例】：BidiFormatter-java" class="headerlink" title="示例七【别样的单例】：BidiFormatter.java"></a>示例七【别样的单例】：BidiFormatter.java</h5><p>实例</p>
+<pre><code>private static final BidiFormatter DEFAULT_LTR_INSTANCE = new BidiFormatter(
+        false /* LTR context */,
+        DEFAULT_FLAGS,
+        DEFAULT_TEXT_DIRECTION_HEURISTIC);
+
+private static final BidiFormatter DEFAULT_RTL_INSTANCE = new BidiFormatter(
+        true /* RTL context */,
+        DEFAULT_FLAGS,
+        DEFAULT_TEXT_DIRECTION_HEURISTIC);
+</code></pre><p>构造</p>
+<pre><code>private BidiFormatter(boolean isRtlContext, int flags, TextDirectionHeuristic heuristic) {
+     mIsRtlContext = isRtlContext;
+     mFlags = flags;
+     mDefaultTextDirectionHeuristic = heuristic;
+ }
+</code></pre><p>获取实例：</p>
+<pre><code>public static BidiFormatter getInstance() {
+    return getDefaultInstanceFromContext(isRtlLocale(Locale.getDefault()));
+}
+
+public static BidiFormatter getInstance(boolean rtlContext) {
+    return getDefaultInstanceFromContext(rtlContext);
+}
+
+public static BidiFormatter getInstance(Locale locale) {
+    return getDefaultInstanceFromContext(isRtlLocale(locale));
+}
+</code></pre><blockquote>
+<p>BidiFormatter中的单例让我耳目一新。多种类型的static final 修饰的实例。<br><br>这个类是4.2之后增加的新功能，通常文本是从左到右的顺序排列和阅读的。如果你是用阿拉伯语或者希伯来语，那么文本就从右往左排序才方便了。<br><br>如果要开启，在Manifest.xml中，修改Application结点的属性<code>android:supportsRtl</code>为true<br><br>另外，我们在xml布局时，经常看到提示：使用<code>android:layout_marginStart</code>替代<code>android:layout_marginLeft</code>这样的提示，这就是因为，在LTR和RTL模式下，view的布局是相反的，其相对距离也是相反，使用建议api，可省却该麻烦，真良心。</p>
+</blockquote>
+<p>注1：</p>
+<blockquote>
+<p>其中volatial修饰的实例没有找到，Enum实现的单例也没找到。</p>
+</blockquote>
+<p>注2：Android 源码中常见单例(在AS中ctrl+alt+shift+n)：</p>
+<p><img src="/images/android-singleton-1.png" alt="Android 源码中常见单例 图一"></p>
+<p><img src="/images/android-singleton-2.png" alt="Android 源码中常见单例 图二"></p>
+<h4 id="Android-App开发中"><a href="#Android-App开发中" class="headerlink" title="Android App开发中"></a>Android App开发中</h4><p>分析上半部可得：</p>
+<ul>
+<li>内部类单例-饿汉式</li>
+<li>简单单例-懒汉式</li>
+<li>多线程调用-带线程锁的懒汉式</li>
+<li>多种单例-容器管理单例</li>
+</ul>
+<p>我负责的app中，整理了一下，大概有如下会需要到单例：</p>
+<ol>
+<li>Application</li>
+<li>定位、汉字转拼音、crash抓取、图片、网络、以及其他工具类</li>
+<li>升级管理</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/20/decrease-apk-size/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/20/decrease-apk-size/" itemprop="url">APK瘦身</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-20T00:00:00Z">
+                2017-02-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="在线检测"><a href="#在线检测" class="headerlink" title="在线检测"></a>在线检测</h4><blockquote>
+<p>在线分析APK：<a href="https://nimbledroid.com/" target="_blank" rel="external">NimbleDroid</a></p>
+</blockquote>
+<h5 id="实例分析-Summary"><a href="#实例分析-Summary" class="headerlink" title="实例分析-Summary"></a>实例分析-Summary</h5><pre><code>我们上传一个apk，看看这款App的分析结果。
+</code></pre><p><img src="/images/nimabledroid-1.png" alt="Summary"></p>
+<ul>
+<li>File Name 我们上传的App名字</li>
+<li>File Size 文件大小</li>
+<li>Method Count 方法总数</li>
+<li>Uploaded via Site 谁在什么时间上传 </li>
+</ul>
+<p><img src="/images/nimabledroid-2.png" alt="Summary"></p>
+<ul>
+<li>Scenario：Cold StartUp 冷启动场景下</li>
+<li>Slowdowns 速度减缓的地方</li>
+<li>Merm Leaks 内存泄漏的地方</li>
+<li>Time-Real Time 时间花费</li>
+<li>Memory-Max Use 内存占用</li>
+<li>Network-down 下载数据量</li>
+<li>Network-up 上传数据量</li>
+<li>Disk I/O-Read 从磁盘读取数据量</li>
+<li>Disk I/O-Write 写入磁盘的数据量</li>
+</ul>
+<h5 id="实例分析-File-Sizes"><a href="#实例分析-File-Sizes" class="headerlink" title="实例分析-File Sizes"></a>实例分析-File Sizes</h5><p><img src="/images/nimabledroid-3.png" alt="Summary"></p>
+<blockquote>
+<p>在此，我们看到100kb以上的文件。其中某些lib下的多余库，高清大图片是我们关注的重点。</p>
+</blockquote>
+<p><img src="/images/nimabledroid-4.png" alt="Summary"></p>
+<blockquote>
+<p>不同类型的文件所占体积大小。</p>
+</blockquote>
+<h5 id="实例分析-Method-Count"><a href="#实例分析-Method-Count" class="headerlink" title="实例分析-Method Count"></a>实例分析-Method Count</h5><p><img src="/images/nimabledroid-5.png" alt="Summary"></p>
+<blockquote>
+<p>各SDK方法数统计。</p>
+</blockquote>
+<h5 id="实例分析-具体Scenario分析"><a href="#实例分析-具体Scenario分析" class="headerlink" title="实例分析-具体Scenario分析"></a>实例分析-具体Scenario分析</h5><p>我们考察冷启动从欢迎页启动到主页这个场景。看到时间为<code>4.8s</code>,感觉有些长了。我们使用Android Monitor的日志，过滤<code>ActivityManager:Displayed</code>，看到欢迎页是<code>569ms</code>，主页是<code>613ms</code>。</p>
+<p><img src="/images/nimabledroid-6.png" alt="Summary"><br>如图：</p>
+<ul>
+<li>Speed - Hung CPU Methods 挂起CPU方法使UI落后，反应延迟。对用户来说是长于32ms。方法在该条目下因为此时正在使用CPU。</li>
+<li>Speed - Hung Wait Methods 挂起CPU方法使UI落后，反应延迟。对用户来说是长于32ms。方法在此条目下因为正在等待可用的资源，尽管没有使用CPU。</li>
+<li>Speed - Hot Methods 热方法即执行其调用的CPU时间长于100ms。</li>
+<li><p>Speed - Dependencies 有时应用中的依赖关系会影响性能。</p>
+</li>
+<li><p>BaseActivity、BaseFragment的初始化操作</p>
+</li>
+<li>PushAgent.onAppStart 推送服务启动</li>
+<li>ClassUtil.getGenericSuperclass fastjson的方法</li>
+<li>ViewPager.onMeasure 欢迎页的测量</li>
+<li>Jackson JSON Parser jackjson的解析</li>
+</ul>
+<p>我们选取一个方法点击进入详细，如图：</p>
+<p><img src="/images/nimabledroid-7.png" alt="Summary"></p>
+<p>在此我们可以看到，Umeng推送，百度定位，检查版本更新，检查热修复包版本，retrofitmanager初始化。</p>
+<p><img src="/images/nimabledroid-8.png" alt="Summary"></p>
+<blockquote>
+<p>看到这个对比图，还是老脸微红的。现在的SDK都要求在Application里初始化，搞的定位，推送，热修复，网络框架，图片框架都在这里了，皮，真的皮！</p>
+</blockquote>
+<h4 id="优化注意点"><a href="#优化注意点" class="headerlink" title="优化注意点"></a>优化注意点</h4><h5 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h5><ul>
+<li>清除未使用的资源，Android lint analyze &amp; shrinkResource</li>
+<li>大图片使用tinyPNG</li>
+<li>png转webp</li>
+<li><a href="https://github.com/shwenzhang/AndResGuard" target="_blank" rel="external">AndResGuard</a></li>
+</ul>
+<h5 id="第三方库"><a href="#第三方库" class="headerlink" title="第三方库"></a>第三方库</h5><ul>
+<li>清除不必须的第三方jar，尤其是Android support </li>
+</ul>
+<h5 id="冗余代码"><a href="#冗余代码" class="headerlink" title="冗余代码"></a>冗余代码</h5><ul>
+<li>inspect code</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/17/get-max-tree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1529,853 +3011,11 @@ Android进程与Linux进程一样。默认情况下，每个apk运行在自己�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/different-between-ADT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/different-between-ADT/" itemprop="url">队列、堆栈与数组链表的关系</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="数据结构的概念"><a href="#数据结构的概念" class="headerlink" title="数据结构的概念"></a>数据结构的概念</h4><pre><code>指相互之间存在一种或多种特定关系的数据元素的集合。简单的理解就是：数据结构就是描述对象逻辑关系的学科。比如：队列就是一种先进先出的逻辑结构，栈是一种先进后出的逻辑结构，家谱是一种树形的逻辑结构。
-</code></pre><h4 id="数据存储结构的概念"><a href="#数据存储结构的概念" class="headerlink" title="数据存储结构的概念"></a>数据存储结构的概念</h4><pre><code>这是计算机的一个概念，即描述数据在计算机中存储方式的学科；常用的存储方式就两种：顺序存储、非顺序存储。顺序存储就是把数据存储在一块连续的存储介质(硬盘)上，数组就是典型的连续存储。
-非顺序存储就是各个数据不一定存在一个连续的位置上，只要每个数据知道它前面的数据和后面的数据，就能把所有的数据连续起来，链表就是典型的非顺序存储。
-</code></pre><h5 id="数组和链表"><a href="#数组和链表" class="headerlink" title="数组和链表"></a>数组和链表</h5><pre><code>数组属于顺序存储，通过直接访问数组下标即可得到元素的存储位置，所以访问时间都是相同。
-链表属于数据的链接存储，由于每个元素的位置保存在它的前驱或者后继中，所以只有访问到其前驱结点或后继结点后才能够按指针访问到自己，访问元素的时间与该元素结点在链接存储中的位置有关。
-</code></pre><table>
-<thead>
-<tr>
-<th>类型</th>
-<th style="text-align:center">内存空间</th>
-<th style="text-align:center">长度的可变性</th>
-<th style="text-align:center">对数据的访问</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>数组</td>
-<td style="text-align:center">连续的内存空间，相同多数据下占用较小内存</td>
-<td style="text-align:center">需要提前给定</td>
-<td style="text-align:center">移动数据麻烦，访问数据方便</td>
-</tr>
-<tr>
-<td>链表</td>
-<td style="text-align:center">可以连续，也可以不连续，占用较大内存，需要存放前驱和后继的空间</td>
-<td style="text-align:center">可以伸缩</td>
-<td style="text-align:center">移动数据方便，访问数据麻烦</td>
-</tr>
-</tbody>
-</table>
-<h5 id="堆栈和栈"><a href="#堆栈和栈" class="headerlink" title="堆栈和栈"></a>堆栈和栈</h5><pre><code>[堆栈](https://zh.wikipedia.org/wiki/%E5%A0%86%E6%A0%88)（英语：stack），也可直接称栈（港澳台作堆叠）
-</code></pre><h5 id="Java中的堆和栈"><a href="#Java中的堆和栈" class="headerlink" title="Java中的堆和栈"></a>Java中的堆和栈</h5><pre><code>1. 栈具有数据结构中栈的特点，所有存放在它里面的数据都是生命周期很明确，能够快速反应的，所以在Java中使用栈来存放8个基本数据类型和引用变量，用完就马上销毁。
-2. 堆可以理解它就是一个可大可小，任人分配的内存操作单元，因此它的特点就是动态分配内存，适合存放大的数据量，比如一个对象的所有信息，虽然它的引用指向栈中的某个引用变量；所以Java中堆是存放new出来的对象的。
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-2/" itemprop="url">单例设计模式(二)真●单例唯一$序列化</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="序列化对单例的破坏"><a href="#序列化对单例的破坏" class="headerlink" title="序列化对单例的破坏"></a>序列化对单例的破坏</h4><p>先看一个DCL单例：</p>
-<pre><code>import java.io.Serializable;
-
-/**
- * double check lock 实现单例
- */
-public class Singleton implements Serializable {
-    private Singleton() {
-    };
-
-    public static volatile Singleton singleton;
-
-    public static Singleton getInstance() {
-        if (singleton == null) {
-            synchronized (Singleton.class) {
-                if (singleton == null) {
-                    singleton = new Singleton();
-                }
-            }
-        }
-        return singleton;
-    }
-
-}
-</code></pre><p>然后看我们的测试代码：</p>
-<pre><code>import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
-public class SerializableDemo1 {
-    public static void main(String[] args) {
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(
-                    new FileOutputStream(&quot;tempFile&quot;));
-            oos.writeObject(Singleton.getInstance());
-            File file = new File(&quot;tempFile&quot;);
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
-                    file));
-            Singleton instance = (Singleton) ois.readObject();
-            System.out.println(&quot;反序列化后的对象和原来的是否相等？&quot;
-                    + (Singleton.getInstance() == instance));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}
-</code></pre><blockquote>
-<p>运行后： <figure class="highlight plain"><figcaption><span>```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&gt; 通过对Singleton的序列化与反序列化得到的对象是```一个新的对象```，这就破坏了Singleton的单例性。</div><div class="line"></div><div class="line"></div><div class="line">#### 序列化破坏单例の原因 ####</div><div class="line"></div><div class="line">反序列化后，为什么是一个新的对象？我们从```ObjectInputStream$readObject()```方法追踪,&lt;br/&gt;</div><div class="line">发现：``` Object obj = readObject0(false);```&lt;br/&gt;</div><div class="line">继续：</div><div class="line"></div><div class="line">	 case TC_OBJECT:</div><div class="line">	                    return checkResolve(readOrdinaryObject(unshared));</div><div class="line"></div><div class="line">探究： ```ObjectInputStream$readOrdinaryObject</div></pre></td></tr></table></figure></p>
-</blockquote>
-<p>该方法关键代码片段一：</p>
-<pre><code>Object obj;
-       try {
-           obj = desc.isInstantiable() ? desc.newInstance() : null;
-       } catch (Exception ex) {
-           throw (IOException) new InvalidClassException(
-               desc.forClass().getName(),
-               &quot;unable to create instance&quot;).initCause(ex);
-       }
-</code></pre><blockquote>
-<p>该obj,就是我们反序列化要得到的对象，即readObject()返回的对象。<br><br><code>isInstantiable</code>：如果一个Serializable/externalizable的类可以在运行时被实例化，那么该方法就返回true。<br><code>desc.newInstance()</code>：该方法通过反射的方式调用无参构造方法新建一个对象</p>
-</blockquote>
-<p>所以：</p>
-<blockquote>
-<p>反序列化会通过反射调用无参的构造创建一个新的对象</p>
-</blockquote>
-<p>该方法关键代码片段二：</p>
-<pre><code>if (obj != null &amp;&amp;
-           handles.lookupException(passHandle) == null &amp;&amp;
-           desc.hasReadResolveMethod())
-       {
-           Object rep = desc.invokeReadResolve(obj);
-           if (unshared &amp;&amp; rep.getClass().isArray()) {
-               rep = cloneArray(rep);
-           }
-           if (rep != obj) {
-               handles.setObject(passHandle, obj = rep);
-           }
-       }
-</code></pre><blockquote>
-<p><code>hasReadResolveMethod</code>： 如果实现了Serializable或者externalizable接口的类中包含readResolve,则返回true<br><br><code>invokeReadResolve</code>： 通过反射的方式调用要被反序列化的类的readResolve方法<br><br><code>if (rep != obj) {
-                    handles.setObject(passHandle, obj = rep);
-                }</code>：<br>如果readResolve得到的对象和desc.newInstance()调用无参构造得到的对象不同，那么使用readResolve方法中返回的Object。</p>
-</blockquote>
-<h4 id="结论一"><a href="#结论一" class="headerlink" title="结论一"></a>结论一</h4><pre><code>由上可得，我们在自己的单例中增加readResolve方法，返回当前单例的实例，即可防止反序列化得到对象不一致问题。如下：
-
-import java.io.Serializable;
-
-/**
- * double check lock 实现单例
- */
-public class Singleton implements Serializable {
-    private Singleton() {
-    };
-
-    public static volatile Singleton singleton;
-
-    public static Singleton getInstance() {
-        if (singleton == null) {
-            synchronized (Singleton.class) {
-                if (singleton == null) {
-                    singleton = new Singleton();
-                }
-            }
-        }
-        return singleton;
-    }
-
-    private Object readResolve() {
-        return singleton;
-    }
-
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-1/" itemprop="url">单例设计模式(一)基础知识</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><h5 id="来自wiki"><a href="#来自wiki" class="headerlink" title="来自wiki"></a>来自wiki</h5><blockquote>
-<p><a href="https://zh.wikipedia.org/wiki/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F" target="_blank" rel="external">单例模式</a>又叫单子模式，是一种常用的软件设计模式。在应用这个模式时，单例对象的类必须保证只有一个实例存在。许多时候整个系统只需要拥有一个全局对象，这样有利于我们协调系统整体的行为。<br>比如：在某个服务器程序中，该服务器的配置信息存放在一个文件中，这些配置数据由一个单例对象统一读取，然后服务进程中的其他对象再通过这个单例对象获取这些配置信息。这种方式简化了在复杂环境下的配置管理。</p>
-</blockquote>
-<h5 id="来自IBM"><a href="#来自IBM" class="headerlink" title="来自IBM"></a>来自IBM</h5><blockquote>
-<p>与wiki相重复的内容，不再摘录。<br><a href="http://www.ibm.com/developerworks/cn/java/j-lo-Singleton/" target="_blank" rel="external">单例模式</a>是一种对象创建模式，它用于产生一个对象的具体实例，它可以确保系统中一个类只产生一个实例。Java里面实现单例是一个虚拟机的范围，因为装载类的功能是由虚拟机做的，所以一个虚拟机在通过自己的ClassLoader装载实现单例类的时候就会创建一个类实例。在Java语言中，这样的行为有两大好处：<br>1.对于频繁使用的对象，可以省略创建对象所话费的时间，这对于那些重量级对象而言，是非常可观的一笔系统开销；<br>2.由于new操作的次数减少，因而对系统内存的使用频率降低，这将减轻GC压力，缩短GC停顿时间。 </p>
-</blockquote>
-<h4 id="how"><a href="#how" class="headerlink" title="how"></a>how</h4><h5 id="饿汉单例"><a href="#饿汉单例" class="headerlink" title="饿汉单例"></a>饿汉单例</h5><pre><code>public class Singleton {
- private Singleton(){}
- private static Singleton instance = new Singleton();
- public static Singleton getInsatnce(){
- return instance;
- }
-}
-</code></pre><blockquote>
-<p>上述代码不足之处是无法对instance实例做延时加载，假如单例的创建过程很慢，而由于instance成员变量是static定义的，因此在JVM加载单例类时，单例对象就会被建立，如果此时这个单例类在系统中还扮演其他角色，那么在任何使用这个单例类的地方都会初始化这个单例变量，而不管是否会用到。</p>
-</blockquote>
-<h5 id="懒汉单例"><a href="#懒汉单例" class="headerlink" title="懒汉单例"></a>懒汉单例</h5><pre><code>public class LazySingleton {
-
-    private LazySingleton() {
-    }
-
-    public static LazySingleton instance = null;
-
-    public static synchronized LazySingleton getInstance() {
-        if (instance == null) {
-            instance = new LazySingleton();
-        }
-        return instance;
-    }
-}
-</code></pre><blockquote>
-<p>上述代码首先对于静态成员变量instance初始化复赋值为null，确保系统启动时没有额外的负载；其次在getInstance()工厂方法中判断单例是否已经存在；注意，我们的getInstance()方法中添加了synchronized关键字，这就是注意事项中，在多线程情况下保证单例对象唯一性的手段。因此每次调用都要进行同步，造成不必要的开销，明显增加多线程环境下耗时。<br></p>
-<p>在多线程的应用场合下。如果当唯一实例尚未创建时，有两个线程同时调用创建方法，那么它们同时没有检测到唯一实例的存在，从而同时各自创建了一个实例，这样就有两个实例被构造出来，解决该问题的办法是为指示类是否已经实例化的变量提供一个互斥锁(会降低效率)。</p>
-</blockquote>
-<h5 id="懒汉单例的改进：静态内部类单例"><a href="#懒汉单例的改进：静态内部类单例" class="headerlink" title="懒汉单例的改进：静态内部类单例"></a>懒汉单例的改进：静态内部类单例</h5><pre><code>public class StaticInnerClassSingleton {
-
-    private StaticInnerClassSingleton() {
-    }
-
-    public StaticInnerClassSingleton getInstance() {
-        return SingletonHolder.instance;
-    }
-
-    private static class SingletonHolder {
-        private static final StaticInnerClassSingleton instance = new StaticInnerClassSingleton();
-    }
-}
-</code></pre><blockquote>
-<p>使用内部类来维护单例的实例，第一次加载StaticInnerClassSingleton类时，不会初始化instance，只有在第一次调用getInstance()时，才会加载SingletonHolder，初始化instance。由于实例的建立是在类加载时完成，不仅可以确保线程安全，也无需使用synchronized关键字，因此推荐使用。</p>
-</blockquote>
-<h5 id="DoubleCheckLock-实现单例"><a href="#DoubleCheckLock-实现单例" class="headerlink" title="DoubleCheckLock 实现单例"></a>DoubleCheckLock 实现单例</h5><pre><code>public class DCLSingleton {
-
-    private static DCLSingleton instance = null;
-
-    private DCLSingleton() {
-    }
-
-    public DCLSingleton getInstance() {
-        if (instance == null) {
-            synchronized (DCLSingleton.class) {
-                if (instance == null) {
-                    instance = new DCLSingleton();
-                }
-
-            }
-        }
-        return instance;
-    }
-}
-</code></pre><blockquote>
-<p>同步关键字加载方法上，如懒汉式单例，增加系统开销，影响效率。上述代码，第一次判空，可以避免不必要的同步，第二次判空是避免多线程情况下，instance实例为空，DCL失效。<br>因为<br><code>instance = new DCLSingleton();</code><br>并非原子操作，这句代码最终会被编译成多条汇编命令，大致做了三件事：<br><br>1.给DCLSingleton的实例分配内存<br><br>2.调用DCLSingleton的构造，初始化成员字段<br><br>3.将instance对象指向分配的内存空间<br></p>
-<p>由于Java编译器允许处理器乱序执行，以及JDK1.5之前的JMM(java memory model即Java内存模型)中<em>Cache、寄存器到主内存回写顺序</em>的规定，上面2、3的顺序无法保证先后执行的。<br>如果线程A的3执行完，此时instance不为null，2却没有执行，被切换到线程B上，B可以直接取走instance，使用就会报错，这就是DCL失效。<br><br>解决：JDK1.5之后，<code>private static volatile DCLSingleton instance = null;</code><br>使用volatile关键字，可以保证instance对象<em>每次都是从主内存中读取</em>。</p>
-</blockquote>
-<h5 id="容器维护多个单例"><a href="#容器维护多个单例" class="headerlink" title="容器维护多个单例"></a>容器维护多个单例</h5><pre><code>import java.util.HashMap;
-import java.util.Map;
-
-public class SingletonManager {
-    private static Map&lt;String,Object&gt; objMap = new HashMap&lt;&gt;();
-
-    private SingletonManager(){}
-
-    public static void registerService(String key,Object instance){
-        if(!objMap.containsKey(key)){
-            objMap.put(key, instance);
-        }
-    }
-
-    public static Object getService(String key){
-        return objMap.get(key);
-    }
-
-}
-</code></pre><blockquote>
-<p>根据key,使用map管理多种类型的单例，在使用时可以统一进行获取操作，可降低用户的使用成本。(个人感觉没啥用)</p>
-</blockquote>
-<h5 id="枚举单例"><a href="#枚举单例" class="headerlink" title="枚举单例"></a>枚举单例</h5><pre><code>public enum EnumSingleton {
-
-    INSTANCE;
-
-    public void doSomething() {
-    }
-}
-</code></pre><blockquote>
-<p>写法简单，线程安全，在任何情况下都是单例！</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-3/" itemprop="url">单例设计模式(三)真●单例唯一$反射</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="反射对单例的破坏"><a href="#反射对单例的破坏" class="headerlink" title="反射对单例的破坏"></a>反射对单例的破坏</h4><p>先看一个DCL单例：</p>
-<pre><code>import java.io.Serializable;
-
-/**
- * double check lock 实现单例
- */
-public class Singleton implements Serializable {
-    private Singleton() {
-    };
-
-    public static volatile Singleton singleton;
-
-    public static Singleton getInstance() {
-        if (singleton == null) {
-            synchronized (Singleton.class) {
-                if (singleton == null) {
-                    singleton = new Singleton();
-                }
-            }
-        }
-        return singleton;
-    }
-
-}
-</code></pre><p>然后看我们的测试代码：</p>
-<pre><code>import java.lang.reflect.Constructor;
-
-public class ReflectAttackSingleton {
-
-    public static void main(String[] args) {
-        try {
-            Class&lt;?&gt; classType = Singleton.class;
-            Constructor&lt;?&gt; c;
-            c = classType.getDeclaredConstructor(null);
-            c.setAccessible(true);
-            Singleton instance1 = (Singleton) c.newInstance();
-            Singleton instance2 = Singleton.getInstance();
-            System.out.println(&quot;反射得到的实例与单例中的实例是否相等？&quot; +(instance1 == instance2));
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-    }
-}
-</code></pre><blockquote>
-<p>运行后： <code>反射得到的实例与单例中的实例是否相等？false</code></p>
-<p>通过反射获取构造函数，然后调用即可获取新的单例的实例，这就破坏了Singleton的单例性。</p>
-</blockquote>
-<h4 id="修改构造器抵御攻击"><a href="#修改构造器抵御攻击" class="headerlink" title="修改构造器抵御攻击"></a>修改构造器抵御攻击</h4><pre><code>private static boolean flag = false;
-private Singleton() {
-    synchronized (Singleton.class) {
-        if(flag == false)
-            flag = !flag;
-        else
-            throw new RuntimeException(&quot;单例模式被攻击！&quot;);
-    }
-};
-</code></pre><h4 id="终极方法"><a href="#终极方法" class="headerlink" title="终极方法"></a>终极方法</h4><pre><code>使用枚举单例
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2420,7 +3060,7 @@ private Singleton() {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">87</span>
+                <span class="site-state-item-count">91</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

@@ -267,6 +267,1374 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/13/suffix-sort-baseon-dc3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/13/suffix-sort-baseon-dc3/" itemprop="url">基于DC3算法实现后缀数组</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-13T00:00:00Z">
+                2017-04-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p> DC3算法(Difference Cover mod 3)是J. Kärkkäinen和P. Sanders在2003年发表的论文 “Simple Linear Work Suffix Array Construction”中描述的线性时间内构造后缀数组的算法。相对Prefix Doubling（前缀倍增）算法而言，虽然它的渐进时间复杂度比较小，但是常数项比较大。DC3算法的思想类似于找中位数的median of medians算法</p>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><ol>
+<li>先将后缀分成两部分，然后对第一部分的后缀排序;</li>
+<li>利用1的结果，对第二部分的后缀排序;</li>
+<li>将1和2的结果合并，即完成对所有后缀排序;</li>
+</ol>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>package DC3;
+
+/**
+ * DC3算法构建后缀数组
+ * 
+ * @author sxx.xu
+ *
+ */
+public class DC3 {
+
+    public static final char MAX_CHAR = &apos;\u00FF&apos;;
+
+    class Suffix {
+        int[] sa;
+        int[] rank;
+        boolean done;
+
+        public Suffix(int[] sa, int[] rank) {
+            this.sa = sa;
+            this.rank = rank;
+        }
+    }
+
+    class Tuple {
+        int iSuffix;
+        int[] digits;
+
+        public Tuple(int iSuffix, int[] digits) {
+            this.iSuffix = iSuffix;
+            this.digits = digits;
+        }
+
+        public String toString() {
+            StringBuffer sb = new StringBuffer();
+            sb.append(iSuffix);
+            sb.append(&quot;(&quot;);
+            for (int i = 0; i &lt; digits.length; i++) {
+                sb.append(digits[i]);
+                if (i &lt; digits.length - 1)
+                    sb.append(&quot;-&quot;);
+            }
+            sb.append(&quot;)&quot;);
+            return sb.toString();
+        }
+    }
+
+    private void countingSort(int d, Tuple[] tA, Tuple[] tB, int max) {
+
+        int[] C = new int[max + 1];
+        for (int i = 0; i &lt;= max; i++) {
+            C[i] = 0;
+        }
+
+        for (int i = 0; i &lt; tA.length; i++) {
+            C[tA[i].digits[d]]++;
+        }
+
+        for (int i = 1; i &lt;= max; i++) {
+            C[i] += C[i - 1];
+        }
+
+        for (int i = tA.length - 1; i &gt;= 0; i--) {
+            tB[--C[tA[i].digits[d]]] = tA[i];
+        }
+    }
+
+    private void radixSort(Tuple[] tA, Tuple[] tB, int max, int digitsLen) {
+        int len = tA.length;
+        int digitsTotalLen = tA[0].digits.length;
+
+        for (int i = digitsTotalLen - 1, j = 0; j &lt; digitsLen; i--, j++) {
+            this.countingSort(i, tA, tB, max);
+            if (j &lt; digitsLen - 1) {
+                for (int k = 0; k &lt; len; k++) {
+                    tA[k] = tB[k];
+                }
+            }
+        }
+    }
+
+    private Suffix rank(Tuple[] tA, Tuple[] tB, int max, int digitsLen) {
+        int len = tA.length;
+        radixSort(tA, tB, max, digitsLen);
+
+        int digitsTotalLen = tA[0].digits.length;
+
+        int[] sa = new int[len];
+        sa[0] = tB[0].iSuffix;
+
+        int[] rank = new int[len + 2];
+        rank[len] = 1;
+        rank[len + 1] = 1;
+
+        int r = 1;
+
+        rank[tB[0].iSuffix] = r;
+
+        for (int i = 1; i &lt; len; i++) {
+            sa[i] = tB[i].iSuffix;
+
+            boolean equalLast = true;
+
+            for (int j = digitsTotalLen - digitsLen; j &lt; digitsTotalLen; j++) {
+                if (tB[i].digits[j] != tB[i - 1].digits[j]) {
+                    equalLast = false;
+                    break;
+                }
+            }
+
+            if (!equalLast)
+                r++;
+
+            rank[tB[i].iSuffix] = r;
+
+        }
+
+        Suffix suffix = new Suffix(sa, rank);
+        if (r == len) {
+            suffix.done = true;
+        } else {
+            suffix.done = false;
+        }
+
+        return suffix;
+    }
+
+    private int[] orderSuffix(Tuple[] tA, Tuple[] tB, int max, int digitsLen) {
+
+        int len = tA.length;
+        radixSort(tA, tB, max, digitsLen);
+        int[] sa = new int[len];
+        for (int i = 0; i &lt; sa.length; i++)
+            sa[i] = tB[i].iSuffix;
+
+        return sa;
+
+    }
+
+    public Suffix reduce(int[] rank, int max) {
+
+        int len = rank.length - 2;
+        int n1 = (len + 1) / 3;
+        int n2 = len / 3;
+
+        Tuple[] tA = new Tuple[n1 + n2];
+        Tuple[] tB = new Tuple[n1 + n2];
+
+        for (int i = 0, j = 1; i &lt; n1; i++, j += 3) {
+
+            int r1 = rank[j];
+            int r2 = rank[j + 1];
+            int r3 = rank[j + 2];
+
+            tA[i] = new Tuple(i, new int[] { r1, r2, r3 });
+        }
+
+        for (int i = n1, j = 2; i &lt; n1 + n2; i++, j += 3) {
+
+            int r1 = rank[j];
+            int r2 = rank[j + 1];
+            int r3 = rank[j + 2];
+
+            tA[i] = new Tuple(i, new int[] { r1, r2, r3 });
+        }
+
+        return rank(tA, tB, max, 3);
+    }
+
+    public int[] skew(int[] rank, int max) {
+        int len = rank.length - 2;
+
+        Suffix suffixT12 = reduce(rank, max);
+
+        int[] sa12 = null;
+
+        // 1.caculate sa12
+        if (!suffixT12.done) {
+            int[] rankT12 = suffixT12.rank;
+            int maxT12 = rankT12[suffixT12.sa[suffixT12.sa.length - 1]];
+            sa12 = skew(rankT12, maxT12);
+        } else {
+            sa12 = suffixT12.sa;
+        }
+
+        // index conversion for sa12
+        int n1 = (len + 1) / 3;
+        for (int i = 0; i &lt; sa12.length; i++) {
+            if (sa12[i] &lt; n1) {
+                sa12[i] = 1 + 3 * sa12[i];
+            } else {
+                sa12[i] = 2 + 3 * (sa12[i]-n1);
+            }
+        }
+
+        // recaculate rank for sa12
+        int[] rank12 = new int[len + 2];
+
+        rank12[len] = 1;
+        rank12[len + 1] = 1;
+
+        for (int i = 0; i &lt; sa12.length; i++) {
+            rank12[sa12[i]] = i + 1;
+        }
+
+        // 2.caculate sa0
+
+        int n0 = (len + 2) / 3;
+        Tuple[] tA = new Tuple[n0];
+        Tuple[] tB = new Tuple[n0];
+
+        for (int i = 0, j = 0; i &lt; n0; i++, j += 3) {
+            int r1 = rank[j];
+            int r2 = rank12[j + 1];
+            tA[i] = new Tuple(i, new int[] { r1, r2 });
+        }
+
+        int max12 = rank12[sa12[sa12.length - 1]];
+        int[] sa0 = orderSuffix(tA, tB, max &lt; max12 ? max12 : max, 2);
+
+        for (int i = 0; i &lt; n0; i++) {
+            sa0[i] = 3 * sa0[i];
+        }
+
+        // 3.merge sa12 and sa0
+
+        int[] sa = new int[len];
+        int i = 0, j = 0, k = 0;
+
+        while (i &lt; sa12.length &amp;&amp; j &lt; sa0.length) {
+            int p = sa12[i];
+            int q = sa0[j];
+
+            if (p % 3 == 1) {
+
+                if (rank[p] &lt; rank[q]) {
+                    sa[k++] = p;
+                    i++;
+                } else if (rank[p] &gt; rank[q]) {
+                    sa[k++] = q;
+                    j++;
+                } else {
+                    if (rank12[p + 1] &lt; rank12[q + 1]) {
+                        sa[k++] = p;
+                        i++;
+                    } else {
+                        sa[k++] = q;
+                        j++;
+                    }
+                }
+            } else {
+                if (rank[p] &lt; rank[q]) {
+                    sa[k++] = p;
+                    i++;
+                } else if (rank[p] &gt; rank[q]) {
+                    sa[k++] = q;
+                    j++;
+                } else {
+                    if (rank[p + 1] &lt; rank[q + 1]) {
+                        sa[k++] = p;
+                        i++;
+                    } else if (rank[p + 1] &gt; rank[q + 1]) {
+                        sa[k++] = q;
+                        j++;
+                    } else {
+                        if (rank12[p + 2] &lt; rank12[q + 2]) {
+                            sa[k++] = p;
+                            i++;
+                        } else {
+                            sa[k++] = q;
+                            j++;
+                        }
+                    }
+                }
+            }
+        }
+        for (int m = i; m &lt; sa12.length; m++) {
+            sa[k++] = sa12[m];
+        }
+        for (int m = j; m &lt; sa0.length; m++) {
+            sa[k++] = sa0[m];
+        }
+        return sa;
+
+    }
+
+     public Suffix solve(String text){  
+            if(text == null)return null;  
+            int len = text.length();  
+            if(len == 0) return null;  
+
+            char base = text.charAt(len-1); //the smallest char  
+            Tuple[] tA = new Tuple[len];  
+            Tuple[] tB = new Tuple[len]; //placeholder  
+            for(int i=0;i&lt;len;i++){  
+                tA[i] = new Tuple(i,new int[]{0,text.charAt(i)-base});  
+            }  
+            Suffix suffix = rank(tA,tB,MAX_CHAR-base,1);  
+
+            int max = suffix.rank[suffix.sa[len-1]];  
+            int[] sa  = skew(suffix.rank,max);  
+
+            //caculate rank for result suffix array  
+            int[] r = new int[len];       
+            for(int k=0;k&lt;sa.length;k++){  
+                r[sa[k]] = k+1;  
+            }  
+            return new Suffix(sa,r);  
+
+        }  
+        public void report(Suffix suffix){  
+            int[] sa = suffix.sa;  
+            int[] rank = suffix.rank;  
+            int len = sa.length;  
+
+            System.out.println(&quot;suffix array:&quot;);  
+            for(int i=0;i&lt;len;i++){  
+                System.out.format(&quot; %s&quot;, sa[i]);              
+            }  
+            System.out.println();  
+            System.out.println(&quot;rank array:&quot;);  
+            for(int i=0;i&lt;len;i++){  
+                System.out.format(&quot; %s&quot;, rank[i]);            
+            }         
+            System.out.println();  
+        }  
+        public static void main(String[] args) {  
+            String text = &quot;GACCCACCACC#&quot;;  
+            DC3 dc3 = new DC3();  
+            Suffix suffix = dc3.solve(text);  
+            System.out.format(&quot;Text: %s%n&quot;,text);  
+            dc3.report(suffix);  
+
+            text = &quot;mississippi#&quot;;  
+            dc3 = new DC3();  
+            suffix = dc3.solve(text);  
+            System.out.format(&quot;Text: %s%n&quot;,text);  
+            dc3.report(suffix);  
+
+            text = &quot;abcdefghijklmmnopqrstuvwxyz#&quot;;  
+            dc3 = new DC3();  
+            suffix = dc3.solve(text);  
+            System.out.format(&quot;Text: %s%n&quot;,text);  
+            dc3.report(suffix);  
+
+            text = &quot;yabbadabbado#&quot;;  
+            dc3 = new DC3();  
+            suffix = dc3.solve(text);  
+            System.out.format(&quot;Text: %s%n&quot;,text);  
+            dc3.report(suffix);  
+
+            text = &quot;DFDLKJLJldfasdlfjasdfkldjasfldafjdajfdsfjalkdsfaewefsdafdsfa#&quot;;  
+            dc3 = new DC3();  
+            suffix = dc3.solve(text);  
+            System.out.format(&quot;Text: %s%n&quot;,text);  
+            dc3.report(suffix);  
+        }  
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/11/suffix-sort-baseon-prefix-doubleing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/11/suffix-sort-baseon-prefix-doubleing/" itemprop="url">基于(前缀)倍增算法实现后缀数组</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-11T00:00:00Z">
+                2017-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>有几个基本概念需要知道。<br></p>
+<p>&gt;</p>
+<ol>
+<li><strong>子串：</strong>字符串S的子串r[i…j],i &lt;= j,表示r串从i到j这一段，就是顺次排列r[i],r[i+1],…,r[j]形成的字符串;</li>
+<li><strong>后缀：</strong>从某个位置i开始，到整个字符串末尾结束的一个特殊子串。字符串S的从第i个字符开始的后缀表示suffix(i),也就是suffix(i) = r[i…len(r)];<br></li>
+<li><strong>大小比较：</strong>关于字符串的大小比较，是指通常所说的“字典顺序”比较，也就是对于两个字符串u、v，令从i=1，开始顺次比较u[i]和v[i]，如果u[i]=v[i]，则令i++，否则，若u[i]&gt;v[i]则认为u&gt;v，反之则认为u<v，比较结束。如果i>len(u)或者i&gt;len(v)仍比较不出结果，那么若len(u)&gt;len(v)，则认为u&gt;v,反之则认为u<v.<br>从大小比较定义来看，S的后缀比较结果是不可能相等，因为u=v的必要条件len(u)=len(v)无法满足。</v.<br></v，比较结束。如果i></li>
+<li><strong>后缀数组：</strong>后缀数组SA是一个一维数组，它保存1…n的某个排列SA[1],SA[2],…,SA[n],并且保证suffix(SA[i])&lt;suffix(SA[i+1]), 1 &lt;= i &lt; n。也就是将S的n个后缀从小到大进行排序之后，把有序的后缀的开头位置顺次放入SA中。</li>
+<li><strong>名次数组：</strong>名字数组rank[i]保存的是suffix(i)在所有后缀中从小到大排列的“名次”。简单的说，后缀数组SA是“排第几的是谁？”，名次数组rank是“你排第几？”。容易看出，后缀数组和名次数组互为逆运算。</li>
+<li><strong>height数组：</strong>定义height[i]=suffix(SA[i-1])和suffix(SA[i])的最长公共前缀，也就是排名相邻的两个后缀的最长公共前缀，h[i]=height[rank[i]],也就是suffix(i)和在它前一名的后缀的最长公共前缀</li>
+<li><strong>LCP(i,j):</strong>对正整数i,j定义LCP(i,j)=lcp(Suffix(SA[i]),Suffix(SA[j]),其中i,j均为1至n的整数。LCP(i,j)也就是后缀数组中第i个和第j个后缀的最长公共前缀的长度。其中，函数lcp(u,v)=max{i|u=v},也就是从头开始顺次比较u和v的对应字符，对应字符持续相等的最大位置，称为这两个字符串的最长公共前缀。</li>
+</ol>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><p> Prefix Doubling算法(前缀倍增法)是构造后缀数组一个比较实用的算法。其基本思想是先计算出每个后缀的k-前缀的rank值，然后在此基础上计算每个后缀的2k-前缀rank值，k从1开始。直到每个后缀都排出先后顺序为止(后缀必有先后顺序，原因见上面的解释)。在处理2k-前缀时，只需要使用<a href="http://xusx1024.com/2017/04/10/radix-sort/" target="_blank" rel="external">基数排序(radix sort)</a>算法，先后对两位数字排序，可以采用<a href="http://xusx1024.com/2017/04/11/counting-sort/" target="_blank" rel="external">计数排序算法(counting sort)</a>对每一位数字排序。在最坏情况下，需要做lgn次基数排序，每一次基数排序的操作次数为2*O(n),因此它的时间复杂是O(nlgn)。倍增法虽然没有达到想DC3算法的线性复杂度，但是它的优点是实现比较简单，因此常常被采用。</p>
+<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p><img src="/images/prefix_doubleing_demo_1.png" alt="示例图"><br><br> </p>
+<p><img src="/images/SA&amp;rank.png" alt="示例图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p>java语言实现：<br></p>
+<pre><code>package PrefixDoubling;
+
+import java.util.Arrays;
+
+/**
+ * 倍增算法实现后缀数组
+ * 
+ * @author sxx.xu
+ *
+ */
+public class PrefixDoubling {
+
+    public static final char MAX_CHAR = &apos;\u00FF&apos;;
+
+    /**
+     * sa中第i个后缀：SA[rank[i]-1];&lt;br&gt;
+     * i是rank数组的下标;&lt;br&gt;
+     * 串S的第i个后缀是S[i...n],n=S.length-1.
+     * 
+     * @author sxx.xu
+     *
+     */
+    class Suffix {
+        int[] sa;
+        int[] rank;
+        boolean done;
+    }
+
+    class Tuple {
+        int iSuffix;
+        int[] digits;
+
+        public Tuple(int suffix, int[] digits) {
+            this.iSuffix = suffix;
+            this.digits = digits;
+        }
+
+        public String toString() {
+            StringBuffer sb = new StringBuffer();
+            sb.append(iSuffix);
+            sb.append(&quot;(&quot;);
+            for (int i = 0; i &lt; digits.length; i++) {
+                sb.append(digits[i]);
+                if (i &lt; digits.length - 1)
+                    sb.append(&quot;-&quot;);
+            }
+            sb.append(&quot;)&quot;);
+            return sb.toString();
+        }
+    }
+
+
+    private void countingSort(int d, Tuple[] tA, Tuple[] tB, int max) {
+        int[] C = new int[max + 1];
+        for (int i : C)
+            i = 0;
+
+        for (int j = 0; j &lt; tA.length; j++) {
+            C[tA[j].digits[d]]++;
+        }
+
+        for (int i = 1; i &lt;= max; i++)
+            C[i] += C[i - 1];
+
+        for (int j = tA.length - 1; j &gt;= 0; j--) {
+
+            tB[--C[tA[j].digits[d]]] = tA[j];
+
+        }
+    }
+
+    private void radixSort(Tuple[] tA, Tuple[] tB, int max, int digitsLen) {
+        int len = tA.length;
+        int digitsTotalLen = tA[0].digits.length;
+
+        for (int d = digitsTotalLen - 1, j = 0; j &lt; digitsLen; d--, j++) {
+            this.countingSort(d, tA, tB, max);
+            if (j &lt; digitsLen - 1) {
+                for (int i = 0; i &lt; len; i++) {
+                    tA[i] = tB[i];
+                }
+            }
+        }
+
+    }
+
+    private Suffix rank(Tuple[] tA, Tuple[] tB, int max, int digitsLen) {
+        int len = tA.length;
+        radixSort(tA, tB, max, digitsLen);
+
+        int digitsTotalLen = tA[0].digits.length;
+
+        int[] sa = new int[len];
+        sa[0] = tB[0].iSuffix;
+
+        int[] rank = new int[len];
+        int r = 1;
+        rank[tB[0].iSuffix] = r;
+        for (int i = 1; i &lt; len; i++) {
+            sa[i] = tB[i].iSuffix;
+
+            boolean equalLast = true;
+
+            for (int j = digitsTotalLen - digitsLen; j &lt; digitsTotalLen; j++) {
+                if (tB[i].digits[j] != tB[i - 1].digits[j]) {
+                    equalLast = false;
+                    break;
+                }
+            }
+
+            if (!equalLast) {
+                r++;
+            }
+            rank[tB[i].iSuffix] = r;
+        }
+
+        Suffix suffix = new Suffix();
+        suffix.rank = rank;
+        suffix.sa = sa;
+        if (r == len) {
+            suffix.done = true;
+        } else {
+            suffix.done = false;
+        }
+
+        return suffix;
+    }
+
+    public Suffix solve(String text) {
+        if (text == null)
+            return null;
+        int len = text.length();
+        if (len == 0)
+            return null;
+
+        int k = 1;
+        char base = text.charAt(len - 1);
+        Tuple[] tA = new Tuple[len];
+        Tuple[] tB = new Tuple[len];
+
+        for (int i = 0; i &lt; len; i++) {
+            tA[i] = new Tuple(i, new int[] { 0, text.charAt(i) - base });
+        }
+
+        Suffix suffix = rank(tA, tB, MAX_CHAR - base, 1);
+        while (!suffix.done) {
+            k &lt;&lt;= 1;
+            int offset = k &gt;&gt; 1;
+            for (int i = 0, j = i + offset; i &lt; len; i++, j++) {
+                tA[i].iSuffix = i;
+                tA[i].digits = new int[] { suffix.rank[i], (j &lt; len) ? suffix.rank[i + offset] : 0 };
+            }
+            int max = suffix.rank[suffix.sa[len - 1]];
+            suffix = rank(tA, tB, max, 2);
+        }
+        return suffix;
+    }
+
+    public void report(Suffix suffix) {
+        int[] sa = suffix.sa;
+        int[] rank = suffix.rank;
+        int len = sa.length;
+        System.out.println(&quot;suffix array:&quot;);
+        for (int i = 0; i &lt; len; i++)
+            System.out.format(&quot; %s&quot;, sa[i]);
+
+        System.out.println();
+        System.out.println(&quot;rank array:&quot;);
+        for (int i = 0; i &lt; len; i++)
+            System.out.format(&quot; %s&quot;, rank[i]);
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        /*
+         * //plain counting sort test:
+         * 
+         * int[] A= {2,5,3,0,2,3,0,3}; PrefixDoubling pd = new PrefixDoubling();
+         * int[] B = new int[A.length]; pd.countingSort(A,B,5); for(int
+         * i=0;i&lt;B.length;i++) System.out.format(&quot; %d&quot;, B[i]);
+         * System.out.println();
+         */
+
+        String text = &quot;GACCCACCACC#&quot;;
+        PrefixDoubling pd = new PrefixDoubling();
+        Suffix suffix = pd.solve(text);
+        System.out.format(&quot;Text: %s%n&quot;, text);
+        pd.report(suffix);
+
+        System.out.println(&quot;********************************&quot;);
+        text = &quot;mississippi#&quot;;
+        pd = new PrefixDoubling();
+        suffix = pd.solve(text);
+        System.out.format(&quot;Text: %s%n&quot;, text);
+        pd.report(suffix);
+
+        System.out.println(&quot;********************************&quot;);
+        text = &quot;abcdefghijklmmnopqrstuvwxyz#&quot;;
+        pd = new PrefixDoubling();
+        suffix = pd.solve(text);
+        System.out.format(&quot;Text: %s%n&quot;, text);
+        pd.report(suffix);
+
+        System.out.println(&quot;********************************&quot;);
+        text = &quot;yabbadabbado#&quot;;
+        pd = new PrefixDoubling();
+        suffix = pd.solve(text);
+        System.out.format(&quot;Text: %s%n&quot;, text);
+        pd.report(suffix);
+
+        System.out.println(&quot;********************************&quot;);
+        text = &quot;DFDLKJLJldfasdlfjasdfkldjasfldafjdajfdsfjalkdsfaewefsdafdsfa#&quot;;
+        pd = new PrefixDoubling();
+        suffix = pd.solve(text);
+        System.out.format(&quot;Text: %s%n&quot;, text);
+        pd.report(suffix);
+
+    }
+
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/11/counting-sort/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/11/counting-sort/" itemprop="url">非比较排序之计数排序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-11T00:00:00Z">
+                2017-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><a href="https://zh.wikipedia.org/wiki/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F" target="_blank" rel="external">计数排序wiki</a> <br></p>
+<ul>
+<li>计数排序是用来排序0到100之间的数字的最好的算法</li>
+<li>计数排序可以用在基数排序中的算法来排序数据范围很大的数组</li>
+<li>计数排序是一种算法复杂度 O(n) 的排序方法，适合于小范围集合的排序</li>
+<li>计数排序的优势是对已知数量范围的数组进行排序</li>
+<li>基于比较的排序算法是不能突破O(NlogN)</li>
+</ul>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><ol>
+<li>找出待排序的数组中最大和最小的元素</li>
+<li>统计数组中每个值为i的元素出现的次数，存入数组 C 的第 i 项</li>
+<li>对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）</li>
+<li>反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1</li>
+</ol>
+<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>具体的分步动画演示详见：<a href="http://www.cs.usfca.edu/~galles/visualization/CountingSort.html" target="_blank" rel="external">Data Structure Visualizations</a></p>
+<p><br><br>对于数据2 5 3 0 2 3 0 3程序执行的过程如下图所示：</p>
+<p><img src="/images/counting_sort_1.png" alt="示例图"><br><br><img src="/images/counting_sort_2.png" alt="示例图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>package CountingSort;
+
+/**
+ * 计数排序
+ * 
+ * @author sxx.xu
+ *
+ */
+public class CountingSort {
+
+    private static void countingSort(int[] array) {
+        int min = array[0], max = array[0];
+        for (int i : array) {
+            if (i &lt; min)
+                min = i;
+            if (i &gt; max)
+                max = i;
+        }
+
+        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
+        int[] countArray = new int[max + 1];// 此处使用max+1太粗暴，见countingSort2
+        int[] countResult = new int[array.length];
+
+        for (int i : array) {
+            countArray[i]++;
+        }
+
+        for (int i = 1; i &lt; countArray.length; i++) {
+            countArray[i] += countArray[i - 1];
+        }
+
+        for (int i = array.length - 1; i &gt;= 0; i--) {
+            int elem = array[i];
+            int index = countArray[elem] - 1;
+            countResult[index] = elem;
+            System.out.println(&quot;当前元素为：&quot; + elem + &quot;;在排序数组中的位置是：&quot; + index);
+            countArray[elem]--;
+        }
+
+        for (int i : countResult) {
+            System.out.println(i);
+        }
+
+        // 桶排序
+        // int[][] resultArray = new int[countArray.length][countArray.length];
+        // for (int i = 0; i &lt; countArray.length; i++) {
+        // for (int j = 0; j &lt; countArray[i]; j++) {
+        // resultArray[i][j] = i;
+        // }
+        // }
+        //
+        // for (int i = 0; i &lt; resultArray.length; i++) {
+        // for (int j = 0; j &lt; resultArray[i].length; j++) {
+        // if (resultArray[i][j] != 0)
+        // System.out.println(resultArray[i][j]);// 这里直接输出，属于桶排序
+        // }
+        // }
+    }
+
+    /**
+     * 优化后的，减少中间数组大小
+     * @param array
+     */
+    private static void countingSort2(int[] array) {
+
+        int min = array[0], max = array[0];
+        for (int i : array) {
+            if (i &lt; min)
+                min = i;
+            if (i &gt; max)
+                max = i;
+        }
+
+        System.out.println(&quot;max value:&quot; + max + &quot;\nmin value:&quot; + min);
+        int[] countArray = new int[max - min + 1];
+        int[] countResult = new int[array.length];
+
+        for (int i : array) {
+            countArray[i - min]++;
+        }
+
+        for (int i = 1; i &lt; countArray.length; i++) {
+            countArray[i] += countArray[i - 1];
+        }
+
+        for (int i = array.length - 1; i &gt;= 0; i--) {
+            int elem = array[i] - min;
+            int index = countArray[array[i] - min] - 1;
+            countResult[index] = array[i];
+            countArray[elem]--;
+        }
+
+        for (int i : countResult) {
+            System.out.println(i);
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] array = { 8, 2, 3, 4, 3, 6, 6, 3, 9 };
+        int[] array2 = { 2, 8, 5, 1, 10, 5, 9, 9, 3, 5, 6, 6, 2, 8, 2 };
+        countingSort(array);
+        countingSort2(array);
+    }
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/radix-sort/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/10/radix-sort/" itemprop="url">非比较排序之基数排序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-10T00:00:00Z">
+                2017-04-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>探究Tinker的BSDiff算法的过程中，发现用到了<code>后缀排序</code>，就去研究后缀排序，然后发现用到<code>倍增算法</code>的思想。而倍增是排序的一种策略，这种策略要求必须对<code>基数排序</code>有一定的理解 T.T。<br><br>好，言归正传。基数排序是<a href="http://xusx1024.com/2017/04/10/bucket-sort/" target="_blank" rel="external">桶排序</a>的一种特例。 </p>
+<h4 id="比较和非比较的区别"><a href="#比较和非比较的区别" class="headerlink" title="比较和非比较的区别"></a>比较和非比较的区别</h4><p>常见的快速排序、归并排序、堆排序、冒泡排序等属于比较排序。在排序的最终结果里，元素之间的次序依赖于它们之间的比较。每个数都必须和其他数进行比较，才能确定自己的位置。</p>
+<p>在 冒泡排序 之类的排序中，问题规模为n，又因为需要比较n次，所以平均时间复杂度为O(n²)。在 归并排序、快速排序 之类的排序中，问题规模通过分治法消减为logN次，所以时间复杂度平均 O(nlogn) 。</p>
+<p>比较排序的优势是，适用于各种规模的数据，也不在乎数据的分布，都能进行排序。可以说，比较排序适用于一切需要排序的情况。</p>
+<p>计数排序、基数排序、桶排序则属于非比较排序。非比较排序是通过确定每个元素之前，应该有多少个元素来排序。针对数组arr，计算arr[i]之前有多少个元素，则唯一确定了arr[i]在排序后数组中的位置。</p>
+<p>非比较排序只要确定每个元素之前的已有的元素个数即可，所有一次遍历即可解决。算法时间复杂度 O(n) 。</p>
+<p>非比较排序时间复杂度底，但由于非比较排序需要占用空间来确定唯一位置。所以对数据规模和数据分布有一定的要求。</p>
+<h4 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h4><blockquote>
+<p>基数排序是一种非比较型、整数排序算法，其原理是将整数按位数切割成不同的数字，然后按照每个位数分别比较。<br><br></p>
+</blockquote>
+<p>排序过程：<br><br>将所有待比较数值(正整数)统一为同样的数位长度，数位较短的数前面补零。然后从最地位开始，依次进行一次排序。<br></p>
+<p>基数排序法会使用到桶，即把要比较的个、十、百、千。。。位的对应的元素分配到0~9个桶中，借以达到排序的作用，在某些时候，基数排序法的效率高于其他的比较性算法。具体的分步动画演示详见：<a href="http://www.cs.usfca.edu/~galles/visualization/RadixSort.html" target="_blank" rel="external">Data Structure Visualizations</a>。</p>
+<p><br><br>基数排序的方式可以采用LSD（Least significant digital）或MSD（Most significant digital），LSD的排序方式由键值的最右边开始，而MSD则相反，由键值的最左边开始。</p>
+<h4 id="效率"><a href="#效率" class="headerlink" title="效率"></a>效率</h4><p>基数排序的时间复杂度是 <strong>O(k·n)</strong>，其中<strong>n</strong>是排序元素个数， <strong>k</strong>是数字位数。注意这不是说这个时间复杂度一定优于 <strong>O(n·log(n))</strong>， <strong>k</strong>的大小取决于数字位的选择（比如比特位数），和待排序数据所属数据类型的全集的大小； <strong>k</strong>决定了进行多少轮处理，而 <strong>n</strong>是每轮处理的操作数目。</p>
+<h4 id="实例分析"><a href="#实例分析" class="headerlink" title="实例分析"></a>实例分析</h4><p>对数组{53, 542, 63, 3, 63, 14, 214, 154, 748, 616}，它的示意图如下：</p>
+<p><img src="/images/radix_sort.png" alt="示例图"><br>Java代码如下：</p>
+<pre><code>package RadixSort;
+
+/**
+ * 基数排序
+ * 
+ * @author sxx.xu
+ *
+ */
+public class RadixSort {
+
+    private static int getMax(int[] array) {
+        int max = array[0];
+        for (int i : array) {
+            max = i &gt; max ? i : max;
+        }
+        return max;
+    }
+
+    public static void radixSort(int[] array) {
+        int exp = 1;// 个、十、百、千。。。位
+        int max = getMax(array);
+
+        for (exp = 1; max / exp &gt; 0; exp *= 10)
+            countSort(array, exp);
+    }
+
+    private static void countSort(int[] array, int exp) {
+
+        int[] outputs = new int[array.length];
+        int[] buckets = new int[10];// 0-9
+
+        //统计array中对应位数的元素的个数
+        for (int i : array) {
+            buckets[(i / exp) % 10]++;
+        }
+        //统计array中，小于该位的元素的个数，相当于排序
+        for (int i = 1; i &lt; buckets.length; i++) {
+            buckets[i] += buckets[i - 1];
+        }
+        //赋值
+        for (int i = array.length - 1; i &gt;= 0; i--) {
+            outputs[buckets[(array[i] / exp) % 10] - 1] = array[i];
+            buckets[(array[i] / exp) % 10]--;
+        }
+
+        for (int i = 0; i &lt; outputs.length; i++) {
+            array[i] = outputs[i];
+        }
+        outputs = null;
+        buckets = null;
+    }
+
+    private static void radixSort(int[] array, int d) {
+        int n = 1;// 个、十、百、千。。。位
+        int k = 0;// 保存每一位排序后的结果用于下一位的排序输入
+        int length = array.length;
+        int[][] bucket = new int[10][length];// 排序桶用于保存每次排序后的结果，这一位上排序结果相同的数字放在同一个桶里
+        int[] order = new int[length];// 用于保存每个桶里有多少个数字
+        while (n &lt; d) {
+            for (int num : array) // 将数组array里的每个数字放在相应的桶里
+            {
+                int digit = (num / n) % 10;
+                bucket[digit][order[digit]] = num;
+                order[digit]++;
+            }
+            for (int i = 0; i &lt; length; i++)// 将前一个循环生成的桶里的数据覆盖到原数组中用于保存这一位的排序结果
+            {
+                if (order[i] != 0)// 这个桶里有数据，从上到下遍历这个桶并将数据保存到原数组中
+                {
+                    for (int j = 0; j &lt; order[i]; j++) {
+                        array[k] = bucket[i][j];
+                        k++;
+                    }
+                }
+                order[i] = 0;// 将桶里计数器置0，用于下一次位排序
+            }
+            n *= 10;
+            k = 0;// 将k置0，用于下一轮保存位排序结果
+        }
+
+    }
+
+    public static void main(String[] args) {
+        int array[] = { 53, 3, 542, 748, 14, 214, 154, 63, 616, 70 };
+        for (int i : array) {
+            System.out.print(i + &quot;  &quot;);
+        }
+        System.out.println(&quot;&quot;);
+        System.out.println(&quot;before===================================after&quot;);
+        radixSort(array);
+        for (int i : array) {
+            System.out.print(i + &quot;  &quot;);
+        }
+        int[] A = new int[] { 53, 3, 542, 748, 14, 214, 154, 63, 616, 70 };
+        radixSort(A, 100);
+        System.out.println(&quot;&quot;);
+        for (int i : A) {
+            System.out.print(i + &quot;  &quot;);
+        }
+    }
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/bucket-sort/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -709,176 +2077,6 @@ public class BuketsSort {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/01/findbug-notes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/04/01/findbug-notes/" itemprop="url">FindBugs常见错误提示及解决</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-01T00:00:00Z">
-                2017-04-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA & kotlin</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD"><a href="#ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD" class="headerlink" title="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"></a>ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD</h4><blockquote>
-<p>This instance method writes to a static field. This is tricky to get correct if multiple instances are being manipulated, and generally bad practice.<br>静态字段被实例方法修改。如果多个实例被操纵，这样获取正确的结果是滑头的，并且通常不是好的实践。</p>
-</blockquote>
-<p>原因：静态私有的成员变量不能在public类里面直接赋值，最好是通过get/set方法进行操作。直接通过类名.常量名获取的方式违背了封装的原则，findbugs不提倡使用。<br><br></p>
-<p>解决：通过get/set方法提供操作。</p>
-<h4 id="DM-BOXED-PRIMITIVE-FOR-PARSING"><a href="#DM-BOXED-PRIMITIVE-FOR-PARSING" class="headerlink" title="DM_BOXED_PRIMITIVE_FOR_PARSING"></a>DM_BOXED_PRIMITIVE_FOR_PARSING</h4><blockquote>
-<p>A boxed primitive is created from a String, just to extract the unboxed primitive value. It is more efficient to just call the static parseXXX method.<br>一个装箱的原语是由字符串创建，只是为了拆箱获取原始值。使用parseXXX方法更加有效。</p>
-</blockquote>
-<p>原因：</p>
-<ul>
-<li>static int parseInt(String s):       将字符串参数作为有符号的十进制整数进行分析，返回一个int值。</li>
-<li>static Integer valueOf(int i) :      返回一个表示指定的 int 值的 Integer 实例。</li>
-<li>static Integer valueOf(String s) :      返回保持指定的 String 的值的 Integer 对象（实例）。</li>
-</ul>
-<p>解决：parseXXX方法代替valueOf</p>
-<h4 id="SS-SHOULD-BE-STATIC"><a href="#SS-SHOULD-BE-STATIC" class="headerlink" title="SS_SHOULD_BE_STATIC"></a>SS_SHOULD_BE_STATIC</h4><blockquote>
-<p>This class contains an instance final field that is initialized to a compile-time static value. Consider making the field static.<br>类包含一个初始化于编译期静态值的不可变实例字段。考虑使用static修饰该字段。</p>
-</blockquote>
-<p>解决方法：final的字段可以定义为static类型</p>
-<h4 id="DLS-DEAD-LOCAL-STORE"><a href="#DLS-DEAD-LOCAL-STORE" class="headerlink" title="DLS_DEAD_LOCAL_STORE"></a>DLS_DEAD_LOCAL_STORE</h4><blockquote>
-<p>This instruction assigns a value to a local variable, but the value is not read or used in any subsequent instruction. Often, this indicates an error, because the value computed is never used.<br><br>Note that Sun’s javac compiler often generates dead stores for final local variables. Because FindBugs is a bytecode-based tool, there is no easy way to eliminate these false positives.<br>该指令把一个值分配给本地变量，但是值并没有被读取或使用。通常这表示错误，因为这个值从来没有被用到过。<br><br>请注意，Sun公司的javac编译器通常为本地final变量生成死存储。因为FindBugs是基于字节码的工具，因此没有简单的方法可以消除这些误报。</p>
-</blockquote>
-<p>解决方法：注释掉。</p>
-<h4 id="SF-SWITCH-NO-DEFAULT"><a href="#SF-SWITCH-NO-DEFAULT" class="headerlink" title="SF_SWITCH_NO_DEFAULT"></a>SF_SWITCH_NO_DEFAULT</h4><blockquote>
-<p>This method contains a switch statement where default case is missing. Usually you need to provide a default case.<br>Because the analysis only looks at the generated bytecode, this warning can be incorrect triggered if the default case is at the end of the switch statement and the switch statement doesn’t contain break statements for other cases.<br>此方法包含一个缺省情况下的switch语句。通常你需要提供一个默认的情况。<br><br><br>因为分析仅查看生成的字节码，这个警告可能会被错误除法。如果默认的情况下是switch语句结尾并且switch语句不包含其他情况的break语句。</p>
-</blockquote>
-<p>解决方法：加上default。</p>
-<h4 id="RV-RETURN-VALUE-IGNORED-BAD-PRACTICE"><a href="#RV-RETURN-VALUE-IGNORED-BAD-PRACTICE" class="headerlink" title="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"></a>RV_RETURN_VALUE_IGNORED_BAD_PRACTICE</h4><blockquote>
-<p>This method returns a value that is not checked.The return value should be checked since it can indicate an unusual or unexpected function. For example, the <code>File.delete()</code> method returns false if the file could not be successfully deleted(rather than throwing an Exception).if you don’t check the result, you won’t notice if the method invocation signals unexpected behavior by returning an a typical return value.<br>此方法返回了一个boolean，但没有去检查。这个值应该被检查，因为他可以指示异常或意外的功能。例如，<code>File.dlete()</code>方法返回false，如果这个文件可以被成功删除，而不是抛出异常。如果你没有检查，你就不会注意到这个方法通过返回一个典型错误，调用出现不可期的行为。</p>
-</blockquote>
-<h4 id="DC-DOUBLECHECK"><a href="#DC-DOUBLECHECK" class="headerlink" title="DC_DOUBLECHECK"></a>DC_DOUBLECHECK</h4><blockquote>
-<p>This method may contain an instance of double-checked locking. This idion is not correct according to the semantics of the Java memory model.</p>
-</blockquote>
-<p>see more:<a href="http://www.infoq.com/cn/articles/double-checked-locking-with-delay-initialization#" target="_blank" rel="external">双重检查锁定与延迟初始化</a></p>
-<h4 id="NM-METHOD-NAMING-CONVENTION"><a href="#NM-METHOD-NAMING-CONVENTION" class="headerlink" title="NM_METHOD_NAMING_CONVENTION"></a>NM_METHOD_NAMING_CONVENTION</h4><blockquote>
-<p>Methods should be verbs, in mixed case with the first letter lowercase, with the first letter of each internal word capitalized.<br>方法名开头要小写。</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/01/android-study-path/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1132,6 +2330,332 @@ public class BuketsSort {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/01/findbug-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/01/findbug-notes/" itemprop="url">FindBugs常见错误提示及解决</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-01T00:00:00Z">
+                2017-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA & kotlin</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD"><a href="#ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD" class="headerlink" title="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"></a>ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD</h4><blockquote>
+<p>This instance method writes to a static field. This is tricky to get correct if multiple instances are being manipulated, and generally bad practice.<br>静态字段被实例方法修改。如果多个实例被操纵，这样获取正确的结果是滑头的，并且通常不是好的实践。</p>
+</blockquote>
+<p>原因：静态私有的成员变量不能在public类里面直接赋值，最好是通过get/set方法进行操作。直接通过类名.常量名获取的方式违背了封装的原则，findbugs不提倡使用。<br><br></p>
+<p>解决：通过get/set方法提供操作。</p>
+<h4 id="DM-BOXED-PRIMITIVE-FOR-PARSING"><a href="#DM-BOXED-PRIMITIVE-FOR-PARSING" class="headerlink" title="DM_BOXED_PRIMITIVE_FOR_PARSING"></a>DM_BOXED_PRIMITIVE_FOR_PARSING</h4><blockquote>
+<p>A boxed primitive is created from a String, just to extract the unboxed primitive value. It is more efficient to just call the static parseXXX method.<br>一个装箱的原语是由字符串创建，只是为了拆箱获取原始值。使用parseXXX方法更加有效。</p>
+</blockquote>
+<p>原因：</p>
+<ul>
+<li>static int parseInt(String s):       将字符串参数作为有符号的十进制整数进行分析，返回一个int值。</li>
+<li>static Integer valueOf(int i) :      返回一个表示指定的 int 值的 Integer 实例。</li>
+<li>static Integer valueOf(String s) :      返回保持指定的 String 的值的 Integer 对象（实例）。</li>
+</ul>
+<p>解决：parseXXX方法代替valueOf</p>
+<h4 id="SS-SHOULD-BE-STATIC"><a href="#SS-SHOULD-BE-STATIC" class="headerlink" title="SS_SHOULD_BE_STATIC"></a>SS_SHOULD_BE_STATIC</h4><blockquote>
+<p>This class contains an instance final field that is initialized to a compile-time static value. Consider making the field static.<br>类包含一个初始化于编译期静态值的不可变实例字段。考虑使用static修饰该字段。</p>
+</blockquote>
+<p>解决方法：final的字段可以定义为static类型</p>
+<h4 id="DLS-DEAD-LOCAL-STORE"><a href="#DLS-DEAD-LOCAL-STORE" class="headerlink" title="DLS_DEAD_LOCAL_STORE"></a>DLS_DEAD_LOCAL_STORE</h4><blockquote>
+<p>This instruction assigns a value to a local variable, but the value is not read or used in any subsequent instruction. Often, this indicates an error, because the value computed is never used.<br><br>Note that Sun’s javac compiler often generates dead stores for final local variables. Because FindBugs is a bytecode-based tool, there is no easy way to eliminate these false positives.<br>该指令把一个值分配给本地变量，但是值并没有被读取或使用。通常这表示错误，因为这个值从来没有被用到过。<br><br>请注意，Sun公司的javac编译器通常为本地final变量生成死存储。因为FindBugs是基于字节码的工具，因此没有简单的方法可以消除这些误报。</p>
+</blockquote>
+<p>解决方法：注释掉。</p>
+<h4 id="SF-SWITCH-NO-DEFAULT"><a href="#SF-SWITCH-NO-DEFAULT" class="headerlink" title="SF_SWITCH_NO_DEFAULT"></a>SF_SWITCH_NO_DEFAULT</h4><blockquote>
+<p>This method contains a switch statement where default case is missing. Usually you need to provide a default case.<br>Because the analysis only looks at the generated bytecode, this warning can be incorrect triggered if the default case is at the end of the switch statement and the switch statement doesn’t contain break statements for other cases.<br>此方法包含一个缺省情况下的switch语句。通常你需要提供一个默认的情况。<br><br><br>因为分析仅查看生成的字节码，这个警告可能会被错误除法。如果默认的情况下是switch语句结尾并且switch语句不包含其他情况的break语句。</p>
+</blockquote>
+<p>解决方法：加上default。</p>
+<h4 id="RV-RETURN-VALUE-IGNORED-BAD-PRACTICE"><a href="#RV-RETURN-VALUE-IGNORED-BAD-PRACTICE" class="headerlink" title="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"></a>RV_RETURN_VALUE_IGNORED_BAD_PRACTICE</h4><blockquote>
+<p>This method returns a value that is not checked.The return value should be checked since it can indicate an unusual or unexpected function. For example, the <code>File.delete()</code> method returns false if the file could not be successfully deleted(rather than throwing an Exception).if you don’t check the result, you won’t notice if the method invocation signals unexpected behavior by returning an a typical return value.<br>此方法返回了一个boolean，但没有去检查。这个值应该被检查，因为他可以指示异常或意外的功能。例如，<code>File.dlete()</code>方法返回false，如果这个文件可以被成功删除，而不是抛出异常。如果你没有检查，你就不会注意到这个方法通过返回一个典型错误，调用出现不可期的行为。</p>
+</blockquote>
+<h4 id="DC-DOUBLECHECK"><a href="#DC-DOUBLECHECK" class="headerlink" title="DC_DOUBLECHECK"></a>DC_DOUBLECHECK</h4><blockquote>
+<p>This method may contain an instance of double-checked locking. This idion is not correct according to the semantics of the Java memory model.</p>
+</blockquote>
+<p>see more:<a href="http://www.infoq.com/cn/articles/double-checked-locking-with-delay-initialization#" target="_blank" rel="external">双重检查锁定与延迟初始化</a></p>
+<h4 id="NM-METHOD-NAMING-CONVENTION"><a href="#NM-METHOD-NAMING-CONVENTION" class="headerlink" title="NM_METHOD_NAMING_CONVENTION"></a>NM_METHOD_NAMING_CONVENTION</h4><blockquote>
+<p>Methods should be verbs, in mixed case with the first letter lowercase, with the first letter of each internal word capitalized.<br>方法名开头要小写。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/30/tinker-source-code-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/30/tinker-source-code-3/" itemprop="url">Tinker学习(三) 核心的算法BSDiff、BSPatch</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-30T00:00:00Z">
+                2017-03-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>BSDiff，用于服务端比较二进制文件并生成差异补丁；<br><br>BSPatch，将旧文件和补丁文件合并生成新的文件。</p>
+<p>比较差异使用的算法是<code>suffix sort</code>后缀排序算法。其中：<br></p>
+<ul>
+<li>C实现可以参照：<a href="https://github.com/cperciva" target="_blank" rel="external">Colin Percival</a>的<a href="https://github.com/cperciva/bsdiff" target="_blank" rel="external">bsdiff</a></li>
+<li>Java实现可以参照：<a href="https://github.com/jdesbonnet" target="_blank" rel="external">Joe Desbonnet</a>的<a href="https://github.com/jdesbonnet/jbdiff" target="_blank" rel="external">jbdiff</a><br></li>
+</ul>
+<p>Tinker的<code>com.tencent.tinker.bsdiff</code>实现基本上和Joe Desbonnet的实现并无两样。</p>
+<h4 id="BSDiff基本步骤"><a href="#BSDiff基本步骤" class="headerlink" title="BSDiff基本步骤"></a>BSDiff基本步骤</h4><ol>
+<li>将old文件中所有子字符串形成一个字典 </li>
+<li>对比old文件和new文件，产生diff string 和 extra string</li>
+<li>将diffstring和extra string以及相应的控制字用zip压缩成一个patch包。</li>
+</ol>
+<p>所有差量更新算法的瓶颈，时间复杂度为O(nlogn)，空间复杂度为O(n)，n为old的文件长度，BSDiff采用了Fast suffix sorting方法生成后缀数组<br><br>关于后缀数组概念，需要懂得非比较排序算法：<br></p>
+<ul>
+<li><a href="http://xusx1024.com/2017/04/11/counting-sort/" target="_blank" rel="external">非比较排序之计数排序</a></li>
+<li><a href="http://xusx1024.com/2017/04/10/bucket-sort/" target="_blank" rel="external">非比较排序之桶/箱排序</a></li>
+<li><a href="http://xusx1024.com/2017/04/10/radix-sort/" target="_blank" rel="external">非比较排序之基数排序</a></li>
+</ul>
+<p>需要懂得生成后缀数组算法：<br></p>
+<ul>
+<li><a href="http://xusx1024.com/2017/04/11/suffix-sort-baseon-prefix-doubleing/" target="_blank" rel="external">基于倍增算法实现后缀数组</a></li>
+<li><a href="http://xusx1024.com/2017/04/13/suffix-sort-baseon-dc3/" target="_blank" rel="external">基于DC3算法实现后缀数组</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/30/tinker-source-code-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1342,892 +2866,11 @@ public class StartUp {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/30/tinker-source-code-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/30/tinker-source-code-3/" itemprop="url">Tinker学习(三) 核心的算法BSDiff、BSPatch</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-30T00:00:00Z">
-                2017-03-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>BSDiff，用于服务端比较二进制文件并生成差异补丁；<br><br>BSPatch，将旧文件和补丁文件合并生成新的文件。</p>
-<p>比较差异使用的算法是<code>suffix sort</code>后缀排序算法。其中：<br></p>
-<ul>
-<li>C实现可以参照：<a href="https://github.com/cperciva" target="_blank" rel="external">Colin Percival</a>的<a href="https://github.com/cperciva/bsdiff" target="_blank" rel="external">bsdiff</a></li>
-<li>Java实现可以参照：<a href="https://github.com/jdesbonnet" target="_blank" rel="external">Joe Desbonnet</a>的<a href="https://github.com/jdesbonnet/jbdiff" target="_blank" rel="external">jbdiff</a><br></li>
-</ul>
-<p>Tinker的<code>com.tencent.tinker.bsdiff</code>实现基本上和Joe Desbonnet的实现并无两样。</p>
-<h4 id="BSDiff基本步骤"><a href="#BSDiff基本步骤" class="headerlink" title="BSDiff基本步骤"></a>BSDiff基本步骤</h4><ol>
-<li>将old文件中所有子字符串形成一个字典 </li>
-<li>对比old文件和new文件，产生diff string 和 extra string</li>
-<li>将diffstring和extra string以及相应的控制字用zip压缩成一个patch包。</li>
-</ol>
-<p>所有差量更新算法的瓶颈，时间复杂度为O(nlogn)，空间复杂度为O(n)，n为old的文件长度，BSDiff采用了Fast suffix sorting方法生成后缀数组<br><br>关于后缀数组概念，需要懂得非比较排序算法：<br></p>
-<ul>
-<li><a href="http://xusx1024.com/2017/04/11/counting-sort/" target="_blank" rel="external">非比较排序之计数排序</a></li>
-<li><a href="http://xusx1024.com/2017/04/10/bucket-sort/" target="_blank" rel="external">非比较排序之桶/箱排序</a></li>
-<li><a href="http://xusx1024.com/2017/04/10/radix-sort/" target="_blank" rel="external">非比较排序之基数排序</a></li>
-</ul>
-<p>需要懂得生成后缀数组算法：<br></p>
-<ul>
-<li><a href="http://xusx1024.com/2017/04/11/suffix-sort-baseon-prefix-doubleing/" target="_blank" rel="external">基于倍增算法实现后缀数组</a></li>
-<li><a href="http://xusx1024.com/2017/04/13/suffix-sort-baseon-dc3/" target="_blank" rel="external">基于DC3算法实现后缀数组</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/27/kernel-user-space/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/27/kernel-user-space/" itemprop="url">Linux基础知识：内核空间和用户空间</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-27T00:00:00Z">
-                2017-03-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Operation-System/" itemprop="url" rel="index">
-                    <span itemprop="name">Operation System</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li>内核空间和用户空间都是指虚拟空间即虚拟地址。目前32位系统共有4G的虚拟地址空间</li>
-<li>内核空间即操作系统内核工作的空间，由内核负责映射，有固定的页表</li>
-<li>用户空间对应进程，进程切换，用户空间会跟着变化；每个进程的用户空间完全独立互不相干</li>
-</ol>
-<p>操作系统为了保护自己不被普通程序破坏，对内核空间进行了一些定义，比如访问权限，换入换出，优先级等。内核空间的页表是常驻内存的，不会被虚拟内存管理模块换出到磁盘上。内核空间的程序一旦出错，系统会立即死机。</p>
-<p>在开发驱动时需要用到内核空间和用户空间之间的接口，即内核空间和用户空间相互左右。一般模式为：<br></p>
-<ul>
-<li>首先，编写内核服务程序利用内核空间提供的权限和服务来接收、处理和缓存数据；</li>
-<li>然后，编写用户程序来配置内核服务程序的参数，输入待处理数据，提取内核服务程序提供的数据；</li>
-</ul>
-<p>虚拟空间读取数据伪代码：</p>
-<pre><code>if(数据在物理内存中) 
-        {        虚拟地址转换成物理地址 
-                 读数据 } 
-        else 
-        {     if(数据在磁盘中) 
-              { 
-                     if(物理内存还有空闲) 
-                     {          把数据从磁盘中读到物理内存 
-                                 虚拟地址转换成物理地址 
-                                 读数据 
-                     } 
-                     else 
-                     {          把物理内存中某页的数据存入磁盘 
-                                 把要读的数据从磁盘读到该页的物理内存中 
-                                 虚拟地址转换成物理地址 
-                                 读数据 
-                     } 
-              } 
-              else 
-              {     报错        } }
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/19/design-patterns-prototype-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/19/design-patterns-prototype-2/" itemprop="url">原型设计模式(二) Android中的应用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-19T00:00:00Z">
-                2017-03-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="Intent-Bundle"><a href="#Intent-Bundle" class="headerlink" title="Intent/Bundle"></a>Intent/Bundle</h4><pre><code>/**
- * Copy constructor.
- */
-public Intent(Intent o) {
-    this.mAction = o.mAction;
-    this.mData = o.mData;
-    this.mType = o.mType;
-    this.mPackage = o.mPackage;
-    this.mComponent = o.mComponent;
-    this.mFlags = o.mFlags;
-    this.mContentUserHint = o.mContentUserHint;
-    if (o.mCategories != null) {
-        this.mCategories = new ArraySet&lt;String&gt;(o.mCategories);
-    }
-    if (o.mExtras != null) {
-        this.mExtras = new Bundle(o.mExtras);
-    }
-    if (o.mSourceBounds != null) {
-        this.mSourceBounds = new Rect(o.mSourceBounds);
-    }
-    if (o.mSelector != null) {
-        this.mSelector = new Intent(o.mSelector);
-    }
-    if (o.mClipData != null) {
-        this.mClipData = new ClipData(o.mClipData);
-    }
-}
-
-@Override
-public Object clone() {
-    return new Intent(this);
-}
-</code></pre><p>发现并没有调用<code>super.clone()</code>，《effective java》建议使用拷贝构造器，看来Intent即采用了此种方式。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/18/design-patterns-prototype-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/18/design-patterns-prototype-1/" itemprop="url">原型设计模式(一) 基础知识</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-18T00:00:00Z">
-                2017-03-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>content<br>{:toc}</li>
-</ul>
-<h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>创建型模式的一种。通过复制一个已经存在的实例来返回新的实例，而不是新建实例。</p>
-<blockquote>
-<p>《设计模式》：<br> 使用原型实例指定创建对象的种类，然后通过拷贝这些原型来创建新的对象。</p>
-</blockquote>
-<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
-<li>创建重复的新对象的成本较大—— 创建复杂，初始化消耗资源过多，初始化耗时，繁琐的数据准备，访问权限</li>
-<li>一个对象多个修改者-浅拷贝</li>
-<li>一个对象需要提供给其他对象访问，而且各个调用者可能都需要修改其值</li>
-<li>在实际项目中，原型模式很少单独出现，一般是和工厂方法模式一起出现，通过clone的方法创建一个对象，然后由工厂方法提供给调用者</li>
-<li>如果系统要保存对象的状态，而对象的状态变化很小，或者对象本身占内存不大的时候，也可以使用原型模式配合备忘录模式来应用。相反，如果对象的状态变化很大，或者对象占用的内存很大，那么采用状态模式会比原型模式更好</li>
-</ul>
-<h4 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h4><p><img src="/images/prototype_class_uml.png" alt="类图"></p>
-<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/prototype_sequence_uml.png" alt="时序图"></p>
-<h4 id="优点-缺点"><a href="#优点-缺点" class="headerlink" title="优点/缺点"></a>优点/缺点</h4><ul>
-<li>clone并不一定比new一个对象速度快，只有new构造对象耗时或成功高时，clone才有明显的效率提升</li>
-<li>逃避构造函数的约束(既是优点也是缺点)</li>
-<li>配备克隆方法需要对类的功能进行通盘考虑，这对于全新的类不是很难，但对于已有的类不一定很容易，特别当一个类引用不支持串行化的间接对象，或者引用含有循环结构的时候</li>
-<li>必须实现cloneable接口(java)</li>
-</ul>
-<h4 id="深-浅复制"><a href="#深-浅复制" class="headerlink" title="深/浅复制"></a>深/浅复制</h4><p> 浅复制：<br><br>复制了值类型对象，对于引用类型对象，只复制了引用，它指向原来引用的对象。<br><br><br>深复制：<br><br>对值类型和引用类型的对象都生成一份新的拷贝，java中可以通过串行化来进行深复制，前提是对象以及其内部所引用的对象都是可串行化的，否则需要考虑把不可串行话的对象设为transient，排除在复制过程之外。<br><br>被复制对象的任何变量都含有和原来的对象相同的值，除去那些引用其他对象的变量。那些引用其他对象的变量将指向被复制过的新对象，而不再是原有的那些被引用的对象。换言之，深复制把要复制的对象所引用的对象都复制了一遍。</p>
-<h4 id="来自《effective-java》的建议"><a href="#来自《effective-java》的建议" class="headerlink" title="来自《effective java》的建议"></a>来自《effective java》的建议</h4><blockquote>
-<p>第11条：谨慎地覆盖clone</p>
-</blockquote>
-<p>克隆复杂对象，可以使用deep copy，也可以先调用super.clone，然后把结果对象中的所有域都设置成它们的空白状态，然后调用高层的方法来重新产生对象的状态。</p>
-<p>建议使用拷贝构造器/拷贝工厂，确切地说是转换构造器/转换工厂。<br></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/18/design-patterns-start/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/18/design-patterns-start/" itemprop="url">设计模式开篇</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-18T00:00:00Z">
-                2017-03-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h4><p>设计模式是软件模式的一部分。软件模式即是软件开发的总体指导思路或参照样板。<br></p>
-<p>软件模式包括：</p>
-<ul>
-<li>设计模式</li>
-<li>架构模式</li>
-<li>分析模式</li>
-<li>过程模式</li>
-</ul>
-<h4 id="学习设计模式的层次"><a href="#学习设计模式的层次" class="headerlink" title="学习设计模式的层次"></a>学习设计模式的层次</h4><ul>
-<li>能在白纸上画出所有的模式结构和时序图</li>
-<li>能用代码实现；如果代码都没有写过，是用不出来的，即看得懂不会用</li>
-<li>灵活运用至项目中</li>
-</ul>
-<p>在线画图工具安利：<a href="https://www.processon.com/diagrams" target="_blank" rel="external">https://www.processon.com/diagrams</a><br>winPC画图工具安利：<a href="http://astah.net/" target="_blank" rel="external">http://astah.net/</a></p>
-<h4 id="面向对象设计原则"><a href="#面向对象设计原则" class="headerlink" title="面向对象设计原则"></a>面向对象设计原则</h4><table>
-<thead>
-<tr>
-<th style="text-align:center">名称</th>
-<th style="text-align:center">定 义</th>
-<th style="text-align:center">使用频率</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">单一职责原则 (Single Responsibility Principle, SRP)</td>
-<td style="text-align:center">一个类只负责一个功能领域中的相应职责</td>
-<td style="text-align:center">★★★★☆</td>
-</tr>
-<tr>
-<td style="text-align:center">开闭原则 (Open-Closed Principle, OCP)</td>
-<td style="text-align:center">软件实体应对扩展开放，而对修改关闭</td>
-<td style="text-align:center">★★★★★</td>
-</tr>
-<tr>
-<td style="text-align:center">里氏代换原则 (Liskov Substitution Principle, LSP)</td>
-<td style="text-align:center">所有引用基类对象的地方能够透明地使用其子类的对象</td>
-<td style="text-align:center">★★★★★</td>
-</tr>
-<tr>
-<td style="text-align:center">依赖倒转原则 (Dependence Inversion Principle, DIP)</td>
-<td style="text-align:center">抽象不应该依赖于细节，细节应该依赖于抽象</td>
-<td style="text-align:center">★★★★★</td>
-</tr>
-<tr>
-<td style="text-align:center">接口隔离原则 (Interface Segregation Principle, ISP)</td>
-<td style="text-align:center">使用多个专门的接口，而不使用单一的总接口</td>
-<td style="text-align:center">★★☆☆☆</td>
-</tr>
-<tr>
-<td style="text-align:center">合成复用原则 (Composite Reuse Principle, CRP)</td>
-<td style="text-align:center">尽量使用对象组合，而不是继承来达到复用的目的</td>
-<td style="text-align:center">★★★★☆</td>
-</tr>
-<tr>
-<td style="text-align:center">迪米特法则 (Law of Demeter, LoD)</td>
-<td style="text-align:center">一个软件实体应当尽可能少地与其他实体发生相互作用</td>
-<td style="text-align:center">★★★☆☆</td>
-</tr>
-</tbody>
-</table>
-<h4 id="设计模式分类"><a href="#设计模式分类" class="headerlink" title="设计模式分类"></a>设计模式分类</h4><h5 id="创建型模式-5"><a href="#创建型模式-5" class="headerlink" title="创建型模式(5)"></a>创建型模式(5)</h5><p>创建型模式对类的实例化过程进行了抽象，能够将软件模块中对象的创建和对象的使用分离。为了使软件的结构更加清晰，外界对于这些对象只需要知道他们共同的接口，而不清楚其具体的实现细节，使整个系统的设计更加符合单一职责原则。</p>
-<ul>
-<li><a href="http://xusx1024.com/2017/02/11/design-patterns-singleton-1/" target="_blank" rel="external">单例模式</a></li>
-<li><a href="http://xusx1024.com/2017/03/03/design-patterns-builder-1/" target="_blank" rel="external">建造者模式</a></li>
-<li><a href="http://xusx1024.com/2017/03/18/design-patterns-prototype-1/" target="_blank" rel="external">原型模式</a></li>
-<li><a href="http://xusx1024.com/2017/05/24/design-patterns-factory-method/" target="_blank" rel="external">工厂方法模式</a></li>
-<li><a href="http://xusx1024.com/2017/05/25/design-patterns-abstract-factory/" target="_blank" rel="external">抽象工厂模式</a></li>
-</ul>
-<h5 id="行为型模式-11"><a href="#行为型模式-11" class="headerlink" title="行为型模式(11)"></a>行为型模式(11)</h5><p>行为型模式是对在不同的对象之间划分责任和算法的抽象化。行为型模式不仅仅关注类和对象的结构，而且重点关注他们之间的相互作用。</p>
-<ul>
-<li><a href="http://xusx1024.com/2017/05/25/design-patterns-strategy-pattern/" target="_blank" rel="external">策略模式</a></li>
-<li><a href="http://xusx1024.com/2017/06/19/design-patterns-template-method/" target="_blank" rel="external">模版方法模式</a></li>
-<li><a href="http://xusx1024.com/2017/06/09/design-patterns-observer/" target="_blank" rel="external">观察者模式</a></li>
-<li><a href="http://xusx1024.com/2017/06/15/design-patterns-iterator/" target="_blank" rel="external">迭代器模式</a></li>
-<li><a href="http://xusx1024.com/2017/05/31/design-patterns-chain-of-responsibility/" target="_blank" rel="external">责任链模式</a></li>
-<li><a href="http://xusx1024.com/2017/06/14/design-patterns-command/" target="_blank" rel="external">命令模式</a></li>
-<li><a href="http://xusx1024.com/2017/06/16/design-patterns-memento/" target="_blank" rel="external">备忘录模式</a></li>
-<li><a href="http://xusx1024.com/2017/05/26/design-patterns-state-pattern/" target="_blank" rel="external">状态模式</a></li>
-<li><a href="http://xusx1024.com/2017/06/20/design-patterns-visitor/" target="_blank" rel="external">访问者模式</a></li>
-<li><a href="http://xusx1024.com/2017/06/13/design-patterns-mediator/" target="_blank" rel="external">中介者模式</a></li>
-<li><a href="http://xusx1024.com/2017/06/02/design-patterns-interpreter/" target="_blank" rel="external">解释器模式</a></li>
-</ul>
-<h5 id="结构型模式-7"><a href="#结构型模式-7" class="headerlink" title="结构型模式(7)"></a>结构型模式(7)</h5><p>描述如何将类或对象结合在一起形成更大的结构，就像搭积木，可以通过简单积木的组合形成复杂的、功能更为强大的结构。结构型模式可以分为类结构型模式和对象结构型模式：类结构型模式关心类的组合，一般只存在继承和实现。对象结构型模式关系类与对象的组合，通过关联关系使一个类中定义另一个类的实例对象。<br>根据“合成复用”原则，在系统中尽量使用关联关系来替代继承关系。</p>
-<ul>
-<li><a href="http://xusx1024.com/2017/06/21/design-patterns-adapter/" target="_blank" rel="external">适配器模式</a></li>
-<li><a href="http://xusx1024.com/2017/06/22/design-patterns-bridge/" target="_blank" rel="external">桥接模式</a></li>
-<li><a href="http://xusx1024.com/2017/06/23/design-patterns-decorator/" target="_blank" rel="external">装饰模式</a></li>
-<li><a href="http://xusx1024.com/2017/06/26/design-patterns-facade/" target="_blank" rel="external">外观模式</a></li>
-<li><a href="http://xusx1024.com/2017/06/27/design-patterns-flyweight/" target="_blank" rel="external">享元模式</a></li>
-<li><a href="http://xusx1024.com/2017/06/28/design-patterns-proxy/" target="_blank" rel="external">代理模式</a></li>
-<li><a href="http://xusx1024.com/2017/06/26/design-patterns-composite/" target="_blank" rel="external">组合模式</a></li>
-</ul>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
-<li><a href="http://design-patterns.readthedocs.io/zh_CN/latest/" target="_blank" rel="external">图说设计模式</a></li>
-<li><a href="https://quanke.gitbooks.io/design-pattern-java/" target="_blank" rel="external">设计模式</a></li>
-<li>《Android源码设计模式解析与实战》</li>
-<li><a href="http://blog.csdn.net/yanbober/article/category/3148699" target="_blank" rel="external">工匠若水</a></li>
-<li><a href="http://blog.csdn.net/zhengzhb/article/category/926691" target="_blank" rel="external">卡奴达摩</a></li>
-<li><a href="http://blog.csdn.net/column/details/loveyun.html" target="_blank" rel="external">特种兵—AK47</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2272,7 +2915,7 @@ public Object clone() {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">87</span>
+                <span class="site-state-item-count">91</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
