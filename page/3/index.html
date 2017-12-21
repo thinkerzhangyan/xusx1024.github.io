@@ -267,6 +267,711 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/26/design-patterns-composite/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/26/design-patterns-composite/" itemprop="url">组合模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-26T00:00:00Z">
+                2017-06-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>组合模式(Composite Pattern):组合多个对象形成树形结构以表示具有“整体-部分”关系的层次结构。组合模式对单个对象和组合对象的使用具有一致性，组合模式又可以称为“整体-部分”（Part-Whole）模式，它是一种对象结构型模式。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li>Component：抽象构件。给参加组合的对象定义公共的接口及其默认行为，可以用来管理所有的子对象。在安全式中，可以为接口，不定义具体的方法；在透明式中，定义为抽象类，给出具体的操作及默认处理。</li>
+<li>Leaf：树叶构件。没有下级子对象的对象。</li>
+<li>Composite：具体构件。拥有下级子对象的对象。树枝构件类给出所有的管理子对象的方法，如add,get,remove</li>
+</ul>
+<h5 id="安全式组合模式"><a href="#安全式组合模式" class="headerlink" title="安全式组合模式"></a>安全式组合模式</h5><p><img src="/images/composite_pattern_class_diagram_1.png" alt="类图"></p>
+<h5 id="透明式组合模式"><a href="#透明式组合模式" class="headerlink" title="透明式组合模式"></a>透明式组合模式</h5><p><img src="/images/composite_pattern_class_diagram_2.png" alt="类图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/CompositePattern" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><h5 id="安全式"><a href="#安全式" class="headerlink" title="安全式"></a>安全式</h5><ul>
+<li>具体构件给出了add、get、remove等方法的声明和实现，而树叶构件类则没有，这样是安全的做法，客户端不可能错误的调用树叶构件的方法，因为树叶构件没有这些方法</li>
+<li>由于树叶类和树枝类具有不同的接口，无法面向抽象编程</li>
+</ul>
+<h5 id="透明式"><a href="#透明式" class="headerlink" title="透明式"></a>透明式</h5><ul>
+<li>透明式要求所有的具体构件类、树叶类，均符合一个固定的接口</li>
+<li>客户端调用的时候，不再需要区分树枝类、树叶类，可以面向接口编程，对客户端来说，是透明的</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/23/design-patterns-decorator/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/23/design-patterns-decorator/" itemprop="url">装饰模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-23T00:00:00Z">
+                2017-06-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>装饰模式（Decorator Pattern）：动态地给一个对象增加一些额外的职责，就增加对象功能来说，装饰模式比生成子类实现更为灵活。装饰模式是一种对象结构型模式。其别名也称为包装器（Wrapper），与适配器模式的别名相同，但是他们适用于不同的场合。装饰模式也有人称之为“油漆工模式”。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li>Component:抽象构件角色。给出一个接口，以规范准备接收附加责任的对象。</li>
+<li>ConcreteComponent：具体构件角色。定义一个将要接收附加责任的类。</li>
+<li>Decorator：装饰角色。持有一个构件对象的实例，并定义一个与抽象构件接口一致的接口。</li>
+<li>ConcreteDecorator：具体装饰角色。负责给构件对象添加责任。</li>
+</ul>
+<p><img src="/images/decorator_pattern_class_diagram_1.png" alt="类图"></p>
+<blockquote>
+<p>如果只有一个具体组件(ConcreteComponent)，可以考虑去掉抽象组件类(Component)，把Decorator做为一个ConcreteComponent子类。</p>
+</blockquote>
+<p><img src="/images/decorator_pattern_class_diagram_2.png" alt="类图"></p>
+<blockquote>
+<p>如果只有ConcreteDecorator，那么没必要建立一个单独的Decorator类，而可以把Decorator和ConcreteDecorator的责任合并成一个类。甚至在只有两个ConcreteDecorator类的情况下，都可以这样做。</p>
+</blockquote>
+<p><img src="/images/decorator_pattern_class_diagram_3.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/decorator_pattern_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/DecoratorPattern" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><ul>
+<li>与继承关系相比，关联关系的主要优势在于不会破坏类的封装性，而且继承是一种耦合度较大的静态关系，无法在程序运行时动态扩展。在软件开发阶段，关联关系虽然不会比继承关系减少编码量，但是到了软件维护阶段，由于关联关系使系统具有较好的松耦合性，因此使得系统更加容易维护。当然，关联关系的缺点是比继承关系要创建更多的对象。</li>
+<li>使用装饰模式来实现扩展比继承更加灵活，它以对客户透明的方式动态地给一个对象附加更多的责任。装饰模式可以在不需要创造更多子类的情况下，将对象的功能加以扩展。</li>
+</ul>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
+<li>通过一种动态方式来扩展一个对象的功能，通过配置文件在运行时选择不同的装饰器，从而实现不同的行为</li>
+<li>具体构件类和具体装饰类可以独立变化，用户可以根据需要增加新的具体构件类和具体装饰类，在使用时再对其进行组合，原有代码无须改变，符合“开闭原则”</li>
+</ul>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
+<li>装饰模式会产生许多小对象，这些对象的区别在于它们之间相互连接的方式不同，会增加系统的复杂度 </li>
+<li>比继承更加灵活，也比继承更加容易出错，排错比较困难，对于多次装饰的对象，调试更加繁琐</li>
+</ul>
+<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><ul>
+<li>修改一个final类</li>
+<li>动态、透明的添加/撤销对象的职责</li>
+<li>系统中存在大量独立的扩展，为支持每一种组合将产生大量的子类，使得子类数目呈爆炸性增长</li>
+</ul>
+<h4 id="扩展-透明性要求"><a href="#扩展-透明性要求" class="headerlink" title="扩展-透明性要求"></a>扩展-透明性要求</h4><p>装饰模式对客户端的透明性要求程序不要声明一个具体类型（ConcreteComponent）的变量，而应当声明一个Component类型的变量。</p>
+<p>然而纯粹的装饰很难找到，在增强性能的时候，需要增加新的公开的方法，这就意味着客户端可以声明具体类型，从而调用具体装饰器中的新增方法。</p>
+<p>半透明装饰模式是介于装饰模式和适配器模式之间的。大多装饰模式实际上是半透明的，这样的装饰模式也称作半装饰、半适配器模式。</p>
+<h4 id="开发中应用"><a href="#开发中应用" class="headerlink" title="开发中应用"></a>开发中应用</h4><p>update@2017年7月17日11:16:45</p>
+<p>需求：需要一个垂直，自动滑动的ViewPager。</p>
+<p>我已有一个横向，自动滑动的ViewPager。打算使用装饰者设计模式，添加垂直滑动的行为。</p>
+<p>分析：</p>
+<ul>
+<li>ViewPager只有一个实现类，所以装饰类可以直接继承该具体实现类</li>
+<li>由于又只有一个具体装饰类，可以省略掉抽象装饰类</li>
+</ul>
+<p>结果：退化为继承</p>
+<p>本来的目的是使用装饰者模式，来增加行为。现在由于需求比较简单，使用继承即可。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/22/design-patterns-bridge/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/22/design-patterns-bridge/" itemprop="url">桥接模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-22T00:00:00Z">
+                2017-06-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>桥接模式(Bridge Pattern)：将抽象部分与它的实现部分分离，使它们都可以独立地变化。它是一种对象结构型模式，又称为柄体(Handle and Body)模式或接口(Interface)模式。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
+<li>Abstraction： 抽象化角色，里面维持一个实现化实例的引用</li>
+<li>RefinedAbstraction：扩展抽象化角色，改变和修正父类对抽象化的定义</li>
+<li>Implementor：实现化角色。给出实现化角色的接口，但不给出具体的实现。这个接口不一定和抽象化角色的接口定义相同，实际上，这两个接口可以非常不一样。实现化角色应当只给出底层操作，而抽象化角色应当只给出基于底层操作的更高一层的操作</li>
+<li>ConcreteImplementor：具体实现化角色。</li>
+</ul>
+<p>如图所示，两个继承等级结构之间存在一座桥梁即Abstraction持有Implementor的一个引用。</p>
+<p><img src="/images/bridge_pattern_class_diagram.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/bridge_pattern_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/BridgePattern" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>理解桥接模式，重点需要理解如何将抽象化（abstraction）与实现化（implementor）脱耦，使得二者可以独立地变化。</p>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
+<li>分离抽象接口及其实现部分</li>
+<li>桥接模式有时类似于多继承方案，但是多继承方案违背类类的单一职责原则，复用性比较差，而且多继承结构中类的个数非常庞大，桥接模式是比多继承方案更好的解决方法</li>
+<li>桥接模式提高了 系统的可扩充性，在两个变化维度中任意扩展一个维度，都不需要修改原有系统</li>
+<li>实现细节对客户透明，可以对用户隐藏实现细节</li>
+</ul>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
+<li>桥接模式会增加系统的理解与设计难度，由于聚合关联关系建立在抽象层，要求开发者对抽象进行设计与编程</li>
+<li>桥接模式要求正确识别出系统中两个独立变化的维度，因此使用范围有一定的局限性</li>
+</ul>
+<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><p>桥接模式和适配器模式用于设计的不同阶段，桥接模式用于系统的初步设计，对于存在两个独立变化维度的类可以将其分为抽象化和实现化两个角色，使它们可以分别进行变化；而在初步设计完成之后，当发现系统与已有类无法协同工作时，可以采用适配器模式。有时在设计初期也需要考虑适配器模式，特别是那些涉及到大量第三方应用接口的情况。</p>
+<h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><ul>
+<li>跨平台的播放器(播放器、平台两个维度)</li>
+<li>OA的提醒消息（消息类型、发送方式两个维度）</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/21/design-patterns-adapter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/21/design-patterns-adapter/" itemprop="url">适配器模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-21T00:00:00Z">
+                2017-06-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>适配器模式：将一个接口转换成客户希望的另一个接口，使接口不兼容的那些类可以一起工作，其别名为包装器(wrapper)。适配器模式有类的适配器模式和对象的适配器模式两种。</p>
+<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><h5 id="类适配器模式"><a href="#类适配器模式" class="headerlink" title="类适配器模式"></a>类适配器模式</h5><ul>
+<li>Target：目标角色。所期待得到的接口。由于是类适配器模式，因此目标是接口不是类。</li>
+<li>Adapee：源角色。限制需要适配的接口。</li>
+<li>Adapter：适配器角色。适配器类是本模式的核心。适配器把源转换为目标。</li>
+</ul>
+<p><img src="/images/adapter_pattern_class_diagram_1.png" alt="类图"></p>
+<h5 id="对象适配器模式"><a href="#对象适配器模式" class="headerlink" title="对象适配器模式"></a>对象适配器模式</h5><p><img src="/images/adapter_pattern_class_diagram_2.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/adapter_pattern_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><h5 id="类适配器模式-1"><a href="#类适配器模式-1" class="headerlink" title="类适配器模式"></a>类适配器模式</h5><p>目标角色：<br>    package AdapterPattern;</p>
+<pre><code>public interface Target {
+
+    /**
+     * 源类{@link Adaptee}}中已存在
+     */
+    void sampleOperation1();
+
+    /**
+     * 源类{@link Adaptee}}中需要添加
+     */
+    void sampleOperation2();
+
+}
+</code></pre><p>源角色：</p>
+<pre><code>    package AdapterPattern;
+
+public class Adaptee {
+    public void sampleOperation1() {
+    }
+}
+</code></pre><p>适配器角色：</p>
+<pre><code>package AdapterPattern;
+
+public class Adapter extends Adaptee implements Target {
+
+    /**
+     * 源类{@link Adaptee}}中没有，需要扩展的方法
+     */
+    @Override
+    public void sampleOperation2() {
+        System.out.println(&quot;扩展方法&quot;);
+    }
+
+}
+</code></pre><h5 id="对象适配器模式-1"><a href="#对象适配器模式-1" class="headerlink" title="对象适配器模式"></a>对象适配器模式</h5><p>源、目标角色都不变，只是在适配器类中，增加对源对引用，代码如下：</p>
+<pre><code>package AdapterPattern;
+
+public class ObjectAdapter implements Target {
+    Adaptee a;
+
+    public ObjectAdapter(Adaptee a) {
+        this.a = a;
+    }
+
+    @Override
+    public void sampleOperation1() {
+        a.sampleOperation1();
+    }
+
+    @Override
+    public void sampleOperation2() {
+        // 扩充方法
+    }
+}
+</code></pre><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><ul>
+<li>通常，客户端通过目标类的接口访问目标提供的服务。有时，现有的类功能上可以满足，但是它所提供的接口不一定是客户类所期望的，这可能是因为现有类中方法名与目标类中定义的方法名不一致等原因所导致的。</li>
+<li>适配器提供客户类需要的接口，把客户类的请求转化为对适配器的相应接口的调用。<code>也就是说，当客户类调用适配器的方法时，在适配器类的内部将调用适配者类的方法</code>，这个过程对客户类是透明的，客户类并不直接访问适配者类。</li>
+</ul>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
+<li>将目标类和适配者类解耦，通过引入一个适配类来重用现有的适配者类，而无需修改原代码</li>
+<li>增加类类的透明性和复用性</li>
+<li>灵活性和扩展性都非常好，通过使用配置文件，可以很方便地更换/增加适配器</li>
+<li>类适配器模式中，由于适配器类是适配者类的子类，因此可以在适配器类中置换一下适配者的方法，使得适配器更加灵活</li>
+<li>对象适配器模式中，一个对象适配器可以把多个不同的适配者适配到同一个目标，也就是说，同一个适配器可以把适配者类和它的子类都适配到目标接口。</li>
+</ul>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
+<li>类适配器中，java、C#不支持多继承，一次最多只能适配一个适配者类，并且目标不能为具体类，使用有局限性，不能将一个适配者类和它的子类都适配到目标接口</li>
+<li>对象适配器中，无法很好的置换适配者类的方法。如果一定要置换掉适配者类的一个或多个方法，就只好先做一个适配者类的子类，将适配者类的方法置换掉，然后再把适配者类的子类当做真正的适配者进行适配，实现过程较为复杂。</li>
+</ul>
+<h4 id="扩展-缺省适配器"><a href="#扩展-缺省适配器" class="headerlink" title="扩展-缺省适配器"></a>扩展-缺省适配器</h4><p>简单理解：接口-抽象类-实现类<br>如果接口中定义的方法过多，可以先用一个抽象类，以空方法实现即<code>平庸实现</code>，然后具体实现类根据需要实现。<br>也叫做单接口适配器模式。</p>
+<p>这个用的多一些。好像模版方法。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/20/design-patterns-visitor/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1053,173 +1758,6 @@ public class MementoCaretaker3 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/design-patterns-command/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/14/design-patterns-command/" itemprop="url">命令模式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T00:00:00Z">
-                2017-06-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>命令模式(Command Pattern):将一个请求封装为一个对象，从而使我们可用不同的请求对客户进行参数化；对请求排队或者记录请求日志，以及支持可撤销的操作。命令模式是一种对象行为型模式，又叫做动作(Action)模式或事务(Transaction)模式。</p>
-<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
-<li>client：创建具体的命令和接收者</li>
-<li>command：命令的抽象类</li>
-<li>ConcreteCommand：具体的命令，定义接收者和行为之间的弱耦合</li>
-<li>Invoker：负责调用命令对象，执行请求</li>
-<li>receiver：处理请求，任何一个类都可以成为接收者</li>
-</ul>
-<p><img src="/images/command_pattern_class_diagram.png" alt="类图"></p>
-<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/command_pattern_sequence_diagram.png" alt="时序图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/CommandPattern" target="_blank" rel="external">GitHub</a></p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>使用频率非常高的设计模式，它可以将请求发送者与接收者解耦，请求发送者通过命令对象来间接引用请求接收者，使得系统具有更换的灵活性和可扩展性。</p>
-<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
-<li>新的命令可以很容易地添加</li>
-<li>比较容易地设计一个命令队列或宏命令</li>
-<li>为请求的撤销和恢复操作提供了一种设计和实现方案</li>
-</ul>
-<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
-<li>可能会导致某些系统有过多的具体命令类。</li>
-</ul>
-<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><ul>
-<li>系统需要在不同的时间指定请求、将请求排队和执行请求。一个命令对象和请求的初始调用者可以有不同的生命期，换言之，最初的请求发出者可能已经不在了，而命令对象本身仍然是活动的，可以通过该命令对象去调用请求接收者，无须关心请求调用者的存在性，可以通过请求日志文件等机制来具体实现。</li>
-<li>系统需要支持命令的撤销和恢复操作</li>
-<li>系统需要将一组操作组合在一起形成宏命令</li>
-</ul>
-<h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><ul>
-<li>电视遥控器</li>
-<li>宏命令</li>
-<li>收音机</li>
-</ul>
-<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><ul>
-<li>基于敏捷开发的原则，我们在设计程序的时候，如果按照目前的需求，不使用某种模式也能很好地解决，那么我们就不要引入它，因为要引入一种设计模式并不困难，我们大可以在真正需要用到的时候再对系统进行一下，引入这个设计模式。</li>
-<li>在实际操作中，可省略接收者角色，让命令对象直接实现请求而不是将工作委托给接收者。</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/jsp-study-tips/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1408,7 +1946,7 @@ public class MementoCaretaker3 {
 <li>extends：让jsp生成的servlet去继承该属性指定的类</li>
 </ul>
 <h5 id="include"><a href="#include" class="headerlink" title="include"></a>include</h5><ul>
-<li><a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#37;&#64;&#x69;&#110;&#99;&#x6c;&#x75;&#100;&#101;&#37;">&#37;&#64;&#x69;&#110;&#99;&#x6c;&#x75;&#100;&#101;&#37;</a> 在jsp编译成java文件时完成，他们共同生成一个java文件，然后再生成一个class</li>
+<li><a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#37;&#x40;&#105;&#x6e;&#99;&#x6c;&#x75;&#100;&#x65;&#37;">&#37;&#x40;&#105;&#x6e;&#99;&#x6c;&#x75;&#100;&#x65;&#37;</a> 在jsp编译成java文件时完成，他们共同生成一个java文件，然后再生成一个class</li>
 <li>RequestDispatcher的include是一个方法，包含和被包含是两个文件</li>
 </ul>
 <h5 id="taglib"><a href="#taglib" class="headerlink" title="taglib"></a>taglib</h5><ul>
@@ -1527,7 +2065,7 @@ public class MementoCaretaker3 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/coding-study-tips/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/design-patterns-command/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -1546,7 +2084,7 @@ public class MementoCaretaker3 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/06/13/coding-study-tips/" itemprop="url">字符编码学习笔记</a></h1>
+                <a class="post-title-link" href="/2017/06/14/design-patterns-command/" itemprop="url">命令模式</a></h1>
         
 
         <div class="post-meta">
@@ -1558,313 +2096,8 @@ public class MementoCaretaker3 {
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-13T00:00:00Z">
-                2017-06-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA & kotlin</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="常见字符编码"><a href="#常见字符编码" class="headerlink" title="常见字符编码"></a>常见字符编码</h4><ul>
-<li>ISO-8859-1 不支持中文</li>
-<li>gbk、gb2312 国标 </li>
-<li>utf-8 万国码</li>
-</ul>
-<h4 id="响应编码"><a href="#响应编码" class="headerlink" title="响应编码"></a>响应编码</h4><ul>
-<li>当使用response.getWriter()来向客户端发送字符数据时，如果之前没有设置编码，默认使用ISO，不支持中文</li>
-<li>一般浏览器会把数据当做gbk</li>
-<li>服务器设置Content-Type响应头，告诉浏览器编码格式 <code>text/html;charset=utf-8</code>，同时也设置了响应编码，一句顶两句</li>
-<li>使用writer之前，先setContentType</li>
-</ul>
-<h4 id="请求编码"><a href="#请求编码" class="headerlink" title="请求编码"></a>请求编码</h4><ul>
-<li>上次请求返回的Content-Type类型决定表单的编码类型</li>
-<li>servlet默认使用ISO<ul>
-<li>POST：在获取参数之前调用request的setCharacterEncoding</li>
-<li>GET： <code>apache-tomcat-9.0.0.M21/conf/server.xml</code> 的Connector标签下，设置URIEncoding=”UTF-8” 但是<code>禁止使用</code>，这是Tomcat的全局设置</li>
-<li>GET：先获取GET参数，得到ISO的编码，用ISO反编回来，然后用UTF-8编码</li>
-</ul>
-</li>
-<li>Tomcat8 之后默认UTF-8了</li>
-</ul>
-<h4 id="URL编码"><a href="#URL编码" class="headerlink" title="URL编码"></a>URL编码</h4><ul>
-<li>不是字符编码，是用来在客户端与服务端之间传递参数用的一种方式</li>
-<li>服务器可自动识别URL编码</li>
-<li>URLEncoder.encode</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/ambiguity-effect/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/13/ambiguity-effect/" itemprop="url">认知偏差之决策、信念与行为偏误</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-13T00:00:00Z">
-                2017-06-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Others/" itemprop="url" rel="index">
-                    <span itemprop="name">Others</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="不明确性效应"><a href="#不明确性效应" class="headerlink" title="不明确性效应"></a>不明确性效应</h4><p>人的决策会因为信息的缺乏或“模糊”而受到影响，决策时倾向避开资讯不足的选项。</p>
-<p>该效应意味着，人们倾向于选择具有已知可能性的有利结果，而不是未知可能性的有利结果。</p>
-<p>人们有一个经验法则来避开信息缺失的选项。这通常会引导他们去寻找缺失的信息。然而，在许多情况下，信息是无法获得的。</p>
-<p><a href="https://en.wikipedia.org/wiki/Ambiguity_effect" target="_blank" rel="external">Ambiguity effect</a></p>
-<p><a href="http://www.jianshu.com/p/7c2a1a9ee31d" target="_blank" rel="external">译文</a></p>
-<h4 id="锚定效应"><a href="#锚定效应" class="headerlink" title="锚定效应"></a>锚定效应</h4><p>为不熟悉的事物估值时，会把熟悉的类似事物或不久前接触到的无关数值当做“锚”，估出来的数值会大大倾向“锚”。</p>
-<p><a href="https://zh.wikipedia.org/wiki/%E9%8C%A8%E5%AE%9A%E6%95%88%E6%87%89" target="_blank" rel="external">WIKI</a></p>
-<p>人类在进行决策时会过度偏重最早取得的第一笔资讯(这称为锚点)，即使这个资讯与这项决定明显无关。在进行决策时，人类倾向于利用最早取得的片段资讯，以快速做出决定，在接下来的决定中，再用第一个决定为基准点，逐步修正。但是人类容易过度利用第一个锚点，来对其他资讯与决定做出诠释，当第一个参考用的锚点与实际上的事实之间的有很大出入，就会造成偏误。</p>
-<h5 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h5><ul>
-<li>我们在公众场合亮相时，谁和我们在一起。因为所以这一切都会影响到别人对我们的评价，我们身边的“锚定”成为评定我们个人价值的基准</li>
-<li>一个新产品在货架紧挨着可口可乐、百事可乐，那么他的定价也是这么高，容易被消费者接受</li>
-<li>一个店铺，不断在高端百货商店扩展专卖店，常常和名牌店比邻，有利于建立其高端产品的形象</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/design-patterns-mediator/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/13/design-patterns-mediator/" itemprop="url">中介者设计模式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-13T00:00:00Z">
-                2017-06-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T00:00:00Z">
+                2017-06-14
               </time>
             
 
@@ -1922,214 +2155,39 @@ public class MementoCaretaker3 {
       
         
           
-            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>中介者模式(Mediator Pattern):用一中介对象封装一系列对象交互，中介者使对象不需要显示地相互引用，从而使其耦合松散，而且可以独立地改变他们之间的交互。中介者模式又称为调停者模式，是一种对象行为型模式。</p>
+            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>命令模式(Command Pattern):将一个请求封装为一个对象，从而使我们可用不同的请求对客户进行参数化；对请求排队或者记录请求日志，以及支持可撤销的操作。命令模式是一种对象行为型模式，又叫做动作(Action)模式或事务(Transaction)模式。</p>
 <h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
-<li>Mediator：抽象中介者</li>
-<li>ConcreteMediator：具体中介者</li>
-<li>Colleague：抽象同事类</li>
-<li>ConcreteColleague：具体同事类</li>
+<li>client：创建具体的命令和接收者</li>
+<li>command：命令的抽象类</li>
+<li>ConcreteCommand：具体的命令，定义接收者和行为之间的弱耦合</li>
+<li>Invoker：负责调用命令对象，执行请求</li>
+<li>receiver：处理请求，任何一个类都可以成为接收者</li>
 </ul>
-<p><img src="/images/mediator_pattern_class_diagram.png" alt="类图"></p>
-<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/mediator_pattern_sequence_diagram.png" alt="时序图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/MediatorPattern" target="_blank" rel="external">GitHub</a></p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
-<li>可以使对象的关系数量急剧减少，简化了对象之间的交互</li>
-<li>将各同事解耦</li>
-<li>减少子类生成</li>
-<li>可以简化各同事类的设计和实现</li>
+<p><img src="/images/command_pattern_class_diagram.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/command_pattern_sequence_diagram.png" alt="时序图"></p>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/CommandPattern" target="_blank" rel="external">GitHub</a></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>使用频率非常高的设计模式，它可以将请求发送者与接收者解耦，请求发送者通过命令对象来间接引用请求接收者，使得系统具有更换的灵活性和可扩展性。</p>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
+<li>新的命令可以很容易地添加</li>
+<li>比较容易地设计一个命令队列或宏命令</li>
+<li>为请求的撤销和恢复操作提供了一种设计和实现方案</li>
 </ul>
 <h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
-<li>中介者类中包含了同事之间的交互细节，可能会导致中介者类非常复杂，使得系统难以维护</li>
+<li>可能会导致某些系统有过多的具体命令类。</li>
 </ul>
-<h5 id="中介者的职责"><a href="#中介者的职责" class="headerlink" title="中介者的职责"></a>中介者的职责</h5><ul>
-<li>结构上的中转作用：通过中介者提供的中转作用，各个同事对象就不再需要显示引用其他同事，当需要和其他同事进行通信时，通过中介者即可。</li>
-<li>行为上的协调作用：中介者可以更进一步的对同事之间的关系进行封装，同事可以一致地和中介者进行交互，而不需要指明中介者需要具体怎么做，中介者根据封装在自身内部的协调逻辑，对同事的请求进行进一步处理，将同事成员之间的关系行为进行分离和封装。</li>
+<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><ul>
+<li>系统需要在不同的时间指定请求、将请求排队和执行请求。一个命令对象和请求的初始调用者可以有不同的生命期，换言之，最初的请求发出者可能已经不在了，而命令对象本身仍然是活动的，可以通过该命令对象去调用请求接收者，无须关心请求调用者的存在性，可以通过请求日志文件等机制来具体实现。</li>
+<li>系统需要支持命令的撤销和恢复操作</li>
+<li>系统需要将一组操作组合在一起形成宏命令</li>
+</ul>
+<h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><ul>
+<li>电视遥控器</li>
+<li>宏命令</li>
+<li>收音机</li>
 </ul>
 <h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><ul>
-<li>当系统中出现了“多对多”交互复杂的关系群时，千万别着急使用中介者模式，你首先需要做的就是反思你的系统在设计上是否合理</li>
-<li>虚拟聊天室可用该模式</li>
-<li>MVC架构中的控制器可以该模式。Controller作为一种中介者，负责控制视图对象View和模型对象Model之间的交互</li>
-<li>可方便地应用于图形界面开发中，在比较复杂的界面中可能存在多个界面组件之间的交互关系</li>
-</ul>
-<h4 id="相较于观察者"><a href="#相较于观察者" class="headerlink" title="相较于观察者"></a>相较于观察者</h4><ul>
-<li>中介者涉及到中介和客户，解决的是客户之间消息传递的问题</li>
-<li>观察者设计到观察者和目标，解决的是观察者和众多目标之间通信的问题，并非目标之间的通信</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/httprequest-study-tips/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/13/httprequest-study-tips/" itemprop="url">HttpRequest学习笔记</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-12T20:13:51Z">
-                2017-06-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/NetWork/" itemprop="url" rel="index">
-                    <span itemprop="name">NetWork</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="cvc-complex-type-2-4-a-Invalid-content-was-found-starting-with-element-‘display-name’"><a href="#cvc-complex-type-2-4-a-Invalid-content-was-found-starting-with-element-‘display-name’" class="headerlink" title="cvc-complex-type.2.4.a: Invalid content was found starting with element ‘display-name’"></a>cvc-complex-type.2.4.a: Invalid content was found starting with element ‘display-name’</h4><p><code>web.xml</code>在自动生成servlet的时候出现的提示。</p>
-<p>通常是由于标签位置，标签DTD的校验规则所影响的。</p>
-<p>删除 <code>http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd</code> 即不采用该校验规则 </p>
-<h4 id="request-重要方法"><a href="#request-重要方法" class="headerlink" title="request 重要方法"></a>request 重要方法</h4><ul>
-<li>获取IP</li>
-<li>获取请求方法</li>
-<li>获取请求参数</li>
-<li>获取浏览器类型</li>
-<li>获取协议</li>
-<li>获取服务器名</li>
-<li>获取服务器端口</li>
-<li>获取项目名</li>
-<li>获取servlet路径</li>
-<li>获取GET参数</li>
-<li>获取URI</li>
-<li>获取URL</li>
-</ul>
-<h4 id="使用referer完成防盗链"><a href="#使用referer完成防盗链" class="headerlink" title="使用referer完成防盗链"></a>使用referer完成防盗链</h4><ul>
-<li>在浏览器地址栏直接输入ip，referer为空</li>
-<li>从百度输入ip，referer为百度</li>
-</ul>
-<h4 id="获取request参数"><a href="#获取request参数" class="headerlink" title="获取request参数"></a>获取request参数</h4><ul>
-<li>获取get参数</li>
-<li>获取post参数</li>
-<li>获取单值</li>
-<li>获取多值</li>
-<li>获取map</li>
-</ul>
-<h4 id="请求转发和请求包含"><a href="#请求转发和请求包含" class="headerlink" title="请求转发和请求包含"></a>请求转发和请求包含</h4><ul>
-<li>转发：下一个servlet设置响应体，当前servlet只能设置响应头</li>
-<li>包含：共同完成响应体</li>
-<li>无论转发或者包含，都是使用同一个request/response</li>
-<li>使用set/getAttribute来，在两个servlet之间传递参数【request域、session域、application域中都有这个属性的操作，但是其生命周期不同】</li>
-</ul>
-<h5 id="和重定向的区别"><a href="#和重定向的区别" class="headerlink" title="和重定向的区别"></a>和重定向的区别</h5><ul>
-<li>重定向是两个请求，地址栏地址会改变</li>
-<li>转发/包含是一个请求</li>
-<li>转发/包含只能转发到本项目的servl</li>
-<li>重定向既可以到本项目也可以到别的项目</li>
-<li>重定向需要给出requestURI，即全路径</li>
-<li>转发/包含是服务端行为</li>
-<li>转发/包含效率较高</li>
+<li>基于敏捷开发的原则，我们在设计程序的时候，如果按照目前的需求，不使用某种模式也能很好地解决，那么我们就不要引入它，因为要引入一种设计模式并不困难，我们大可以在真正需要用到的时候再对系统进行一下，引入这个设计模式。</li>
+<li>在实际操作中，可省略接收者角色，让命令对象直接实现请求而不是将工作委托给接收者。</li>
 </ul>
 
           
@@ -2169,7 +2227,7 @@ public class MementoCaretaker3 {
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2214,7 +2272,7 @@ public class MementoCaretaker3 {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">87</span>
+                <span class="site-state-item-count">91</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
