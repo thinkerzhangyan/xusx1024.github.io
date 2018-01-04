@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="问题引出在调用一个对象的方法的时候,IDE自动提示了如下的方法:(请看图中白色的方法) 追踪位于`\org\jetbrains\kotlin\kotlin-stdlib\1.1.51\kotlin-stdlib-1.1.51.jar!`,看起来在是在标准库中  打开方法所在的文件,第一行:  @file:kotlin.jvm.JvmMultifileClass // 包名相同,类名也相同,或者有相">
+<meta name="description" content="问题引出在调用一个对象的方法的时候,IDE自动提示了如下的方法:(请看图中白色的方法) 追踪文件位置`org\jetbrains\kotlin\kotlin-stdlib\1.1.51\kotlin-stdlib-1.1.51.jar!\kotlin\NotImplementedError.class`  打开方法所在的文件,第一行:  @file:kotlin.jvm.JvmMultifileC">
 <meta name="keywords" content="杂项">
 <meta property="og:type" content="article">
 <meta property="og:title" content="kotlin-扩展函数">
 <meta property="og:url" content="http://yoursite.com/2017/12/26/kotlin-extension-function/index.html">
 <meta property="og:site_name" content="行次">
-<meta property="og:description" content="问题引出在调用一个对象的方法的时候,IDE自动提示了如下的方法:(请看图中白色的方法) 追踪位于`\org\jetbrains\kotlin\kotlin-stdlib\1.1.51\kotlin-stdlib-1.1.51.jar!`,看起来在是在标准库中  打开方法所在的文件,第一行:  @file:kotlin.jvm.JvmMultifileClass // 包名相同,类名也相同,或者有相">
+<meta property="og:description" content="问题引出在调用一个对象的方法的时候,IDE自动提示了如下的方法:(请看图中白色的方法) 追踪文件位置`org\jetbrains\kotlin\kotlin-stdlib\1.1.51\kotlin-stdlib-1.1.51.jar!\kotlin\NotImplementedError.class`  打开方法所在的文件,第一行:  @file:kotlin.jvm.JvmMultifileC">
 <meta property="og:image" content="http://yoursite.com/images/kotlin_extension_fun.png">
-<meta property="og:updated_time" content="2017-12-26T07:20:29.894Z">
+<meta property="og:updated_time" content="2017-12-27T09:34:49.850Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="kotlin-扩展函数">
-<meta name="twitter:description" content="问题引出在调用一个对象的方法的时候,IDE自动提示了如下的方法:(请看图中白色的方法) 追踪位于`\org\jetbrains\kotlin\kotlin-stdlib\1.1.51\kotlin-stdlib-1.1.51.jar!`,看起来在是在标准库中  打开方法所在的文件,第一行:  @file:kotlin.jvm.JvmMultifileClass // 包名相同,类名也相同,或者有相">
+<meta name="twitter:description" content="问题引出在调用一个对象的方法的时候,IDE自动提示了如下的方法:(请看图中白色的方法) 追踪文件位置`org\jetbrains\kotlin\kotlin-stdlib\1.1.51\kotlin-stdlib-1.1.51.jar!\kotlin\NotImplementedError.class`  打开方法所在的文件,第一行:  @file:kotlin.jvm.JvmMultifileC">
 <meta name="twitter:image" content="http://yoursite.com/images/kotlin_extension_fun.png">
 
 
@@ -298,7 +298,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T00:00:00Z">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T08:00:00+08:00">
                 2017-12-26
               </time>
             
@@ -356,7 +356,7 @@
 
       
         <h4 id="问题引出"><a href="#问题引出" class="headerlink" title="问题引出"></a>问题引出</h4><p>在调用一个对象的方法的时候,IDE自动提示了如下的方法:(请看图中白色的方法)<br><img src="/images/kotlin_extension_fun.png" alt="1-1"></p>
-<h4 id="追踪"><a href="#追踪" class="headerlink" title="追踪"></a>追踪</h4><pre><code>位于`\org\jetbrains\kotlin\kotlin-stdlib\1.1.51\kotlin-stdlib-1.1.51.jar!`,看起来在是在标准库中
+<h4 id="追踪"><a href="#追踪" class="headerlink" title="追踪"></a>追踪</h4><pre><code>文件位置`org\jetbrains\kotlin\kotlin-stdlib\1.1.51\kotlin-stdlib-1.1.51.jar!\kotlin\NotImplementedError.class`
 
 打开方法所在的文件,第一行:
 
@@ -364,6 +364,29 @@
 @file:kotlin.jvm.JvmName(&quot;StandardKt&quot;) // 使用注解,修改生成的Java类的类名
 </code></pre><p>引申:<br>    在Java中,如果需要把kotlin属性作为字段暴露,需要使用@JvmField注解标注.<a href="https://www.kotlincn.net/docs/reference/java-to-kotlin-interop.html" target="_blank" rel="external">更多Java和kotlin互相调用</a></p>
 <p>最后发现这几个函数叫做扩展函数.官方api:<a href="https://www.kotlincn.net/docs/reference/extensions.html" target="_blank" rel="external">链接</a></p>
+<ul>
+<li>能够扩展一个类的新功能而无需继承该类或使用像装饰者这样的设计模式.</li>
+<li>扩展函数不能真正的修改他们所扩展的类.通过定义一个扩展,你并没有在一个类中插入新成员,仅仅是可以通过该类型的变量用点表达式去调用该函数</li>
+<li>图片上的是官方提供的扩展函数,我们也可以自己扩展,参考链接中的注意事项.</li>
+</ul>
+<h4 id="官方扩展函数"><a href="#官方扩展函数" class="headerlink" title="官方扩展函数"></a>官方扩展函数</h4><h6 id="let函数"><a href="#let函数" class="headerlink" title="let函数"></a>let函数</h6><pre><code>let默认当前这个对象作为闭包的it参数，返回值是函数里面最后一行，或者指定return
+</code></pre><ul>
+<li>闭包<ul>
+<li>外部变量 + 函数 组成一个闭包</li>
+<li>通常实现方式为函数内定义另外一个函数</li>
+<li>内部函数可以引用外部函数的变量和参数</li>
+<li>参数和变量不会被垃圾回收器回收</li>
+<li>作用:<ul>
+<li>隐藏关键的变量,把一个全局变量写成局部变量</li>
+<li></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>it参数,一个方法如果只有一个参数,可以用it代替 </li>
+</ul>
+<h6 id="apply函数"><a href="#apply函数" class="headerlink" title="apply函数"></a>apply函数</h6><pre><code>调用某对象的apply函数,在apply里可以调用该对象的任意方法,并返回该对象,如果let指定return it,两个一样的.
+</code></pre><p>buıxbuıɥs‾</p>
 
       
     </div>
@@ -406,8 +429,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/25/pat-yi-1009/" rel="next" title="乙1009. 说反话 (20)">
-                <i class="fa fa-chevron-left"></i> 乙1009. 说反话 (20)
+              <a href="/2017/12/25/pat-yi-1010/" rel="next" title="乙1010. 一元多项式求导 (25)">
+                <i class="fa fa-chevron-left"></i> 乙1010. 一元多项式求导 (25)
               </a>
             
           </div>
@@ -564,7 +587,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题引出"><span class="nav-number">1.</span> <span class="nav-text">问题引出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#追踪"><span class="nav-number">2.</span> <span class="nav-text">追踪</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题引出"><span class="nav-number">1.</span> <span class="nav-text">问题引出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#追踪"><span class="nav-number">2.</span> <span class="nav-text">追踪</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#官方扩展函数"><span class="nav-number">3.</span> <span class="nav-text">官方扩展函数</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#let函数"><span class="nav-number">3.0.1.</span> <span class="nav-text">let函数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#apply函数"><span class="nav-number">3.0.2.</span> <span class="nav-text">apply函数</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -586,8 +609,8 @@
       <div class="footer-inner">
         <div class="copyright" >
   
-  &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
