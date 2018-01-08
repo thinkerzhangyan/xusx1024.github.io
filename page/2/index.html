@@ -267,6 +267,193 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1004/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/21/pat-yi-1004/" itemprop="url">乙1004. 成绩排名 (20)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
+                2017-12-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入n名学生的姓名、学号、成绩，分别输出成绩最高和成绩最低学生的姓名和学号。
+
+输入格式：每个测试输入包含1个测试用例，格式为
+
+  第1行：正整数n
+  第2行：第1个学生的姓名 学号 成绩
+  第3行：第2个学生的姓名 学号 成绩
+  ... ... ...
+  第n+1行：第n个学生的姓名 学号 成绩
+其中姓名和学号均为不超过10个字符的字符串，成绩为0到100之间的一个整数，这里保证在一组测试用例中没有两个学生的成绩是相同的。
+输出格式：对每个测试用例输出2行，第1行是成绩最高学生的姓名和学号，第2行是成绩最低学生的姓名和学号，字符串间有1空格。
+
+输入样例：
+3
+Joe Math990112 89
+Mike CS991301 100
+Mary EE990830 95
+输出样例：
+Mike CS991301
+Joe Math990112
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+
+/**
+ * No.1004: 成绩排名 (20)
+ * 
+ * @author sxx.xu
+ *
+ */
+public class No1004 {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int num = Integer.parseInt(in.nextLine());
+        String maxStr = &quot;&quot;;
+        String minStr = &quot;&quot;;
+        int max = 0, min = Integer.MAX_VALUE;
+        while (num &gt; 0) {
+            num--;
+            String item = in.nextLine();
+            String[] split = item.split(&quot; &quot;);
+            if (max &lt; Integer.parseInt(split[2])) {
+                max = Integer.parseInt(split[2]);
+                maxStr = split[0] + &quot; &quot; + split[1];
+            }
+            if (min &gt; Integer.parseInt(split[2])) {
+                min = Integer.parseInt(split[2]);
+                minStr = split[0] + &quot; &quot; + split[1];
+            }
+        }
+        System.out.println(maxStr);
+        System.out.println(minStr);
+    }
+
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1003/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -616,193 +803,6 @@ public class No1002 {
             sb.append(com[Integer.parseInt(String.valueOf(c))]);
         }
         System.out.println(sb.toString().trim());
-    }
-
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1004/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1004/" itemprop="url">乙1004. 成绩排名 (20)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
-                2017-12-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入n名学生的姓名、学号、成绩，分别输出成绩最高和成绩最低学生的姓名和学号。
-
-输入格式：每个测试输入包含1个测试用例，格式为
-
-  第1行：正整数n
-  第2行：第1个学生的姓名 学号 成绩
-  第3行：第2个学生的姓名 学号 成绩
-  ... ... ...
-  第n+1行：第n个学生的姓名 学号 成绩
-其中姓名和学号均为不超过10个字符的字符串，成绩为0到100之间的一个整数，这里保证在一组测试用例中没有两个学生的成绩是相同的。
-输出格式：对每个测试用例输出2行，第1行是成绩最高学生的姓名和学号，第2行是成绩最低学生的姓名和学号，字符串间有1空格。
-
-输入样例：
-3
-Joe Math990112 89
-Mike CS991301 100
-Mary EE990830 95
-输出样例：
-Mike CS991301
-Joe Math990112
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-
-/**
- * No.1004: 成绩排名 (20)
- * 
- * @author sxx.xu
- *
- */
-public class No1004 {
-
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int num = Integer.parseInt(in.nextLine());
-        String maxStr = &quot;&quot;;
-        String minStr = &quot;&quot;;
-        int max = 0, min = Integer.MAX_VALUE;
-        while (num &gt; 0) {
-            num--;
-            String item = in.nextLine();
-            String[] split = item.split(&quot; &quot;);
-            if (max &lt; Integer.parseInt(split[2])) {
-                max = Integer.parseInt(split[2]);
-                maxStr = split[0] + &quot; &quot; + split[1];
-            }
-            if (min &gt; Integer.parseInt(split[2])) {
-                min = Integer.parseInt(split[2]);
-                minStr = split[0] + &quot; &quot; + split[1];
-            }
-        }
-        System.out.println(maxStr);
-        System.out.println(minStr);
     }
 
 }
