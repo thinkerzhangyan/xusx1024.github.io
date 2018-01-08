@@ -267,6 +267,503 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/17/android-system-service-Account-Manager/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/17/android-system-service-Account-Manager/" itemprop="url">Android系统服务：AccountManager</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-17T00:00:00Z">
+                2017-08-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-System-Framework/" itemprop="url" rel="index">
+                    <span itemprop="name">Android System Framework</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="前面"><a href="#前面" class="headerlink" title="前面"></a>前面</h4><p>以<code>AccountManager</code>为例，read the fucking code.</p>
+<h4 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h4><p>可以看到该类遵循Apache协议。也就是说允许商用，私用，分发，修改，专利授权，附件协议，作者不允许商标使用，不承担责任。</p>
+<p>详细的各种协议区分，请看：<a href="http://xusx1024.com/2017/08/22/license-introduce/" target="_blank" rel="external">here</a></p>
+<h4 id="package"><a href="#package" class="headerlink" title="package"></a>package</h4><p>类所在的包：<code>package android.accounts;</code> </p>
+<ul>
+<li>AbstractAccountAuthenticator</li>
+<li>Account</li>
+<li>AccountAuthenticatorActivity</li>
+<li>AccountAuthenticatorResponse</li>
+<li>AccountManagerCallback</li>
+<li>AccountManagerFuture</li>
+<li>AccountsException</li>
+<li>AuthenticatorDescription</li>
+<li>AuthenticatorException</li>
+<li>NetworkErrorException</li>
+<li>OnAccountsUpdateListener</li>
+<li>OperationCanceledException</li>
+</ul>
+<h4 id="类说明"><a href="#类说明" class="headerlink" title="类说明"></a>类说明</h4><p>This class provides access to a centralized registry of the user’s online accounts.<br>The user enters credentials (username and password) once per account, granting applications access to online resources with “one-click” approval.</p>
+<p>此类提供了用户在线账户集中注册的访问。<br>用户为每个账户输入用户密码作为证书，准许应用通过一次授权访问在线资源。</p>
+<p></p><p>Different online services have different ways of handling accounts and authentication, so the account manager uses pluggable <em>authenticator</em> modules for different <em>account types</em>.<br>Authenticators (which may be written by third parties) handle the actual details of validating account credentials and storing account information.<br>For example, Google, Facebook, and Microsoft Exchange each have their own authenticator.</p>
+<p>不同的线上服务处理账户和认证有不同的方式，因此账户管理者为不同的账户类型应用可插拔的认证模块。<br>验证者(也许是第三方写入)处理具体的账户证书细节，并且存储账户信息。<br>例如：Google，Facebook,Microsoft Exchange有各自的验证者。</p>
+<p></p><p>Many servers support some notion[概念] of an <em>authentication token</em>, which can be used to authenticate a request to the server without sending the user’s actual password.<br>(Auth tokens are normally created with a separate request which does include the user’s credentials.)<br>AccountManager can generate auth tokens for applications, so the application doesn’t need to handle passwords directly.<br>Auth tokens are normally reusable and cached by AccountManager, but must be refreshed periodically[定期].<br>It’s the responsibility of applications to <em>invalidate</em> auth tokens when they stop working so the AccountManager knows it needs to regenerate them.</p>
+<p>许多服务支持认证令牌的概念，可以无需用户确切的密码，即可向服务端认证一个请求。<br>(授权令牌通常创建在包含用户证书的一个单独的请求里。)<br>账户管理者可以为应用生成授权令牌，因此应用无需直接操作密码。<br>授权令牌通常是可重用的并由账户管理者缓存，但必须定期刷新。<br>当授权令牌停止工作时，应用的职责是废止这些授权，账户管理者依此得知需要重新生成。</p>
+<p></p><p>Applications accessing a server normally go through these steps:</p>
+<ul><br><li>Get an instance of AccountManager using {@link #get(Context)}.<br><br></li><li>List the available accounts using {@link #getAccountsByType} or {@link #getAccountsByTypeAndFeatures}.<br>Normally applications will only be interested in accounts with one particular <em>type</em>, which identifies the authenticator.<br>Account <em>features</em> are used to identify particular account subtypes and capabilities[功能].<br>Both the account type and features are authenticator-specific strings, and must be known by the application in coordination with its preferred authenticators.<br><br></li><li>Select one or more of the available accounts, possibly by asking the user for their preference.<br>If no suitable accounts are available, {@link #addAccount} may be called to prompt the user to create an account of the appropriate type.<br><br></li><li><b>Important:</b> If the application is using a previously remembered account selection, it must make sure the account is still in the list of accounts returned by {@link #getAccountsByType}.  Requesting an auth token for an account no longer on the device results in an undefined failure.<br><br></li><li>Request an auth token for the selected account(s) using one of the {@link #getAuthToken} methods or related helpers.<br>Refer to the description of each method for exact usage and error handling details.<br><br></li><li>Make the request using the auth token.  The form of the auth token, the format of the request, and the protocol used are all specific to the service you are accessing.<br>The application may use whatever network and protocol libraries are useful.<br><br></li><li><b>Important:</b> If the request fails with an authentication error, it could be that a cached auth token is stale and no longer honored by the server.<br>The application must call {@link #invalidateAuthToken} to remove the token from the cache, otherwise requests will continue failing!<br>After invalidating the auth token, immediately go back to the “Request an auth token” step above.<br>If the process fails the second time, then it can be treated as a “genuine” authentication failure and the user notified or other appropriate actions taken.<br></li></ul>
+
+<p>应用访问服务一般有以下几个步骤：</p>
+<ul><br><li>使用<code>get(Context)</code>获取账户管理者的实例<br></li><li>使用<code>getAccountsByType</code>或者<code>getAccountsByTypeAndFeatures</code>列出可用的账户。<br>通常应用只会被一个特定类型所吸引，该类型可用于识别验证者。<br>账户特征用来识别特定的账户子类型和功能。<br>账户类型和特征是验证者特定的字符串，必须由应用程序与其首选验证着协调知道。<br></li><li>选一或多个可用账户，可能通过询问用户的偏好。<br>如果没有适合的账户可用，指示用户调用<code>addAccount</code>创建一个适当类型的账户。<br></li><li><b>重要：</b>如果应用程序正在使用以前记录的账户选择，一定要确保此账户仍在<code>getAccountsByType</code>返回的账户列表里。<br>为不再在设备上的账户请求授权令牌，会导致未定义的错误。<br></li><li>为选择的账户请求授权令牌使用<code>getAuthToken</code>方法，或者相关的帮助者。<br>参考各个方法的描述，以确定用例使用、错误处理细节。<br></li><li>使用授权令牌发起请求。令牌的形式，请求的格式，使用的协议，这些都由你正在访问的服务指定。<br>应用程序可以使用任何网络和协议库都是可用的。<br></li><li><b>重要：</b>如果请求失败出现了授权错误，可能是缓存的令牌陈旧，不再由服务器兑现。<br>应用程序必须调用<code>invalidateAuthToken</code>去移除缓存的令牌，否则请求就会持续失败！<br>废止授权令牌之后，可以直接重复上面的步骤。<br>如果第二次操作也失败，就可以被对待为真实身份认证失败，用户需要被通知或采取别的行动.<br></li></ul>
+
+<p></p><p>Some AccountManager methods may need to interact with the user to prompt for credentials, present options, or ask the user to add an account.<br>The caller may choose whether to allow AccountManager to directly launch the necessary user interface and wait for the user, or to return an Intent which the caller may use to launch the interface, or (in some cases) to install a notification which the user can select at any time to launch the interface.<br>To have AccountManager launch the interface directly, the caller must supply the current foreground {@link Activity} context.</p>
+<p>一些账户管理者方法也许需要与用户交互来提示凭据，呈现选项，或要求用户添加一个账户。<br>调用者可以选择允许账户管理者直接登录必要的用户接口并且等待用户返回，也可以返回一个可以用来登录用户接口的意图，也可以展示一个通知，用户可以在任意时间选择去登录该接口。<br>要让账户管理者直接登录接口，调用者必须提供当前前台活动的上下文。</p>
+<p></p><p>Many AccountManager methods take {@link AccountManagerCallback} and {@link Handler} as parameters.<br>These methods return immediately and run asynchronously.<br>If a callback is provided then {@link AccountManagerCallback#run} will be invoked on the Handler’s thread when the request completes, successfully or not.<br>The result is retrieved by calling {@link AccountManagerFuture#getResult()} on the {@link AccountManagerFuture} returned by the method (and also passed to the callback).<br>This method waits for the operation to complete (if necessary) and either returns the result or throws an exception if an error occurred during the operation.<br>To make the request synchronously, call {@link AccountManagerFuture#getResult()} immediately on receiving the future from the method; no callback need be supplied.</p>
+<p></p><p>许多账户管理者持有<code>AccountManagerCallback</code>和<code>Handler</code>实例作为参数。<br>这些方法会异步执行并且立即返回。<br>如果一个回调被提供，在请求完成，成功或失败时，<code>AccountManagerCallback</code>将会在Handler的线程中被调用。<br>结果检索调用的方法是<code>AccountManagerFuture#getResult()</code>。<br>如果有必要，此方法等待操作的完成并且无论是返回结果或是在操作过程中产生错误并抛出异常。<br>为了异步执行请求，在接受到方法的未来时，直接调用<code>AccountManagerFuture#getResult()</code>；不需要提供回调。</p>
+<p></p><p>Requests which may block, including {@link AccountManagerFuture#getResult()}, must never be called on the application’s main event thread.<br>These operations throw {@link IllegalStateException} if they are used on the main thread.</p>
+<p>请求也许会阻塞，包括<code>AccountManagerFuture#getResult()</code>,绝对禁止在应用程序的主线程调用。<br>否则，这些操作会抛出<code>IllegalStateException</code>异常。</p>
+<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><h5 id="静态常量"><a href="#静态常量" class="headerlink" title="静态常量"></a>静态常量</h5><ul>
+<li><code>ERROR_CODE_REMOTE_EXCEPTION</code>:远程异常</li>
+<li><code>ERROR_CODE_NETWORK_ERROR</code>:网络错误</li>
+<li><code>ERROR_CODE_CANCELED</code>:取消</li>
+<li><code>ERROR_CODE_INVALID_RESPONSE</code>:无效的响应</li>
+<li><code>ERROR_CODE_UNSUPPORTED_OPERATION</code>:不支持的操作</li>
+<li><code>ERROR_CODE_BAD_ARGUMENTS</code>:错误的参数</li>
+<li><code>ERROR_CODE_BAD_REQUEST</code>:错误的请求</li>
+<li><code>ERROR_CODE_BAD_AUTHENTICATION</code>:错误的授权</li>
+<li><code>ERROR_CODE_BAD_AUTHENTICATION</code>:错误的已注册用户</li>
+<li><code>ERROR_CODE_MANAGEMENT_DISABLED_FOR_ACCOUNT_TYPE</code>:当前账户类型管理失效错误</li>
+<li><code>KEY_ACCOUNT_NAME</code>:传值常量键，用于获取账户名</li>
+<li><code>KEY_ACCOUNT_TYPE</code>:传值常量键，用于获取账户类型值</li>
+<li><code>KEY_AUTHTOKEN</code>:传值常量键，用于获取授权令牌</li>
+<li><code>KEY_INTENT</code>:传值常量键，用于启动相关的用户接口页面</li>
+<li><code>KEY_PASSWORD</code>:传值常量键，用于获取密码</li>
+<li><code>KEY_ACCOUNTS</code>:传值常量键，用于获取账户</li>
+<li><code>KEY_ACCOUNT_AUTHENTICATOR_RESPONSE</code>:传值常量键，用于获取账户授权响应</li>
+<li><code>KEY_ACCOUNT_MANAGER_RESPONSE</code>:传值常量键，用于获取账户管理者响应</li>
+<li><code>KEY_AUTHENTICATOR_TYPES</code>:传值常量键，用于获取授权类型</li>
+<li><code>KEY_AUTH_FAILED_MESSAGE</code>:授权失败信息</li>
+<li><code>KEY_AUTH_TOKEN_LABEL</code>:授权令牌标签</li>
+<li><code>KEY_BOOLEAN_RESULT</code>:结果布尔值</li>
+<li><code>KEY_ERROR_CODE</code>:错误码</li>
+<li><code>KEY_ERROR_MESSAGE</code>:错误消息</li>
+<li><code>KEY_USERDATA</code>:用户数据</li>
+<li><code>KEY_LAST_AUTHENTICATED_TIME</code>:上次授权时间</li>
+<li><code>KEY_CALLER_UID</code>:调用者的UID</li>
+<li><code>KEY_CALLER_PID</code>:调用者的PID</li>
+<li><code>KEY_ANDROID_PACKAGE_NAME</code>:Android包名</li>
+<li><code>KEY_NOTIFY_ON_FAILURE</code>:授权失败时是否提示，boolean值</li>
+<li><code>ACTION_AUTHENTICATOR_INTENT</code>:<code>android.accounts.AccountAuthenticator</code></li>
+<li><code>AUTHENTICATOR_META_DATA_NAME</code>:<code>android.accounts.AccountAuthenticator</code></li>
+<li><code>AUTHENTICATOR_ATTRIBUTES_NAME</code>:授权者的name属性</li>
+</ul>
+<h4 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h4><pre><code>public AccountManager(Context context, IAccountManager service) {
+   mContext = context;
+   mService = service;
+   mMainHandler = new Handler(mContext.getMainLooper());
+}
+</code></pre><p>不会用到，获取一个账户管理者的实例，使用如下方法即可：</p>
+<pre><code>public static AccountManager get(Context context) {
+       if (context == null) throw new IllegalArgumentException(&quot;context is null&quot;);
+       return (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
+   }
+</code></pre><h4 id="类结构"><a href="#类结构" class="headerlink" title="类结构"></a>类结构</h4><p><code>public class AccountManager{ ... }</code></p>
+<p>public的类，没有实现任何接口。</p>
+<h5 id="内部类-AmsTask"><a href="#内部类-AmsTask" class="headerlink" title="内部类-AmsTask"></a>内部类-AmsTask</h5><p><code>private abstract class AmsTask extends FutureTask&lt;Bundle&gt; implements AccountManagerFuture&lt;Bundle&gt; { ... }</code></p>
+<p>看类修饰符：</p>
+<ul>
+<li>abstract ： 说明该类是一个模板类，必定有抽象方法，需要被子类化，实现具体的操作，</li>
+<li>private：子类化应该是在外部类中<br>符合Java编码原则：使用函数对象代替策略。使类和成员的可访问性最小化。</li>
+</ul>
+<p>该类继承自一个可取消的异步计算，实现了一个处理计算结果的回调。</p>
+<p>发现<code>AccountManagerFuture</code> 和<code>Future</code>两个接口的行为是一样的，一个在<code>android.accounts</code>里，另一个在<code>java.util.concurrent</code>.</p>
+<p>AmsTask的构造方法为public，由于父类<code>FutureTask</code>的构造，必须要求传递<code>Callable</code>实例，如果没有这个实例，就会<code>NullPointerException</code>，所以直接在此截断抛出了。<br>因此，虽然传递了Callable，却禁止使用了，使用的还是Future。</p>
+<pre><code>public AmsTask(Activity activity, Handler handler, AccountManagerCallback&lt;Bundle&gt; callback) {
+      super(new Callable&lt;Bundle&gt;() {
+          public Bundle call() throws Exception {
+              throw new IllegalStateException(&quot;this should never be called&quot;);
+          }
+      });
+
+      mHandler = handler;
+      mCallback = callback;
+      mActivity = activity;
+      mResponse = new Response();
+  }
+</code></pre><ul>
+<li>abstract void doWork()  由函数对象来具体实现操作</li>
+<li>AccountManagerFuture<bundle> start() 开始执行<code>doWork()</code></bundle></li>
+<li>void set(Bundle bundle) 父类方法，把结果设置给指定的Future，除非Future已经有结果或者已经被取消</li>
+<li>Bundle getResult()、Bundle getResult(long timeout, TimeUnit unit)、Bundle internalGetResult(Long timeout, TimeUnit unit) 获取处理结果<blockquote>
+<p>getResult最后都调用了<code>internalGetResult</code>方法。大概流程如下：</p>
+<ul>
+<li>判断线程是否执行结束</li>
+<li>判断时间是否为null或已结束</li>
+<li>获取结果</li>
+<li>异常后取消线程执行</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<p>确保当前线程不在主线程的代码：</p>
+<pre><code>private void ensureNotOnMainThread() {
+    final Looper looper = Looper.myLooper();
+    if (looper != null &amp;&amp; looper == mContext.getMainLooper()) {
+        final IllegalStateException exception = new IllegalStateException(
+                &quot;calling this from your main thread can lead to deadlock&quot;);
+        Log.e(TAG, &quot;calling this from your main thread can lead to deadlock and/or ANRs&quot;,
+                exception);
+        if (mContext.getApplicationInfo().targetSdkVersion &gt;= Build.VERSION_CODES.FROYO) {
+            throw exception;
+        }
+    }
+}
+</code></pre><p>跟踪到<code>FutureTask</code>的<code>get</code>方法里，这里返回父类的一个Object实例：<code>outcome</code>存放我们想要的结果对象。</p>
+<p>在<code>get</code>里还有许多操作，比如判断线程执行的状态：</p>
+<ul>
+<li>NEW         </li>
+<li>COMPLETING  </li>
+<li>NORMAL      </li>
+<li>EXCEPTIONAL </li>
+<li>CANCELLED   </li>
+<li>INTERRUPTING</li>
+<li>INTERRUPTED </li>
+</ul>
+<p>我看到在操作线程状态的时候，使用了该类：<code>private static final sun.misc.Unsafe U = sun.misc.Unsafe.getUnsafe();</code>，用来保证原子操作，确定一个线程是<code>RUNNER</code>,<code>WAITER</code>.<br>这是一个JDK私有API，在Java9的时候可能移除，并使用<code>java.util.concurrent.LockSupport</code>实现。下面摘抄一段说明：</p>
+<blockquote>
+<p>原子访问是<code>sun.misc.Unsafe</code>被广泛应用的特性之一，特性包括简单的put、get操作(带有volatile语义或不带有volatile语义)以及比较并交换(compare and swap，CAS)操作。</p>
+</blockquote>
+<h5 id="AmsTask的内部类-Response"><a href="#AmsTask的内部类-Response" class="headerlink" title="AmsTask的内部类-Response"></a>AmsTask的内部类-Response</h5><p>AmsTask中有一个public的Response的引用。</p>
+<p>操作一：<code>onResult</code></p>
+<blockquote>
+<p>响应有结果，跳转至用户提供的Activity，或是重试，再次调用<code>doWork()</code>，否则把响应数据bundle设置回父类的<code>outcome</code>里</p>
+</blockquote>
+<p>操作二：<code>onError</code></p>
+<blockquote>
+<p>取消线程的执行</p>
+</blockquote>
+<h5 id="内部类-BaseFutureTask"><a href="#内部类-BaseFutureTask" class="headerlink" title="内部类-BaseFutureTask"></a>内部类-BaseFutureTask</h5><p>可以看到这是一个抽象类，我们只要知道什么是需要子类实现的，什么是已经实现的。</p>
+<pre><code>protected void postRunnableToHandler(Runnable runnable) {
+       Handler handler = (mHandler == null) ? mMainHandler : mHandler;
+       handler.post(runnable);
+   }
+</code></pre><p>把Runnable加入消息队列，可以当前线程的handler执行。</p>
+<p><code>abstract void doWork()</code>  由函数对象来具体实现操作<br><code>abstract T bundleToResult(Bundle bundle)</code> 由函数对象来具体实现操作</p>
+<h5 id="BaseFutureTask的内部类-Response"><a href="#BaseFutureTask的内部类-Response" class="headerlink" title="BaseFutureTask的内部类-Response"></a>BaseFutureTask的内部类-Response</h5><ul>
+<li>onResult 调用外部类的<code>bundleToResult</code></li>
+<li>onError 中断线程，抛出异常</li>
+</ul>
+<h5 id="内部类-Future2Task"><a href="#内部类-Future2Task" class="headerlink" title="内部类-Future2Task"></a>内部类-Future2Task</h5><ul>
+<li>BaseFutureTask的子类，同时也是个抽象类，实现了<code>internalGetResult</code>，具体的贱<code>AmsTask$internalGetResult</code></li>
+</ul>
+<h5 id="内部类-GetAuthTokenByTypeAndFeaturesTask"><a href="#内部类-GetAuthTokenByTypeAndFeaturesTask" class="headerlink" title="内部类-GetAuthTokenByTypeAndFeaturesTask"></a>内部类-GetAuthTokenByTypeAndFeaturesTask</h5><p><code>AmsTask</code>的子类，顾名思义，根据类型和特征获取授权令牌的任务。</p>
+<p><code>doWork()</code>的作用：</p>
+<ul>
+<li>根据类型和特征尝试获取已授权账户</li>
+<li>未获取到账户，如果提示添加账户的activity为空，则把<code>KEY_ACCOUNT_NAME</code>,<code>KEY_ACCOUNT_TYPE</code>,<code>KEY_AUTHTOKEN</code>置为空，并返回</li>
+<li>未获取到账户，如果提示添加账户的activity不为空，调用<code>addAccount</code>方法，这是一个Future，可以中断和等待结果的子线程</li>
+<li>如果只获取到一个账户，获取AuthToken，放入响应</li>
+<li>如果获取到了多个账户，启动<code>android.accounts.ChooseAccountActivity</code>,选择一个后，获取AuthToken，放入响应</li>
+</ul>
+<h4 id="主要方法"><a href="#主要方法" class="headerlink" title="主要方法"></a>主要方法</h4><h5 id="sanitizeResult"><a href="#sanitizeResult" class="headerlink" title="sanitizeResult"></a>sanitizeResult</h5><pre><code>public static Bundle sanitizeResult(Bundle result) {
+      if (result != null) {
+          if (result.containsKey(KEY_AUTHTOKEN)
+                  &amp;&amp; !TextUtils.isEmpty(result.getString(KEY_AUTHTOKEN))) {
+              final Bundle newResult = new Bundle(result);
+              newResult.putString(KEY_AUTHTOKEN, &quot;&lt;omitted for logging purposes&gt;&quot;);
+              return newResult;
+          }
+      }
+      return result;
+  }
+</code></pre><p>如果返回的结果bundle中包含<code>KEY_AUTHTOKEN</code>，就把这个值变成“为了日志的目的而省略”，是对结果做一次“消毒”</p>
+<h5 id="IAccountManager相关"><a href="#IAccountManager相关" class="headerlink" title="IAccountManager相关"></a>IAccountManager相关</h5><ul>
+<li>getPassword</li>
+<li>setPassword</li>
+<li>clearPassword</li>
+<li>getUserData</li>
+<li>setUserData</li>
+<li>getAuthenticatorTypes：此处返回一个数组，一个账户可以有多重类型，不需要权限</li>
+<li>getAuthenticatorTypesAsUser：需要权限，或者相同的用户</li>
+<li>getAccounts：需要权限</li>
+<li>getAccountsAsUser</li>
+<li>getAccountsForPackage：调用者可用的账户列表</li>
+<li>updateAppPermission：仅被系统页面调用，不包含于SDK中</li>
+<li>getAuthTokenLabel：获取与认证者相关联的用户友好标签，返回一个Future</li>
+<li>hasFeatures：需要权限，指定的账户是拥有指定的权限。可用在任意线程，但返回结果不可用于主线程。</li>
+<li>getAccountsByTypeAndFeatures：需要权限，根据类型和功能获取账户列表</li>
+<li>addAccount</li>
+<li>addSharedAccount</li>
+<li>addAccountExplicitly：直接添加一个账户。这个方法不会刷新最近一次的时间戳，需要主动<code>notifyAccountAuthenticated</code>。但是，如果该方法触发了<code>addAccount()</code>或者<code>addAccountAsUser</code>，就不需要刷新时间戳，可以自动刷新了。可在主线程调用此方法。需要API22以上。</li>
+<li>notifyAccountAuthenticated：通知系统账户刚刚被授权。可被其他程序用来验证账户。只有在授权成功方可调用。主线程不安全的。</li>
+<li>renameAccount：先移除已有的账户，再添加重命名后的账户。</li>
+<li>getPreviousName：获取改名前的名字，可能返回null，主线程安全的。</li>
+<li>removeAccount：如果有，就从AccountManager删除账户，不会从服务器上删除。API22之前调用需要权限。</li>
+<li>removeAccountAsUser</li>
+<li>invalidateAuthToken：从AccountManager的缓存中移除授权。API22之前需要权限。</li>
+<li>peekAuthToken：从缓存中取授权令牌，如果没有，生成一个新的，不会链接服务器。</li>
+<li>setAuthToken</li>
+<li>getAuthToken</li>
+<li>getAuthTokenByFeatures</li>
+<li>blockingGetAuthToken：会阻塞，不要在主线程调用，API22之前需要权限</li>
+<li>copyAccountToUser</li>
+<li>confirmCredentialsAsUser：</li>
+<li>updateCredentials</li>
+<li>editProperties：提供一个用户修改授权设置的机会。</li>
+<li>ensureNotOnMainThread：确保不在主线程</li>
+<li>postToHandler</li>
+<li>convertErrorToException</li>
+<li>newChooseAccountIntent：提供给用户一个可选账户的列表</li>
+</ul>
+<h4 id="DEMO"><a href="#DEMO" class="headerlink" title="DEMO"></a>DEMO</h4><p><a href="https://github.com/xusx1024/AccountManagerDemo" target="_blank" rel="external">AccountManagerDemo</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/17/raspbarry-first/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/17/raspbarry-first/" itemprop="url">Raspbarry first</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-17T00:00:00Z">
+                2017-08-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Others/" itemprop="url" rel="index">
+                    <span itemprop="name">Others</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>想要利用树莓派+DuerOS做一个可以人机交互的家用终端。<br>大概可以给讲故事，背诗词，报时，报天气。<br>车载大概可以导航，实时路况，广播之类。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/14/android-notes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1528,156 +2025,6 @@ android:required=false /&gt;
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/26/design-patterns-composite/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/26/design-patterns-composite/" itemprop="url">组合模式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-26T00:00:00Z">
-                2017-06-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>组合模式(Composite Pattern):组合多个对象形成树形结构以表示具有“整体-部分”关系的层次结构。组合模式对单个对象和组合对象的使用具有一致性，组合模式又可以称为“整体-部分”（Part-Whole）模式，它是一种对象结构型模式。</p>
-<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
-<li>Component：抽象构件。给参加组合的对象定义公共的接口及其默认行为，可以用来管理所有的子对象。在安全式中，可以为接口，不定义具体的方法；在透明式中，定义为抽象类，给出具体的操作及默认处理。</li>
-<li>Leaf：树叶构件。没有下级子对象的对象。</li>
-<li>Composite：具体构件。拥有下级子对象的对象。树枝构件类给出所有的管理子对象的方法，如add,get,remove</li>
-</ul>
-<h5 id="安全式组合模式"><a href="#安全式组合模式" class="headerlink" title="安全式组合模式"></a>安全式组合模式</h5><p><img src="/images/composite_pattern_class_diagram_1.png" alt="类图"></p>
-<h5 id="透明式组合模式"><a href="#透明式组合模式" class="headerlink" title="透明式组合模式"></a>透明式组合模式</h5><p><img src="/images/composite_pattern_class_diagram_2.png" alt="类图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/CompositePattern" target="_blank" rel="external">GitHub</a></p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><h5 id="安全式"><a href="#安全式" class="headerlink" title="安全式"></a>安全式</h5><ul>
-<li>具体构件给出了add、get、remove等方法的声明和实现，而树叶构件类则没有，这样是安全的做法，客户端不可能错误的调用树叶构件的方法，因为树叶构件没有这些方法</li>
-<li>由于树叶类和树枝类具有不同的接口，无法面向抽象编程</li>
-</ul>
-<h5 id="透明式"><a href="#透明式" class="headerlink" title="透明式"></a>透明式</h5><ul>
-<li>透明式要求所有的具体构件类、树叶类，均符合一个固定的接口</li>
-<li>客户端调用的时候，不再需要区分树枝类、树叶类，可以面向接口编程，对客户端来说，是透明的</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/26/design-patterns-facade/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1864,192 +2211,11 @@ public class SystemA {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/23/design-patterns-decorator/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/23/design-patterns-decorator/" itemprop="url">装饰模式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-23T00:00:00Z">
-                2017-06-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>装饰模式（Decorator Pattern）：动态地给一个对象增加一些额外的职责，就增加对象功能来说，装饰模式比生成子类实现更为灵活。装饰模式是一种对象结构型模式。其别名也称为包装器（Wrapper），与适配器模式的别名相同，但是他们适用于不同的场合。装饰模式也有人称之为“油漆工模式”。</p>
-<h4 id="模式结构"><a href="#模式结构" class="headerlink" title="模式结构"></a>模式结构</h4><ul>
-<li>Component:抽象构件角色。给出一个接口，以规范准备接收附加责任的对象。</li>
-<li>ConcreteComponent：具体构件角色。定义一个将要接收附加责任的类。</li>
-<li>Decorator：装饰角色。持有一个构件对象的实例，并定义一个与抽象构件接口一致的接口。</li>
-<li>ConcreteDecorator：具体装饰角色。负责给构件对象添加责任。</li>
-</ul>
-<p><img src="/images/decorator_pattern_class_diagram_1.png" alt="类图"></p>
-<blockquote>
-<p>如果只有一个具体组件(ConcreteComponent)，可以考虑去掉抽象组件类(Component)，把Decorator做为一个ConcreteComponent子类。</p>
-</blockquote>
-<p><img src="/images/decorator_pattern_class_diagram_2.png" alt="类图"></p>
-<blockquote>
-<p>如果只有ConcreteDecorator，那么没必要建立一个单独的Decorator类，而可以把Decorator和ConcreteDecorator的责任合并成一个类。甚至在只有两个ConcreteDecorator类的情况下，都可以这样做。</p>
-</blockquote>
-<p><img src="/images/decorator_pattern_class_diagram_3.png" alt="类图"></p>
-<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/decorator_pattern_sequence_diagram.png" alt="时序图"></p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><p><a href="https://github.com/xusx1024/DesignPatternDemoCode/tree/master/DecoratorPattern" target="_blank" rel="external">GitHub</a></p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><ul>
-<li>与继承关系相比，关联关系的主要优势在于不会破坏类的封装性，而且继承是一种耦合度较大的静态关系，无法在程序运行时动态扩展。在软件开发阶段，关联关系虽然不会比继承关系减少编码量，但是到了软件维护阶段，由于关联关系使系统具有较好的松耦合性，因此使得系统更加容易维护。当然，关联关系的缺点是比继承关系要创建更多的对象。</li>
-<li>使用装饰模式来实现扩展比继承更加灵活，它以对客户透明的方式动态地给一个对象附加更多的责任。装饰模式可以在不需要创造更多子类的情况下，将对象的功能加以扩展。</li>
-</ul>
-<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ul>
-<li>通过一种动态方式来扩展一个对象的功能，通过配置文件在运行时选择不同的装饰器，从而实现不同的行为</li>
-<li>具体构件类和具体装饰类可以独立变化，用户可以根据需要增加新的具体构件类和具体装饰类，在使用时再对其进行组合，原有代码无须改变，符合“开闭原则”</li>
-</ul>
-<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul>
-<li>装饰模式会产生许多小对象，这些对象的区别在于它们之间相互连接的方式不同，会增加系统的复杂度 </li>
-<li>比继承更加灵活，也比继承更加容易出错，排错比较困难，对于多次装饰的对象，调试更加繁琐</li>
-</ul>
-<h4 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h4><ul>
-<li>修改一个final类</li>
-<li>动态、透明的添加/撤销对象的职责</li>
-<li>系统中存在大量独立的扩展，为支持每一种组合将产生大量的子类，使得子类数目呈爆炸性增长</li>
-</ul>
-<h4 id="扩展-透明性要求"><a href="#扩展-透明性要求" class="headerlink" title="扩展-透明性要求"></a>扩展-透明性要求</h4><p>装饰模式对客户端的透明性要求程序不要声明一个具体类型（ConcreteComponent）的变量，而应当声明一个Component类型的变量。</p>
-<p>然而纯粹的装饰很难找到，在增强性能的时候，需要增加新的公开的方法，这就意味着客户端可以声明具体类型，从而调用具体装饰器中的新增方法。</p>
-<p>半透明装饰模式是介于装饰模式和适配器模式之间的。大多装饰模式实际上是半透明的，这样的装饰模式也称作半装饰、半适配器模式。</p>
-<h4 id="开发中应用"><a href="#开发中应用" class="headerlink" title="开发中应用"></a>开发中应用</h4><p>update@2017年7月17日11:16:45</p>
-<p>需求：需要一个垂直，自动滑动的ViewPager。</p>
-<p>我已有一个横向，自动滑动的ViewPager。打算使用装饰者设计模式，添加垂直滑动的行为。</p>
-<p>分析：</p>
-<ul>
-<li>ViewPager只有一个实现类，所以装饰类可以直接继承该具体实现类</li>
-<li>由于又只有一个具体装饰类，可以省略掉抽象装饰类</li>
-</ul>
-<p>结果：退化为继承</p>
-<p>本来的目的是使用装饰者模式，来增加行为。现在由于需求比较简单，使用继承即可。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2094,7 +2260,7 @@ public class SystemA {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-count">101</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2105,7 +2271,7 @@ public class SystemA {
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2116,7 +2282,7 @@ public class SystemA {
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
