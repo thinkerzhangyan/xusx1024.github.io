@@ -267,6 +267,335 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/04/battery-historian/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/04/battery-historian/" itemprop="url">Android电量优化:Battery Historian 使用准备</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-04T00:00:00Z">
+                2018-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://github.com/google/battery-historian" target="_blank" rel="external">battery-historian</a> 是google官方提供的,一款优秀的电量分析工具.</p>
+<p>在优化电量相关很是有用.</p>
+<p>鉴于国内网络条件,和多数开发人员的终端都是win平台,记录自己的研究过程.</p>
+<p>好了,废话到此为止.</p>
+<h4 id="docker安装"><a href="#docker安装" class="headerlink" title="docker安装"></a>docker安装</h4><ul>
+<li>有人说需要翻墙,其实不需要,千万千万不要打开代理,尤其是全局代理</li>
+<li>有人说只支持win10和mac,亲测win7可以使用</li>
+<li>使用<a href="https://docs.docker.com/toolbox/toolbox_install_windows/" target="_blank" rel="external">Docker Toolbox</a></li>
+</ul>
+<p>安装如下图:</p>
+<p><img src="/images/setup-docker-toolbox.png" alt="install"></p>
+<ul>
+<li>比如git,VirtualBox,如果有就不要勾选了</li>
+<li>Docker Compose for windows,kitematic forwindows 最好选用,挺好用的</li>
+</ul>
+<p>一路下一步,基本安装成功.</p>
+<h4 id="镜像环境"><a href="#镜像环境" class="headerlink" title="镜像环境"></a>镜像环境</h4><p>使用battery-historian需要go,Python,Java,git环境,这些在docker里可以获取一个已经配置好的镜像,非常方便.</p>
+<p>打开docker quickstart terminal,等待docker初始化成功,并获得一个IP.</p>
+<p>注意:</p>
+<ul>
+<li>不要使用github上的这个命令 <code>docker -- run -p &lt;port&gt;:9999 gcr.io/android-battery-historian/stable:3.0 --port 9999</code><ul>
+<li>命令陈旧,–run,–port都已经没有了</li>
+<li>–run 被run替代</li>
+<li>–port 可以使用 –publish代替</li>
+</ul>
+</li>
+<li>请使用:<code>docker pull bhaavan/battery-historian</code>,这是下载该img<ul>
+<li><code>docker run -d -p 9999:9999 bhaavan/battery-historian --publish 9999</code> 这是映射端口号</li>
+</ul>
+</li>
+</ul>
+<p>如果一切顺利,到此为止,在浏览器里输入<code>ip:端口号</code>应该是可以使用了,如图:<br><img src="/images/battery-historian-upload.png" alt="upload"></p>
+<h4 id="bugreport"><a href="#bugreport" class="headerlink" title="bugreport"></a>bugreport</h4><p>在导出bugreport文件时候:</p>
+<ul>
+<li>高于7.0Android系统 <code>$ adb bugreport bugreport.zip</code></li>
+<li>低于6.0Android系统 <code>$ adb bugreport &gt; bugreport.txt</code></li>
+</ul>
+<h4 id="Kitematic-Alpha"><a href="#Kitematic-Alpha" class="headerlink" title="Kitematic (Alpha)"></a>Kitematic (Alpha)</h4><ul>
+<li>可视化统一管理多个镜像</li>
+<li>注册登录千万不要用代理</li>
+<li>感觉比terminal慢了一点,但是好用</li>
+</ul>
+<h4 id="友情提示"><a href="#友情提示" class="headerlink" title="友情提示"></a>友情提示</h4><p>有的blog上,有使用<a href="https://github.com/google/battery-historian/tree/master/scripts" target="_blank" rel="external">historian.py</a>来可视化bugreport文件的,如下:</p>
+<pre><code>python historian.py -a bugreport.txt &gt; battery.html
+</code></pre><p>如果你有Python环境,会优先选择他,看似简单,实际上有些老旧,不建议使用.</p>
+<p>理由:</p>
+<ul>
+<li>Python 2.7写的,和现在的3.6语法大有不同,该文件在3.6环境下,print语句都需要添加<code>()</code>,有两个库没法导入(注:我就是在此折戟)</li>
+<li>Android7.0及其以上没法用,该文件分析的<code>.txt</code>,Android7.0导出的是<code>zip</code></li>
+<li>安装docker,不止可以使用google的这个分析库,还可以调试源码,模拟别的服务器环境等等,详见:<a href="https://hub.docker.com/" target="_blank" rel="external">Docker Hub</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/04/battery-historian-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/04/battery-historian-2/" itemprop="url">Android电量优化(使用Battery Historian)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-04T00:00:00Z">
+                2018-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h4><ul>
+<li>如何收集数据</li>
+<li>数据图表的含义</li>
+<li>如何分析并优化</li>
+</ul>
+<h4 id="收集数据"><a href="#收集数据" class="headerlink" title="收集数据"></a>收集数据</h4><ul>
+<li>手机连接USB,执行<code>adb shell dumpsys batterystats --reset</code>命令,清空电池的历史状态</li>
+<li>断开USB,打开目标应用,正常使用5分钟左右</li>
+<li>连接USB,执行<code>adb bugreport bugreport.zip</code>,可以到处zip文件到当前目录下</li>
+<li>浏览器进入<code>Battery Historian</code>,上传已生成的zip,然后会自动生成分析图表文件</li>
+</ul>
+<p>#### </p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/new-year-about-android/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -797,196 +1126,6 @@ public class No1010 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1007/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/25/pat-yi-1007/" itemprop="url">乙1007. 素数对猜想 (20)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T00:00:00Z">
-                2017-12-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>让我们定义 dn 为：dn = pn+1 - pn，其中 pi 是第i个素数。显然有 d1=1 且对于n&gt;1有 dn 是偶数。
-
-“素数对猜想”认为“存在无穷多对相邻且差为2的素数”。
-
-现给定任意正整数N (&lt; 105)，请计算不超过N的满足猜想的素数对的个数。
-
-输入格式：每个测试输入包含1个测试用例，给出正整数N。
-
-输出格式：每个测试用例的输出占一行，不超过N的满足猜想的素数对的个数。
-
-输入样例：
-20
-输出样例：
-4
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-
-/**
- * No.1007: 素数对猜想 (20)
- * 
- * @author sxx.xu
- *
- */
-public class No1007 {
-
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int total = in.nextInt();
-        int times = 0;
-        in.close();
-
-        for (int i = 1; i &lt;= total - 2; i++) {
-            if (isSu(i) &amp;&amp; isSu(i + 2)) {
-                times++;
-            }
-        }
-        System.out.println(times);
-    }
-
-    static boolean isSu(int a) {
-        boolean flag = true;
-        if (a &lt; 2) {
-            return false;
-        } else {
-            for (int i = 2; i &lt;= Math.sqrt(a); i++) {
-                if (a % i == 0) {
-                    flag = false;
-                    break;
-                }
-            }
-        }
-        return flag;
-    }
-}
-</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
-<li>Math不需要import语句</li>
-<li>求解素数,循环整除的上限是该数的平方根</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1009/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1364,7 +1503,7 @@ public class No1008 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/pat-yi-1005/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1007/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -1383,7 +1522,7 @@ public class No1008 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/22/pat-yi-1005/" itemprop="url">乙1005. 继续(3n+1)猜想 (25)</a></h1>
+                <a class="post-title-link" href="/2017/12/25/pat-yi-1007/" itemprop="url">乙1007. 素数对猜想 (20)</a></h1>
         
 
         <div class="post-meta">
@@ -1395,8 +1534,8 @@ public class No1008 {
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T00:00:00Z">
-                2017-12-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T00:00:00Z">
+                2017-12-25
               </time>
             
 
@@ -1454,93 +1593,64 @@ public class No1008 {
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>卡拉兹(Callatz)猜想已经在1001中给出了描述。在这个题目里，情况稍微有些复杂。
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>让我们定义 dn 为：dn = pn+1 - pn，其中 pi 是第i个素数。显然有 d1=1 且对于n&gt;1有 dn 是偶数。
 
-当我们验证卡拉兹猜想的时候，为了避免重复计算，可以记录下递推过程中遇到的每一个数。例如对n=3进行验证的时候，
+“素数对猜想”认为“存在无穷多对相邻且差为2的素数”。
 
-我们需要计算3、5、8、4、2、1，则当我们对n=5、8、4、2进行验证的时候，就可以直接判定卡拉兹猜想的真伪，而不需要重复计算，
+现给定任意正整数N (&lt; 105)，请计算不超过N的满足猜想的素数对的个数。
 
-因为这4个数已经在验证3的时候遇到过了，我们称5、8、4、2是被3“覆盖”的数。我们称一个数列中的某个数n为“关键数”，
+输入格式：每个测试输入包含1个测试用例，给出正整数N。
 
-如果n不能被数列中的其他数字所覆盖。现在给定一系列待验证的数字，我们只需要验证其中的几个关键数，
-
-就可以不必再重复验证余下的数字。你的任务就是找出这些关键数字，并按从大到小的顺序输出它们。
-
-输入格式：每个测试输入包含1个测试用例，第1行给出一个正整数K(&lt;100)，
-
-第2行给出K个互不相同的待验证的正整数n(1&lt;n&lt;=100)的值，数字间用空格隔开。
-
-输出格式：每个测试用例的输出占一行，按从大到小的顺序输出关键数字。数字间用1个空格隔开，但一行中最后一个数字后没有空格。
+输出格式：每个测试用例的输出占一行，不超过N的满足猜想的素数对的个数。
 
 输入样例：
-6
-3 5 6 7 8 11
+20
 输出样例：
-7 6
-</code></pre><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
-<li>首先要理解覆盖的概念,我的理解是,一个给定的数,在求得最终结果”1”的路径上,如果一个数可以被2整除,该数就被给定的数覆盖了.</li>
-<li>其次,我们默认输入的那组数,互相都没有覆盖,全部加入最终的输出容器</li>
-<li>然后,我们循环记录给定的数的path数,如果该数在结果容器里,那么从结果容器中移除</li>
-<li>最后,输入结果容器的记录</li>
-</ul>
-<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
-import java.util.TreeSet;
+4
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
 
 /**
- * No.1005: 继续(3n+1)猜想 (25)
+ * No.1007: 素数对猜想 (20)
  * 
  * @author sxx.xu
  *
  */
-public class No1005 {
+public class No1007 {
 
     public static void main(String[] args) {
-        List&lt;Integer&gt; path = new ArrayList&lt;&gt;();
-        TreeSet&lt;Integer&gt; ans = new TreeSet&lt;&gt;(Collections.reverseOrder());
         Scanner in = new Scanner(System.in);
-        int total = Integer.parseInt(in.nextLine());
-        String datas = in.nextLine();
+        int total = in.nextInt();
+        int times = 0;
         in.close();
-        String[] split = datas.split(&quot; &quot;);
-        if (split.length == 1) {
-            System.out.println(split[0]);
-            return;
-        }
-        int num = 0;
-        for (int i = 0; i &lt; total; i++) {
-            num = Integer.parseInt(split[i]);
-            ans.add(num);
-        }
 
-        for (int i = 0; i &lt; total; i++) {
-            num = Integer.parseInt(split[i]);
-            while (num != 1) {
-                if (num % 2 == 0) {
-                    num = num / 2;
-                    path.add(num);
-                    if (ans.contains(num))
-                        ans.remove(num);
-                } else {
-                    num = 3 * num + 1;
+        for (int i = 1; i &lt;= total - 2; i++) {
+            if (isSu(i) &amp;&amp; isSu(i + 2)) {
+                times++;
+            }
+        }
+        System.out.println(times);
+    }
+
+    static boolean isSu(int a) {
+        boolean flag = true;
+        if (a &lt; 2) {
+            return false;
+        } else {
+            for (int i = 2; i &lt;= Math.sqrt(a); i++) {
+                if (a % i == 0) {
+                    flag = false;
+                    break;
                 }
             }
         }
-
-        StringBuilder sb = new StringBuilder();
-        for (int j : ans) {
-            sb.append(j).append(&quot; &quot;);
-        }
-        if (sb.toString().trim().isEmpty()) {
-            System.out.println(&quot;&quot;);
-        } else {
-            System.out.println(sb.toString().trim());
-        }
+        return flag;
     }
 }
-</code></pre>
+</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li>Math不需要import语句</li>
+<li>求解素数,循环整除的上限是该数的平方根</li>
+</ul>
+
           
         
       
@@ -1762,7 +1872,7 @@ public class No1006 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1003/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/pat-yi-1005/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -1781,7 +1891,7 @@ public class No1006 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1003/" itemprop="url">乙1003. 我要通过！(20)</a></h1>
+                <a class="post-title-link" href="/2017/12/22/pat-yi-1005/" itemprop="url">乙1005. 继续(3n+1)猜想 (25)</a></h1>
         
 
         <div class="post-meta">
@@ -1793,8 +1903,8 @@ public class No1006 {
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
-                2017-12-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T00:00:00Z">
+                2017-12-22
               </time>
             
 
@@ -1852,263 +1962,91 @@ public class No1006 {
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>“答案正确”是自动判题系统给出的最令人欢喜的回复。本题属于PAT的“答案正确”大派送 —— 只要读入的字符串满足下列条件，系统就输出“答案正确”，否则输出“答案错误”。
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>卡拉兹(Callatz)猜想已经在1001中给出了描述。在这个题目里，情况稍微有些复杂。
 
-得到“答案正确”的条件是：
+当我们验证卡拉兹猜想的时候，为了避免重复计算，可以记录下递推过程中遇到的每一个数。例如对n=3进行验证的时候，
 
-    1. 字符串中必须仅有P, A, T这三种字符，不可以包含其它字符；
-    2. 任意形如 xPATx 的字符串都可以获得“答案正确”，其中 x 或者是空字符串，或者是仅由字母 A 组成的字符串；
-    3. 如果 aPbTc 是正确的，那么 aPbATca 也是正确的，其中 a, b, c 均或者是空字符串，或者是仅由字母 A 组成的字符串。
+我们需要计算3、5、8、4、2、1，则当我们对n=5、8、4、2进行验证的时候，就可以直接判定卡拉兹猜想的真伪，而不需要重复计算，
 
-现在就请你为PAT写一个自动裁判程序，判定哪些字符串是可以获得“答案正确”的。
-输入格式： 每个测试输入包含1个测试用例。第1行给出一个自然数n (&lt;10)，是需要检测的字符串个数。接下来每个字符串占一行，字符串长度不超过100，且不包含空格。
+因为这4个数已经在验证3的时候遇到过了，我们称5、8、4、2是被3“覆盖”的数。我们称一个数列中的某个数n为“关键数”，
 
-输出格式：每个字符串的检测结果占一行，如果该字符串可以获得“答案正确”，则输出YES，否则输出NO。
+如果n不能被数列中的其他数字所覆盖。现在给定一系列待验证的数字，我们只需要验证其中的几个关键数，
+
+就可以不必再重复验证余下的数字。你的任务就是找出这些关键数字，并按从大到小的顺序输出它们。
+
+输入格式：每个测试输入包含1个测试用例，第1行给出一个正整数K(&lt;100)，
+
+第2行给出K个互不相同的待验证的正整数n(1&lt;n&lt;=100)的值，数字间用空格隔开。
+
+输出格式：每个测试用例的输出占一行，按从大到小的顺序输出关键数字。数字间用1个空格隔开，但一行中最后一个数字后没有空格。
 
 输入样例：
-8
-PAT
-PAAT
-AAPATAA
-AAPAATAAAA
-xPATx
-PT
-Whatever
-APAAATAA
+6
+3 5 6 7 8 11
 输出样例：
-YES
-YES
-YES
-YES
-NO
-NO
-NO
-NO
+7 6
 </code></pre><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
-<li>这是一道找规律题.发现,最后一个看着应该输出<code>YES</code>,为什么样例给出<code>NO</code>,从这里结合要求[3]找出A的个数的规律.可得:请拉倒页面底部看.</li>
-<li>PT,结合要求[1],得出判定条件.</li>
+<li>首先要理解覆盖的概念,我的理解是,一个给定的数,在求得最终结果”1”的路径上,如果一个数可以被2整除,该数就被给定的数覆盖了.</li>
+<li>其次,我们默认输入的那组数,互相都没有覆盖,全部加入最终的输出容器</li>
+<li>然后,我们循环记录给定的数的path数,如果该数在结果容器里,那么从结果容器中移除</li>
+<li>最后,输入结果容器的记录</li>
 </ul>
-<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+import java.util.TreeSet;
 
 /**
- * NO.1003: 我要通过！(20)
+ * No.1005: 继续(3n+1)猜想 (25)
  * 
  * @author sxx.xu
  *
  */
-public class No1003 {
+public class No1005 {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int num = Integer.parseInt(scanner.nextLine());
-        boolean[] res = new boolean[num];
-        char chars[];
-        int index = 0;
-        int pIndex = 0;
-        int tIndex = 0;
-        out: while (num &gt; 0) {
-            num--;
-            String str = scanner.nextLine();
-            chars = str.toCharArray();
-            in: for (char c : chars) {
-                if (c != &apos;P&apos; &amp;&amp; c != &apos;T&apos; &amp;&amp; c != &apos;A&apos;) {
-                    res[index] = false;
-                    index++;
-                    continue out;
+        List&lt;Integer&gt; path = new ArrayList&lt;&gt;();
+        TreeSet&lt;Integer&gt; ans = new TreeSet&lt;&gt;(Collections.reverseOrder());
+        Scanner in = new Scanner(System.in);
+        int total = Integer.parseInt(in.nextLine());
+        String datas = in.nextLine();
+        in.close();
+        String[] split = datas.split(&quot; &quot;);
+        if (split.length == 1) {
+            System.out.println(split[0]);
+            return;
+        }
+        int num = 0;
+        for (int i = 0; i &lt; total; i++) {
+            num = Integer.parseInt(split[i]);
+            ans.add(num);
+        }
+
+        for (int i = 0; i &lt; total; i++) {
+            num = Integer.parseInt(split[i]);
+            while (num != 1) {
+                if (num % 2 == 0) {
+                    num = num / 2;
+                    path.add(num);
+                    if (ans.contains(num))
+                        ans.remove(num);
+                } else {
+                    num = 3 * num + 1;
                 }
             }
-            pIndex = str.indexOf(&apos;P&apos;);
-            tIndex = str.indexOf(&apos;T&apos;);
-
-            if (tIndex &lt;= pIndex || str.length() &lt; 3) {
-                res[index] = false;
-                index++;
-                continue out;
-            }
-            if (pIndex * (tIndex - pIndex - 1) == str.length() - 1 - tIndex) {
-                res[index] = true;
-            } else {
-                res[index] = false;
-            }
-            index++;
-            continue out;
         }
 
-        for (boolean b : res) {
-            System.out.println(b ? &quot;YES&quot; : &quot;NO&quot;);
+        StringBuilder sb = new StringBuilder();
+        for (int j : ans) {
+            sb.append(j).append(&quot; &quot;);
+        }
+        if (sb.toString().trim().isEmpty()) {
+            System.out.println(&quot;&quot;);
+        } else {
+            System.out.println(sb.toString().trim());
         }
     }
-
-}
-</code></pre><h4 id="规律"><a href="#规律" class="headerlink" title="规律"></a>规律</h4><p>由:<code>如果 aPbTc 是正确的</code>,半句可得:b&gt;=1<br>由:<code>那么 aPbATca 也是正确的</code> 和 样例给出,可以得到: a x (b+1) = c + a (单位为A)<br>化简得: a x b = c</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1001/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1001/" itemprop="url">乙1001. 害死人不偿命的(3n+1)猜想 (15)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
-                2017-12-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>卡拉兹(Callatz)猜想：
-
-对任何一个自然数n，如果它是偶数，那么把它砍掉一半；如果它是奇数，那么把(3n+1)砍掉一半。这样一直反复砍下去，最后一定在某一步得到n=1。卡拉兹在1950年的世界数学家大会上公布了这个猜想，传说当时耶鲁大学师生齐动员，拼命想证明这个貌似很傻很天真的命题，结果闹得学生们无心学业，一心只证(3n+1)，以至于有人说这是一个阴谋，卡拉兹是在蓄意延缓美国数学界教学与科研的进展……
-
-我们今天的题目不是证明卡拉兹猜想，而是对给定的任一不超过1000的正整数n，简单地数一下，需要多少步（砍几下）才能得到n=1？
-
-输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。
-
-输出格式：输出从n计算到1需要的步数。
-
-输入样例：
-3
-输出样例：
-5
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-public class Main {
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int num = in.nextInt();
-        int times = 0;
-        num = getNum(num);
-        while (num != 1) {
-            num = getNum(num / 2);
-            times++;
-        }
-        System.out.println(times);
-    }
-
-    static int getNum(int num) {
-        while (num % 2 != 0 &amp;&amp; num != 1) {
-            num = 3 * num + 1;
-        }
-        return num;
-    }
-
 }
 </code></pre>
           
@@ -2148,7 +2086,7 @@ public class Main {
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2193,7 +2131,7 @@ public class Main {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-count">101</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2204,7 +2142,7 @@ public class Main {
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2215,7 +2153,7 @@ public class Main {
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
