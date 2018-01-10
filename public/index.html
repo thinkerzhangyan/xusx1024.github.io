@@ -267,6 +267,176 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/10/android-system-service-prework/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/10/android-system-service-prework/" itemprop="url">Android系统服务:知识预备</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-10T00:00:00Z">
+                2018-01-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-System-Framework/" itemprop="url" rel="index">
+                    <span itemprop="name">Android System Framework</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>2017,在学习Android系统架构服务的相关知识的阶段,走了一些弯路,成果很是不好,发现自己的知识预备不够充足,导致自己局限于某一个服务的具体实现逻辑里面,而不能以开阔的,或者更加高维的视角去学习.</p>
+<p>具体的来说,在学习一个特定的服务的时候,一直在追踪代码,这些代码是Java实现的,我也能够看明白关键的几句话是什么意思,但是该服务为什么这么实现?设计一个服务究竟根据的是什么?里面的思想一点也不明白,被蒙头带着走.然后再碰到本地实现,那就是望洋兴叹了.</p>
+<p>上一年,一整年的关于服务的学习的效果,基本可以忽略不计.但是由此得到的一些经验教训,不可以不记录在此,以飨后来.</p>
+<h4 id="书单"><a href="#书单" class="headerlink" title="书单"></a>书单</h4><ul>
+<li>《深入理解Java虚拟机：JVM高级特性与最佳实践》 </li>
+<li>《Efficient.Android.Threading 》</li>
+<li>《汇编语言_第2版》 王爽</li>
+<li>《深入理解计算机系统》</li>
+<li>《深入理解Android内核设计思想》</li>
+<li>《Java并发编程实战（中文版)》</li>
+<li><p>《Android Dalvik虚拟机结构及机制剖析》</p>
+<p>  这些书我列的很小的一方面,仅仅是我手头上有的.不一定要逐字逐句看完,可以选择自己需要的章节阅读,目的是要有大方向的概念.</p>
+</li>
+</ul>
+<h4 id="知识预备"><a href="#知识预备" class="headerlink" title="知识预备"></a>知识预备</h4><ul>
+<li>binder机制</li>
+<li>反编译</li>
+<li>类加载机制</li>
+<li>进程管理,通信</li>
+<li>线程调度</li>
+<li>内存管理</li>
+<li>反射</li>
+<li>注解</li>
+<li>Android虚拟机</li>
+<li>设计模式</li>
+</ul>
+<h4 id="自我总结的方法"><a href="#自我总结的方法" class="headerlink" title="自我总结的方法"></a>自我总结的方法</h4><ol>
+<li>针对某一系统服务,读官方文档,写一个示例</li>
+<li>写示例时思考,这个api这样调用,是出于一种什么样的设计?如果我来设计呢?</li>
+<li>跟踪对应文件的关键源码<ol>
+<li>读文件注释</li>
+<li>根据我们的实例,查看关键api的实现</li>
+<li>参考网上资源博客</li>
+</ol>
+</li>
+<li>对比自己的知识库,那些需要补充,重点补足</li>
+</ol>
+<h3 id="边研究边学习-而不是先学习上面的准备知识-后研究"><a href="#边研究边学习-而不是先学习上面的准备知识-后研究" class="headerlink" title="边研究边学习,而不是先学习上面的准备知识,后研究."></a><strong>边研究边学习,而不是先学习上面的准备知识,后研究.</strong></h3>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/08/battery-historian-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -727,171 +897,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/kotlin-extension-function/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/26/kotlin-extension-function/" itemprop="url">kotlin-扩展函数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T00:00:00Z">
-                2017-12-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA & kotlin</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="问题引出"><a href="#问题引出" class="headerlink" title="问题引出"></a>问题引出</h4><p>在调用一个对象的方法的时候,IDE自动提示了如下的方法:(请看图中白色的方法)<br><img src="/images/kotlin_extension_fun.png" alt="1-1"></p>
-<h4 id="追踪"><a href="#追踪" class="headerlink" title="追踪"></a>追踪</h4><pre><code>文件位置`org\jetbrains\kotlin\kotlin-stdlib\1.1.51\kotlin-stdlib-1.1.51.jar!\kotlin\NotImplementedError.class`
-
-打开方法所在的文件,第一行:
-
-@file:kotlin.jvm.JvmMultifileClass // 包名相同,类名也相同,或者有相同的@JvmName注解,会出错,使用此注解
-@file:kotlin.jvm.JvmName(&quot;StandardKt&quot;) // 使用注解,修改生成的Java类的类名
-</code></pre><p>引申:<br>    在Java中,如果需要把kotlin属性作为字段暴露,需要使用@JvmField注解标注.<a href="https://www.kotlincn.net/docs/reference/java-to-kotlin-interop.html" target="_blank" rel="external">更多Java和kotlin互相调用</a></p>
-<p>最后发现这几个函数叫做扩展函数.官方api:<a href="https://www.kotlincn.net/docs/reference/extensions.html" target="_blank" rel="external">链接</a></p>
-<ul>
-<li>能够扩展一个类的新功能而无需继承该类或使用像装饰者这样的设计模式.</li>
-<li>扩展函数不能真正的修改他们所扩展的类.通过定义一个扩展,你并没有在一个类中插入新成员,仅仅是可以通过该类型的变量用点表达式去调用该函数</li>
-<li>图片上的是官方提供的扩展函数,我们也可以自己扩展,参考链接中的注意事项.</li>
-</ul>
-<h4 id="官方扩展函数"><a href="#官方扩展函数" class="headerlink" title="官方扩展函数"></a>官方扩展函数</h4><h6 id="let函数"><a href="#let函数" class="headerlink" title="let函数"></a>let函数</h6><pre><code>let默认当前这个对象作为闭包的it参数，返回值是函数里面最后一行，或者指定return
-</code></pre><ul>
-<li>闭包<ul>
-<li>外部变量 + 函数 组成一个闭包</li>
-<li>通常实现方式为函数内定义另外一个函数</li>
-<li>内部函数可以引用外部函数的变量和参数</li>
-<li>参数和变量不会被垃圾回收器回收</li>
-<li>作用:<ul>
-<li>隐藏关键的变量,把一个全局变量写成局部变量</li>
-<li></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>it参数,一个方法如果只有一个参数,可以用it代替 </li>
-</ul>
-<h6 id="apply函数"><a href="#apply函数" class="headerlink" title="apply函数"></a>apply函数</h6><pre><code>调用某对象的apply函数,在apply里可以调用该对象的任意方法,并返回该对象,如果let指定return it,两个一样的.
-</code></pre><p>buıxbuıɥs‾</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/new-year-about-android/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1018,6 +1023,171 @@
 <p>的磕磕绊绊,只能露出一个尴尬而不失礼貌的微笑了.</p>
 <p>写到这里,昨天还立志做一个算法工程师,今天貌似就要变成开发一个令人</p>
 <p>激动的hybrid框架了.这个… … 还是保持刚才的微笑吧!</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/kotlin-extension-function/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/26/kotlin-extension-function/" itemprop="url">kotlin-扩展函数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T00:00:00Z">
+                2017-12-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA & kotlin</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="问题引出"><a href="#问题引出" class="headerlink" title="问题引出"></a>问题引出</h4><p>在调用一个对象的方法的时候,IDE自动提示了如下的方法:(请看图中白色的方法)<br><img src="/images/kotlin_extension_fun.png" alt="1-1"></p>
+<h4 id="追踪"><a href="#追踪" class="headerlink" title="追踪"></a>追踪</h4><pre><code>文件位置`org\jetbrains\kotlin\kotlin-stdlib\1.1.51\kotlin-stdlib-1.1.51.jar!\kotlin\NotImplementedError.class`
+
+打开方法所在的文件,第一行:
+
+@file:kotlin.jvm.JvmMultifileClass // 包名相同,类名也相同,或者有相同的@JvmName注解,会出错,使用此注解
+@file:kotlin.jvm.JvmName(&quot;StandardKt&quot;) // 使用注解,修改生成的Java类的类名
+</code></pre><p>引申:<br>    在Java中,如果需要把kotlin属性作为字段暴露,需要使用@JvmField注解标注.<a href="https://www.kotlincn.net/docs/reference/java-to-kotlin-interop.html" target="_blank" rel="external">更多Java和kotlin互相调用</a></p>
+<p>最后发现这几个函数叫做扩展函数.官方api:<a href="https://www.kotlincn.net/docs/reference/extensions.html" target="_blank" rel="external">链接</a></p>
+<ul>
+<li>能够扩展一个类的新功能而无需继承该类或使用像装饰者这样的设计模式.</li>
+<li>扩展函数不能真正的修改他们所扩展的类.通过定义一个扩展,你并没有在一个类中插入新成员,仅仅是可以通过该类型的变量用点表达式去调用该函数</li>
+<li>图片上的是官方提供的扩展函数,我们也可以自己扩展,参考链接中的注意事项.</li>
+</ul>
+<h4 id="官方扩展函数"><a href="#官方扩展函数" class="headerlink" title="官方扩展函数"></a>官方扩展函数</h4><h6 id="let函数"><a href="#let函数" class="headerlink" title="let函数"></a>let函数</h6><pre><code>let默认当前这个对象作为闭包的it参数，返回值是函数里面最后一行，或者指定return
+</code></pre><ul>
+<li>闭包<ul>
+<li>外部变量 + 函数 组成一个闭包</li>
+<li>通常实现方式为函数内定义另外一个函数</li>
+<li>内部函数可以引用外部函数的变量和参数</li>
+<li>参数和变量不会被垃圾回收器回收</li>
+<li>作用:<ul>
+<li>隐藏关键的变量,把一个全局变量写成局部变量</li>
+<li></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>it参数,一个方法如果只有一个参数,可以用it代替 </li>
+</ul>
+<h6 id="apply函数"><a href="#apply函数" class="headerlink" title="apply函数"></a>apply函数</h6><pre><code>调用某对象的apply函数,在apply里可以调用该对象的任意方法,并返回该对象,如果let指定return it,两个一样的.
+</code></pre><p>buıxbuıɥs‾</p>
 
           
         
@@ -2034,185 +2204,6 @@ public class No1005 {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/pat-yi-1006/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/22/pat-yi-1006/" itemprop="url">乙1006. 换个格式输出整数 (15)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T00:00:00Z">
-                2017-12-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>让我们用字母B来表示“百”、字母S表示“十”，用“12...n”来表示个位数字n（&lt;10），换个格式来输出任一个不超过3位的正整数。
-
-例如234应该被输出为BBSSS1234，因为它有2个“百”、3个“十”、以及个位的4。
-
-输入格式：每个测试输入包含1个测试用例，给出正整数n（&lt;1000）。
-
-输出格式：每个测试用例的输出占一行，用规定的格式输出n。
-
-输入样例1：
-234
-输出样例1：
-BBSSS1234
-输入样例2：
-23
-输出样例2：
-SS123
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-
-/**
- * No.1006: 换个格式输出整数 (15)
- * 
- * @author sxx.xu
- *
- */
-public class No1006 {
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int num = in.nextInt();
-        in.close();
-        final String bai = &quot;B&quot;;
-        final String ten = &quot;S&quot;;
-        final String ge = &quot;123456789&quot;;
-        int a = num / 100;
-        int b = (num - a * 100) / 10;
-        int c = num - a * 100 - b * 10;
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i &lt; a; i++)
-            sb.append(bai);
-        for (int j = 0; j &lt; b; j++)
-            sb.append(ten);
-        sb.append(ge.substring(0, c));
-        System.out.println(sb.toString());
-
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2262,7 +2253,7 @@ public class No1006 {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">101</span>
+                <span class="site-state-item-count">102</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

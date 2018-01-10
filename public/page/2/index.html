@@ -267,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1002/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/pat-yi-1006/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -286,7 +286,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1002/" itemprop="url">乙1002. 写出这个数 (20)</a></h1>
+                <a class="post-title-link" href="/2017/12/22/pat-yi-1006/" itemprop="url">乙1006. 换个格式输出整数 (15)</a></h1>
         
 
         <div class="post-meta">
@@ -298,8 +298,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
-                2017-12-21
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T00:00:00Z">
+                2017-12-22
               </time>
             
 
@@ -357,214 +357,51 @@
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入一个自然数n，计算其各位数字之和，用汉语拼音写出和的每一位数字。
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>让我们用字母B来表示“百”、字母S表示“十”，用“12...n”来表示个位数字n（&lt;10），换个格式来输出任一个不超过3位的正整数。
 
-输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。这里保证n小于10100。
+例如234应该被输出为BBSSS1234，因为它有2个“百”、3个“十”、以及个位的4。
 
-输出格式：在一行内输出n的各位数字之和的每一位，拼音数字间有1 空格，但一行中最后一个拼音数字后没有空格。
+输入格式：每个测试输入包含1个测试用例，给出正整数n（&lt;1000）。
 
-输入样例：
-1234567890987654321123456789
-输出样例：
-yi san wu
+输出格式：每个测试用例的输出占一行，用规定的格式输出n。
+
+输入样例1：
+234
+输出样例1：
+BBSSS1234
+输入样例2：
+23
+输出样例2：
+SS123
 </code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
 
 /**
- * NO.1002:写出这个数 (20)
+ * No.1006: 换个格式输出整数 (15)
  * 
  * @author sxx.xu
  *
  */
-public class No1002 {
-
-    public static void main(String[] args) {
-        String[] com = new String[] { &quot;ling &quot;, &quot;yi &quot;, &quot;er &quot;, &quot;san &quot;, &quot;si &quot;, &quot;wu &quot;, &quot;liu &quot;, &quot;qi &quot;, &quot;ba &quot;, &quot;jiu &quot; };
-        Scanner in = new Scanner(System.in);
-        String num = in.nextLine().trim();
-        char[] nums = num.toCharArray();
-        int ans = 0;
-        for (char c : nums) {
-            ans += Integer.parseInt(String.valueOf(c));
-        }
-
-        String res = String.valueOf(ans);
-        nums = res.toCharArray();
-        StringBuilder sb = new StringBuilder();
-        for (char c : nums) {
-            sb.append(com[Integer.parseInt(String.valueOf(c))]);
-        }
-        System.out.println(sb.toString().trim());
-    }
-
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1001/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1001/" itemprop="url">乙1001. 害死人不偿命的(3n+1)猜想 (15)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
-                2017-12-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>卡拉兹(Callatz)猜想：
-
-对任何一个自然数n，如果它是偶数，那么把它砍掉一半；如果它是奇数，那么把(3n+1)砍掉一半。这样一直反复砍下去，最后一定在某一步得到n=1。卡拉兹在1950年的世界数学家大会上公布了这个猜想，传说当时耶鲁大学师生齐动员，拼命想证明这个貌似很傻很天真的命题，结果闹得学生们无心学业，一心只证(3n+1)，以至于有人说这是一个阴谋，卡拉兹是在蓄意延缓美国数学界教学与科研的进展……
-
-我们今天的题目不是证明卡拉兹猜想，而是对给定的任一不超过1000的正整数n，简单地数一下，需要多少步（砍几下）才能得到n=1？
-
-输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。
-
-输出格式：输出从n计算到1需要的步数。
-
-输入样例：
-3
-输出样例：
-5
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-public class Main {
+public class No1006 {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         int num = in.nextInt();
-        int times = 0;
-        num = getNum(num);
-        while (num != 1) {
-            num = getNum(num / 2);
-            times++;
-        }
-        System.out.println(times);
-    }
+        in.close();
+        final String bai = &quot;B&quot;;
+        final String ten = &quot;S&quot;;
+        final String ge = &quot;123456789&quot;;
+        int a = num / 100;
+        int b = (num - a * 100) / 10;
+        int c = num - a * 100 - b * 10;
 
-    static int getNum(int num) {
-        while (num % 2 != 0 &amp;&amp; num != 1) {
-            num = 3 * num + 1;
-        }
-        return num;
-    }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i &lt; a; i++)
+            sb.append(bai);
+        for (int j = 0; j &lt; b; j++)
+            sb.append(ten);
+        sb.append(ge.substring(0, c));
+        System.out.println(sb.toString());
 
+    }
 }
 </code></pre>
           
@@ -976,6 +813,348 @@ public class No1003 {
 }
 </code></pre><h4 id="规律"><a href="#规律" class="headerlink" title="规律"></a>规律</h4><p>由:<code>如果 aPbTc 是正确的</code>,半句可得:b&gt;=1<br>由:<code>那么 aPbATca 也是正确的</code> 和 样例给出,可以得到: a x (b+1) = c + a (单位为A)<br>化简得: a x b = c</p>
 
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1002/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/21/pat-yi-1002/" itemprop="url">乙1002. 写出这个数 (20)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
+                2017-12-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入一个自然数n，计算其各位数字之和，用汉语拼音写出和的每一位数字。
+
+输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。这里保证n小于10100。
+
+输出格式：在一行内输出n的各位数字之和的每一位，拼音数字间有1 空格，但一行中最后一个拼音数字后没有空格。
+
+输入样例：
+1234567890987654321123456789
+输出样例：
+yi san wu
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+
+/**
+ * NO.1002:写出这个数 (20)
+ * 
+ * @author sxx.xu
+ *
+ */
+public class No1002 {
+
+    public static void main(String[] args) {
+        String[] com = new String[] { &quot;ling &quot;, &quot;yi &quot;, &quot;er &quot;, &quot;san &quot;, &quot;si &quot;, &quot;wu &quot;, &quot;liu &quot;, &quot;qi &quot;, &quot;ba &quot;, &quot;jiu &quot; };
+        Scanner in = new Scanner(System.in);
+        String num = in.nextLine().trim();
+        char[] nums = num.toCharArray();
+        int ans = 0;
+        for (char c : nums) {
+            ans += Integer.parseInt(String.valueOf(c));
+        }
+
+        String res = String.valueOf(ans);
+        nums = res.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        for (char c : nums) {
+            sb.append(com[Integer.parseInt(String.valueOf(c))]);
+        }
+        System.out.println(sb.toString().trim());
+    }
+
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1001/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/21/pat-yi-1001/" itemprop="url">乙1001. 害死人不偿命的(3n+1)猜想 (15)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
+                2017-12-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>卡拉兹(Callatz)猜想：
+
+对任何一个自然数n，如果它是偶数，那么把它砍掉一半；如果它是奇数，那么把(3n+1)砍掉一半。这样一直反复砍下去，最后一定在某一步得到n=1。卡拉兹在1950年的世界数学家大会上公布了这个猜想，传说当时耶鲁大学师生齐动员，拼命想证明这个貌似很傻很天真的命题，结果闹得学生们无心学业，一心只证(3n+1)，以至于有人说这是一个阴谋，卡拉兹是在蓄意延缓美国数学界教学与科研的进展……
+
+我们今天的题目不是证明卡拉兹猜想，而是对给定的任一不超过1000的正整数n，简单地数一下，需要多少步（砍几下）才能得到n=1？
+
+输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。
+
+输出格式：输出从n计算到1需要的步数。
+
+输入样例：
+3
+输出样例：
+5
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int num = in.nextInt();
+        int times = 0;
+        num = getNum(num);
+        while (num != 1) {
+            num = getNum(num / 2);
+            times++;
+        }
+        System.out.println(times);
+    }
+
+    static int getNum(int num) {
+        while (num % 2 != 0 &amp;&amp; num != 1) {
+            num = 3 * num + 1;
+        }
+        return num;
+    }
+
+}
+</code></pre>
           
         
       
@@ -1870,223 +2049,6 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/22/license-introduce/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/22/license-introduce/" itemprop="url">代码开源协议</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-22T00:00:00Z">
-                2017-08-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Others/" itemprop="url" rel="index">
-                    <span itemprop="name">Others</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="License"><a href="#License" class="headerlink" title="License"></a>License</h4><p>License是软件的授权许可，里面详尽表述了你获得代码后拥有的权利，可以对别人的作品进行何种操作，何种操作又是被禁止的。软件协议可分为开源和商业。<br>商业协议，又叫法律声明、许可协议，这由专门的律师撰写。<br>开源协议即本文所介绍。<br>如果您只想快速确定自己的代码适合哪种协议，那么<a href="https://choosealicense.com/" target="_blank" rel="external">Choose an open source license</a>可以帮您快速抉择。</p>
-<h4 id="对比表"><a href="#对比表" class="headerlink" title="对比表"></a>对比表</h4><table>
-<thead>
-<tr>
-<th style="text-align:center">协议</th>
-<th style="text-align:center">描述</th>
-<th style="text-align:center">要求</th>
-<th style="text-align:center">允许</th>
-<th style="text-align:center">禁止</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"><a href="https://choosealicense.com/licenses/apache-2.0/" target="_blank" rel="external">Apache</a></td>
-<td style="text-align:center">一个较宽松且简明地指出了专利授权的协议</td>
-<td style="text-align:center"><code>协议和版权信息</code>     <code>声明变更</code></td>
-<td style="text-align:center"><code>商用</code> <code>分发</code> <code>修改</code> <code>专利授权</code> <code>私用</code> <code>附加协议</code></td>
-<td style="text-align:center"><code>责任承担</code> <code>商标使用</code></td>
-</tr>
-<tr>
-<td style="text-align:center"><a href="https://choosealicense.com/licenses/gpl-2.0/" target="_blank" rel="external">GPL</a></td>
-<td style="text-align:center">此协议是应用最为广泛的开源协议，拥有较强的版权自由要求。衍生代码的分发需开源并且也要遵守此协议。此协议有许多变种，要求略有不同</td>
-<td style="text-align:center"><code>公开源码</code> <code>协议和版权信息</code> <code>声明变更</code></td>
-<td style="text-align:center"><code>商用</code> <code>分发</code> <code>修改</code> <code>专利授权</code> <code>私用</code></td>
-<td style="text-align:center"><code>责任承担</code> <code>附加协议</code></td>
-</tr>
-<tr>
-<td style="text-align:center"><a href="https://choosealicense.com/licenses/mit/" target="_blank" rel="external">MIT</a></td>
-<td style="text-align:center">宽松简单且精要的一个协议。在适当表明来源及免责的情况下，它允许你对代码进行任何形式的使用</td>
-<td style="text-align:center"><code>协议和版权信息</code></td>
-<td style="text-align:center"><code>商用</code> <code>分发</code> <code>修改</code> <code>私用</code> <code>附加协议</code></td>
-<td style="text-align:center"><code>责任承担</code></td>
-</tr>
-<tr>
-<td style="text-align:center"><a href="https://choosealicense.com/licenses/artistic-2.0/" target="_blank" rel="external">Artistic</a></td>
-<td style="text-align:center">Perl社区尤为钟爱此协议。要求更改后的软件不能影响原软件的使用</td>
-<td style="text-align:center"><code>协议和版权信息</code>    <code>声明变更</code></td>
-<td style="text-align:center"><code>商用</code> <code>分发</code> <code>修改</code> <code>私用</code> <code>附加协议</code></td>
-<td style="text-align:center"><code>责任承担</code> <code>商标使用</code></td>
-</tr>
-<tr>
-<td style="text-align:center"><a href="https://choosealicense.com/licenses/bsd-2-clause/" target="_blank" rel="external">BSD</a></td>
-<td style="text-align:center">较为宽松的协议，包含两个变种<a href="https://choosealicense.com/licenses/bsd-2-clause/" target="_blank" rel="external">BSD 2-Clause</a> 和<a href="https://choosealicense.com/licenses/bsd-3-clause/" target="_blank" rel="external">BSD 3-Clause</a>，两者都与MIT协议只存在细微差异。</td>
-<td style="text-align:center"><code>协议和版权信息</code></td>
-<td style="text-align:center"><code>商用</code> <code>分发</code> <code>修改</code> <code>私用</code> <code>附加协议</code></td>
-<td style="text-align:center"><code>责任承担</code></td>
-</tr>
-<tr>
-<td style="text-align:center"><a href="https://choosealicense.com/licenses/epl-1.0/" target="_blank" rel="external">Eclipse</a></td>
-<td style="text-align:center">对商用非常友好的一种协议，可以用于软件的商业授权。包含对专利的优雅授权，并且也可以对相关代码应用商业协议</td>
-<td style="text-align:center"><code>公开源码</code> <code>协议和版权信息</code></td>
-<td style="text-align:center"><code>商用</code> <code>分发</code> <code>修改</code> <code>专利授权</code> <code>私用</code> <code>附加协议</code></td>
-<td style="text-align:center"><code>责任承担</code></td>
-</tr>
-<tr>
-<td style="text-align:center"><a href="https://choosealicense.com/licenses/lgpl-2.1/" target="_blank" rel="external">LGPL</a></td>
-<td style="text-align:center">主要用于一些代码库。衍生代码可以以此协议发布(也可用别的)，但与此协议相关的代码必须遵循此协议</td>
-<td style="text-align:center"><code>公开源码</code> <code>库引用</code> <code>协议和版权信息</code></td>
-<td style="text-align:center"><code>商用</code> <code>分发</code> <code>修改</code> <code>专利授权</code> <code>私用</code> <code>附加协议</code></td>
-<td style="text-align:center"><code>责任承担</code></td>
-</tr>
-<tr>
-<td style="text-align:center"><a href="https://choosealicense.com/licenses/mpl-2.0/" target="_blank" rel="external">Mozilla</a></td>
-<td style="text-align:center">Mozilla Public License(MPL 2.0)是由Mozilla基金创建维护的。此协议旨在较为宽松的BSD协议和更加互惠的GPL协议中寻找一个折衷点。</td>
-<td style="text-align:center"><code>公开源码</code> <code>协议和版权信息</code></td>
-<td style="text-align:center"><code>商用</code> <code>分发</code> <code>修改</code> <code>专利授权</code> <code>私用</code> <code>附加协议</code></td>
-<td style="text-align:center"><code>责任承担</code> <code>商标使用</code></td>
-</tr>
-<tr>
-<td style="text-align:center"><a href="https://choosealicense.com/no-license/" target="_blank" rel="external">No license</a></td>
-<td style="text-align:center">你保留所以权利，不允许他人分发，复制或者创造衍生物。当你将代码发表在一些网站上时需要遵守该网站的协议，此协议可能包含了一些对你劳动成果的授权许可。比如你将代码发布到GitHub，那么你就必须统一别人可以查看和fork你的代码</td>
-<td style="text-align:center"><code>协议和版权信息</code></td>
-<td style="text-align:center"><code>商用</code> <code>私用</code></td>
-<td style="text-align:center"><code>分发</code> <code>修改</code> <code>附加协议</code></td>
-</tr>
-<tr>
-<td style="text-align:center"><a href="https://choosealicense.com/licenses/unlicense/" target="_blank" rel="external">Unlicense</a></td>
-<td style="text-align:center">在许多国家，默认版权归作者自动拥有，所以该协议提供了一种通用的模版，表明你放弃版权，将劳动成果无私贡献出来。你将丧失对作品的全部权利，包括在MIT/X11中定义的无担保权利。</td>
-<td style="text-align:center">N/A</td>
-<td style="text-align:center"><code>商用</code> <code>分发</code> <code>修改</code> <code>私用</code></td>
-<td style="text-align:center"><code>责任承担</code></td>
-</tr>
-</tbody>
-</table>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2136,7 +2098,7 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">101</span>
+                <span class="site-state-item-count">102</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
