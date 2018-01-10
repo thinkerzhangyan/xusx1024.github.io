@@ -267,6 +267,162 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/30/tinker-source-code-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/30/tinker-source-code-3/" itemprop="url">Tinker学习(三) 核心的算法BSDiff、BSPatch</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-30T00:00:00Z">
+                2017-03-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>BSDiff，用于服务端比较二进制文件并生成差异补丁；<br><br>BSPatch，将旧文件和补丁文件合并生成新的文件。</p>
+<p>比较差异使用的算法是<code>suffix sort</code>后缀排序算法。其中：<br></p>
+<ul>
+<li>C实现可以参照：<a href="https://github.com/cperciva" target="_blank" rel="external">Colin Percival</a>的<a href="https://github.com/cperciva/bsdiff" target="_blank" rel="external">bsdiff</a></li>
+<li>Java实现可以参照：<a href="https://github.com/jdesbonnet" target="_blank" rel="external">Joe Desbonnet</a>的<a href="https://github.com/jdesbonnet/jbdiff" target="_blank" rel="external">jbdiff</a><br></li>
+</ul>
+<p>Tinker的<code>com.tencent.tinker.bsdiff</code>实现基本上和Joe Desbonnet的实现并无两样。</p>
+<h4 id="BSDiff基本步骤"><a href="#BSDiff基本步骤" class="headerlink" title="BSDiff基本步骤"></a>BSDiff基本步骤</h4><ol>
+<li>将old文件中所有子字符串形成一个字典 </li>
+<li>对比old文件和new文件，产生diff string 和 extra string</li>
+<li>将diffstring和extra string以及相应的控制字用zip压缩成一个patch包。</li>
+</ol>
+<p>所有差量更新算法的瓶颈，时间复杂度为O(nlogn)，空间复杂度为O(n)，n为old的文件长度，BSDiff采用了Fast suffix sorting方法生成后缀数组<br><br>关于后缀数组概念，需要懂得非比较排序算法：<br></p>
+<ul>
+<li><a href="http://xusx1024.com/2017/04/11/counting-sort/" target="_blank" rel="external">非比较排序之计数排序</a></li>
+<li><a href="http://xusx1024.com/2017/04/10/bucket-sort/" target="_blank" rel="external">非比较排序之桶/箱排序</a></li>
+<li><a href="http://xusx1024.com/2017/04/10/radix-sort/" target="_blank" rel="external">非比较排序之基数排序</a></li>
+</ul>
+<p>需要懂得生成后缀数组算法：<br></p>
+<ul>
+<li><a href="http://xusx1024.com/2017/04/11/suffix-sort-baseon-prefix-doubleing/" target="_blank" rel="external">基于倍增算法实现后缀数组</a></li>
+<li><a href="http://xusx1024.com/2017/04/13/suffix-sort-baseon-dc3/" target="_blank" rel="external">基于DC3算法实现后缀数组</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/27/kernel-user-space/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -598,6 +754,167 @@ public Object clone() {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/18/design-patterns-prototype-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/18/design-patterns-prototype-1/" itemprop="url">原型设计模式(一) 基础知识</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-18T00:00:00Z">
+                2017-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>content<br>{:toc}</li>
+</ul>
+<h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>创建型模式的一种。通过复制一个已经存在的实例来返回新的实例，而不是新建实例。</p>
+<blockquote>
+<p>《设计模式》：<br> 使用原型实例指定创建对象的种类，然后通过拷贝这些原型来创建新的对象。</p>
+</blockquote>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li>创建重复的新对象的成本较大—— 创建复杂，初始化消耗资源过多，初始化耗时，繁琐的数据准备，访问权限</li>
+<li>一个对象多个修改者-浅拷贝</li>
+<li>一个对象需要提供给其他对象访问，而且各个调用者可能都需要修改其值</li>
+<li>在实际项目中，原型模式很少单独出现，一般是和工厂方法模式一起出现，通过clone的方法创建一个对象，然后由工厂方法提供给调用者</li>
+<li>如果系统要保存对象的状态，而对象的状态变化很小，或者对象本身占内存不大的时候，也可以使用原型模式配合备忘录模式来应用。相反，如果对象的状态变化很大，或者对象占用的内存很大，那么采用状态模式会比原型模式更好</li>
+</ul>
+<h4 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h4><p><img src="/images/prototype_class_uml.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/prototype_sequence_uml.png" alt="时序图"></p>
+<h4 id="优点-缺点"><a href="#优点-缺点" class="headerlink" title="优点/缺点"></a>优点/缺点</h4><ul>
+<li>clone并不一定比new一个对象速度快，只有new构造对象耗时或成功高时，clone才有明显的效率提升</li>
+<li>逃避构造函数的约束(既是优点也是缺点)</li>
+<li>配备克隆方法需要对类的功能进行通盘考虑，这对于全新的类不是很难，但对于已有的类不一定很容易，特别当一个类引用不支持串行化的间接对象，或者引用含有循环结构的时候</li>
+<li>必须实现cloneable接口(java)</li>
+</ul>
+<h4 id="深-浅复制"><a href="#深-浅复制" class="headerlink" title="深/浅复制"></a>深/浅复制</h4><p> 浅复制：<br><br>复制了值类型对象，对于引用类型对象，只复制了引用，它指向原来引用的对象。<br><br><br>深复制：<br><br>对值类型和引用类型的对象都生成一份新的拷贝，java中可以通过串行化来进行深复制，前提是对象以及其内部所引用的对象都是可串行化的，否则需要考虑把不可串行话的对象设为transient，排除在复制过程之外。<br><br>被复制对象的任何变量都含有和原来的对象相同的值，除去那些引用其他对象的变量。那些引用其他对象的变量将指向被复制过的新对象，而不再是原有的那些被引用的对象。换言之，深复制把要复制的对象所引用的对象都复制了一遍。</p>
+<h4 id="来自《effective-java》的建议"><a href="#来自《effective-java》的建议" class="headerlink" title="来自《effective java》的建议"></a>来自《effective java》的建议</h4><blockquote>
+<p>第11条：谨慎地覆盖clone</p>
+</blockquote>
+<p>克隆复杂对象，可以使用deep copy，也可以先调用super.clone，然后把结果对象中的所有域都设置成它们的空白状态，然后调用高层的方法来重新产生对象的状态。</p>
+<p>建议使用拷贝构造器/拷贝工厂，确切地说是转换构造器/转换工厂。<br></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/18/design-patterns-start/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -788,167 +1105,6 @@ public Object clone() {
 <li><a href="http://blog.csdn.net/zhengzhb/article/category/926691" target="_blank" rel="external">卡奴达摩</a></li>
 <li><a href="http://blog.csdn.net/column/details/loveyun.html" target="_blank" rel="external">特种兵—AK47</a></li>
 </ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/18/design-patterns-prototype-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/18/design-patterns-prototype-1/" itemprop="url">原型设计模式(一) 基础知识</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-18T00:00:00Z">
-                2017-03-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>content<br>{:toc}</li>
-</ul>
-<h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>创建型模式的一种。通过复制一个已经存在的实例来返回新的实例，而不是新建实例。</p>
-<blockquote>
-<p>《设计模式》：<br> 使用原型实例指定创建对象的种类，然后通过拷贝这些原型来创建新的对象。</p>
-</blockquote>
-<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
-<li>创建重复的新对象的成本较大—— 创建复杂，初始化消耗资源过多，初始化耗时，繁琐的数据准备，访问权限</li>
-<li>一个对象多个修改者-浅拷贝</li>
-<li>一个对象需要提供给其他对象访问，而且各个调用者可能都需要修改其值</li>
-<li>在实际项目中，原型模式很少单独出现，一般是和工厂方法模式一起出现，通过clone的方法创建一个对象，然后由工厂方法提供给调用者</li>
-<li>如果系统要保存对象的状态，而对象的状态变化很小，或者对象本身占内存不大的时候，也可以使用原型模式配合备忘录模式来应用。相反，如果对象的状态变化很大，或者对象占用的内存很大，那么采用状态模式会比原型模式更好</li>
-</ul>
-<h4 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h4><p><img src="/images/prototype_class_uml.png" alt="类图"></p>
-<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/prototype_sequence_uml.png" alt="时序图"></p>
-<h4 id="优点-缺点"><a href="#优点-缺点" class="headerlink" title="优点/缺点"></a>优点/缺点</h4><ul>
-<li>clone并不一定比new一个对象速度快，只有new构造对象耗时或成功高时，clone才有明显的效率提升</li>
-<li>逃避构造函数的约束(既是优点也是缺点)</li>
-<li>配备克隆方法需要对类的功能进行通盘考虑，这对于全新的类不是很难，但对于已有的类不一定很容易，特别当一个类引用不支持串行化的间接对象，或者引用含有循环结构的时候</li>
-<li>必须实现cloneable接口(java)</li>
-</ul>
-<h4 id="深-浅复制"><a href="#深-浅复制" class="headerlink" title="深/浅复制"></a>深/浅复制</h4><p> 浅复制：<br><br>复制了值类型对象，对于引用类型对象，只复制了引用，它指向原来引用的对象。<br><br><br>深复制：<br><br>对值类型和引用类型的对象都生成一份新的拷贝，java中可以通过串行化来进行深复制，前提是对象以及其内部所引用的对象都是可串行化的，否则需要考虑把不可串行话的对象设为transient，排除在复制过程之外。<br><br>被复制对象的任何变量都含有和原来的对象相同的值，除去那些引用其他对象的变量。那些引用其他对象的变量将指向被复制过的新对象，而不再是原有的那些被引用的对象。换言之，深复制把要复制的对象所引用的对象都复制了一遍。</p>
-<h4 id="来自《effective-java》的建议"><a href="#来自《effective-java》的建议" class="headerlink" title="来自《effective java》的建议"></a>来自《effective java》的建议</h4><blockquote>
-<p>第11条：谨慎地覆盖clone</p>
-</blockquote>
-<p>克隆复杂对象，可以使用deep copy，也可以先调用super.clone，然后把结果对象中的所有域都设置成它们的空白状态，然后调用高层的方法来重新产生对象的状态。</p>
-<p>建议使用拷贝构造器/拷贝工厂，确切地说是转换构造器/转换工厂。<br></p>
 
           
         
@@ -2019,397 +2175,6 @@ fun main(args: Array&lt;String&gt;) {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/android-system-service-LayoutInflater/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/23/android-system-service-LayoutInflater/" itemprop="url">Android系统服务：LayoutInflater</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-23T00:00:00Z">
-                2017-02-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-System-Framework/" itemprop="url" rel="index">
-                    <span itemprop="name">Android System Framework</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h4><p>activity是android中最常用的UI容器。把写好的xml布局通过<code>setContentView(int ResId)</code>，就可以实现页面的绑定，然后我们根据控件的ID，根据业务代码展示UI就可以了。关于xml的解析和绘制，就是系统服务<code>LayoutInflater</code>的工作了。</p>
-<h5 id="追踪android-app-Activity"><a href="#追踪android-app-Activity" class="headerlink" title="追踪android.app.Activity"></a>追踪android.app.Activity</h5><p>Activity源码中有3个<code>setContentView</code>的重载方法。</p>
-<pre><code>public void setContentView(@LayoutRes int layoutResID) {
-    getWindow().setContentView(layoutResID);
-    initWindowDecorActionBar();
-}
-
-public void setContentView(View view) {
-    getWindow().setContentView(view);
-    initWindowDecorActionBar();
-}
-
-public void setContentView(View view, ViewGroup.LayoutParams params) {
-    getWindow().setContentView(view, params);
-    initWindowDecorActionBar();
-}
-</code></pre><p>可以看到，调用当前Activity的window的<code>setContentView</code>来布局，这里我们上一张图看一下activity，window，view(xml布局)的关系：</p>
-<p><img src="/images/activity-window-layer.jpg" alt="activity、window层级关系图"></p>
-<p>其中<code>com.android.internal.policy.PhoneWindow</code>是<code>android.view.Window</code>的子类。<br><br>DecorView是的PhoneWindow的顶级view，继承自FrameLayout，其内部包含一个竖直的LinearLayout。<br><br>TitleView即ActionBar所在位置，通常使用Theme来配置其状态，一般开发会屏蔽该ActionBar，使用自定义顶部栏。<br><br>ContentView即需要展示在UI上的xml布局文件。<br></p>
-<p>继续看源码，getWindow()方法获取的是一个PhoneWindow的实例。所以setContentView可以去PhoneWindow中去查看其实现。<br><br><code>initWindowDecorActionBar();</code>里面主要是设置ActionBar。</p>
-<h5 id="追踪com-android-internal-policy-PhoneWindow"><a href="#追踪com-android-internal-policy-PhoneWindow" class="headerlink" title="追踪com.android.internal.policy.PhoneWindow"></a>追踪com.android.internal.policy.PhoneWindow</h5><p>先简后繁，看一下现成的view如何添加到ContentView的：</p>
-<pre><code> @Override
-    public void setContentView(View view) {
-        setContentView(view, new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
-    }
-
- @Override
-public void setContentView(View view, ViewGroup.LayoutParams params) {
-
-    ...
-
-    mContentParent.addView(view, params);
-
-    ...
-
- }
-</code></pre><p>把已有的view设置进入<code>ContentView</code>，只需要调用<code>ViewGroup.addView(View view)</code>添加到DecorView即可。<br><br>这里提一句：view都是要添加到父view上的。 </p>
-<pre><code>public static final int ID_ANDROID_CONTENT = com.android.internal.R.id.content;
-</code></pre><p>这个ID对应的ViewGroup，即xml布局的父view。其源码注释：</p>
-<blockquote>
-<p>   This is the view in which the window contents are placed. It is either mDecor itself, or a child of mDecor where the contents go.<br>   这是要放置window内容的view。是DecorView本身，或是DecorView的孩子。</p>
-</blockquote>
-<p>总之，一句话，现成的view，亦或是将来的LayoutInflater生成的view，都要添加到ID_ANDROID_CONTENT之内。</p>
-<p>下面，来看一下xml文件如何变成view的：</p>
-<pre><code>@Override
-    public void setContentView(int layoutResID) {
-
-    ...
-
-            mLayoutInflater.inflate(layoutResID, mContentParent);
-
-    ...
-
-    }
-</code></pre><p>一目了然，调用系统服务LayoutInflater的inflate方法。</p>
-<h4 id="追踪LayoutInflater源码"><a href="#追踪LayoutInflater源码" class="headerlink" title="追踪LayoutInflater源码"></a>追踪LayoutInflater源码</h4><p>关键方法：</p>
-<ul>
-<li>inflate * n</li>
-<li>rInflate</li>
-<li>createViewFromTag</li>
-<li>createView</li>
-</ul>
-<h5 id="inflate"><a href="#inflate" class="headerlink" title="inflate"></a>inflate</h5><pre><code>public View inflate(@LayoutRes int resource, @Nullable ViewGroup root, boolean attachToRoot) {
-    final Resources res = getContext().getResources();
-    if (DEBUG) {
-        Log.d(TAG, &quot;INFLATING from resource: \&quot;&quot; + res.getResourceName(resource) + &quot;\&quot; (&quot;
-                + Integer.toHexString(resource) + &quot;)&quot;);
-    }
-
-    final XmlResourceParser parser = res.getLayout(resource);
-    try {
-        return inflate(parser, root, attachToRoot);
-    } finally {
-        parser.close();
-    }
-}
-</code></pre><p>获取XmlResourceParser(XmlPullParser的子类)的实例，用于待会遍历xml文件结点。</p>
-<pre><code>public View inflate(XmlPullParser parser, @Nullable ViewGroup root, boolean attachToRoot) {
-    synchronized (mConstructorArgs) {
-
-...
-
- final String name = parser.getName();
- if (TAG_MERGE.equals(name)) {
-
-...
-
-rInflate(parser, root, inflaterContext, attrs, false);
-
-...
-
-} else {
-
-...
-
- rInflateChildren(parser, temp, attrs, true);
-
-...
-
-        }
-    }
-}
-</code></pre><p>由于merge标签，只能作为xml根标签使用，所以分开处理。</p>
-<h5 id="rInflate"><a href="#rInflate" class="headerlink" title="rInflate"></a>rInflate</h5><pre><code>void rInflate(XmlPullParser parser, View parent, Context context,
-           AttributeSet attrs, boolean finishInflate) throws XmlPullParserException, IOException {
-
-       final int depth = parser.getDepth();
-       int type;
-
-       while (((type = parser.next()) != XmlPullParser.END_TAG ||
-               parser.getDepth() &gt; depth) &amp;&amp; type != XmlPullParser.END_DOCUMENT) {
-
-           if (type != XmlPullParser.START_TAG) {
-               continue;
-           }
-
-           final String name = parser.getName();
-
-           if (TAG_REQUEST_FOCUS.equals(name)) {
-               parseRequestFocus(parser, parent);
-           } else if (TAG_TAG.equals(name)) {
-               parseViewTag(parser, parent, attrs);
-           } else if (TAG_INCLUDE.equals(name)) {
-               if (parser.getDepth() == 0) {
-                   throw new InflateException(&quot;&lt;include /&gt; cannot be the root element&quot;);
-               }
-               parseInclude(parser, context, parent, attrs);
-           } else if (TAG_MERGE.equals(name)) {
-               throw new InflateException(&quot;&lt;merge /&gt; must be the root element&quot;);
-           } else {
-               final View view = createViewFromTag(parent, name, context, attrs);
-               final ViewGroup viewGroup = (ViewGroup) parent;
-               final ViewGroup.LayoutParams params = viewGroup.generateLayoutParams(attrs);
-               rInflateChildren(parser, view, attrs, true);
-               viewGroup.addView(view, params);
-           }
-       }
-
-       if (finishInflate) {
-           parent.onFinishInflate();
-       }
-   }
-</code></pre><p>深度优先遍历xml树，判断标签类型，循环递归直至<code>XmlPullParser.END_DOCUMENT</code>。</p>
-<h5 id="createViewFromTag"><a href="#createViewFromTag" class="headerlink" title="createViewFromTag"></a>createViewFromTag</h5><pre><code>    View createViewFromTag(View parent, String name, Context context, AttributeSet attrs,
-                boolean ignoreThemeAttr) {
-            if (name.equals(&quot;view&quot;)) {
-                name = attrs.getAttributeValue(null, &quot;class&quot;);
-            }
-
-    ...
-
-                  if (name.equals(TAG_1995)) {
-            // Let&apos;s party like it&apos;s 1995!
-            return new BlinkLayout(context, attrs);
-        }
-
-    ...
-
-try {
-        View view;
-        if (mFactory2 != null) {
-            view = mFactory2.onCreateView(parent, name, context, attrs);
-        } else if (mFactory != null) {
-            view = mFactory.onCreateView(name, context, attrs);
-        } else {
-            view = null;
-        }
-
-        if (view == null &amp;&amp; mPrivateFactory != null) {
-            view = mPrivateFactory.onCreateView(parent, name, context, attrs);
-        }
-
-        if (view == null) {
-            final Object lastContext = mConstructorArgs[0];
-            mConstructorArgs[0] = context;
-            try {
-                if (-1 == name.indexOf(&apos;.&apos;)) {
-                    view = onCreateView(parent, name, attrs);
-                } else {
-                    view = createView(name, null, attrs);
-                }
-            } finally {
-                mConstructorArgs[0] = lastContext;
-            }
-        }
-
-        return view;
-    } 
-
-...
-
-}
-</code></pre><p>如果view为属性标签，那么name就是属性的值。<br><br>如果TAG_1995，做出来的布局会一闪一闪的。<br><br>如果该LayoutInflater被复制过，比如用于做换肤之类的功能，那么通过调用复制后的LayoutInflater的Factory定义的onCreateView——主要是看其定义的view的属性，最后还是调用的createView——生成view<br><br>如果是普通的view，标签名里如果含有“.”，那么说明是自定义view，不需要往createView中添加name的前缀，直接name就带有包名了；否则是系统的view，需要往createView中添加name的前缀，比如<code>android.widget</code>。<br></p>
-<h5 id="createView"><a href="#createView" class="headerlink" title="createView"></a>createView</h5><pre><code>public final View createView(String name, String prefix, AttributeSet attrs)
-        throws ClassNotFoundException, InflateException {
-    Constructor&lt;? extends View&gt; constructor = sConstructorMap.get(name);
-    if (constructor != null &amp;&amp; !verifyClassLoader(constructor)) {
-        constructor = null;
-        sConstructorMap.remove(name);
-    }
-    Class&lt;? extends View&gt; clazz = null;
-
-    try {
-        Trace.traceBegin(Trace.TRACE_TAG_VIEW, name);
-
-        if (constructor == null) {
-            // Class not found in the cache, see if it&apos;s real, and try to add it
-            clazz = mContext.getClassLoader().loadClass(
-                    prefix != null ? (prefix + name) : name).asSubclass(View.class);
-
-            if (mFilter != null &amp;&amp; clazz != null) {
-                boolean allowed = mFilter.onLoadClass(clazz);
-                if (!allowed) {
-                    failNotAllowed(name, prefix, attrs);
-                }
-            }
-            constructor = clazz.getConstructor(mConstructorSignature);
-            constructor.setAccessible(true);
-            sConstructorMap.put(name, constructor);
-        } else {
-            // If we have a filter, apply it to cached constructor
-            if (mFilter != null) {
-                // Have we seen this name before?
-                Boolean allowedState = mFilterMap.get(name);
-                if (allowedState == null) {
-                    // New class -- remember whether it is allowed
-                    clazz = mContext.getClassLoader().loadClass(
-                            prefix != null ? (prefix + name) : name).asSubclass(View.class);
-
-                    boolean allowed = clazz != null &amp;&amp; mFilter.onLoadClass(clazz);
-                    mFilterMap.put(name, allowed);
-                    if (!allowed) {
-                        failNotAllowed(name, prefix, attrs);
-                    }
-                } else if (allowedState.equals(Boolean.FALSE)) {
-                    failNotAllowed(name, prefix, attrs);
-                }
-            }
-        }
-
-        Object[] args = mConstructorArgs;
-        args[1] = attrs;
-
-        final View view = constructor.newInstance(args);
-        if (view instanceof ViewStub) {
-            // Use the same context when inflating ViewStub later.
-            final ViewStub viewStub = (ViewStub) view;
-            viewStub.setLayoutInflater(cloneInContext((Context) args[0]));
-        }
-        return view;
-
-    } 
-}
-</code></pre><ul>
-<li>根据view的名字，缓存的构造器map中是否存在；</li>
-<li>如果不存在或者存在但没通过验证，就重新生成并缓存，生成时如果name有前缀就拼装上，通过反射获取其构造函数；</li>
-<li>通过其构造生成view。</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2459,7 +2224,7 @@ try {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">101</span>
+                <span class="site-state-item-count">102</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
