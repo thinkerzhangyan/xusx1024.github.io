@@ -267,6 +267,421 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1010/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/25/pat-yi-1010/" itemprop="url">乙1010. 一元多项式求导 (25)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T00:00:00Z">
+                2017-12-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>设计函数求一元多项式的导数。（注：xn（n为整数）的一阶导数为n*xn-1。）
+
+输入格式：以指数递降方式输入多项式非零项系数和指数（绝对值均为不超过1000的整数）。数字间以空格分隔。
+
+输出格式：以与输入相同的格式输出导数多项式非零项的系数和指数。数字间以空格分隔，但结尾不能有多余空格。
+
+注意“零多项式”的指数和系数都是0，但是表示为“0 0”。
+
+输入样例：
+3 4 -5 2 6 1 -2 0
+输出样例：
+12 3 -10 1 6 0
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+
+public class No1010 {
+
+    public static void mains(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String str = in.nextLine();
+        in.close();
+        String[] datas = str.split(&quot; &quot;);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i &lt; datas.length; i += 2) {
+            if (i % 2 == 0 &amp;&amp; i &lt; datas.length - 1) {
+                int x = Integer.parseInt(datas[i]) * Integer.parseInt(datas[i + 1]);
+                if (Integer.parseInt(datas[i]) == 0 &amp;&amp; Integer.parseInt(datas[i + 1]) == 0) {
+                    sb.append(&quot;0 0 &quot;);
+                } else if (x == 0) {
+                    continue;
+                } else {
+                    sb.append(x).append(&quot; &quot;).append(Integer.parseInt(datas[i + 1]) - 1).append(&quot; &quot;);
+                }
+            }
+        }
+        System.out.println(sb.toString().trim());
+    }
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        boolean isHaveOutput = false;
+        while (in.hasNext()) {
+            int expon = in.nextInt();
+            int coef = in.nextInt();
+            if (expon * coef != 0) {
+                if (isHaveOutput) {
+                    System.out.print(&quot; &quot;);
+                } else {
+                    isHaveOutput = true;
+                }
+                System.out.print(expon * coef + &quot; &quot; + (coef - 1));
+            }
+        }
+        in.close();
+
+        System.out.println(isHaveOutput);
+        if (!isHaveOutput) {
+            System.out.print(&quot;0 0&quot;);
+        }
+    }
+}
+</code></pre><h4 id="疑惑"><a href="#疑惑" class="headerlink" title="疑惑"></a>疑惑</h4><ul>
+<li>好多人的解法,如果结果为空,则输出”0 0”,不知道从何而来</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/pat-yi-1005/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/22/pat-yi-1005/" itemprop="url">乙1005. 继续(3n+1)猜想 (25)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T00:00:00Z">
+                2017-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>卡拉兹(Callatz)猜想已经在1001中给出了描述。在这个题目里，情况稍微有些复杂。
+
+当我们验证卡拉兹猜想的时候，为了避免重复计算，可以记录下递推过程中遇到的每一个数。例如对n=3进行验证的时候，
+
+我们需要计算3、5、8、4、2、1，则当我们对n=5、8、4、2进行验证的时候，就可以直接判定卡拉兹猜想的真伪，而不需要重复计算，
+
+因为这4个数已经在验证3的时候遇到过了，我们称5、8、4、2是被3“覆盖”的数。我们称一个数列中的某个数n为“关键数”，
+
+如果n不能被数列中的其他数字所覆盖。现在给定一系列待验证的数字，我们只需要验证其中的几个关键数，
+
+就可以不必再重复验证余下的数字。你的任务就是找出这些关键数字，并按从大到小的顺序输出它们。
+
+输入格式：每个测试输入包含1个测试用例，第1行给出一个正整数K(&lt;100)，
+
+第2行给出K个互不相同的待验证的正整数n(1&lt;n&lt;=100)的值，数字间用空格隔开。
+
+输出格式：每个测试用例的输出占一行，按从大到小的顺序输出关键数字。数字间用1个空格隔开，但一行中最后一个数字后没有空格。
+
+输入样例：
+6
+3 5 6 7 8 11
+输出样例：
+7 6
+</code></pre><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li>首先要理解覆盖的概念,我的理解是,一个给定的数,在求得最终结果”1”的路径上,如果一个数可以被2整除,该数就被给定的数覆盖了.</li>
+<li>其次,我们默认输入的那组数,互相都没有覆盖,全部加入最终的输出容器</li>
+<li>然后,我们循环记录给定的数的path数,如果该数在结果容器里,那么从结果容器中移除</li>
+<li>最后,输入结果容器的记录</li>
+</ul>
+<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+import java.util.TreeSet;
+
+/**
+ * No.1005: 继续(3n+1)猜想 (25)
+ * 
+ * @author sxx.xu
+ *
+ */
+public class No1005 {
+
+    public static void main(String[] args) {
+        List&lt;Integer&gt; path = new ArrayList&lt;&gt;();
+        TreeSet&lt;Integer&gt; ans = new TreeSet&lt;&gt;(Collections.reverseOrder());
+        Scanner in = new Scanner(System.in);
+        int total = Integer.parseInt(in.nextLine());
+        String datas = in.nextLine();
+        in.close();
+        String[] split = datas.split(&quot; &quot;);
+        if (split.length == 1) {
+            System.out.println(split[0]);
+            return;
+        }
+        int num = 0;
+        for (int i = 0; i &lt; total; i++) {
+            num = Integer.parseInt(split[i]);
+            ans.add(num);
+        }
+
+        for (int i = 0; i &lt; total; i++) {
+            num = Integer.parseInt(split[i]);
+            while (num != 1) {
+                if (num % 2 == 0) {
+                    num = num / 2;
+                    path.add(num);
+                    if (ans.contains(num))
+                        ans.remove(num);
+                } else {
+                    num = 3 * num + 1;
+                }
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int j : ans) {
+            sb.append(j).append(&quot; &quot;);
+        }
+        if (sb.toString().trim().isEmpty()) {
+            System.out.println(&quot;&quot;);
+        } else {
+            System.out.println(sb.toString().trim());
+        }
+    }
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/pat-yi-1006/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -402,6 +817,175 @@ public class No1006 {
         System.out.println(sb.toString());
 
     }
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1001/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/21/pat-yi-1001/" itemprop="url">乙1001. 害死人不偿命的(3n+1)猜想 (15)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
+                2017-12-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>卡拉兹(Callatz)猜想：
+
+对任何一个自然数n，如果它是偶数，那么把它砍掉一半；如果它是奇数，那么把(3n+1)砍掉一半。这样一直反复砍下去，最后一定在某一步得到n=1。卡拉兹在1950年的世界数学家大会上公布了这个猜想，传说当时耶鲁大学师生齐动员，拼命想证明这个貌似很傻很天真的命题，结果闹得学生们无心学业，一心只证(3n+1)，以至于有人说这是一个阴谋，卡拉兹是在蓄意延缓美国数学界教学与科研的进展……
+
+我们今天的题目不是证明卡拉兹猜想，而是对给定的任一不超过1000的正整数n，简单地数一下，需要多少步（砍几下）才能得到n=1？
+
+输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。
+
+输出格式：输出从n计算到1需要的步数。
+
+输入样例：
+3
+输出样例：
+5
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int num = in.nextInt();
+        int times = 0;
+        num = getNum(num);
+        while (num != 1) {
+            num = getNum(num / 2);
+            times++;
+        }
+        System.out.println(times);
+    }
+
+    static int getNum(int num) {
+        while (num % 2 != 0 &amp;&amp; num != 1) {
+            num = 3 * num + 1;
+        }
+        return num;
+    }
+
 }
 </code></pre>
           
@@ -633,6 +1217,179 @@ public class No1004 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1002/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/21/pat-yi-1002/" itemprop="url">乙1002. 写出这个数 (20)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
+                2017-12-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入一个自然数n，计算其各位数字之和，用汉语拼音写出和的每一位数字。
+
+输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。这里保证n小于10100。
+
+输出格式：在一行内输出n的各位数字之和的每一位，拼音数字间有1 空格，但一行中最后一个拼音数字后没有空格。
+
+输入样例：
+1234567890987654321123456789
+输出样例：
+yi san wu
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+
+/**
+ * NO.1002:写出这个数 (20)
+ * 
+ * @author sxx.xu
+ *
+ */
+public class No1002 {
+
+    public static void main(String[] args) {
+        String[] com = new String[] { &quot;ling &quot;, &quot;yi &quot;, &quot;er &quot;, &quot;san &quot;, &quot;si &quot;, &quot;wu &quot;, &quot;liu &quot;, &quot;qi &quot;, &quot;ba &quot;, &quot;jiu &quot; };
+        Scanner in = new Scanner(System.in);
+        String num = in.nextLine().trim();
+        char[] nums = num.toCharArray();
+        int ans = 0;
+        for (char c : nums) {
+            ans += Integer.parseInt(String.valueOf(c));
+        }
+
+        String res = String.valueOf(ans);
+        nums = res.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        for (char c : nums) {
+            sb.append(com[Integer.parseInt(String.valueOf(c))]);
+        }
+        System.out.println(sb.toString().trim());
+    }
+
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1003/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -813,348 +1570,6 @@ public class No1003 {
 }
 </code></pre><h4 id="规律"><a href="#规律" class="headerlink" title="规律"></a>规律</h4><p>由:<code>如果 aPbTc 是正确的</code>,半句可得:b&gt;=1<br>由:<code>那么 aPbATca 也是正确的</code> 和 样例给出,可以得到: a x (b+1) = c + a (单位为A)<br>化简得: a x b = c</p>
 
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1002/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1002/" itemprop="url">乙1002. 写出这个数 (20)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
-                2017-12-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入一个自然数n，计算其各位数字之和，用汉语拼音写出和的每一位数字。
-
-输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。这里保证n小于10100。
-
-输出格式：在一行内输出n的各位数字之和的每一位，拼音数字间有1 空格，但一行中最后一个拼音数字后没有空格。
-
-输入样例：
-1234567890987654321123456789
-输出样例：
-yi san wu
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-
-/**
- * NO.1002:写出这个数 (20)
- * 
- * @author sxx.xu
- *
- */
-public class No1002 {
-
-    public static void main(String[] args) {
-        String[] com = new String[] { &quot;ling &quot;, &quot;yi &quot;, &quot;er &quot;, &quot;san &quot;, &quot;si &quot;, &quot;wu &quot;, &quot;liu &quot;, &quot;qi &quot;, &quot;ba &quot;, &quot;jiu &quot; };
-        Scanner in = new Scanner(System.in);
-        String num = in.nextLine().trim();
-        char[] nums = num.toCharArray();
-        int ans = 0;
-        for (char c : nums) {
-            ans += Integer.parseInt(String.valueOf(c));
-        }
-
-        String res = String.valueOf(ans);
-        nums = res.toCharArray();
-        StringBuilder sb = new StringBuilder();
-        for (char c : nums) {
-            sb.append(com[Integer.parseInt(String.valueOf(c))]);
-        }
-        System.out.println(sb.toString().trim());
-    }
-
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1001/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1001/" itemprop="url">乙1001. 害死人不偿命的(3n+1)猜想 (15)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
-                2017-12-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>卡拉兹(Callatz)猜想：
-
-对任何一个自然数n，如果它是偶数，那么把它砍掉一半；如果它是奇数，那么把(3n+1)砍掉一半。这样一直反复砍下去，最后一定在某一步得到n=1。卡拉兹在1950年的世界数学家大会上公布了这个猜想，传说当时耶鲁大学师生齐动员，拼命想证明这个貌似很傻很天真的命题，结果闹得学生们无心学业，一心只证(3n+1)，以至于有人说这是一个阴谋，卡拉兹是在蓄意延缓美国数学界教学与科研的进展……
-
-我们今天的题目不是证明卡拉兹猜想，而是对给定的任一不超过1000的正整数n，简单地数一下，需要多少步（砍几下）才能得到n=1？
-
-输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。
-
-输出格式：输出从n计算到1需要的步数。
-
-输入样例：
-3
-输出样例：
-5
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-public class Main {
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int num = in.nextInt();
-        int times = 0;
-        num = getNum(num);
-        while (num != 1) {
-            num = getNum(num / 2);
-            times++;
-        }
-        System.out.println(times);
-    }
-
-    static int getNum(int num) {
-        while (num % 2 != 0 &amp;&amp; num != 1) {
-            num = 3 * num + 1;
-        }
-        return num;
-    }
-
-}
-</code></pre>
           
         
       
@@ -1768,287 +2183,6 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/29/android-system-service-Activity-Manager/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/29/android-system-service-Activity-Manager/" itemprop="url">Android系统服务：ActivityManager</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-29T00:00:00Z">
-                2017-09-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-System-Framework/" itemprop="url" rel="index">
-                    <span itemprop="name">Android System Framework</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="提要"><a href="#提要" class="headerlink" title="提要"></a>提要</h4><p>AMS作为重要的系统服务，涉及到的知识如下：</p>
-<ul>
-<li><a href="https://github.com/xusx1024/AndroidSystemServiceSample/blob/master/doc/Binder.md" target="_blank" rel="external">Binder机制</a></li>
-<li><a href="https://github.com/xusx1024/AndroidSystemServiceSample/blob/master/aidldemo/README.md" target="_blank" rel="external">AIDL机制</a></li>
-<li><a href="https://github.com/xusx1024/AndroidSystemServiceSample/blob/master/doc/zygot.md" target="_blank" rel="external">Zygote</a>机制，即系统启动过程，包括SystemServer的初始化</li>
-<li>应用程序启动过程</li>
-<li>Activity的启动过程</li>
-</ul>
-<p>AMS相关的应用：</p>
-<ul>
-<li>manifest文件中activity标签的所有属性    </li>
-<li>adb shell am * 相关的命令</li>
-<li>ActivityManager 相关的API使用</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/19/be-better/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/19/be-better/" itemprop="url">拂拭</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-19T00:00:00Z">
-                2017-09-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Others/" itemprop="url" rel="index">
-                    <span itemprop="name">Others</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="2017年9月19日"><a href="#2017年9月19日" class="headerlink" title="2017年9月19日"></a>2017年9月19日</h4><p> 夫君子之行：静以修身，俭以养德。非淡泊无以明志，非宁静无以致远。夫学需静也，才需学也，非学无以广才，非志无以成学。淫慢则不能励精，险燥则不能冶性。年与时驰，意与日去，遂成枯落，多不接世，悲守穷庐，将复何及！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2098,7 +2232,7 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">102</span>
+                <span class="site-state-item-count">104</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
