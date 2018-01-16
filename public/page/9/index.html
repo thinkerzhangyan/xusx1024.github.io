@@ -267,6 +267,703 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/02/android-system-service-window-manager/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/02/android-system-service-window-manager/" itemprop="url">Android系统服务：WindowManager</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-02T00:00:00Z">
+                2017-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android-System-Framework/" itemprop="url" rel="index">
+                    <span itemprop="name">Android System Framework</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="开发中使用"><a href="#开发中使用" class="headerlink" title="开发中使用"></a>开发中使用</h4><ul>
+<li>获取屏幕宽高</li>
+<li>代码设置全屏显示</li>
+<li>保持屏幕常亮</li>
+<li>悬浮view(来电显示提醒，浮层引导，应用内悬浮按钮)</li>
+</ul>
+<h4 id="需要的类"><a href="#需要的类" class="headerlink" title="需要的类"></a>需要的类</h4><ul>
+<li><code>com.android.server.wm.WindowManagerService</code></li>
+<li><code>android.view.WindowManager</code></li>
+<li><code>android.view.Window</code></li>
+</ul>
+<p>  Window是一个抽象类，具体实现是PhoneWindow。不管是Activity、Dialog、Toast它们的视图都是附加在Window上的，因此Window实际上是View的直接管理者。<br>WindowManager是外界访问Window的入口，通过WindowManager可以创建Window，而Window的具体实现位于WindowManagerService中，WindowManager和WindowManagerService的交互是一个IPC过程。</p>
+<p>Window的添加、更新、移除是通过WindowManager接口管理的，在WindowManagerImpl中，调用了WindowManagerGlobal里的具体实现。</p>
+<h4 id="flag-参数"><a href="#flag-参数" class="headerlink" title="flag 参数"></a>flag 参数</h4><p>Flags参数表示Window的属性，它有很多选项，通过这些选项可以控制Window的显示特性。<br>FLAG_NOT_FOCUSABLE: 表示Window不需要获取焦点，也不需要接收各种输入事件，此标记会同时启用FLAG_NOT_TOUCH_MODAL,最终事件会直接传递给下层的具有焦点的Window。<br>FLAG_NOT_TOUCH_MODAL: 在此模式下，系统会将当前Window区域以外的单击事件传递给底层的Window，当前Window区域以内的单击事件则自己处理。这个标记很重要，一般来说都需要开启此标记，否则其他Window将无法收到单击事件。<br>FLAG_SHOW_WHEN_LOCKED: 开启此模式可以让Window显示在锁屏的界面上。</p>
+<h4 id="type-参数"><a href="#type-参数" class="headerlink" title="type 参数"></a>type 参数</h4><p>Type参数表示Window的类型，Window有三种类型，分别是应用Window、子Window和系统Window。应用类Window对应着一个Activity。子Window不能单独存在，它需要附属在特定的父Window之中，比如常见的一些Dialog就是一个子Window。系统Window是需要声明权限才能创建的Window，比如Toast 和系统状态栏这些都是系统Window。Window是分层的，每个Window都有对应的z-ordered，层级大的会覆盖在层级小的Window的上面，这和HTML中的z-index的概念是完全一致的。在三类Window中，应用Window的层级范围是1-99，子Window的层级范围是1000-1999，系统Window的层级范围是2000-2999，这些层级范围对应着WindowManager.LayoutParams的type参数。如果想要Window位于所有Window的最顶层，那么采用较大的层级即可。很显然系统Window的层级是最大的，而且系统层级有很多值，一般我们可以选用TYPE_SYSTEM_OVERLAY或者TYPE_SYSTEM_ERROR,如果采用TYPE_SYSTEM_ERROR，只需要为type参数指定这个层级即可：<br>mLayoutParams.flags = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;<br>同时声明权限：</p>
+<pre><code>&lt;uses-permission android:name=&quot;android.permission.SYSTEM_ALERT_WINDOW&quot; /&gt;
+</code></pre><p>选择UI和状态最简单的Toast源码，避免陷入过深的逻辑代码。<br>实现的Window的demo，应该有两种类型。</p>
+<p>Framework定义了三种窗口类型，三种类型的定义在WindowManager类中。<br>第一种为应用窗口。所谓的应用窗口是指该窗口对应一个Activity,由于加载Activity是 由 AmS完成的，因此，对于应用程序来讲，要创建一个应用类窗口，只能在Activity内部完成。<br>第二种是子窗口。所谓的子窗口是指，该窗口必须有一个父窗口，父窗口可以是一个应用类型窗口，也可以是任何其他类型的窗口。<br>第三类是系统窗口。系统窗口不需要对应任何Activity,也不需要有父窗口。对于应用程序而言，理论上是无法创建系统窗口的，因为所有的应用程序都没有这个权限，然而系统进程却可以创建系统窗口。</p>
+<p><br><br>注意：MIUI系统需要在设置-&gt;其他应用管理-&gt;应用信息-&gt;权限管理,中打开“显示悬浮窗”才能显示。</p>
+<p><br></p>
+<p>window 诱导用户输入QQ号及密码：<a href="https://yq.aliyun.com/ziliao/160722" target="_blank" rel="external">https://yq.aliyun.com/ziliao/160722</a></p>
+<p><br><br>视图是如何附加在Window上的,Window有是如何管理这些视图的.</p>
+<p><a href="http://bugly.qq.com/bbs/forum.php?mod=viewthread&amp;tid=555" target="_blank" rel="external">http://bugly.qq.com/bbs/forum.php?mod=viewthread&amp;tid=555</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/01/kotlin-in-project/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/01/kotlin-in-project/" itemprop="url">kotlin在实际使用中的一些问题解决</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-01T00:00:00Z">
+                2017-03-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA & kotlin</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="引起build-false"><a href="#引起build-false" class="headerlink" title="引起build false"></a>引起build false</h4><h5 id="提示信息"><a href="#提示信息" class="headerlink" title="提示信息"></a>提示信息</h5><blockquote>
+<p>Proguard Warning: org.jetbrains.anko.internals.AnkoInternals: can’t find referenced method ‘int getThemeResId()’ in library class android.view.ContextThemeWrapper</p>
+</blockquote>
+<h5 id="原因-amp-解决"><a href="#原因-amp-解决" class="headerlink" title="原因&amp;解决"></a>原因&amp;解决</h5><blockquote>
+<p>原因：This call only works with android.support.v7.view.ContextThemeWrapper because in system framework base ContextThemeWrapper is hide this call and the existence of getThemeResId not guaranteed.</p>
+<p>解决：compile ‘org.jetbrains.anko:anko-common:0.9.1’ </p>
+</blockquote>
+<p>注意，只要不使用0.9就可以，比如使用0.8.3也是可用的。<a href="https://github.com/Kotlin/anko/issues/206" target="_blank" rel="external">传送</a>。</p>
+<p><br><br><br></p>
+<h4 id="fragment中没有使用findViewById，报null异常"><a href="#fragment中没有使用findViewById，报null异常" class="headerlink" title="fragment中没有使用findViewById，报null异常"></a>fragment中没有使用findViewById，报null异常</h4><h5 id="提示信息-1"><a href="#提示信息-1" class="headerlink" title="提示信息"></a>提示信息</h5><blockquote>
+<p>Caused by: java.lang.NullPointerException: Attempt to invoke virtual method ‘android.view.View android.view.View.findViewById(int)’ on a null object reference</p>
+</blockquote>
+<h5 id="原因-amp-解决-1"><a href="#原因-amp-解决-1" class="headerlink" title="原因&amp;解决"></a>原因&amp;解决</h5><blockquote>
+<p>The problem is that you are accessing it too soon. getView() returns null in onCreateView. Try doing it in the onViewCreated method.</p>
+</blockquote>
+<p><a href="http://stackoverflow.com/questions/34541650/kotlin-android-extensions-and-fragments" target="_blank" rel="external">传送。</a></p>
+<h4 id="companion-object"><a href="#companion-object" class="headerlink" title="companion object"></a>companion object</h4><p>companion object只能在类中使用，相当于java中的静态内部类（kotlin没有static关键字）.</p>
+<h4 id="对一个可能为null对象的处理"><a href="#对一个可能为null对象的处理" class="headerlink" title="对一个可能为null对象的处理"></a>对一个可能为null对象的处理</h4><ul>
+<li>surround with null check: <code>if (item != null)</code></li>
+<li>Add non-null asserted:<code>obj!!</code></li>
+<li>replace with safe  (?.) call:<code>obj?</code></li>
+</ul>
+<p>对象后跟一个问号，表明其可能为空，如果跟两个感叹号，表明确定该对象不为空。</p>
+<h4 id="kotlin中的操作符重载"><a href="#kotlin中的操作符重载" class="headerlink" title="kotlin中的操作符重载"></a>kotlin中的操作符重载</h4><p><a href="https://kotlinlang.org/docs/reference/basic-types.html" target="_blank" rel="external">官方传送</a> <br><br><a href="http://blog.csdn.net/io_field/article/details/52817471" target="_blank" rel="external">优秀blog传送</a></p>
+<p>要用到的是java中的&amp;操作，在kotlin中是and方法。</p>
+<h4 id="一个对象在改变属性时，可能为null的提示"><a href="#一个对象在改变属性时，可能为null的提示" class="headerlink" title="一个对象在改变属性时，可能为null的提示"></a>一个对象在改变属性时，可能为null的提示</h4><blockquote>
+<p>Smart cast to ‘Drawable’ is impossible , because ‘goldSwBean’ is a mutable property that could have been change by this time</p>
+</blockquote>
+<p>在每一步build的时候，都加上确认对象不会为空的判定,如下：<br><br>Add non-null asserted:<code>obj!!</code></p>
+<h4 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h4><p>instanceof 使用is替代了  </p>
+<h4 id="类型强制转换"><a href="#类型强制转换" class="headerlink" title="类型强制转换"></a>类型强制转换</h4><p>使用as。<code>(view as TextView)</code></p>
+<h4 id="集合操作"><a href="#集合操作" class="headerlink" title="集合操作"></a>集合操作</h4><p><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html" target="_blank" rel="external">官方传送</a><br><br><a href="http://www.cnblogs.com/figozhg/p/5031398.html" target="_blank" rel="external">民间传送</a><br><br>很多封装，方便。<br><br>注意<code>map``foreach</code>，好用的。</p>
+<h4 id="swithc-case的default"><a href="#swithc-case的default" class="headerlink" title="swithc-case的default"></a>swithc-case的default</h4><p>已知switch-case被when取代了，那么default是啥？如下：</p>
+<pre><code>when (x) {
+    1 -&gt; print(&quot;x == 1&quot;)
+    2 -&gt; print(&quot;x == 2&quot;)
+    else -&gt; { // Note the block
+        print(&quot;x is neither 1 nor 2&quot;)
+    }
+}
+</code></pre><h4 id="adapter中的getView问题"><a href="#adapter中的getView问题" class="headerlink" title="adapter中的getView问题"></a>adapter中的getView问题</h4><blockquote>
+<p>Parameter specified as non-null is null</p>
+</blockquote>
+<p>语义比较明白：检测到非空参数为空。<br><br></p>
+<p>事实上，在getView中，该参数没有用到，不需要关系是否为空，因此，在该变量后加?，表示其可以为空即可。</p>
+<p><a href="http://kotlinlang.org/docs/reference/null-safety.html" target="_blank" rel="external">kotlin空安全扩展</a></p>
+<h4 id="name-shadowed-警告"><a href="#name-shadowed-警告" class="headerlink" title="name  shadowed 警告"></a>name  shadowed 警告</h4><blockquote>
+<p>Any scope can shadow a variable used in another scope. It is NOT good practice and does produce a compiler warning – but it is allowed.</p>
+</blockquote>
+<h4 id="开启子线程"><a href="#开启子线程" class="headerlink" title="开启子线程"></a>开启子线程</h4><p>如果需要UI线程之外做些事情：</p>
+<pre><code>doAsync {
+           Thread.sleep(1000)
+           uiThread {  }//回到UI线程
+         }
+</code></pre><h4 id="xml-or-text-declaration-not-at-start"><a href="#xml-or-text-declaration-not-at-start" class="headerlink" title="xml or text declaration not at start"></a>xml or text declaration not at start</h4><p>这个是kotlin无关的问题，仅做记录:</p>
+<p><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</code></p>
+<p>这行代码在xml中，不要多不要少就要一行，放在首行。</p>
+<h4 id="open-class"><a href="#open-class" class="headerlink" title="open class"></a>open class</h4><p>Kotlin的类默认是final的，也就是不可继承的，如果让类可继承，使用open关键字。当类有abstract关键字时，不需要使用open了。</p>
+<h4 id="return-null"><a href="#return-null" class="headerlink" title="return null"></a>return null</h4><p>有时候需要返回某个对象的实例，如果不存在就返回空。在要返回的类型后追加“？”eg：</p>
+<pre><code>fun method():String ? {
+        return null
+    }
+</code></pre><h4 id="可变参数使用关键字：vararg"><a href="#可变参数使用关键字：vararg" class="headerlink" title="可变参数使用关键字：vararg"></a>可变参数使用关键字：vararg</h4><pre><code>fun demo(vararg texts : String){
+
+ }
+</code></pre><h4 id="究极快速方法"><a href="#究极快速方法" class="headerlink" title="究极快速方法"></a>究极快速方法</h4><p>如果有的kotlin实现方式不知道，可以先写java的代码，然后copy、paste进入kotlin文件，AndroidStudio有插件即可自动转换。</p>
+<h4 id="Unresolved-reference-rem"><a href="#Unresolved-reference-rem" class="headerlink" title="Unresolved reference: rem"></a>Unresolved reference: rem</h4><p>1.1版本导致，1.1以前的版本，尽管没有此方法，依然会提示。<br><br>1.1把mod改成了rem但是导致了版本错误。建议使用mod+@Suppress(“DEPRECATION”)</p>
+<h4 id="for-循环"><a href="#for-循环" class="headerlink" title="for 循环"></a>for 循环</h4><h5 id="循环遍历对象"><a href="#循环遍历对象" class="headerlink" title="循环遍历对象"></a>循环遍历对象</h5><pre><code>for (item in collection) {
+print(item)
+</code></pre><p>}</p>
+<h5 id="循环计数"><a href="#循环计数" class="headerlink" title="循环计数"></a>循环计数</h5><pre><code>for (index in 0..viewGroup.getChildCount() - 1) {
+val view = viewGroup.getChildAt(index)
+view.visibility = View.VISIBLE
+</code></pre><p>}</p>
+<h5 id="循环遍历对象数组"><a href="#循环遍历对象数组" class="headerlink" title="循环遍历对象数组"></a>循环遍历对象数组</h5><pre><code>for (i in array.indices)
+print(array[i])
+</code></pre><h4 id="延时执行任务"><a href="#延时执行任务" class="headerlink" title="延时执行任务"></a>延时执行任务</h4><p>java<br></p>
+<pre><code>mHandler.postDelayed(new Runnable() {
+                   @Override
+                   public void run() {
+                      //do something
+                   }
+               }, 3000);
+</code></pre><p>kotlin<br></p>
+<pre><code>mHandler.postDelayed(Runnable { //do something }, 3000)
+</code></pre><h4 id="lambda"><a href="#lambda" class="headerlink" title="lambda"></a>lambda</h4><h5 id="android提示框"><a href="#android提示框" class="headerlink" title="android提示框"></a>android提示框</h5><pre><code>builder.setPositiveButton(&quot;同意&quot;, object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+
+            }
+
+        })
+builder.setPositiveButton(&quot;同意&quot;) { dialog, which -&gt;
+
+}
+</code></pre><h4 id="覆盖父类的方法"><a href="#覆盖父类的方法" class="headerlink" title="覆盖父类的方法"></a>覆盖父类的方法</h4><blockquote>
+<p>标记为 override 的成员是 open的，它可以在子类中被复写。如果你不想被重写就要加 final</p>
+</blockquote>
+<h4 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h4><p>一级构造：</p>
+<pre><code>class Person constructor(firstName: String) {
+}
+或
+class Person(firstName: String){
+}    
+</code></pre><p>二级构造：</p>
+<pre><code>class Person {
+constructor(parent: Person) {
+    parent.children.add(this)
+}    
+}    
+</code></pre><p>私有构造：</p>
+<pre><code>class DontCreateMe private constructor () {
+}
+</code></pre><p>类初始化操作：</p>
+<pre><code>class Customer(name: String) {
+init {
+    logger,info(&quot;Customer initialized with value ${name}&quot;)
+}
+}
+</code></pre><h4 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h4><pre><code>interface MyInterface {
+    var name:String //name 属性, 抽象的
+    fun bar()
+    fun foo() {
+        // 可选的方法体
+        println(&quot;foo&quot;)
+    }
+}
+class Child : MyInterface {
+    override var name: String = &quot;runoob&quot; //重载属性
+    override fun bar() {
+        // 方法体
+        println(&quot;bar&quot;)
+    }
+}
+fun main(args: Array&lt;String&gt;) {
+    val c =  Child()
+    c.foo();
+    c.bar();
+    println(c.name)
+
+}
+</code></pre><p><code>update @ 2017年7月14日18:51:09</code></p>
+<h4 id="list-如何添加元素"><a href="#list-如何添加元素" class="headerlink" title="list 如何添加元素"></a>list 如何添加元素</h4><p>声明list，则使用plus<br>声明ArrayList，则使用add</p>
+<h4 id="可见性修饰词"><a href="#可见性修饰词" class="headerlink" title="可见性修饰词"></a>可见性修饰词</h4><ul>
+<li>默认public</li>
+<li>private</li>
+<li>private</li>
+<li>internal</li>
+<li>protected</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/java-volatile/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/23/java-volatile/" itemprop="url">Java并发中的关键字：volatile</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-23T00:00:00Z">
+                2017-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA & kotlin</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><p>第一次与volatile相识，是在单例模式的介绍中，一个DCL的单例，是如何因为非原子性操作而导致在多线程环境下破坏了单例的唯一性。volatile就在此时挺身而出，搞得人对之好感满满。于此时，我又认识到了锁、同步、原子性，这些概念，下面做一个简单的基础知识科普。<br></p>
+<h5 id="为什么需要锁"><a href="#为什么需要锁" class="headerlink" title="为什么需要锁"></a>为什么需要锁</h5><p><img src="/images/why_need_lock.jpg" alt="为什么需要锁"></p>
+<p>由上图，两颗CPU都在修改内存的变量，导致其计数有误。</p>
+<h5 id="锁-lock"><a href="#锁-lock" class="headerlink" title="锁(lock)"></a>锁(lock)</h5><p>锁是用来做并发最简单的方式，当然其代价也是最高的。<code>内核态的锁</code>的时候需要操作系统进行一次上下文切换，加锁、释放锁会导致比较多的上下文切换和调度延时，等待锁的线程会被挂起直至锁释放。在上下文切换的时候，cpu之前缓存的指令和数据都将失效，对性能有很大的损失。<code>用户态的锁</code>避免了这些问题，但是他们只是在没有真实的竞争时才有效。<br></p>
+<p>JDK之前，都是靠synchronized关键字保证同步的，这种通过使用一致的锁定协议来协调对共享状态的访问，可以确保无论哪个线程持有守护变量的锁，都采用<code>独占的方式</code>来访问这些变量，如果出现多个线程同时访问锁，一些线程将被挂起，必须等待其他线程执行完他们的时间片以后才能被调度执行，在挂起和恢复执行过程中存在着很大的开销。锁还存在着其它的一些缺点，当一个线程正在等待锁时，它不能做任何事。如果一个线程在持有锁的情况下被延迟执行，那么所有需要这个锁的线程都无法执行下去。如果被阻塞的线程优先级高，而持有锁的线程优先级低，将会导致优先级反转。</p>
+<h6 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h6><p>独占锁是一种悲观锁，synchronized就是一种独占锁，他假设最坏的情况，并且只有在确保其他线程不会造成干扰的情况下执行，会导致其他所有需要锁的线程挂起，等待持有锁的线程释放锁。</p>
+<h6 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h6><p>比悲观锁更加有效，每次不加锁而是假设没有冲突而去完成某项操作，如果冲突失败就重试，直到成功为止。<br>CAS乐观锁算法如图：<br>CAS比较与交换的伪代码可以表示为：</p>
+<pre><code>do{
+备份旧数据
+基于旧数据构造新数据
+}while(!CAS(内存地址，备份的旧数据，新数据))
+</code></pre><p><img src="/images/cas.png" alt="CAS乐观锁"></p>
+<h5 id="原子操作-atomic-operations"><a href="#原子操作-atomic-operations" class="headerlink" title="原子操作(atomic operations)"></a>原子操作(atomic operations)</h5><ul>
+<li>所有的原始类型的赋值，long和double除外；</li>
+<li>所有引用的赋值；</li>
+<li>所有java.concurrent.Atomic*中类中的操作</li>
+<li>所有volatile修饰的long和double</li>
+</ul>
+<p>为什么long型赋值不是原子操作呢？</p>
+<p>事实上java会分两步写入这个long变量，先写32位，再写后32位。这样就线程不安全了。如果改成下面的就线程安全了：</p>
+<pre><code>private volatile long foo;
+</code></pre><p>因为volatile内部已经做了synchronized.</p>
+<h5 id="线程与内存的交互"><a href="#线程与内存的交互" class="headerlink" title="线程与内存的交互"></a>线程与内存的交互</h5><p>每一个线程运行时都有一个线程栈，线程栈保存了线程运行时候变量值信息。当线程访问某一个对象的值的时候，首先通过对象的引用找到对应在堆内存的变量的值，然后把堆内存变量的具体值load到线程本地内存中，建立一个变量副本，之后线程就不再和对象在堆内存变量值有任何关系，而是直接修改副本变量的值，在修改完之后的某一个时刻，自动把线程变量副本的值回写到对象在堆中的变量。如图：</p>
+<p><img src="/images/thread-read-write.jpg" alt="线程与内存的交互"><br>其中use and assign 可以多次出现</p>
+<h5 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h5><p>volatile，声明其修饰的字段易变（可能被多个线程使用），Java内存模型负责各个线程的工作区与主存区的该字段的值保持同步。<br><br>volatile的同步，不同于synchronized，前者是内存同步，后者不仅包含内存同步，并且保证线程互斥。<br><br>volatile能替代简单的锁，却不能保证原子性。<br></p>
+<h5 id="内存屏障-Memory-Barrier"><a href="#内存屏障-Memory-Barrier" class="headerlink" title="内存屏障-Memory Barrier"></a>内存屏障-Memory Barrier</h5><p>内存屏障是一个CPU指令。</p>
+<ol>
+<li>确保一些特定操作执行的顺序；</li>
+<li>影响一些数据的可见性(可能是某些指令执行后的结果)。编译器和CPU可以在保证输出结果一样的情况下对指令重排序，使性能得到优化。插入一个内存屏障，相当于告诉CPU和编译器先于这个命令的必须先执行，后于这个命令的必须后执行。内存屏障的另一个作用是强制更新一次不同CPU的缓存。例如，一个写屏障会把这个屏障前写入的数据刷新到缓存，这样任何试图读取该数据的线程都将得到最新值，而不用考虑到底是被哪个CPU核心或者哪颗CPU执行的。</li>
+</ol>
+<p><br></p>
+<p>如果你的字段是volatile，java内存模型将在写操作后插入一个写屏障指令，在读操作前插入一个读屏障指令。<br></p>
+<p>由<code>线程和内存交互的图</code>，可得：</p>
+<pre><code>[读屏障指令] - read - load - use - asign - store - write - [写屏障指令].
+</code></pre><p>可以看到，从load到store是不安全的，这期间，如果别的CPU修改了值，将会丢失。因此，我们说<code>volatile不能保证原子性。</code>这同时说明：<code>volatile不能用在getAndOperate场合，仅仅set/get场景是适合volatile的</code>。</p>
+<h4 id="voaltile-使用场景及模式"><a href="#voaltile-使用场景及模式" class="headerlink" title="voaltile 使用场景及模式"></a>voaltile 使用场景及模式</h4><pre><code>要始终牢记使用volatile的限制——只有在状态真正独立于程序内其他内容时才能使用volatile——这条规则能够避免将这些模式扩展到不安全的用例。 
+
+Always keep in mind the rules about the limits of where volatile can be used -- only use volatile for state that is truly independent of everything else in your program -- and this should keep you from trying to extend these patterns into dangerous territory.
+</code></pre><h5 id="模式1：状态标志"><a href="#模式1：状态标志" class="headerlink" title="模式1：状态标志"></a>模式1：状态标志</h5><p>也许实现volatile变量的规范使用仅仅是使用一个布尔状态标志，用于指示发生了一个重要的一次性事件，例如完成初始化或请求停机。很多应用程序包含了一种控制结构，形式为“在还没有准备好停止程序时再执行一些工作”。</p>
+<pre><code>volatile boolean shutdownRequested;
+
+...
+
+public void shutdown() { shutdownRequested = true; }
+
+public void doWork() { 
+    while (!shutdownRequested) { 
+        // do stuff
+    }
+}
+</code></pre><p>这种类型的状态标记的一个公共特性是：通常只有一种状态转换；shutdownRequest标志从false转换为true，然后程序停止。这种模式可以扩展到来回转换的状态标志，但是只有在转换周期不被察觉的情况下才能扩展。</p>
+<h5 id="模式2：一次性安全发布-one-time-safe-publication"><a href="#模式2：一次性安全发布-one-time-safe-publication" class="headerlink" title="模式2：一次性安全发布(one time safe publication)"></a>模式2：一次性安全发布(one time safe publication)</h5><p>缺乏同步会导致无法实现可见性，这使得确定何时写入对象引用而不是原语值变得更加困难。在缺乏同步的情况下，可能会遇到某个对象引用的更新值和该对象状态的旧值同时存在。这就是造成著名的双重检查锁定(double checked locking)问题的根源，其中对象引用在没有同步的情况下进行读操作，产生的问题是您可能会看到一个更新的引用，但是仍然会通过该引用看到不完全构造的对象。</p>
+<p>实现安全发布对象的一种技术就是将对象引用定义为volatile类型。</p>
+<pre><code>public class BackgroundFloobleLoader {
+    public volatile Flooble theFlooble;
+    public void initInBackground() {
+        // do lots of stuff
+        theFlooble = new Flooble();  // this is the only write to theFlooble
+    }
+}
+
+public class SomeOtherClass {
+    public void doWork() {
+        while (true) { 
+            // do some stuff...
+            // use the Flooble, but only if it is ready
+            if (floobleLoader.theFlooble != null) 
+                doSomething(floobleLoader.theFlooble);
+        }
+    }
+}
+</code></pre><p>该模式的一个必要条件是：被发布的对象必须是线程安全的，或者是有效的不可变对象(有效不可变意味着对象的状态在发布之后永远不会被修改)。volatile类型的引用可以确保对象的发布形式的可见性，但是如果对象的状态在发布后将发生更改，那么就需要额外的同步。</p>
+<h5 id="模式3：独立观察-independent-observation"><a href="#模式3：独立观察-independent-observation" class="headerlink" title="模式3：独立观察(independent observation)"></a>模式3：独立观察(independent observation)</h5><p>安全使用volatile的另一种简单模式是：定期“发布”观察结果供程序内部使用。例如：假设有一种环境传感器能够感觉环境温度。一个后台线程可能会每隔几秒读取一次该传感器，并更新包含当前文档的volatile变量。然后，其他线程可以读取这个变量，从而随时能够看到最新的温度值。</p>
+<pre><code>public class UserManager {
+    public volatile String lastUser;
+
+    public boolean authenticate(String user, String password) {
+        boolean valid = passwordIsValid(user, password);
+        if (valid) {
+            User u = new User();
+            activeUsers.add(u);
+            lastUser = user;
+        }
+        return valid;
+    }
+}
+</code></pre><p>该模式是一次性安全发布的扩展，将某个值发布，以在程序内的其他地方使用，但是这与一次性事件的发布不同，这是一系列独立事件。这个模式要求被发布的值是有效不可变的——即值的状态在发布后不会更改。使用该值的代码需要清除该值可能随时发生变化。</p>
+<h5 id="模式4：volatile-bean-模式"><a href="#模式4：volatile-bean-模式" class="headerlink" title="模式4：volatile bean 模式"></a>模式4：volatile bean 模式</h5><p>volatile bean模式适用于将JavaBeans作为“荣誉结构”使用的框架。在volatile bean模式中，JavaBean被用作一组具有getter/setter方法的独立属性的容器。volatile bean 模式的基本原理是：很多框架为易变数据的持有者(例如HttpSession)提供了容器，但是放入这些容器中的对象必须是线程安全的。<br><br>在volatile bean模式中，JavaBean的所有数据成员都是volatile类型的，并且getter/setter方法必须非常普通——除了获取或设置相应的属性外，不能包含任何逻辑。此外，对于对象引用的数据成员，引用的对象必须是有效不可变的。(这将禁止具有数组值的属性，因为当数组引用被声明为volatile时，只有引用而不是数组本身具有volatile语义)。对于任何volatile变量，不变式或约束都不能包含JavaBean属性。</p>
+<pre><code>@ThreadSafe
+public class Person {
+    private volatile String firstName;
+    private volatile String lastName;
+    private volatile int age;
+
+    public String getFirstName() { return firstName; }
+    public String getLastName() { return lastName; }
+    public int getAge() { return age; }
+
+    public void setFirstName(String firstName) { 
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) { 
+        this.lastName = lastName;
+    }
+
+    public void setAge(int age) { 
+        this.age = age;
+    }
+}
+</code></pre><h5 id="模式5：volatile-高级模式，开销较低的读-写锁策略"><a href="#模式5：volatile-高级模式，开销较低的读-写锁策略" class="headerlink" title="模式5：volatile 高级模式，开销较低的读-写锁策略"></a>模式5：volatile 高级模式，开销较低的读-写锁策略</h5><p>如果读操作远远超过写操作，您可以结合使用内部锁和volatile变量来减少公共代码路径的开销。</p>
+<pre><code>@ThreadSafe
+public class CheesyCounter {
+    // Employs the cheap read-write lock trick
+    // All mutative operations MUST be done with the &apos;this&apos; lock held
+    @GuardedBy(&quot;this&quot;) private volatile int value;
+
+    public int getValue() { return value; }
+
+    public synchronized int increment() {
+        return value++;
+    }
+}
+</code></pre><p>上述中显示的线程安全的计数器使用synchronized确保增量操作是原子的，并使用volatile保证当前结果的可见性。如果更新不频繁的话，该方法可实现更好的性能，因为读路径的开销仅仅涉及volatile读操作，这通常要优于一个无竞争的锁获取的开销。</p>
+<h4 id="voaltile-与-static"><a href="#voaltile-与-static" class="headerlink" title="voaltile 与 static"></a>voaltile 与 static</h4><p>volatile，声明这个字段易变(可能被多个线程使用)，java内存模型负责各个线程的工作区与主存区的该字段的值保持同步，即一致性；强调变量值的唯一性；</p>
+<p>static，声明这个字段是静态的(可能被多个实例共享)，在主存区上该类的所有实例的该字段为同一个变量，即唯一性；强调变量的唯一性。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/android-system-service-LayoutInflater/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -615,265 +1312,6 @@ try {
 <li>如果不存在或者存在但没通过验证，就重新生成并缓存，生成时如果name有前缀就拼装上，通过反射获取其构造函数；</li>
 <li>通过其构造生成view。</li>
 </ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/java-volatile/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/23/java-volatile/" itemprop="url">Java并发中的关键字：volatile</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-23T00:00:00Z">
-                2017-02-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA & kotlin</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><p>第一次与volatile相识，是在单例模式的介绍中，一个DCL的单例，是如何因为非原子性操作而导致在多线程环境下破坏了单例的唯一性。volatile就在此时挺身而出，搞得人对之好感满满。于此时，我又认识到了锁、同步、原子性，这些概念，下面做一个简单的基础知识科普。<br></p>
-<h5 id="为什么需要锁"><a href="#为什么需要锁" class="headerlink" title="为什么需要锁"></a>为什么需要锁</h5><p><img src="/images/why_need_lock.jpg" alt="为什么需要锁"></p>
-<p>由上图，两颗CPU都在修改内存的变量，导致其计数有误。</p>
-<h5 id="锁-lock"><a href="#锁-lock" class="headerlink" title="锁(lock)"></a>锁(lock)</h5><p>锁是用来做并发最简单的方式，当然其代价也是最高的。<code>内核态的锁</code>的时候需要操作系统进行一次上下文切换，加锁、释放锁会导致比较多的上下文切换和调度延时，等待锁的线程会被挂起直至锁释放。在上下文切换的时候，cpu之前缓存的指令和数据都将失效，对性能有很大的损失。<code>用户态的锁</code>避免了这些问题，但是他们只是在没有真实的竞争时才有效。<br></p>
-<p>JDK之前，都是靠synchronized关键字保证同步的，这种通过使用一致的锁定协议来协调对共享状态的访问，可以确保无论哪个线程持有守护变量的锁，都采用<code>独占的方式</code>来访问这些变量，如果出现多个线程同时访问锁，一些线程将被挂起，必须等待其他线程执行完他们的时间片以后才能被调度执行，在挂起和恢复执行过程中存在着很大的开销。锁还存在着其它的一些缺点，当一个线程正在等待锁时，它不能做任何事。如果一个线程在持有锁的情况下被延迟执行，那么所有需要这个锁的线程都无法执行下去。如果被阻塞的线程优先级高，而持有锁的线程优先级低，将会导致优先级反转。</p>
-<h6 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h6><p>独占锁是一种悲观锁，synchronized就是一种独占锁，他假设最坏的情况，并且只有在确保其他线程不会造成干扰的情况下执行，会导致其他所有需要锁的线程挂起，等待持有锁的线程释放锁。</p>
-<h6 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h6><p>比悲观锁更加有效，每次不加锁而是假设没有冲突而去完成某项操作，如果冲突失败就重试，直到成功为止。<br>CAS乐观锁算法如图：<br>CAS比较与交换的伪代码可以表示为：</p>
-<pre><code>do{
-备份旧数据
-基于旧数据构造新数据
-}while(!CAS(内存地址，备份的旧数据，新数据))
-</code></pre><p><img src="/images/cas.png" alt="CAS乐观锁"></p>
-<h5 id="原子操作-atomic-operations"><a href="#原子操作-atomic-operations" class="headerlink" title="原子操作(atomic operations)"></a>原子操作(atomic operations)</h5><ul>
-<li>所有的原始类型的赋值，long和double除外；</li>
-<li>所有引用的赋值；</li>
-<li>所有java.concurrent.Atomic*中类中的操作</li>
-<li>所有volatile修饰的long和double</li>
-</ul>
-<p>为什么long型赋值不是原子操作呢？</p>
-<p>事实上java会分两步写入这个long变量，先写32位，再写后32位。这样就线程不安全了。如果改成下面的就线程安全了：</p>
-<pre><code>private volatile long foo;
-</code></pre><p>因为volatile内部已经做了synchronized.</p>
-<h5 id="线程与内存的交互"><a href="#线程与内存的交互" class="headerlink" title="线程与内存的交互"></a>线程与内存的交互</h5><p>每一个线程运行时都有一个线程栈，线程栈保存了线程运行时候变量值信息。当线程访问某一个对象的值的时候，首先通过对象的引用找到对应在堆内存的变量的值，然后把堆内存变量的具体值load到线程本地内存中，建立一个变量副本，之后线程就不再和对象在堆内存变量值有任何关系，而是直接修改副本变量的值，在修改完之后的某一个时刻，自动把线程变量副本的值回写到对象在堆中的变量。如图：</p>
-<p><img src="/images/thread-read-write.jpg" alt="线程与内存的交互"><br>其中use and assign 可以多次出现</p>
-<h5 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h5><p>volatile，声明其修饰的字段易变（可能被多个线程使用），Java内存模型负责各个线程的工作区与主存区的该字段的值保持同步。<br><br>volatile的同步，不同于synchronized，前者是内存同步，后者不仅包含内存同步，并且保证线程互斥。<br><br>volatile能替代简单的锁，却不能保证原子性。<br></p>
-<h5 id="内存屏障-Memory-Barrier"><a href="#内存屏障-Memory-Barrier" class="headerlink" title="内存屏障-Memory Barrier"></a>内存屏障-Memory Barrier</h5><p>内存屏障是一个CPU指令。</p>
-<ol>
-<li>确保一些特定操作执行的顺序；</li>
-<li>影响一些数据的可见性(可能是某些指令执行后的结果)。编译器和CPU可以在保证输出结果一样的情况下对指令重排序，使性能得到优化。插入一个内存屏障，相当于告诉CPU和编译器先于这个命令的必须先执行，后于这个命令的必须后执行。内存屏障的另一个作用是强制更新一次不同CPU的缓存。例如，一个写屏障会把这个屏障前写入的数据刷新到缓存，这样任何试图读取该数据的线程都将得到最新值，而不用考虑到底是被哪个CPU核心或者哪颗CPU执行的。</li>
-</ol>
-<p><br></p>
-<p>如果你的字段是volatile，java内存模型将在写操作后插入一个写屏障指令，在读操作前插入一个读屏障指令。<br></p>
-<p>由<code>线程和内存交互的图</code>，可得：</p>
-<pre><code>[读屏障指令] - read - load - use - asign - store - write - [写屏障指令].
-</code></pre><p>可以看到，从load到store是不安全的，这期间，如果别的CPU修改了值，将会丢失。因此，我们说<code>volatile不能保证原子性。</code>这同时说明：<code>volatile不能用在getAndOperate场合，仅仅set/get场景是适合volatile的</code>。</p>
-<h4 id="voaltile-使用场景及模式"><a href="#voaltile-使用场景及模式" class="headerlink" title="voaltile 使用场景及模式"></a>voaltile 使用场景及模式</h4><pre><code>要始终牢记使用volatile的限制——只有在状态真正独立于程序内其他内容时才能使用volatile——这条规则能够避免将这些模式扩展到不安全的用例。 
-
-Always keep in mind the rules about the limits of where volatile can be used -- only use volatile for state that is truly independent of everything else in your program -- and this should keep you from trying to extend these patterns into dangerous territory.
-</code></pre><h5 id="模式1：状态标志"><a href="#模式1：状态标志" class="headerlink" title="模式1：状态标志"></a>模式1：状态标志</h5><p>也许实现volatile变量的规范使用仅仅是使用一个布尔状态标志，用于指示发生了一个重要的一次性事件，例如完成初始化或请求停机。很多应用程序包含了一种控制结构，形式为“在还没有准备好停止程序时再执行一些工作”。</p>
-<pre><code>volatile boolean shutdownRequested;
-
-...
-
-public void shutdown() { shutdownRequested = true; }
-
-public void doWork() { 
-    while (!shutdownRequested) { 
-        // do stuff
-    }
-}
-</code></pre><p>这种类型的状态标记的一个公共特性是：通常只有一种状态转换；shutdownRequest标志从false转换为true，然后程序停止。这种模式可以扩展到来回转换的状态标志，但是只有在转换周期不被察觉的情况下才能扩展。</p>
-<h5 id="模式2：一次性安全发布-one-time-safe-publication"><a href="#模式2：一次性安全发布-one-time-safe-publication" class="headerlink" title="模式2：一次性安全发布(one time safe publication)"></a>模式2：一次性安全发布(one time safe publication)</h5><p>缺乏同步会导致无法实现可见性，这使得确定何时写入对象引用而不是原语值变得更加困难。在缺乏同步的情况下，可能会遇到某个对象引用的更新值和该对象状态的旧值同时存在。这就是造成著名的双重检查锁定(double checked locking)问题的根源，其中对象引用在没有同步的情况下进行读操作，产生的问题是您可能会看到一个更新的引用，但是仍然会通过该引用看到不完全构造的对象。</p>
-<p>实现安全发布对象的一种技术就是将对象引用定义为volatile类型。</p>
-<pre><code>public class BackgroundFloobleLoader {
-    public volatile Flooble theFlooble;
-    public void initInBackground() {
-        // do lots of stuff
-        theFlooble = new Flooble();  // this is the only write to theFlooble
-    }
-}
-
-public class SomeOtherClass {
-    public void doWork() {
-        while (true) { 
-            // do some stuff...
-            // use the Flooble, but only if it is ready
-            if (floobleLoader.theFlooble != null) 
-                doSomething(floobleLoader.theFlooble);
-        }
-    }
-}
-</code></pre><p>该模式的一个必要条件是：被发布的对象必须是线程安全的，或者是有效的不可变对象(有效不可变意味着对象的状态在发布之后永远不会被修改)。volatile类型的引用可以确保对象的发布形式的可见性，但是如果对象的状态在发布后将发生更改，那么就需要额外的同步。</p>
-<h5 id="模式3：独立观察-independent-observation"><a href="#模式3：独立观察-independent-observation" class="headerlink" title="模式3：独立观察(independent observation)"></a>模式3：独立观察(independent observation)</h5><p>安全使用volatile的另一种简单模式是：定期“发布”观察结果供程序内部使用。例如：假设有一种环境传感器能够感觉环境温度。一个后台线程可能会每隔几秒读取一次该传感器，并更新包含当前文档的volatile变量。然后，其他线程可以读取这个变量，从而随时能够看到最新的温度值。</p>
-<pre><code>public class UserManager {
-    public volatile String lastUser;
-
-    public boolean authenticate(String user, String password) {
-        boolean valid = passwordIsValid(user, password);
-        if (valid) {
-            User u = new User();
-            activeUsers.add(u);
-            lastUser = user;
-        }
-        return valid;
-    }
-}
-</code></pre><p>该模式是一次性安全发布的扩展，将某个值发布，以在程序内的其他地方使用，但是这与一次性事件的发布不同，这是一系列独立事件。这个模式要求被发布的值是有效不可变的——即值的状态在发布后不会更改。使用该值的代码需要清除该值可能随时发生变化。</p>
-<h5 id="模式4：volatile-bean-模式"><a href="#模式4：volatile-bean-模式" class="headerlink" title="模式4：volatile bean 模式"></a>模式4：volatile bean 模式</h5><p>volatile bean模式适用于将JavaBeans作为“荣誉结构”使用的框架。在volatile bean模式中，JavaBean被用作一组具有getter/setter方法的独立属性的容器。volatile bean 模式的基本原理是：很多框架为易变数据的持有者(例如HttpSession)提供了容器，但是放入这些容器中的对象必须是线程安全的。<br><br>在volatile bean模式中，JavaBean的所有数据成员都是volatile类型的，并且getter/setter方法必须非常普通——除了获取或设置相应的属性外，不能包含任何逻辑。此外，对于对象引用的数据成员，引用的对象必须是有效不可变的。(这将禁止具有数组值的属性，因为当数组引用被声明为volatile时，只有引用而不是数组本身具有volatile语义)。对于任何volatile变量，不变式或约束都不能包含JavaBean属性。</p>
-<pre><code>@ThreadSafe
-public class Person {
-    private volatile String firstName;
-    private volatile String lastName;
-    private volatile int age;
-
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
-    public int getAge() { return age; }
-
-    public void setFirstName(String firstName) { 
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) { 
-        this.lastName = lastName;
-    }
-
-    public void setAge(int age) { 
-        this.age = age;
-    }
-}
-</code></pre><h5 id="模式5：volatile-高级模式，开销较低的读-写锁策略"><a href="#模式5：volatile-高级模式，开销较低的读-写锁策略" class="headerlink" title="模式5：volatile 高级模式，开销较低的读-写锁策略"></a>模式5：volatile 高级模式，开销较低的读-写锁策略</h5><p>如果读操作远远超过写操作，您可以结合使用内部锁和volatile变量来减少公共代码路径的开销。</p>
-<pre><code>@ThreadSafe
-public class CheesyCounter {
-    // Employs the cheap read-write lock trick
-    // All mutative operations MUST be done with the &apos;this&apos; lock held
-    @GuardedBy(&quot;this&quot;) private volatile int value;
-
-    public int getValue() { return value; }
-
-    public synchronized int increment() {
-        return value++;
-    }
-}
-</code></pre><p>上述中显示的线程安全的计数器使用synchronized确保增量操作是原子的，并使用volatile保证当前结果的可见性。如果更新不频繁的话，该方法可实现更好的性能，因为读路径的开销仅仅涉及volatile读操作，这通常要优于一个无竞争的锁获取的开销。</p>
-<h4 id="voaltile-与-static"><a href="#voaltile-与-static" class="headerlink" title="voaltile 与 static"></a>voaltile 与 static</h4><p>volatile，声明这个字段易变(可能被多个线程使用)，java内存模型负责各个线程的工作区与主存区的该字段的值保持同步，即一致性；强调变量值的唯一性；</p>
-<p>static，声明这个字段是静态的(可能被多个实例共享)，在主存区上该类的所有实例的该字段为同一个变量，即唯一性；强调变量的唯一性。</p>
 
           
         
@@ -2714,398 +3152,6 @@ enum Action {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/14/sort-stack-by-stack/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/14/sort-stack-by-stack/" itemprop="url">用一个栈实现另一个栈的排序</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-14T00:00:00Z">
-                2017-02-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>一个栈中的元素的类型为整型，现在想将该栈从顶到底按从大到小的顺序排序，只许申请一个栈。除此之外，可以申请新的变量，但不能申请额外的数据结构。如何完成排序？
-</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>士 ★☆☆☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>将要排序的栈记为stack，申请的辅助栈记为help。在stack上执行pop操作，弹出的元素记为cur。
-</code></pre><ul>
-<li>如果cur小于或等于help的栈顶元素，将cur压入help；</li>
-<li>如果cur大于help的栈顶元素，则将help元素逐个弹出，并压入stack，直至cur小于或等于栈顶元素，将cur压入help；</li>
-</ul>
-<p>示例代码如下：</p>
-<pre><code>import java.util.Stack;
-
-public class SortStackByStack {
-
-    public static void main(String[] args) {
-        Stack&lt;Integer&gt; ss = new Stack&lt;&gt;();
-        ss.push(7);
-        ss.push(2);
-        ss.push(8);
-        ss.push(3);
-        ss.push(9);
-        sortStackByStack(ss);
-
-    }
-
-    public static void sortStackByStack(Stack&lt;Integer&gt; stack) {
-        Stack&lt;Integer&gt; help = new Stack&lt;&gt;();
-        while (!stack.isEmpty()) {
-            int cur = stack.pop();
-            while (!help.isEmpty() &amp;&amp; help.peek() &lt; cur) {
-                stack.push(help.pop());
-            }
-            help.push(cur);
-        }
-        while (!help.isEmpty()) {
-            stack.push(help.pop());
-        }
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/13/optimization-app-launch/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/13/optimization-app-launch/" itemprop="url">Android app 启动优化</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-13T00:00:00Z">
-                2017-02-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><pre><code>Android Application与其他移动平台有两个重大不同点：
-
-1.每个Android App都在一个独立空间里，意味着其运行在一个单独的进程中，拥有自己的VM，被系统分配一个唯一的user ID.
-
-2.Android App由很多不同组件(四大组件)组成，这些组件还可以启动其他App的组件，因此，Android App并没有一个类似程序入口的main()方法。
-
-
-
-Android进程与Linux进程一样。默认情况下，每个apk运行在自己的Linux进程中。另外，默认一个进程里面只有一个线程-主线程。这个主线程中有一个Looper实例，通过调用Looper.loop()从Message队列里面取出Message来做相应的处理。
-</code></pre><h4 id="进程启动策略"><a href="#进程启动策略" class="headerlink" title="进程启动策略"></a>进程启动策略</h4><pre><code>简单的说，进程在其需要时被启动。任意时候，当用户或其他组件调取你apk中的任意组件时，如果你的apk没有运行，系统会为其创建一个新的进程并启动。通常，这个进程会持续运行直到被系统杀死。关键是：进程是在被需要的时候才创建。
-</code></pre><h4 id="Android系统的启动"><a href="#Android系统的启动" class="headerlink" title="Android系统的启动"></a>Android系统的启动</h4><pre><code>与众多基于Linux内核的系统类似，Android系统启动时，bootloader启动内核和init进程，init进程分裂出更多名为&quot;daemons&quot;的底层的Linux进程(守护进程)。诸如android debug daemon,USB daemon等。这些守护进程处理底层硬件相关的接口。
-
-随后，init进程会启动一个非常有意思的进程：“Zygote”。这是一个Android平台的非常基础的进程。这个进程初始化了第一个VM，并且预加载了framework和众多App所需要的通用资源。然后它开启一个Socket接口来监听请求，一旦收到新的请求，Zygote会根据请求，基于自身预加载的VM来孵化出一个新的VM创建一个新的进程。
-
-启动Zygote之后，init进程会启动runtime进程。Zygote会孵化出一个超级管理进程：System Server。 SystemServer会启动所有系统核心服务，例如Activity Manger Service,硬件相关的Service等。到此，系统准备好启动它的第一个App进程：Home进程了。
-</code></pre><h4 id="App的启动"><a href="#App的启动" class="headerlink" title="App的启动"></a>App的启动</h4><p><img src="/images/Application_launch.jpg" alt="app launch"></p>
-<p>&gt;<br>click事件会调用<code>startActivity(Intent)</code>，会通过Binder IPC机制，最终调用到ActivityManagerService.该Service会执行如下操作：<br>&gt;</p>
-<ul>
-<li>第一步通过PackageManager的resolveIntent()收集这个intent对象的指向信息</li>
-<li>指向信息被存储在一个intent对象中</li>
-<li>下面重要的一步是通过<code>grantUriPermissionLocked()</code>方法来验证用户是否有足够的权限去调用该Intent对象指向的Activity</li>
-<li>如果有权限，ActivityManagerService会检查并在新的task中启动目标activity</li>
-<li>现在，是时候检查这个进程的ProcessRecord是否存在了</li>
-<li>如果PrecessRecord为null，ActivityManagerService会创建新的进程来实例化目标activity。</li>
-</ul>
-<h5 id="创建进程"><a href="#创建进程" class="headerlink" title="创建进程"></a>创建进程</h5><blockquote>
-<p>ActivityManagerService调用<code>startProcessLocked()</code>方法来创建新的进程，该方法通过前面讲到的socket通道传递参数给Zygote进程。Zygote孵化自身，并调用<code>ZygoteInit.main()</code>方法来实例化ActivityThread对象并最终返回新进程的pid.<br>ActivityThread随后依次调用<code>Looper.prepareLoop()</code>和<code>Looper.loop()</code>来开启消息循环。</p>
-</blockquote>
-<p>流程图如下：<br><img src="/images/process_creation.jpg" alt="process creation"></p>
-<h5 id="绑定Application"><a href="#绑定Application" class="headerlink" title="绑定Application"></a>绑定Application</h5><blockquote>
-<p>接下来要做的就是将进程和指定的Application绑定起来。这个是通过上一节的ActivityThread对象中调用<code>bindApplication()</code>方法完成的。该方法发送一个BIND_APPLICATION的消息到消息队列中，最终通过<code>handleBindApplication()</code>处理该消息。然后调用<code>makeApplication()</code>方法来加载App的classes到内存中。<br> 流程如下：</p>
-</blockquote>
-<p><img src="/images/bind_application.jpg" alt="bind application"></p>
-<h5 id="启动Activity"><a href="#启动Activity" class="headerlink" title="启动Activity"></a>启动Activity</h5><blockquote>
-<p>经过前两个步骤之后，系统已经拥有了该application的进程。后面的调用顺序就是普通的从一个已经存在的进程中启动一个新进程的activity了。<br>实际调用方法是<code>realStartActivity()</code>，它会调用application线程对象中的<code>sheduleLaunchActivity()</code>发送一个LAUNCH_ACTIVITY消息到消息队列中，通过<code>handleLaunchActivity()</code>来处理该消息。</p>
-</blockquote>
-<p> 假设点击的是一个视频浏览的App，其流程如下：</p>
-<p><img src="/images/start_activity.jpg" alt="start activity"></p>
-<h5 id="Activity显示"><a href="#Activity显示" class="headerlink" title="Activity显示"></a>Activity显示</h5><blockquote>
-<p>Activity被创建出来后，会依次加载主题样式Theme中的windowBackground等属性，以及配置Activity层级上的一些属性，再inflate布局，当onCreate、onStart、onResume方法都走完，最后才进行setContentView的measure、layout、draw显示在界面上，此时可以看到App的第一帧画面了。</p>
-</blockquote>
-<p>如图：<br><img src="/images/display_activity.png" alt="display activity"></p>
-<h4 id="测量App的启动时间"><a href="#测量App的启动时间" class="headerlink" title="测量App的启动时间"></a>测量App的启动时间</h4><pre><code>activity的启动时执行的方法：onCreat()、onStart()、onResume()的生命周期结束了，应用也不算是完全启动，还需要等View树全部构建完毕，一般认为，setContentView中的View全部显示结束了，算作是应用完全启动了。
-</code></pre><h5 id="Display-Time"><a href="#Display-Time" class="headerlink" title="Display Time"></a>Display Time</h5><pre><code>api19之后，Android系统Log中增加了ActivityManager:Displayed [packageName/activityName]: time。所以，在Android Monitor中使用 ActivityManager:Displayed filter，查看启动首页的时间，这个时间是Activity启动到Layout全部显示的时间。
-</code></pre><p>图为抓取微信开启时间：<br><img src="/images/display_time.png" alt="wechat display time"></p>
-<h5 id="ADB命令查看启动时间"><a href="#ADB命令查看启动时间" class="headerlink" title="ADB命令查看启动时间"></a>ADB命令查看启动时间</h5><p><code>adb shell am start -W [packageName]/[packageName.MainActivity]</code></p>
-<p><img src="/images/adb_launch_time.png" alt="adb see launch time"><br>&gt;</p>
-<ul>
-<li>ThisTime：最后一个启动的Activity的启动耗时；</li>
-<li>TotalTime:到达当前页面的所有Activity的启动耗时；</li>
-<li>WaitTime：ActivityManagerService启动App的Activity时的总时间，包括当前Activity的onPause()和目的Activity的启动。</li>
-</ul>
-<p><code>adb shell screenrecord --bugreport /sdcard/ScreenRecord.mp4</code></p>
-<p>&gt;<br>这是一个录屏命令，和Android Monitor的Screen Recorder Options的功能一样，<code>bugreport</code>参数决定了视屏左上角会增加录制视频的时间和当前画面所在的帧数。个人感觉这玩意儿比较鸡肋。</p>
-<h5 id="代码中自定义上报启动时间"><a href="#代码中自定义上报启动时间" class="headerlink" title="代码中自定义上报启动时间"></a>代码中自定义上报启动时间</h5><p>由于我们在一个App启动的开始，会做一些预操作，比如：</p>
-<ul>
-<li>加载第三方黑盒SDK</li>
-<li>网络、图片等框架的构造</li>
-<li>业务数据预请求</li>
-</ul>
-<p>所以ActivityManager:Displayed并不能精确我们App完全的启动时间。我们可以在API&gt;=19的版本，在这些预操作做完之后手动调用<code>reportFullyDrawn</code>。这样Log中会增加一条日志：</p>
-<p><img src="/images/report_full_drawn.png" alt="reportFullyDrawn time"></p>
-<h4 id="优化点"><a href="#优化点" class="headerlink" title="优化点"></a>优化点</h4><h5 id="背景Theme"><a href="#背景Theme" class="headerlink" title="背景Theme"></a>背景Theme</h5><pre><code>当系统加载一个Activity的时候，onCreate()是一个耗时过程，为增加用户体验，系统会优先绘制一些初始界面：根据当前Activity的Theme来绘制，当Activity加载完毕后，才会替换为真正的界面。代码如下：
-</code></pre><blockquote>
-<pre><code>&lt;layer-list xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-            android:opacity=&quot;opaque&quot;&gt;
-&lt;!-- android:opacity=&quot;opaque&quot;防止在启动的时候出现背景的闪烁 --&gt;
-    &lt;item android:drawable=&quot;@android:color/darker_gray&quot;/&gt;
-    &lt;item&gt;
-        &lt;bitmap
-            android:gravity=&quot;center&quot;
-            android:src=&quot;@mipmap/ic_launcher&quot;/&gt;
-    &lt;/item&gt;
-&lt;/layer-list&gt;
-</code></pre></blockquote>
-<p>&gt;<br>    <style name="StartStyle" parent="AppTheme"><br>        <item name="android:windowBackground">@drawable/start_window</item><br>    </style></p>
-<h5 id="异步初始化"><a href="#异步初始化" class="headerlink" title="异步初始化"></a>异步初始化</h5><pre><code>根据业务，利用多线程，IntentService等来异步和延迟初始化的操作 
-</code></pre><h5 id="资源优化"><a href="#资源优化" class="headerlink" title="资源优化"></a>资源优化</h5><blockquote>
-<ul>
-<li>布局宽而浅，不要窄而深</li>
-<li>使用.9</li>
-<li>tinyPNG</li>
-<li>混淆</li>
-</ul>
-</blockquote>
-<h4 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h4><p><a href="https://developer.android.com/topic/performance/launch-time.html" target="_blank" rel="external">Launch-Time Performance </a></p>
-<p><a href="http://www.jianshu.com/p/a5532ecc8377" target="_blank" rel="external">Android Application启动流程分析</a></p>
-<p><a href="https://segmentfault.com/a/1190000007406875#articleHeader9" target="_blank" rel="external">一触即发 App启动优化最佳实践</a></p>
-<p>在线检测App：<a href="https://nimbledroid.com/" target="_blank" rel="external">nimbledroid</a> </p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -3155,7 +3201,7 @@ Android进程与Linux进程一样。默认情况下，每个apk运行在自己�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">102</span>
+                <span class="site-state-item-count">104</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
