@@ -2,8 +2,8 @@
 layout: post
 title:  Android电量优化:Battery Historian 使用准备
 date:   2018-01-04
-categories: android
-tag: Android
+categories: Android
+tag: android
 ---
 
 [battery-historian](https://github.com/google/battery-historian) 是google官方提供的,一款优秀的电量分析工具.

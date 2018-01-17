@@ -2,8 +2,8 @@
 layout: post
 title:  Android电量优化(使用Battery Historian)
 date:   2018-01-08
-categories: android
-tag: Android
+categories: Android
+tag: android
 ---
 
 #### 目录 ####
