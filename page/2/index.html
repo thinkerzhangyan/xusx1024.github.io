@@ -267,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1010/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1007/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -286,7 +286,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/25/pat-yi-1010/" itemprop="url">乙1010. 一元多项式求导 (25)</a></h1>
+                <a class="post-title-link" href="/2017/12/25/pat-yi-1007/" itemprop="url">乙1007. 素数对猜想 (20)</a></h1>
         
 
         <div class="post-meta">
@@ -357,70 +357,243 @@
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>设计函数求一元多项式的导数。（注：xn（n为整数）的一阶导数为n*xn-1。）
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>让我们定义 dn 为：dn = pn+1 - pn，其中 pi 是第i个素数。显然有 d1=1 且对于n&gt;1有 dn 是偶数。
 
-输入格式：以指数递降方式输入多项式非零项系数和指数（绝对值均为不超过1000的整数）。数字间以空格分隔。
+“素数对猜想”认为“存在无穷多对相邻且差为2的素数”。
 
-输出格式：以与输入相同的格式输出导数多项式非零项的系数和指数。数字间以空格分隔，但结尾不能有多余空格。
+现给定任意正整数N (&lt; 105)，请计算不超过N的满足猜想的素数对的个数。
 
-注意“零多项式”的指数和系数都是0，但是表示为“0 0”。
+输入格式：每个测试输入包含1个测试用例，给出正整数N。
+
+输出格式：每个测试用例的输出占一行，不超过N的满足猜想的素数对的个数。
 
 输入样例：
-3 4 -5 2 6 1 -2 0
+20
 输出样例：
-12 3 -10 1 6 0
+4
 </code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
 
-public class No1010 {
-
-    public static void mains(String[] args) {
-        Scanner in = new Scanner(System.in);
-        String str = in.nextLine();
-        in.close();
-        String[] datas = str.split(&quot; &quot;);
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i &lt; datas.length; i += 2) {
-            if (i % 2 == 0 &amp;&amp; i &lt; datas.length - 1) {
-                int x = Integer.parseInt(datas[i]) * Integer.parseInt(datas[i + 1]);
-                if (Integer.parseInt(datas[i]) == 0 &amp;&amp; Integer.parseInt(datas[i + 1]) == 0) {
-                    sb.append(&quot;0 0 &quot;);
-                } else if (x == 0) {
-                    continue;
-                } else {
-                    sb.append(x).append(&quot; &quot;).append(Integer.parseInt(datas[i + 1]) - 1).append(&quot; &quot;);
-                }
-            }
-        }
-        System.out.println(sb.toString().trim());
-    }
+/**
+ * No.1007: 素数对猜想 (20)
+ * 
+ * @author sxx.xu
+ *
+ */
+public class No1007 {
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        boolean isHaveOutput = false;
-        while (in.hasNext()) {
-            int expon = in.nextInt();
-            int coef = in.nextInt();
-            if (expon * coef != 0) {
-                if (isHaveOutput) {
-                    System.out.print(&quot; &quot;);
-                } else {
-                    isHaveOutput = true;
-                }
-                System.out.print(expon * coef + &quot; &quot; + (coef - 1));
-            }
-        }
+        int total = in.nextInt();
+        int times = 0;
         in.close();
 
-        System.out.println(isHaveOutput);
-        if (!isHaveOutput) {
-            System.out.print(&quot;0 0&quot;);
+        for (int i = 1; i &lt;= total - 2; i++) {
+            if (isSu(i) &amp;&amp; isSu(i + 2)) {
+                times++;
+            }
         }
+        System.out.println(times);
+    }
+
+    static boolean isSu(int a) {
+        boolean flag = true;
+        if (a &lt; 2) {
+            return false;
+        } else {
+            for (int i = 2; i &lt;= Math.sqrt(a); i++) {
+                if (a % i == 0) {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        return flag;
     }
 }
-</code></pre><h4 id="疑惑"><a href="#疑惑" class="headerlink" title="疑惑"></a>疑惑</h4><ul>
-<li>好多人的解法,如果结果为空,则输出”0 0”,不知道从何而来</li>
+</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li>Math不需要import语句</li>
+<li>求解素数,循环整除的上限是该数的平方根</li>
 </ul>
 
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/pat-yi-1006/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/22/pat-yi-1006/" itemprop="url">乙1006. 换个格式输出整数 (15)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T00:00:00Z">
+                2017-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>让我们用字母B来表示“百”、字母S表示“十”，用“12...n”来表示个位数字n（&lt;10），换个格式来输出任一个不超过3位的正整数。
+
+例如234应该被输出为BBSSS1234，因为它有2个“百”、3个“十”、以及个位的4。
+
+输入格式：每个测试输入包含1个测试用例，给出正整数n（&lt;1000）。
+
+输出格式：每个测试用例的输出占一行，用规定的格式输出n。
+
+输入样例1：
+234
+输出样例1：
+BBSSS1234
+输入样例2：
+23
+输出样例2：
+SS123
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+
+/**
+ * No.1006: 换个格式输出整数 (15)
+ * 
+ * @author sxx.xu
+ *
+ */
+public class No1006 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int num = in.nextInt();
+        in.close();
+        final String bai = &quot;B&quot;;
+        final String ten = &quot;S&quot;;
+        final String ge = &quot;123456789&quot;;
+        int a = num / 100;
+        int b = (num - a * 100) / 10;
+        int c = num - a * 100 - b * 10;
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i &lt; a; i++)
+            sb.append(bai);
+        for (int j = 0; j &lt; b; j++)
+            sb.append(ten);
+        sb.append(ge.substring(0, c));
+        System.out.println(sb.toString());
+
+    }
+}
+</code></pre>
           
         
       
@@ -682,7 +855,7 @@ public class No1005 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/pat-yi-1006/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1002/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -701,186 +874,7 @@ public class No1005 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/22/pat-yi-1006/" itemprop="url">乙1006. 换个格式输出整数 (15)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T00:00:00Z">
-                2017-12-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>让我们用字母B来表示“百”、字母S表示“十”，用“12...n”来表示个位数字n（&lt;10），换个格式来输出任一个不超过3位的正整数。
-
-例如234应该被输出为BBSSS1234，因为它有2个“百”、3个“十”、以及个位的4。
-
-输入格式：每个测试输入包含1个测试用例，给出正整数n（&lt;1000）。
-
-输出格式：每个测试用例的输出占一行，用规定的格式输出n。
-
-输入样例1：
-234
-输出样例1：
-BBSSS1234
-输入样例2：
-23
-输出样例2：
-SS123
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-
-/**
- * No.1006: 换个格式输出整数 (15)
- * 
- * @author sxx.xu
- *
- */
-public class No1006 {
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int num = in.nextInt();
-        in.close();
-        final String bai = &quot;B&quot;;
-        final String ten = &quot;S&quot;;
-        final String ge = &quot;123456789&quot;;
-        int a = num / 100;
-        int b = (num - a * 100) / 10;
-        int c = num - a * 100 - b * 10;
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i &lt; a; i++)
-            sb.append(bai);
-        for (int j = 0; j &lt; b; j++)
-            sb.append(ten);
-        sb.append(ge.substring(0, c));
-        System.out.println(sb.toString());
-
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1001/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1001/" itemprop="url">乙1001. 害死人不偿命的(3n+1)猜想 (15)</a></h1>
+                <a class="post-title-link" href="/2017/12/21/pat-yi-1002/" itemprop="url">乙1002. 写出这个数 (20)</a></h1>
         
 
         <div class="post-meta">
@@ -951,39 +945,43 @@ public class No1006 {
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>卡拉兹(Callatz)猜想：
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入一个自然数n，计算其各位数字之和，用汉语拼音写出和的每一位数字。
 
-对任何一个自然数n，如果它是偶数，那么把它砍掉一半；如果它是奇数，那么把(3n+1)砍掉一半。这样一直反复砍下去，最后一定在某一步得到n=1。卡拉兹在1950年的世界数学家大会上公布了这个猜想，传说当时耶鲁大学师生齐动员，拼命想证明这个貌似很傻很天真的命题，结果闹得学生们无心学业，一心只证(3n+1)，以至于有人说这是一个阴谋，卡拉兹是在蓄意延缓美国数学界教学与科研的进展……
+输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。这里保证n小于10100。
 
-我们今天的题目不是证明卡拉兹猜想，而是对给定的任一不超过1000的正整数n，简单地数一下，需要多少步（砍几下）才能得到n=1？
-
-输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。
-
-输出格式：输出从n计算到1需要的步数。
+输出格式：在一行内输出n的各位数字之和的每一位，拼音数字间有1 空格，但一行中最后一个拼音数字后没有空格。
 
 输入样例：
-3
+1234567890987654321123456789
 输出样例：
-5
+yi san wu
 </code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-public class Main {
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int num = in.nextInt();
-        int times = 0;
-        num = getNum(num);
-        while (num != 1) {
-            num = getNum(num / 2);
-            times++;
-        }
-        System.out.println(times);
-    }
 
-    static int getNum(int num) {
-        while (num % 2 != 0 &amp;&amp; num != 1) {
-            num = 3 * num + 1;
+/**
+ * NO.1002:写出这个数 (20)
+ * 
+ * @author sxx.xu
+ *
+ */
+public class No1002 {
+
+    public static void main(String[] args) {
+        String[] com = new String[] { &quot;ling &quot;, &quot;yi &quot;, &quot;er &quot;, &quot;san &quot;, &quot;si &quot;, &quot;wu &quot;, &quot;liu &quot;, &quot;qi &quot;, &quot;ba &quot;, &quot;jiu &quot; };
+        Scanner in = new Scanner(System.in);
+        String num = in.nextLine().trim();
+        char[] nums = num.toCharArray();
+        int ans = 0;
+        for (char c : nums) {
+            ans += Integer.parseInt(String.valueOf(c));
         }
-        return num;
+
+        String res = String.valueOf(ans);
+        nums = res.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        for (char c : nums) {
+            sb.append(com[Integer.parseInt(String.valueOf(c))]);
+        }
+        System.out.println(sb.toString().trim());
     }
 
 }
@@ -1217,7 +1215,7 @@ public class No1004 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1002/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1001/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -1236,7 +1234,7 @@ public class No1004 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1002/" itemprop="url">乙1002. 写出这个数 (20)</a></h1>
+                <a class="post-title-link" href="/2017/12/21/pat-yi-1001/" itemprop="url">乙1001. 害死人不偿命的(3n+1)猜想 (15)</a></h1>
         
 
         <div class="post-meta">
@@ -1307,43 +1305,39 @@ public class No1004 {
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入一个自然数n，计算其各位数字之和，用汉语拼音写出和的每一位数字。
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>卡拉兹(Callatz)猜想：
 
-输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。这里保证n小于10100。
+对任何一个自然数n，如果它是偶数，那么把它砍掉一半；如果它是奇数，那么把(3n+1)砍掉一半。这样一直反复砍下去，最后一定在某一步得到n=1。卡拉兹在1950年的世界数学家大会上公布了这个猜想，传说当时耶鲁大学师生齐动员，拼命想证明这个貌似很傻很天真的命题，结果闹得学生们无心学业，一心只证(3n+1)，以至于有人说这是一个阴谋，卡拉兹是在蓄意延缓美国数学界教学与科研的进展……
 
-输出格式：在一行内输出n的各位数字之和的每一位，拼音数字间有1 空格，但一行中最后一个拼音数字后没有空格。
+我们今天的题目不是证明卡拉兹猜想，而是对给定的任一不超过1000的正整数n，简单地数一下，需要多少步（砍几下）才能得到n=1？
+
+输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。
+
+输出格式：输出从n计算到1需要的步数。
 
 输入样例：
-1234567890987654321123456789
+3
 输出样例：
-yi san wu
+5
 </code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-
-/**
- * NO.1002:写出这个数 (20)
- * 
- * @author sxx.xu
- *
- */
-public class No1002 {
-
+public class Main {
     public static void main(String[] args) {
-        String[] com = new String[] { &quot;ling &quot;, &quot;yi &quot;, &quot;er &quot;, &quot;san &quot;, &quot;si &quot;, &quot;wu &quot;, &quot;liu &quot;, &quot;qi &quot;, &quot;ba &quot;, &quot;jiu &quot; };
         Scanner in = new Scanner(System.in);
-        String num = in.nextLine().trim();
-        char[] nums = num.toCharArray();
-        int ans = 0;
-        for (char c : nums) {
-            ans += Integer.parseInt(String.valueOf(c));
+        int num = in.nextInt();
+        int times = 0;
+        num = getNum(num);
+        while (num != 1) {
+            num = getNum(num / 2);
+            times++;
         }
+        System.out.println(times);
+    }
 
-        String res = String.valueOf(ans);
-        nums = res.toCharArray();
-        StringBuilder sb = new StringBuilder();
-        for (char c : nums) {
-            sb.append(com[Integer.parseInt(String.valueOf(c))]);
+    static int getNum(int num) {
+        while (num % 2 != 0 &amp;&amp; num != 1) {
+            num = 3 * num + 1;
         }
-        System.out.println(sb.toString().trim());
+        return num;
     }
 
 }
@@ -2243,7 +2237,7 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2254,7 +2248,7 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
