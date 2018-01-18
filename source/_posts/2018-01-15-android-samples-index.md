@@ -8,6 +8,10 @@ tag: android
 
 [Google 官方示例](https://developer.android.com/samples/index.html)
 
+	好东西真多.
+	因为墙的原因,不可用的也很多.
+	如果可以,选择国内类似服务,或者自己模拟搭建服务.
+
 ### A ###
 
 #### AppShortcuts(快捷方式) ####
@@ -156,11 +160,6 @@ tag: android
 
 - [项目地址](https://github.com/googlesamples/android-architecture-components/tree/master/PagingSample/#readme)
 - 官方MVVM架构-分页
-
-#### Audio-Echo ####
-
-- [项目地址](https://github.com/googlesamples/android-ndk/tree/master/audio-echo/#readme)
-- 使用OpenSL ES创建音频播放器和记录器,NDK开发
 
 #### Audio-Echo ####
 
@@ -532,6 +531,11 @@ tag: android
 - [项目地址](https://github.com/googlesamples/android-GridViewPager/#readme)
 - 可穿戴设备上的GridViewPager
 
+#### gles3jni ####
+
+- [项目地址](https://github.com/googlesamples/android-ndk/tree/master/gles3jni/#readme)
+- 示例如何JNI调用`OpenGL ES 3.0`
+
 ### H ###
 
 #### HdrViewfinder ####
@@ -558,6 +562,11 @@ tag: android
 
 - [项目地址](https://github.com/googlesamples/android-HorizontalPaging/#readme)
 - viewpager + fragment
+
+#### hello-libs ####
+
+- [项目地址](https://github.com/googlesamples/android-ndk/tree/master/hello-libs/#readme)
+- 示例展示了在AS中,如何管理第三方C/C++库.
 
 ### I ###
 
@@ -586,6 +595,40 @@ tag: android
 - [项目地址](https://github.com/googlesamples/android-instant-apps/tree/master/flavors/#readme)
 - 即时App(依赖GooglePlay),gradle的flavor示例
 
+#### Instant Apps - Google Analytics ####
+
+- [项目地址](https://github.com/googlesamples/android-instant-apps/tree/master/analytics/#readme)
+- 即时App(依赖GooglePlay),Google 分析示例
+
+#### Instant Apps - Hello World ####
+
+- [项目地址](https://github.com/googlesamples/android-instant-apps/tree/master/hello-java/#readme)
+- 即时App(依赖GooglePlay),基本示例
+
+#### Instant Apps - Install API ####
+
+- [项目地址](https://github.com/googlesamples/android-instant-apps/tree/master/install-api/#readme)
+- 即时App(依赖GooglePlay),安装apk到设备示例
+
+#### Instant Apps - Multi feature ####
+
+- [项目地址](https://github.com/googlesamples/android-instant-apps/tree/master/multi-feature-module/#readme)
+- 即时App(依赖GooglePlay),示例构建了一个可安装的apk和一个即时app.即时app有2个功能,可以单独的在设备上使用.
+
+#### Instant Apps - Service ####
+
+- [项目地址](https://github.com/googlesamples/android-instant-apps/tree/master/service/#readme)
+- 即时App(依赖GooglePlay),instant app如何start或bind一个服务.
+
+#### Instant Apps - Storage API ####
+
+- [项目地址](https://github.com/googlesamples/android-instant-apps/tree/master/storage-api/#readme)
+- 即时App(依赖GooglePlay),instant app存储的数据,正式安装后的apk转换存储数据使用该api示例.
+
+#### Interpolator ####
+
+- [项目地址](https://github.com/googlesamples/android-Interpolator/#readme)
+- 材料设计的插值动画和路径动画.
 
 ### J ###
 
@@ -594,12 +637,59 @@ tag: android
 - [项目地址](https://github.com/googlesamples/android-JobScheduler/#readme)
 - 后台任务示例
 
+#### JumpingJack ####
+
+- [项目地址](https://github.com/googlesamples/android-JumpingJack/#readme)
+- 可穿戴设备上,通过重力传感器,计算你能`开合跳`多少下.
+
+### L ###
+
+#### LNotifications ####
+
+- [项目地址](https://github.com/googlesamples/android-LNotifications/#readme)
+- Android 5.0 的新通知.
+
 ### M ###
 
 #### MessagingService ####
 
 - [项目地址](https://github.com/googlesamples/android-MessagingService/#readme)
 - 使用gms收发消息,国内没法用
+
+#### MediaBrowserService ####
+
+- [项目地址](https://github.com/googlesamples/android-MediaBrowserService/#readme)
+- 如何实现一个媒体app后台播放,提供媒体库给别的app
+
+#### MediaEffects ####
+
+- [项目地址](https://github.com/googlesamples/android-MediaEffects/#readme)
+- 4.0以后的,应用图片效果,像OpenGL ES2.0的 textures一样.
+
+#### MediaRecorder ####
+
+- [项目地址](https://github.com/googlesamples/android-MediaRecorder/#readme)
+- api14以前,使用surfaceview,现在使用textureview,通过摄像头拍摄.
+
+#### MediaRouter ####
+
+- [项目地址](https://github.com/googlesamples/android-MediaRouter/#readme)
+- 自定义媒体无线投射
+
+#### MidiScope ####
+
+- [项目地址](https://github.com/googlesamples/android-MidiScope/#readme)
+- MIDI(乐器数字接口)api示例,比如:枚举当前可用的MIDI设备,设备的插上和拔下,接收MIDI信号.示例展示了接收到的MIDI信号,但是并没有演奏声音.
+
+#### MidiSynth ####
+
+- [项目地址](https://github.com/googlesamples/android-MidiSynth/#readme)
+- MIDI(乐器数字接口)api示例,接收和演奏MIDI信号.
+
+#### MultiWindowPlayground ####
+
+- [项目地址](https://github.com/googlesamples/android-MultiWindowPlayground/#readme)
+- Android N多窗口示例
 
 ### N ###
 
@@ -613,11 +703,52 @@ tag: android
 - [项目地址](https://github.com/googlesamples/android-NotificationChannels/#readme)
 - android o 以后,根据主题,分类通知
 
-
 #### NotificationChannels(Kotlin) ####
 
 - [项目地址](https://github.com/googlesamples/android-NotificationChannels/tree/master/kotlinApp/#readme)
 - android o 以后,根据主题,分类通知
+
+#### Native Activity ####
+
+- [项目地址](https://github.com/googlesamples/android-ndk/tree/master/native-activity/#readme)
+- 本地activity,初始化GLES 2.0上下文,从本地C代码中读取加速度传感器数据.
+
+#### Native Ads Express RecyclerView Sample ####
+
+- [项目地址](https://github.com/googlesamples/android-ads/tree/master/advanced/NativeExpressRecyclerViewExample/#readme)
+- recyclerview列表展示Google 广告,国内没法用
+
+#### Native Audio ####
+
+- [项目地址](https://github.com/googlesamples/android-ndk/tree/master/native-audio/#readme)
+- 使用JNI,调用C++ OpenSLES API,演奏和记录声音
+
+#### Native Plasma ####
+
+- [项目地址](https://github.com/googlesamples/android-ndk/tree/master/native-plasma/#readme)
+- 使用C代码,在一个图片中渲染等离子效果
+
+#### Navigation Drawer ####
+
+- [项目地址](https://github.com/googlesamples/android-NavigationDrawer/#readme)
+- 侧滑导航普通调用
+
+#### NetworkConnect ####
+
+- [项目地址](https://github.com/googlesamples/android-NetworkConnect/#readme)
+- AsyncTask + HttpsURLConnection
+
+#### NfcProvisioning ####
+
+- [项目地址](https://github.com/googlesamples/android-NfcProvisioning/#readme)
+- 使用NFC和设备拥有者提供诶一个新的设备.
+- 设备拥有者是是特殊的设备管理员,可以控制设备的安全和配置.
+- 示例本身不是一个设备拥有者,但是他发送了NFC消息给未设置对等设备,并且告诉对方知道设备的拥有者.
+
+#### NetworkConnect ####
+
+- [项目地址](https://github.com/googlesamples/android-NetworkConnect/#readme)
+- AsyncTask + HttpsURLConnection
 
 ### P ###
 
@@ -631,6 +762,23 @@ tag: android
 - [项目地址](https://github.com/googlesamples/android-PictureInPicture/tree/master/kotlinApp/#readme)
 - android o,画中画
 
+#### PdfRendererBasic ####
+
+- [项目地址](https://github.com/googlesamples/android-PdfRendererBasic/#readme)
+- android 5.0,显示PDF
+
+#### PermissionRequest ####
+
+- [项目地址](https://github.com/googlesamples/android-PermissionRequest/#readme)
+- webview中权限申请
+ 
+### Q ###
+
+#### Quiz ####
+
+- [项目地址](https://github.com/googlesamples/android-Quiz/#readme)
+- webview中权限申请
+ 
 ### R ###
 
 #### RecyclerView ####
@@ -648,16 +796,233 @@ tag: android
 - [项目地址](https://github.com/googlesamples/android-RecipeAssistant/#readme)
 - 加强的通知api,可以发送至可穿戴设备
 
+#### RenderScriptIntrinsic ####
+
+- [项目地址](https://github.com/googlesamples/android-RenderScriptIntrinsic/#readme)
+- `RenderScript intrinsics`使用示例,图片渲染
+
+#### RepeatingAlarm ####
+
+- [项目地址](https://github.com/googlesamples/android-RepeatingAlarm/#readme)
+- 一个重复的提醒
+
+#### RevealEffectBasic ####
+
+- [项目地址](https://github.com/googlesamples/android-RevealEffectBasic/#readme)
+- 圆形揭露动画,用于按钮点击,页面跳转.点击时,页面出现一个渐变的圆圈.
+
+#### Room & RxJava ####
+
+- [项目地址](https://github.com/googlesamples/android-architecture-components/tree/master/BasicRxJavaSample/#readme)
+- Room 和 RxJava搭配示例
+
+#### Room & RxJava(Kotlin) ####
+
+- [项目地址](https://github.com/googlesamples/android-architecture-components/tree/master/BasicRxJavaSampleKotlin/#readme)
+- Room 和 RxJava搭配示例
+
+#### Room with Content Providers ####
+
+- [项目地址](https://github.com/googlesamples/android-architecture-components/tree/master/PersistenceContentProviderSample/#readme)
+- Room 和 内容提供者搭配示例
+
+#### RuntimePermissionsBasic ####
+
+- [项目地址](https://github.com/googlesamples/android-RuntimePermissionsBasic/#readme)
+- 基本的运行时权限
+
+#### RuntimePermissionsWear ####
+
+- [项目地址](https://github.com/googlesamples/android-RuntimePermissionsWear/#readme)
+- 可穿戴设备的运行时权限
+
+### S ###
+
+#### Sample Android TV Channel App (TV Input) using TIF ####
+
+- [项目地址](https://github.com/googlesamples/androidtv-sample-inputs/#readme)
+- 一个电视app示例
+
+#### San Angeles ####
+
+- [项目地址](https://github.com/googlesamples/android-ndk/tree/master/san-angeles/#readme)
+- 一个示例使用 GLES C/API来渲染过程场景
+
+#### ScopedDirectoryAccess ####
+
+- [项目地址](https://github.com/googlesamples/android-ScopedDirectoryAccess/#readme)
+- 利用Scoped Directory Access API进入指定的目录,不需要请求权限
+
+#### ScreenCapture ####
+
+- [项目地址](https://github.com/googlesamples/android-ScreenCapture/#readme)
+- 利用Media Projection API,实时截图
+
+#### Sensor-Graph ####
+
+- [项目地址](https://github.com/googlesamples/android-ndk/tree/master/sensor-graph/#readme)
+- 把传感器的变化用图形表示出来.示例读取当前加速度,使用OpenGL画出变化曲线.
+
+#### Simple example of Android Things Native Peripheral I/O APIs ####
+
+- [项目地址](https://github.com/androidthings/sample-nativepio/#readme)
+- C++,使用 Native PIO APIs,示例附加设备的I/O
+
+#### Simple example of Android Things Peripheral I/O APIs ####
+
+- [项目地址](https://github.com/androidthings/sample-simplepio/#readme)
+- 使用 Native PIO APIs,示例附加设备的I/O
+
+#### SkeletonWearableApp ####
+
+- [项目地址](https://github.com/googlesamples/android-SkeletonWearableApp/#readme)
+- 一个大概的app,可用以开始一个可穿戴开发
+
+#### SlidingTabsBasic ####
+
+- [项目地址](https://github.com/googlesamples/android-SlidingTabsBasic/#readme)
+- 基本的左右滑动切换tab页面
+
+#### SlidingTabsColors ####
+
+- [项目地址](https://github.com/googlesamples/android-SlidingTabsColors/#readme)
+- 左右滑动切换tab页面的指示器颜色,文字颜色,分割线颜色
+
+#### SpeedTracker ####
+
+- [项目地址](https://github.com/googlesamples/android-SpeedTracker/#readme)
+- 可穿戴设备记录位置和速度
+
+#### StorageClient ####
+
+- [项目地址](https://github.com/googlesamples/android-StorageClient/#readme)
+- 使用`OPEN_DOCUMENT `意图,一个客户app可以访问设备上的文档提供者的列表,并且从中选择文件.
+
+#### StorageProvider ####
+
+- [项目地址](https://github.com/googlesamples/android-StorageProvider/#readme)
+- 示例实现了一个简单文档提供者
+
+####  SwipeRefreshLayout ####
+
+- [项目地址](https://github.com/googlesamples/android-SwipeRefreshLayoutBasic/#readme)
+- 官方下拉刷新
+
+####  SwipeRefreshListFragment ####
+
+- [项目地址](https://github.com/googlesamples/android-SwipeRefreshListFragment/#readme)
+- 官方下拉刷新fragment
+
+####  SwipeRefreshMultipleViews ####
+
+- [项目地址](https://github.com/googlesamples/android-SwipeRefreshMultipleViews/#readme)
+- 官方下拉刷新多组视图
+
+####  SynchronizedNotifications ####
+
+- [项目地址](https://github.com/googlesamples/android-SynchronizedNotifications/#readme)
+- 同步通知.允许手机和手表上同时关闭.
+
+### T ###
+
+####  TV Leanback Support Library sample ####
+
+- [项目地址](https://github.com/googlesamples/androidtv-Leanback/#readme)
+- `Leanback Support library`祝你完成更好的电视app
+
+####  Teapots ####
+
+- [项目地址](https://github.com/googlesamples/android-ndk/tree/master/teapots/#readme)
+- 通过渲染一个茶壶,展示Android NDK平台的功能
+
+####  TextLinkify ####
+
+- [项目地址](https://github.com/googlesamples/android-TextLinkify/#readme)
+- 如何给TextView添加链接
+
+####  TextSwitcher ####
+
+- [项目地址](https://github.com/googlesamples/android-TextSwitcher/#readme)
+- `TextSwitcher`来展示文字改变的动画
+
+####  Things Bluetooth Audio sample ####
+
+- [项目地址](https://github.com/androidthings/sample-bluetooth-audio/#readme)
+- Android things里,和音频有关的蓝牙api示例.
+
+####  Things Cloud IoT Sensor Hub ####
+
+- [项目地址](https://github.com/androidthings/sensorhub-cloud-iot/#readme)
+- Android things里,实现一个传感器中心,收集传感器数据.上传到Google Cloud.该服务国内不能用.
+
+####  Things Doorbell ####
+
+- [项目地址](https://github.com/androidthings/doorbell/#readme)
+- Android things里,看起来是个门铃实现.
+
+####  Things Simple UI ####
+
+- [项目地址](https://github.com/androidthings/sample-simpleui/#readme)
+- Android things里,一个开关UI
+
+####  Things TensorFlow image classifier sample ####
+
+- [项目地址](https://github.com/androidthings/sample-tensorflow-imageclassifier/#readme)
+- Android things里,当按下GPIO按钮,当前画面被添加的相机捕获.该图片被覆盖和传入TensorFlow模式,识别图片里的是啥.如果有屏幕就展示识别后的最多三个标签,如果有扬声器,那么就说出来.使用的Google服务,国内不能用.
+
+####  Things Weather Station ####
+
+- [项目地址](https://github.com/androidthings/weatherstation/#readme)
+- Android things里,外围多个设备组成一个连接地天气站.
+
+####  Things driver ####
+
+- [项目地址](https://github.com/androidthings/drivers-samples/#readme)
+- Android things里,外围驱动
+
+####  Timer ####
+
+- [项目地址](https://github.com/googlesamples/android-Timer/#readme)
+- 定时器,可不依靠手机独立运行在可穿戴设备上.
+
+####  Topeka ####
+
+- [项目地址](https://github.com/googlesamples/android-topeka/#readme)
+- 一个有趣的小测试题展示材料设计
+
+####  Trivial Drive ####
+
+- [项目地址](https://github.com/googlesamples/android-play-billing/tree/master/TrivialDrive/#readme)
+- 开车小游戏,展示app内付费,应该是通过Google Play的,国内不能用
+
+####  Trivial Drive2 ####
+
+- [项目地址](https://github.com/googlesamples/android-play-billing/tree/master/TrivialDrive_v2/#readme)
+- 开车小游戏,展示app内付费,应该是通过Google Play的,国内不能用
+
+### U ###
+
+#### UART Loopback sample ####
+
+- [项目地址](https://github.com/androidthings/sample-uartloopback/#readme)
+- Android things里,通过异步收发器,读写数据.
+
+#### USB Enumerator ####
+
+- [项目地址](https://github.com/androidthings/sample-usbenum/#readme)
+- 枚举所有USB设备
+
+#### Universal Android Music Player ####
+
+- [项目地址](https://github.com/googlesamples/android-UniversalMusicPlayer/#readme)
+- 一个音乐播放器,可以在手机,平板,手表,电视,Android Auto(汽车),Google Cast devices这些设备上提供一致的用户体验.
+
 ### V ###
 
 #### Vulkan ####
 
 - [项目地址](https://github.com/googlesamples/vulkan-basic-samples/#readme)
 - 一个C++实现的库,渲染3D图形
-
-
- 
-
 
 ### W ###
 
@@ -675,4 +1040,47 @@ tag: android
 
 - [项目地址](https://github.com/googlesamples/android-WearHighBandwidthNetworking/#readme)
 - 可穿戴设备的带宽处理最佳实践
+ 
+#### WEBP Samples ####
+
+- [项目地址](https://github.com/googlesamples/android-ndk/tree/master/webp/#readme)
+- webp,一种google建议的图片格式.
+ 
+#### WatchViewStub ####
+
+- [项目地址](https://github.com/googlesamples/android-WatchViewStub/#readme)
+- 为圆形,方形的手表指定不同的布局
+ 
+#### WearComplicationProvidersTestSuite  ####
+
+- [项目地址](https://github.com/googlesamples/android-WearComplicationProvidersTestSuite/#readme)
+- 并发测试套装集合,提供了假数据可以用来测试手表的不同类型渲染.
+ 
+#### WearNotifications  ####
+
+- [项目地址](https://github.com/googlesamples/android-WearNotifications/#readme)
+- 手机和手表的通知最佳实践.
+ 
+#### WearSpeakerSample  ####
+
+- [项目地址](https://github.com/googlesamples/android-WearSpeakerSample/#readme)
+- 在可穿戴设备上录音,播音.
+ 
+#### WearVerifyRemoteApp ####
+
+- [项目地址](https://github.com/googlesamples/android-WearVerifyRemoteApp/#readme)
+- 最佳实践:检测已连接的设备是否从周边的可穿戴设备上安装了你的app.(如果安装了就可以传输数据了)
+
+### X ###
+ 
+#### XYZTouristAttractions ####
+
+- [项目地址](https://github.com/googlesamples/android-XYZTouristAttractions/#readme)
+- 示例打算尽可能的通过手机和可穿戴设备接近真实实践.巴拉巴拉吹牛逼的话...
+- 示例模拟一个景点,当用户靠近时通知用户
+- GridViewPage展示图片和文字介绍
+
+
+
+
 
