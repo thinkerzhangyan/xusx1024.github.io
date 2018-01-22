@@ -267,6 +267,171 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/kotlin-extension-function/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/26/kotlin-extension-function/" itemprop="url">kotlin-扩展函数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T00:00:00Z">
+                2017-12-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA & kotlin</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="问题引出"><a href="#问题引出" class="headerlink" title="问题引出"></a>问题引出</h4><p>在调用一个对象的方法的时候,IDE自动提示了如下的方法:(请看图中白色的方法)<br><img src="/images/kotlin_extension_fun.png" alt="1-1"></p>
+<h4 id="追踪"><a href="#追踪" class="headerlink" title="追踪"></a>追踪</h4><pre><code>文件位置`org\jetbrains\kotlin\kotlin-stdlib\1.1.51\kotlin-stdlib-1.1.51.jar!\kotlin\NotImplementedError.class`
+
+打开方法所在的文件,第一行:
+
+@file:kotlin.jvm.JvmMultifileClass // 包名相同,类名也相同,或者有相同的@JvmName注解,会出错,使用此注解
+@file:kotlin.jvm.JvmName(&quot;StandardKt&quot;) // 使用注解,修改生成的Java类的类名
+</code></pre><p>引申:<br>    在Java中,如果需要把kotlin属性作为字段暴露,需要使用@JvmField注解标注.<a href="https://www.kotlincn.net/docs/reference/java-to-kotlin-interop.html" target="_blank" rel="external">更多Java和kotlin互相调用</a></p>
+<p>最后发现这几个函数叫做扩展函数.官方api:<a href="https://www.kotlincn.net/docs/reference/extensions.html" target="_blank" rel="external">链接</a></p>
+<ul>
+<li>能够扩展一个类的新功能而无需继承该类或使用像装饰者这样的设计模式.</li>
+<li>扩展函数不能真正的修改他们所扩展的类.通过定义一个扩展,你并没有在一个类中插入新成员,仅仅是可以通过该类型的变量用点表达式去调用该函数</li>
+<li>图片上的是官方提供的扩展函数,我们也可以自己扩展,参考链接中的注意事项.</li>
+</ul>
+<h4 id="官方扩展函数"><a href="#官方扩展函数" class="headerlink" title="官方扩展函数"></a>官方扩展函数</h4><h6 id="let函数"><a href="#let函数" class="headerlink" title="let函数"></a>let函数</h6><pre><code>let默认当前这个对象作为闭包的it参数，返回值是函数里面最后一行，或者指定return
+</code></pre><ul>
+<li>闭包<ul>
+<li>外部变量 + 函数 组成一个闭包</li>
+<li>通常实现方式为函数内定义另外一个函数</li>
+<li>内部函数可以引用外部函数的变量和参数</li>
+<li>参数和变量不会被垃圾回收器回收</li>
+<li>作用:<ul>
+<li>隐藏关键的变量,把一个全局变量写成局部变量</li>
+<li></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>it参数,一个方法如果只有一个参数,可以用it代替 </li>
+</ul>
+<h6 id="apply函数"><a href="#apply函数" class="headerlink" title="apply函数"></a>apply函数</h6><pre><code>调用某对象的apply函数,在apply里可以调用该对象的任意方法,并返回该对象,如果let指定return it,两个一样的.
+</code></pre><p>buıxbuıɥs‾</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1010/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -421,6 +586,573 @@ public class No1010 {
 <li>好多人的解法,如果结果为空,则输出”0 0”,不知道从何而来</li>
 </ul>
 
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1007/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/25/pat-yi-1007/" itemprop="url">乙1007. 素数对猜想 (20)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T00:00:00Z">
+                2017-12-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>让我们定义 dn 为：dn = pn+1 - pn，其中 pi 是第i个素数。显然有 d1=1 且对于n&gt;1有 dn 是偶数。
+
+“素数对猜想”认为“存在无穷多对相邻且差为2的素数”。
+
+现给定任意正整数N (&lt; 105)，请计算不超过N的满足猜想的素数对的个数。
+
+输入格式：每个测试输入包含1个测试用例，给出正整数N。
+
+输出格式：每个测试用例的输出占一行，不超过N的满足猜想的素数对的个数。
+
+输入样例：
+20
+输出样例：
+4
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+
+/**
+ * No.1007: 素数对猜想 (20)
+ * 
+ * @author sxx.xu
+ *
+ */
+public class No1007 {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int total = in.nextInt();
+        int times = 0;
+        in.close();
+
+        for (int i = 1; i &lt;= total - 2; i++) {
+            if (isSu(i) &amp;&amp; isSu(i + 2)) {
+                times++;
+            }
+        }
+        System.out.println(times);
+    }
+
+    static boolean isSu(int a) {
+        boolean flag = true;
+        if (a &lt; 2) {
+            return false;
+        } else {
+            for (int i = 2; i &lt;= Math.sqrt(a); i++) {
+                if (a % i == 0) {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        return flag;
+    }
+}
+</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li>Math不需要import语句</li>
+<li>求解素数,循环整除的上限是该数的平方根</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1009/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/25/pat-yi-1009/" itemprop="url">乙1009. 说反话 (20)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T00:00:00Z">
+                2017-12-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>给定一句英语，要求你编写程序，将句中所有单词的顺序颠倒输出。
+
+输入格式：测试输入包含一个测试用例，在一行内给出总长度不超过80的字符串。
+
+字符串由若干单词和若干空格组成，其中单词是由英文字母（大小写有区分）组成的字符串，
+
+单词之间用1个空格分开，输入保证句子末尾没有多余的空格。
+
+输出格式：每个测试用例的输出占一行，输出倒序后的句子。
+
+输入样例：
+Hello World Here I Come
+输出样例：
+Come I Here World Hello
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+/**
+ * No.1009. 说反话 (20)
+ * 
+ * @author sxx.xu
+ *
+ */
+public class No1009 {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String str = in.nextLine();
+        in.close();
+        String[] datas = str.split(&quot; &quot;);
+        for (int i = datas.length - 1; i &gt;= 0; i--) {
+            System.out.print(datas[i]);
+            if (i &gt;= 1) {
+                System.out.print(&quot; &quot;);
+            }
+        }
+
+    }
+
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1008/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/25/pat-yi-1008/" itemprop="url">乙1008. 数组元素循环右移问题 (20)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T00:00:00Z">
+                2017-12-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>一个数组A中存有N（N&gt;0）个整数，在不允许使用另外数组的前提下，将每个整数循环向右移M（M&gt;=0）个位置，
+
+即将A中的数据由（A0 A1……AN-1）变换为（AN-M …… AN-1 A0 A1……AN-M-1）（最后M个数循环移至最前面的M个位置）。如果需要考
+
+虑程序移动数据的次数尽量少，要如何设计移动的方法？
+
+输入格式：每个输入包含一个测试用例，第1行输入N ( 1&lt;=N&lt;=100)、M（M&gt;=0）；第2行输入N个整数，之间用空格分隔。
+
+输出格式：在一行中输出循环右移M位以后的整数序列，之间用空格分隔，序列结尾不能有多余空格。
+
+输入样例：
+6 2
+1 2 3 4 5 6
+输出样例：
+5 6 1 2 3 4
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+
+/**
+ * No.1008: 数组元素循环右移问题 (20)
+ * 
+ * @author sxx.xu
+ *
+ */
+public class No1008 {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int total = in.nextInt();
+        int offset = in.nextInt();
+        int[] array = new int[total];
+        for (int i = 0; i &lt; total; i++) {
+            int temp = in.nextInt();
+            if (i + offset &lt; total) {
+                array[i + offset] = temp;
+            } else {
+                array[(i + offset) % total] = temp;
+            }
+        }
+        in.close();
+
+        for (int i = 0; i &lt; total; i++) {
+            System.out.print(array[i]);
+            if (i &lt; total - 1) {
+                System.out.print(&quot; &quot;);
+            }
+        }
+
+    }
+
+}
+</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li>根据示例,我一开始用的数组截取,然后打印,但是有两个测试用例没有通过.代码如下:</li>
+</ul>
+<pre><code>public class No1008 {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String firstLine = in.nextLine();
+        String secondLine = in.nextLine();
+        in.close();
+        String datas[] = secondLine.split(&quot; &quot;);
+        int total = Integer.parseInt(firstLine.split(&quot; &quot;)[0]);
+        int offset = Integer.parseInt(firstLine.split(&quot; &quot;)[1]);
+        StringBuilder sb = new StringBuilder();
+        for (int i = total - offset; i &lt; datas.length; i++) {
+            sb.append(datas[i]).append(&quot; &quot;);
+        }
+        for (int i = 0; i &lt; total - offset; i++) {
+            sb.append(datas[i]).append(&quot; &quot;);
+        }
+        System.out.println(sb.toString().trim());
+    }
+}
+</code></pre>
           
         
       
@@ -1048,228 +1780,6 @@ public class No1004 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1003/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1003/" itemprop="url">乙1003. 我要通过！(20)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
-                2017-12-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>“答案正确”是自动判题系统给出的最令人欢喜的回复。本题属于PAT的“答案正确”大派送 —— 只要读入的字符串满足下列条件，系统就输出“答案正确”，否则输出“答案错误”。
-
-得到“答案正确”的条件是：
-
-    1. 字符串中必须仅有P, A, T这三种字符，不可以包含其它字符；
-    2. 任意形如 xPATx 的字符串都可以获得“答案正确”，其中 x 或者是空字符串，或者是仅由字母 A 组成的字符串；
-    3. 如果 aPbTc 是正确的，那么 aPbATca 也是正确的，其中 a, b, c 均或者是空字符串，或者是仅由字母 A 组成的字符串。
-
-现在就请你为PAT写一个自动裁判程序，判定哪些字符串是可以获得“答案正确”的。
-输入格式： 每个测试输入包含1个测试用例。第1行给出一个自然数n (&lt;10)，是需要检测的字符串个数。接下来每个字符串占一行，字符串长度不超过100，且不包含空格。
-
-输出格式：每个字符串的检测结果占一行，如果该字符串可以获得“答案正确”，则输出YES，否则输出NO。
-
-输入样例：
-8
-PAT
-PAAT
-AAPATAA
-AAPAATAAAA
-xPATx
-PT
-Whatever
-APAAATAA
-输出样例：
-YES
-YES
-YES
-YES
-NO
-NO
-NO
-NO
-</code></pre><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
-<li>这是一道找规律题.发现,最后一个看着应该输出<code>YES</code>,为什么样例给出<code>NO</code>,从这里结合要求[3]找出A的个数的规律.可得:请拉倒页面底部看.</li>
-<li>PT,结合要求[1],得出判定条件.</li>
-</ul>
-<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-
-/**
- * NO.1003: 我要通过！(20)
- * 
- * @author sxx.xu
- *
- */
-public class No1003 {
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int num = Integer.parseInt(scanner.nextLine());
-        boolean[] res = new boolean[num];
-        char chars[];
-        int index = 0;
-        int pIndex = 0;
-        int tIndex = 0;
-        out: while (num &gt; 0) {
-            num--;
-            String str = scanner.nextLine();
-            chars = str.toCharArray();
-            in: for (char c : chars) {
-                if (c != &apos;P&apos; &amp;&amp; c != &apos;T&apos; &amp;&amp; c != &apos;A&apos;) {
-                    res[index] = false;
-                    index++;
-                    continue out;
-                }
-            }
-            pIndex = str.indexOf(&apos;P&apos;);
-            tIndex = str.indexOf(&apos;T&apos;);
-
-            if (tIndex &lt;= pIndex || str.length() &lt; 3) {
-                res[index] = false;
-                index++;
-                continue out;
-            }
-            if (pIndex * (tIndex - pIndex - 1) == str.length() - 1 - tIndex) {
-                res[index] = true;
-            } else {
-                res[index] = false;
-            }
-            index++;
-            continue out;
-        }
-
-        for (boolean b : res) {
-            System.out.println(b ? &quot;YES&quot; : &quot;NO&quot;);
-        }
-    }
-
-}
-</code></pre><h4 id="规律"><a href="#规律" class="headerlink" title="规律"></a>规律</h4><p>由:<code>如果 aPbTc 是正确的</code>,半句可得:b&gt;=1<br>由:<code>那么 aPbATca 也是正确的</code> 和 样例给出,可以得到: a x (b+1) = c + a (单位为A)<br>化简得: a x b = c</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1002/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1603,586 +2113,6 @@ public class Main {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/21/baseball-game/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/21/baseball-game/" itemprop="url">682. Baseball Game</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-21T00:00:00Z">
-                2017-11-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>You’re now a baseball game point recorder.</p>
-<p>Given a list of strings, each string can be one of the 4 following types:</p>
-<ol>
-<li>Integer (one round’s score): Directly represents the number of points you get in this round.</li>
-<li>“+” (one round’s score): Represents that the points you get in this round are the sum of the last two valid round’s points.</li>
-<li>“D” (one round’s score): Represents that the points you get in this round are the doubled data of the last valid round’s points.</li>
-<li>“C” (an operation, which isn’t a round’s score): Represents the last valid round’s points you get were invalid and should be removed.<br>Each round’s operation is permanent and could have an impact on the round before and the round after.</li>
-</ol>
-<p>You need to return the sum of the points you could get in all the rounds.</p>
-<p>Example 1:</p>
-<pre><code>Input: [&quot;5&quot;,&quot;2&quot;,&quot;C&quot;,&quot;D&quot;,&quot;+&quot;]
-Output: 30
-Explanation: 
-Round 1: You could get 5 points. The sum is: 5.
-Round 2: You could get 2 points. The sum is: 7.
-Operation 1: The round 2&apos;s data was invalid. The sum is: 5.  
-Round 3: You could get 10 points (the round 2&apos;s data has been removed). The sum is: 15.
-Round 4: You could get 5 + 10 = 15 points. The sum is: 30.
-</code></pre><p>Example 2:</p>
-<pre><code>Input: [&quot;5&quot;,&quot;-2&quot;,&quot;4&quot;,&quot;C&quot;,&quot;D&quot;,&quot;9&quot;,&quot;+&quot;,&quot;+&quot;]
-Output: 27
-Explanation: 
-Round 1: You could get 5 points. The sum is: 5.
-Round 2: You could get -2 points. The sum is: 3.
-Round 3: You could get 4 points. The sum is: 7.
-Operation 1: The round 3&apos;s data is invalid. The sum is: 3.  
-Round 4: You could get -4 points (the round 3&apos;s data has been removed). The sum is: -1.
-Round 5: You could get 9 points. The sum is: 8.
-Round 6: You could get -4 + 9 = 5 points. The sum is 13.
-Round 7: You could get 9 + 5 = 14 points. The sum is 27.
-</code></pre><p>Note:</p>
-<ul>
-<li>The size of the input list will be between 1 and 1000.</li>
-<li>Every integer represented in the list will be between -30000 and 30000.</li>
-</ul>
-<h4 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h4><h5 id="7ms"><a href="#7ms" class="headerlink" title="7ms"></a>7ms</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"> public int calPointsBestTime(String[] ops) &#123;</div><div class="line">  int ans = 0;</div><div class="line">  int index = -1;</div><div class="line">  int[] valid = new int[ops.length];</div><div class="line">  for (int i = 0; i &lt; ops.length; i++) &#123;</div><div class="line">    if (ops[i].equals(&quot;C&quot;)) &#123;</div><div class="line">      ans -= valid[index--];</div><div class="line">      continue;</div><div class="line">    &#125;</div><div class="line">    if (ops[i].equals(&quot;D&quot;)) &#123;</div><div class="line">      int d = valid[index] * 2;</div><div class="line">      valid[++index] = d;</div><div class="line">      ans += d;</div><div class="line">      continue;</div><div class="line">    &#125;</div><div class="line">    if (ops[i].equals(&quot;+&quot;)) &#123;</div><div class="line">      int d = valid[index] + valid[index - 1];</div><div class="line">      valid[++index] = d;</div><div class="line">      ans += d;</div><div class="line">      continue;</div><div class="line">    &#125;</div><div class="line">    index++;</div><div class="line">    valid[index] = Integer.parseInt(ops[i]);</div><div class="line">    ans += Integer.parseInt(ops[i]);</div><div class="line">  &#125;</div><div class="line">  return ans;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/17/android-zygote/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/17/android-zygote/" itemprop="url">Zygote</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-17T00:00:00Z">
-                2017-11-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="zygot-孵化器"><a href="#zygot-孵化器" class="headerlink" title="zygot 孵化器"></a>zygot 孵化器</h1><ul>
-<li><a href="#系统启动-zygote-进程">系统启动 zygote 进程</a></li>
-<li><a href="#系统进入-zygote-进程">系统进入zygote进程</a><ul>
-<li><a href="#启用无多线程模式">启用无多线程模式</a></li>
-<li><a href="#获取底层传入-main-函数的参数">获取底层传入main函数的参数</a></li>
-<li><a href="#注册-Socket-，用于进程间通信">注册Socket，用于进程间通信</a></li>
-<li><a href="#预加载公共类与资源">预加载公共类与资源</a><ul>
-<li><a href="#预加载公共类">预加载公共类</a></li>
-<li><a href="#预加载公共资源">预加载公共资源</a></li>
-</ul>
-</li>
-<li><a href="#停止无多线程模式">停止无多线程模式</a></li>
-<li><a href="#创建-SystemServer">创建SystemServer</a></li>
-<li><a href="#等待接受应用的-socket-请求">等待接受应用的socket请求</a></li>
-</ul>
-</li>
-<li><a href="#孵化-systemserver-进程">孵化SystemServer进程</a></li>
-<li><a href="#孵化-application-进程">孵化 Application 进程</a></li>
-<li><a href="#tips">Tips</a></li>
-</ul>
-<h3 id="系统启动-zygote-进程"><a href="#系统启动-zygote-进程" class="headerlink" title="系统启动 zygote 进程"></a>系统启动 zygote 进程</h3><p>即android系统的启动，分为以下几步：</p>
-<ul>
-<li><em>启动电源以及系统启动</em><br>按下电源键时，引导芯片代码开始从预定义的地方(固化在ROM)开始执行。加载引导程序Bootloader到RAM，然后执行</li>
-<li><em>引导程序Bootloader</em><br>引导程序是在Android OS开始运行前的一个小程序，它的主要作用是把OS拉起来并运行</li>
-<li><em>Linux内核启动</em><br>内核启动时，设置缓存，被保护存储器，加载列表，加载驱动。当内核完成系统设置，它首先在系统文件中寻找init文件，<br>然后启动root进程或者系统的第一个进程</li>
-<li><em>init进程启动</em><ul>
-<li>创建一些文件夹并挂载设备</li>
-<li>初始化和启动属性服务(类似win平台的注册表)</li>
-<li>解析init.rc配置文件并启动zygote进程</li>
-</ul>
-</li>
-</ul>
-<p><a href="http://blog.jobbole.com/67931/" target="_blank" rel="external">android 系统启动过程</a></p>
-<p><a href="http://blog.csdn.net/fu_kevin0606/article/details/53469076" target="_blank" rel="external">init.rc代码启动zygote进程</a></p>
-<p><a href="http://blog.csdn.net/hongbochen1223/article/details/56331690" target="_blank" rel="external">Android初始化语言</a></p>
-<p><a href="https://github.com/StephenRJ/cm12_system_core_rootdir" target="_blank" rel="external">init.rc源码</a>，基于aosp的，是cm的，cm现在也没了。。</p>
-<p><img src="/images/app_main.png" alt="p"></p>
-<h3 id="系统进入-zygote-进程"><a href="#系统进入-zygote-进程" class="headerlink" title="系统进入 zygote 进程"></a>系统进入 zygote 进程</h3><p>即zygote的初始化，在调用完ZygoteInit的main函数后，Zygote就进入了Java世界，在此可以看到启动动画。<br><img src="/images/ZygoteInit.png" alt="p"></p>
-<ul>
-<li><p>启用无多线程模式</p>
-<p>标志着孵化器开始，确保创建子线程会抛出异常<br>考虑到多线程下，资源尚未加载完成的处理问题</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ZygoteHooks.startZygoteNoThreadCreation();</div></pre></td></tr></table></figure>
-</li>
-<li><p>获取底层传入main函数的参数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">boolean startSystemServer = false;</div><div class="line">String socketName = &quot;zygote&quot;; //socketName为zygote</div><div class="line">String abiList = null;</div><div class="line">for (int i = 1; i &lt; argv.length; i++) &#123;</div><div class="line">    if (&quot;start-system-server&quot;.equals(argv[i])) &#123;</div><div class="line">        startSystemServer = true; //start-system-server 在参数列表中，startSystemServer为true</div><div class="line">    &#125; else if (argv[i].startsWith(ABI_LIST_ARG)) &#123;</div><div class="line">        abiList = argv[i].substring(ABI_LIST_ARG.length());//设置abi列表</div><div class="line">    &#125; else if (argv[i].startsWith(SOCKET_NAME_ARG)) &#123;</div><div class="line">        socketName = argv[i].substring(SOCKET_NAME_ARG.length()); //如果参数列表指定了socketName，就重新设置socketName</div><div class="line">    &#125; else &#123;</div><div class="line">        throw new RuntimeException(&quot;Unknown command line argument: &quot; + argv[i]);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>注册Socket，用于进程间通信</p>
-<p> Socket的监听方式为使用Linux系统调用select()函数监听文件描述符，当该文件描述符上有数据时，自动触发中断，在中断处理函数中去读取文件描述符上的数据。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">private static void registerZygoteSocket(String socketName) &#123;</div><div class="line">    if (sServerSocket == null) &#123;</div><div class="line">        int fileDesc;</div><div class="line">        final String fullSocketName = ANDROID_SOCKET_PREFIX + socketName;//拼接完整的socketName</div><div class="line">        try &#123;</div><div class="line">            String env = System.getenv(fullSocketName);//获取环境变量</div><div class="line">            fileDesc = Integer.parseInt(env);</div><div class="line">        &#125; catch (RuntimeException ex) &#123;</div><div class="line">            throw new RuntimeException(fullSocketName + &quot; unset or invalid&quot;, ex);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        try &#123;</div><div class="line">            FileDescriptor fd = new FileDescriptor();</div><div class="line">            fd.setInt$(fileDesc);//设置文件描述符</div><div class="line">            sServerSocket = new LocalServerSocket(fd);</div><div class="line">        &#125; catch (IOException ex) &#123;</div><div class="line">            throw new RuntimeException(</div><div class="line">                    &quot;Error binding to local socket &apos;&quot; + fileDesc + &quot;&apos;&quot;, ex);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<ul>
-<li><p>预加载公共类与资源</p>
-<p>  在Android系统中有很多的公共资源，所有的程序都会用到。而Zygote创建应用程序进程过程，其实就是复制自身进程地址空间作为应用程序进程的地址空间，因此在Zygote中<br>  加载的类和资源都可以由Zygote孵化的应用程序共享。因此可以在Zygote中加载公共类与资源，当某个应用程序启动时，只要加载自身特有的类与资源即可，可以提高软件的启动速度。<br>  代价是增加了系统重启的时间。</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">static void preload() &#123;</div><div class="line">    Log.d(TAG, &quot;begin preload&quot;);</div><div class="line">    Trace.traceBegin(Trace.TRACE_TAG_DALVIK, &quot;BeginIcuCachePinning&quot;);</div><div class="line">    beginIcuCachePinning();</div><div class="line">    Trace.traceEnd(Trace.TRACE_TAG_DALVIK);</div><div class="line">    Trace.traceBegin(Trace.TRACE_TAG_DALVIK, &quot;PreloadClasses&quot;);</div><div class="line">    preloadClasses();</div><div class="line">    Trace.traceEnd(Trace.TRACE_TAG_DALVIK);</div><div class="line">    Trace.traceBegin(Trace.TRACE_TAG_DALVIK, &quot;PreloadResources&quot;);</div><div class="line">    preloadResources();</div><div class="line">    Trace.traceEnd(Trace.TRACE_TAG_DALVIK);</div><div class="line">    Trace.traceBegin(Trace.TRACE_TAG_DALVIK, &quot;PreloadOpenGL&quot;);</div><div class="line">    preloadOpenGL();</div><div class="line">    Trace.traceEnd(Trace.TRACE_TAG_DALVIK);</div><div class="line">    preloadSharedLibraries();</div><div class="line">    preloadTextResources();</div><div class="line">    // Ask the WebViewFactory to do any initialization that must run in the zygote process,</div><div class="line">    // for memory sharing purposes.</div><div class="line">    WebViewFactory.prepareWebViewInZygote();</div><div class="line">    endIcuCachePinning();</div><div class="line">    warmUpJcaProviders();</div><div class="line">    Log.d(TAG, &quot;end preload&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p>预加载公共类</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">/**</div><div class="line"> * The path of a file that contains classes to preload.</div><div class="line"> * 预加载类的文件路径</div><div class="line"> */</div><div class="line">private static final String PRELOADED_CLASSES = &quot;/system/etc/preloaded-classes&quot;;</div><div class="line">private static final int UNPRIVILEGED_GID = 9999;</div><div class="line">private static final int ROOT_UID = 0;</div><div class="line"></div><div class="line">private static void preloadClasses() &#123;</div><div class="line">    final VMRuntime runtime = VMRuntime.getRuntime();</div><div class="line"></div><div class="line">    InputStream is;</div><div class="line">    try &#123;</div><div class="line">        is = new FileInputStream(PRELOADED_CLASSES);//将classes文件转变为文件输入流</div><div class="line">    &#125; catch (FileNotFoundException e) &#123;</div><div class="line">        Log.e(TAG, &quot;Couldn&apos;t find &quot; + PRELOADED_CLASSES + &quot;.&quot;);</div><div class="line">        return;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Log.i(TAG, &quot;Preloading classes...&quot;);</div><div class="line">    long startTime = SystemClock.uptimeMillis();//开始预加载的时间</div><div class="line"></div><div class="line">    // Drop root perms while running static initializers.</div><div class="line">    // 运行静态初始化时，废弃root权限</div><div class="line">    final int reuid = Os.getuid();</div><div class="line">    final int regid = Os.getgid();</div><div class="line"></div><div class="line">    // We need to drop root perms only if we&apos;re already root. In the case of &quot;wrapped&quot;</div><div class="line">    // processes (see WrapperInit), this function is called from an unprivileged uid</div><div class="line">    // and gid.</div><div class="line">    // 已经root的设备我们需要废弃root权限。</div><div class="line">    boolean droppedPriviliges = false;</div><div class="line">    if (reuid == ROOT_UID &amp;&amp; regid == ROOT_GID) &#123;</div><div class="line">        try &#123;</div><div class="line">            Os.setregid(ROOT_GID, UNPRIVILEGED_GID);</div><div class="line">            Os.setreuid(ROOT_UID, UNPRIVILEGED_UID);</div><div class="line">        &#125; catch (ErrnoException ex) &#123;</div><div class="line">            throw new RuntimeException(&quot;Failed to drop root&quot;, ex);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        droppedPriviliges = true;//废弃root特权</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // Alter the target heap utilization.  With explicit GCs this</div><div class="line">    // is not likely to have any effect.</div><div class="line">    float defaultUtilization = runtime.getTargetHeapUtilization();</div><div class="line">    runtime.setTargetHeapUtilization(0.8f);</div><div class="line"></div><div class="line">    try &#123;</div><div class="line">        BufferedReader br</div><div class="line">            = new BufferedReader(new InputStreamReader(is), 256);//classes文件输入流封装成BufferReader</div><div class="line"></div><div class="line">        int count = 0;</div><div class="line">        String line;</div><div class="line">        while ((line = br.readLine()) != null) &#123;</div><div class="line">            // Skip comments and blank lines.</div><div class="line">            // 过滤空行</div><div class="line">            line = line.trim();</div><div class="line">            if (line.startsWith(&quot;#&quot;) || line.equals(&quot;&quot;)) &#123;</div><div class="line">                continue;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            Trace.traceBegin(Trace.TRACE_TAG_DALVIK, &quot;PreloadClass &quot; + line);</div><div class="line">            try &#123;</div><div class="line">                if (false) &#123;</div><div class="line">                    Log.v(TAG, &quot;Preloading &quot; + line + &quot;...&quot;);</div><div class="line">                &#125;</div><div class="line">                // Load and explicitly initialize the given class. Use</div><div class="line">                // Class.forName(String, boolean, ClassLoader) to avoid repeated stack lookups</div><div class="line">                // (to derive the caller&apos;s class-loader). Use true to force initialization, and</div><div class="line">                // null for the boot classpath class-loader (could as well cache the</div><div class="line">                // class-loader of this class in a variable).</div><div class="line">                // 加载并且明确地初始化指定的类</div><div class="line">                // 使用反射避免重复的栈查找</div><div class="line">                // true用来强制初始化</div><div class="line">                // null表示使用根路径的类加载器</div><div class="line">                Class.forName(line, true, null);</div><div class="line">                count++;</div><div class="line">            &#125; catch (ClassNotFoundException e) &#123;</div><div class="line">                Log.w(TAG, &quot;Class not found for preloading: &quot; + line);</div><div class="line">            &#125; catch (UnsatisfiedLinkError e) &#123;</div><div class="line">                Log.w(TAG, &quot;Problem preloading &quot; + line + &quot;: &quot; + e);</div><div class="line">            &#125; catch (Throwable t) &#123;</div><div class="line">                Log.e(TAG, &quot;Error preloading &quot; + line + &quot;.&quot;, t);</div><div class="line">                if (t instanceof Error) &#123;</div><div class="line">                    throw (Error) t;</div><div class="line">                &#125;</div><div class="line">                if (t instanceof RuntimeException) &#123;</div><div class="line">                    throw (RuntimeException) t;</div><div class="line">                &#125;</div><div class="line">                throw new RuntimeException(t);</div><div class="line">            &#125;</div><div class="line">            Trace.traceEnd(Trace.TRACE_TAG_DALVIK);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Log.i(TAG, &quot;...preloaded &quot; + count + &quot; classes in &quot;</div><div class="line">                + (SystemClock.uptimeMillis()-startTime) + &quot;ms.&quot;);//打印预加载时间</div><div class="line">    &#125; catch (IOException e) &#123;</div><div class="line">        Log.e(TAG, &quot;Error reading &quot; + PRELOADED_CLASSES + &quot;.&quot;, e);</div><div class="line">    &#125; finally &#123;</div><div class="line">        IoUtils.closeQuietly(is);</div><div class="line">        // Restore default.</div><div class="line">        runtime.setTargetHeapUtilization(defaultUtilization);</div><div class="line"></div><div class="line">        // Fill in dex caches with classes, fields, and methods brought in by preloading.</div><div class="line">        // 用预加载的类，字段，方法填充dex缓存空间。</div><div class="line">        Trace.traceBegin(Trace.TRACE_TAG_DALVIK, &quot;PreloadDexCaches&quot;);</div><div class="line">        runtime.preloadDexCaches();</div><div class="line">        Trace.traceEnd(Trace.TRACE_TAG_DALVIK);</div><div class="line"></div><div class="line">        // Bring back root. We&apos;ll need it later if we&apos;re in the zygote.</div><div class="line">        // 恢复root权限。如果在zygote中，待会儿要用。</div><div class="line">        if (droppedPriviliges) &#123;</div><div class="line">            try &#123;</div><div class="line">                Os.setreuid(ROOT_UID, ROOT_UID);</div><div class="line">                Os.setregid(ROOT_GID, ROOT_GID);</div><div class="line">            &#125; catch (ErrnoException ex) &#123;</div><div class="line">                throw new RuntimeException(&quot;Failed to restore root&quot;, ex);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>预加载公共资源</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Used to pre-load resources.  We hold a global reference on it so it</div><div class="line"> * never gets destroyed.</div><div class="line"> * 用来预加载资源。对其持有全局引用，因此永远不会被销毁。</div><div class="line"> */</div><div class="line">private static Resources mResources;</div><div class="line">private static void preloadResources() &#123;</div><div class="line">    final VMRuntime runtime = VMRuntime.getRuntime();</div><div class="line"></div><div class="line">    try &#123;</div><div class="line">        mResources = Resources.getSystem();</div><div class="line">        mResources.startPreloading();</div><div class="line">        if (PRELOAD_RESOURCES) &#123;</div><div class="line">            Log.i(TAG, &quot;Preloading resources...&quot;);</div><div class="line"></div><div class="line">            long startTime = SystemClock.uptimeMillis();</div><div class="line">            TypedArray ar = mResources.obtainTypedArray(</div><div class="line">                    com.android.internal.R.array.preloaded_drawables);//要预加载的资源</div><div class="line">            int N = preloadDrawables(ar); //预加载drawables</div><div class="line">            ar.recycle();</div><div class="line">            Log.i(TAG, &quot;...preloaded &quot; + N + &quot; resources in &quot;</div><div class="line">                    + (SystemClock.uptimeMillis()-startTime) + &quot;ms.&quot;);//预加载drawables使用的时间</div><div class="line"></div><div class="line">            startTime = SystemClock.uptimeMillis();</div><div class="line">            ar = mResources.obtainTypedArray(</div><div class="line">                    com.android.internal.R.array.preloaded_color_state_lists);</div><div class="line">            N = preloadColorStateLists(ar);//预加载color state</div><div class="line">            ar.recycle();</div><div class="line">            Log.i(TAG, &quot;...preloaded &quot; + N + &quot; resources in &quot;</div><div class="line">                    + (SystemClock.uptimeMillis()-startTime) + &quot;ms.&quot;);//预加载color state使用的时间</div><div class="line"></div><div class="line">            //The device supports freeform window management. Windows have title bars and can be moved</div><div class="line">            //and resized. If you set this to true, you also need to add</div><div class="line">            //PackageManager.FEATURE_FREEFORM_WINDOW_MANAGEMENT feature to your device specification.</div><div class="line">            //The duplication is necessary, because this information is used before the features are</div><div class="line">            //available to the system.</div><div class="line">            if (mResources.getBoolean(</div><div class="line">                    com.android.internal.R.bool.config_freeformWindowManagement)) &#123;</div><div class="line">                    //如果支持自由的窗口管理，预加载多窗口drawables</div><div class="line">                startTime = SystemClock.uptimeMillis();</div><div class="line">                ar = mResources.obtainTypedArray(</div><div class="line">                        com.android.internal.R.array.preloaded_freeform_multi_window_drawables);</div><div class="line">                N = preloadDrawables(ar);</div><div class="line">                ar.recycle();</div><div class="line">                Log.i(TAG, &quot;...preloaded &quot; + N + &quot; resource in &quot;</div><div class="line">                        + (SystemClock.uptimeMillis() - startTime) + &quot;ms.&quot;);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        mResources.finishPreloading();</div><div class="line">    &#125; catch (RuntimeException e) &#123;</div><div class="line">        Log.w(TAG, &quot;Failure preloading resources&quot;, e);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><p>停止无多线程模式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ZygoteHooks.stopZygoteNoThreadCreation();</div></pre></td></tr></table></figure>
-</li>
-<li><p>创建SystemServer</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (startSystemServer) &#123;   //startSysteServer为true  </div><div class="line">    startSystemServer(abiList, socketName);     </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>  <a href="#孵化 SystemServer 进程">孵化 SystemServer 进程</a></p>
-<ul>
-<li>等待接受应用的socket请求</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">private static void runSelectLoop(String abiList) throws MethodAndArgsCaller &#123;</div><div class="line">    ArrayList&lt;FileDescriptor&gt; fds = new ArrayList&lt;FileDescriptor&gt;();</div><div class="line">    ArrayList&lt;ZygoteConnection&gt; peers = new ArrayList&lt;ZygoteConnection&gt;();</div><div class="line"></div><div class="line">    fds.add(sServerSocket.getFileDescriptor());</div><div class="line">    peers.add(null);</div><div class="line"></div><div class="line">    while (true) &#123;</div><div class="line">        StructPollfd[] pollFds = new StructPollfd[fds.size()];</div><div class="line">        for (int i = 0; i &lt; pollFds.length; ++i) &#123;</div><div class="line">            pollFds[i] = new StructPollfd();</div><div class="line">            pollFds[i].fd = fds.get(i);</div><div class="line">            pollFds[i].events = (short) POLLIN;</div><div class="line">        &#125;</div><div class="line">        try &#123;</div><div class="line">            Os.poll(pollFds, -1);</div><div class="line">        &#125; catch (ErrnoException ex) &#123;</div><div class="line">            throw new RuntimeException(&quot;poll failed&quot;, ex);</div><div class="line">        &#125;</div><div class="line">        for (int i = pollFds.length - 1; i &gt;= 0; --i) &#123;</div><div class="line">            if ((pollFds[i].revents &amp; POLLIN) == 0) &#123;</div><div class="line">                continue;</div><div class="line">            &#125;</div><div class="line">            if (i == 0) &#123;</div><div class="line">                ZygoteConnection newPeer = acceptCommandPeer(abiList);</div><div class="line">                peers.add(newPeer);</div><div class="line">                fds.add(newPeer.getFileDesciptor());</div><div class="line">            &#125; else &#123;</div><div class="line">                boolean done = peers.get(i).runOnce();</div><div class="line">                if (done) &#123;</div><div class="line">                    peers.remove(i);</div><div class="line">                    fds.remove(i);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="孵化-SystemServer-进程"><a href="#孵化-SystemServer-进程" class="headerlink" title="孵化 SystemServer 进程"></a>孵化 SystemServer 进程</h3><p><img src="/imges/system_server.png" alt="system_server"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Prepare the arguments and fork for the system server process.</div><div class="line"> */</div><div class="line">private static boolean startSystemServer(String abiList, String socketName)</div><div class="line">        throws MethodAndArgsCaller, RuntimeException &#123;</div><div class="line">    long capabilities = posixCapabilitiesAsBits(</div><div class="line">        OsConstants.CAP_IPC_LOCK,</div><div class="line">        OsConstants.CAP_KILL,</div><div class="line">        OsConstants.CAP_NET_ADMIN,</div><div class="line">        OsConstants.CAP_NET_BIND_SERVICE,</div><div class="line">        OsConstants.CAP_NET_BROADCAST,</div><div class="line">        OsConstants.CAP_NET_RAW,</div><div class="line">        OsConstants.CAP_SYS_MODULE,</div><div class="line">        OsConstants.CAP_SYS_NICE,</div><div class="line">        OsConstants.CAP_SYS_RESOURCE,</div><div class="line">        OsConstants.CAP_SYS_TIME,</div><div class="line">        OsConstants.CAP_SYS_TTY_CONFIG</div><div class="line">    );</div><div class="line">    /* Containers run without this capability, so avoid setting it in that case */</div><div class="line">    if (!SystemProperties.getBoolean(PROPERTY_RUNNING_IN_CONTAINER, false)) &#123;</div><div class="line">        capabilities |= posixCapabilitiesAsBits(OsConstants.CAP_BLOCK_SUSPEND);</div><div class="line">    &#125;</div><div class="line">    /* Hardcoded command line to start the system server */</div><div class="line">    String args[] = &#123;</div><div class="line">        &quot;--setuid=1000&quot;,</div><div class="line">        &quot;--setgid=1000&quot;,</div><div class="line">        &quot;--setgroups=1001,1002,1003,1004,1005,1006,1007,1008,1009,1010,1018,1021,1032,3001,3002,3003,3006,3007,3009,3010&quot;,</div><div class="line">        &quot;--capabilities=&quot; + capabilities + &quot;,&quot; + capabilities,</div><div class="line">        &quot;--nice-name=system_server&quot;,//进程名字</div><div class="line">        &quot;--runtime-args&quot;,</div><div class="line">        &quot;com.android.server.SystemServer&quot;,//包名</div><div class="line">    &#125;;</div><div class="line">    ZygoteConnection.Arguments parsedArgs = null;</div><div class="line"></div><div class="line">    int pid;</div><div class="line"></div><div class="line">    try &#123;</div><div class="line">        parsedArgs = new ZygoteConnection.Arguments(args);//参数封装</div><div class="line">        ZygoteConnection.applyDebuggerSystemProperty(parsedArgs);</div><div class="line">        ZygoteConnection.applyInvokeWithSystemProperty(parsedArgs);</div><div class="line"></div><div class="line">        /* Request to fork the system server process */</div><div class="line">        pid = Zygote.forkSystemServer(//孵化系统服务进程，尝试获取pid</div><div class="line">                parsedArgs.uid, parsedArgs.gid,</div><div class="line">                parsedArgs.gids,</div><div class="line">                parsedArgs.debugFlags,</div><div class="line">                null,</div><div class="line">                parsedArgs.permittedCapabilities,</div><div class="line">                parsedArgs.effectiveCapabilities);</div><div class="line">    &#125; catch (IllegalArgumentException ex) &#123;</div><div class="line">        throw new RuntimeException(ex);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /* For child process */</div><div class="line">    if (pid == 0) &#123;//fork子进程成功</div><div class="line">        if (hasSecondZygote(abiList)) &#123;</div><div class="line">            waitForSecondaryZygote(socketName);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        handleSystemServerProcess(parsedArgs);//运行系统服务，SystemServer拥有了自己的进程</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return true;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>创建SystemServer进程，android的所有服务循环框架都建立在SystemServer上</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public static int forkSystemServer(int uid, int gid, int[] gids, int debugFlags,</div><div class="line">        int[][] rlimits, long permittedCapabilities, long effectiveCapabilities) &#123;</div><div class="line">    VM_HOOKS.preFork();// 停止所有守护进程</div><div class="line">    int pid = nativeForkSystemServer( //native函数孵化进程</div><div class="line">            uid, gid, gids, debugFlags, rlimits, permittedCapabilities, effectiveCapabilities);</div><div class="line">    // Enable tracing as soon as we enter the system_server.</div><div class="line">    if (pid == 0) &#123;</div><div class="line">        Trace.setTracingEnabled(true);</div><div class="line">    &#125;</div><div class="line">    VM_HOOKS.postForkCommon(); // 重新运行各个守护进程</div><div class="line">    return pid;</div><div class="line">&#125;</div><div class="line"></div><div class="line">native private static int nativeForkSystemServer(int uid, int gid, int[] gids, int debugFlags,</div><div class="line">        int[][] rlimits, long permittedCapabilities, long effectiveCapabilities);</div></pre></td></tr></table></figure>
-<pre><code>调用底层进行fork system server进程。如果创建出的进程pid=0，说明该进程为Zygote的子进程，系统会为其设置uid，gid
-如果pid &gt; 0 ，说明该进程为SystemServer的进程号，Zygote会检查一下该进程有没有died，如果true，重启Zygote进程。
-SystemServer进程创建完成后，就会重新启动垃圾回收后台进程。
-</code></pre><ul>
-<li>运行SystemServer</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Finish remaining work for the newly forked system server process.</div><div class="line"> */</div><div class="line">private static void handleSystemServerProcess(</div><div class="line">        ZygoteConnection.Arguments parsedArgs)</div><div class="line">        throws ZygoteInit.MethodAndArgsCaller &#123;</div><div class="line"></div><div class="line">    closeServerSocket(); //关闭zygote中的socket</div><div class="line"></div><div class="line">    // set umask to 0077 so new files and directories will default to owner-only permissions.</div><div class="line">    Os.umask(S_IRWXG | S_IRWXO);</div><div class="line"></div><div class="line">    if (parsedArgs.niceName != null) &#123;</div><div class="line">        Process.setArgV0(parsedArgs.niceName);// 设置进程名</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    final String systemServerClasspath = Os.getenv(&quot;SYSTEMSERVERCLASSPATH&quot;); // 获取SystemServer的classpath</div><div class="line">    if (systemServerClasspath != null) &#123;</div><div class="line">        performSystemServerDexOpt(systemServerClasspath); //对改路径中的文件做dexopt优化</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if (parsedArgs.invokeWith != null) &#123;</div><div class="line">        String[] args = parsedArgs.remainingArgs;</div><div class="line">        // If we have a non-null system server class path, we&apos;ll have to duplicate the</div><div class="line">        // existing arguments and append the classpath to it. ART will handle the classpath</div><div class="line">        // correctly when we exec a new process.</div><div class="line">        if (systemServerClasspath != null) &#123;</div><div class="line">            String[] amendedArgs = new String[args.length + 2];</div><div class="line">            amendedArgs[0] = &quot;-cp&quot;;</div><div class="line">            amendedArgs[1] = systemServerClasspath;</div><div class="line">            System.arraycopy(parsedArgs.remainingArgs, 0, amendedArgs, 2, parsedArgs.remainingArgs.length);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        WrapperInit.execApplication(parsedArgs.invokeWith,</div><div class="line">                parsedArgs.niceName, parsedArgs.targetSdkVersion,</div><div class="line">                VMRuntime.getCurrentInstructionSet(), null, args);</div><div class="line">    &#125; else &#123;</div><div class="line">        ClassLoader cl = null;</div><div class="line">        if (systemServerClasspath != null) &#123;</div><div class="line">        // 为SystemServer创建ClassLoader，使其可以进入平台的私有本地类库</div><div class="line">            cl = createSystemServerClassLoader(systemServerClasspath,</div><div class="line">                                               parsedArgs.targetSdkVersion);</div><div class="line"></div><div class="line">            Thread.currentThread().setContextClassLoader(cl);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        /*</div><div class="line">         * Pass the remaining arguments to SystemServer.</div><div class="line">         * 将剩余的参数传递给SystemServer</div><div class="line">         */</div><div class="line">        RuntimeInit.zygoteInit(parsedArgs.targetSdkVersion, parsedArgs.remainingArgs, cl);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /* should never reach here */</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>SystemServer.main中创建线程注册各种service到servicemanager中。</p>
-<h4 id="HOME启动"><a href="#HOME启动" class="headerlink" title="HOME启动"></a>HOME启动</h4><p>在启动完所有的Android服务后，通知各个服务，系统已经准备就绪。</p>
-<p>startSystemUi 方法启动HOME界面。</p>
-<p>至此，android系统完成了引导过程，这是ACTION_BOOT_COMPLETED开机启动广播就会发出去。</p>
-<h3 id="孵化-Application-进程"><a href="#孵化-Application-进程" class="headerlink" title="孵化 Application 进程"></a>孵化 Application 进程</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public static int forkAndSpecialize(int uid, int gid, int[] gids, int debugFlags,</div><div class="line">      int[][] rlimits, int mountExternal, String seInfo, String niceName, int[] fdsToClose,</div><div class="line">      String instructionSet, String appDataDir) &#123;</div><div class="line">    VM_HOOKS.preFork();</div><div class="line">    int pid = nativeForkAndSpecialize(</div><div class="line">              uid, gid, gids, debugFlags, rlimits, mountExternal, seInfo, niceName, fdsToClose,</div><div class="line">              instructionSet, appDataDir);</div><div class="line">    // Enable tracing as soon as possible for the child process.</div><div class="line">    if (pid == 0) &#123;</div><div class="line">        Trace.setTracingEnabled(true);</div><div class="line"></div><div class="line">        // Note that this event ends at the end of handleChildProc,</div><div class="line">        Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;PostFork&quot;);</div><div class="line">    &#125;</div><div class="line">    VM_HOOKS.postForkCommon();</div><div class="line">    return pid;</div><div class="line">&#125;</div><div class="line"></div><div class="line">native private static int nativeForkAndSpecialize(int uid, int gid, int[] gids,int debugFlags,</div><div class="line">      int[][] rlimits, int mountExternal, String seInfo, String niceName, int[] fdsToClose,</div><div class="line">      String instructionSet, String appDataDir);</div></pre></td></tr></table></figure>
-<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><ul>
-<li>为所有Java程序复刻一个虚拟机实例</li>
-<li>应用程序的入口是<code>ActivityThread$main()</code>，而zygote就是为应用程序创建进程的</li>
-<li><p>大部分应用程序由zygote创建进程，但是系统引导进程、init进程不是</p>
-<h4 id="android中的zygote分两块"><a href="#android中的zygote分两块" class="headerlink" title="android中的zygote分两块"></a>android中的zygote分两块</h4><ol>
-<li>C/C++编写的zygote，主要用来为系统服务和应用程序复刻进程的</li>
-<li>Java编写的zygote接口，负责为系统服务和应用程序调用C/C++ zygote接口执行复刻，创建虚拟机进程</li>
-</ol>
-<h4 id="android中的service分两种"><a href="#android中的service分两种" class="headerlink" title="android中的service分两种"></a>android中的service分两种</h4><ol>
-<li>NativeService</li>
-<li>SystemService，即本project示例集所研究</li>
-</ol>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/09/android-memory-leak/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/09/android-memory-leak/" itemprop="url">Android 内存泄露</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-09T00:00:00Z">
-                2017-11-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="什么是内存泄露"><a href="#什么是内存泄露" class="headerlink" title="什么是内存泄露"></a>什么是内存泄露</h4><p>jvm会根据可达性算法,计算每个对象是否可被回收,如果有对象被持有引用,即可达,并且该对象已经无用.此时对象不可被回收但是占用内存的这种状态成为内存泄露.如果内存泄露情况比较多,很有可能引起OOM异常.</p>
-<h4 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h4><ul>
-<li>根源在android组件的生命周期和底层Java对象的生命周期不是直接匹配的</li>
-<li>一个应用程序的启动分为三步:<ul>
-<li>复刻受精卵进程</li>
-<li>系统为该进程添加运行时执行环境</li>
-<li>运行时执行环境加载可执行文件,即调用onCreate()方法启动应用程序</li>
-</ul>
-</li>
-<li>应用程序的生命周期理想状态下,是在运行时调用onTerminate()方法是结束,但一般情况下都不会如此.应用程序的生命周期是从第一个的组件被创建到最后一个组件被销毁,很有可能在onTerminate()方法还没有调用,当前进程已经被回收掉了.即应用程序的存活时间小于了Java对象的存活时间.</li>
-<li>简单来说,就是长生命周期的对象引用了短生命周期的对象</li>
-<li>应用程序生命周期内,考虑多线程情况下,线程的存活时间取决于当前任务的长度,任务就是应用程序代码定义的,CPU有序顺序执行的指令,所以线程如果比所在组件生命长,很有可能是这样,往往容易引起内存泄露</li>
-</ul>
-<h4 id="常见情况及解决"><a href="#常见情况及解决" class="headerlink" title="常见情况及解决"></a>常见情况及解决</h4><table>
-<thead>
-<tr>
-<th style="text-align:center">情况</th>
-<th style="text-align:center">解决</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Thread + Handler</td>
-<td style="text-align:center">优先考虑静态成员类</td>
-</tr>
-<tr>
-<td style="text-align:center">数据库连接,IO,Socket连接,Bitmap</td>
-<td style="text-align:center">及时关闭,及时释放</td>
-</tr>
-<tr>
-<td style="text-align:center">静态容器,静态类,持有对短生命周期的对象</td>
-<td style="text-align:center">及时删除对象,使用弱引用,软引用</td>
-</tr>
-</tbody>
-</table>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2232,7 +2162,7 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">104</span>
+                <span class="site-state-item-count">108</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
