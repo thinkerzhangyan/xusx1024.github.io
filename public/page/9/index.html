@@ -267,6 +267,837 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/18/design-patterns-start/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/18/design-patterns-start/" itemprop="url">设计模式开篇</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-18T00:00:00Z">
+                2017-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h4><p>设计模式是软件模式的一部分。软件模式即是软件开发的总体指导思路或参照样板。<br></p>
+<p>软件模式包括：</p>
+<ul>
+<li>设计模式</li>
+<li>架构模式</li>
+<li>分析模式</li>
+<li>过程模式</li>
+</ul>
+<h4 id="学习设计模式的层次"><a href="#学习设计模式的层次" class="headerlink" title="学习设计模式的层次"></a>学习设计模式的层次</h4><ul>
+<li>能在白纸上画出所有的模式结构和时序图</li>
+<li>能用代码实现；如果代码都没有写过，是用不出来的，即看得懂不会用</li>
+<li>灵活运用至项目中</li>
+</ul>
+<p>在线画图工具安利：<a href="https://www.processon.com/diagrams" target="_blank" rel="external">https://www.processon.com/diagrams</a><br>winPC画图工具安利：<a href="http://astah.net/" target="_blank" rel="external">http://astah.net/</a></p>
+<h4 id="面向对象设计原则"><a href="#面向对象设计原则" class="headerlink" title="面向对象设计原则"></a>面向对象设计原则</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">定 义</th>
+<th style="text-align:center">使用频率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">单一职责原则 (Single Responsibility Principle, SRP)</td>
+<td style="text-align:center">一个类只负责一个功能领域中的相应职责</td>
+<td style="text-align:center">★★★★☆</td>
+</tr>
+<tr>
+<td style="text-align:center">开闭原则 (Open-Closed Principle, OCP)</td>
+<td style="text-align:center">软件实体应对扩展开放，而对修改关闭</td>
+<td style="text-align:center">★★★★★</td>
+</tr>
+<tr>
+<td style="text-align:center">里氏代换原则 (Liskov Substitution Principle, LSP)</td>
+<td style="text-align:center">所有引用基类对象的地方能够透明地使用其子类的对象</td>
+<td style="text-align:center">★★★★★</td>
+</tr>
+<tr>
+<td style="text-align:center">依赖倒转原则 (Dependence Inversion Principle, DIP)</td>
+<td style="text-align:center">抽象不应该依赖于细节，细节应该依赖于抽象</td>
+<td style="text-align:center">★★★★★</td>
+</tr>
+<tr>
+<td style="text-align:center">接口隔离原则 (Interface Segregation Principle, ISP)</td>
+<td style="text-align:center">使用多个专门的接口，而不使用单一的总接口</td>
+<td style="text-align:center">★★☆☆☆</td>
+</tr>
+<tr>
+<td style="text-align:center">合成复用原则 (Composite Reuse Principle, CRP)</td>
+<td style="text-align:center">尽量使用对象组合，而不是继承来达到复用的目的</td>
+<td style="text-align:center">★★★★☆</td>
+</tr>
+<tr>
+<td style="text-align:center">迪米特法则 (Law of Demeter, LoD)</td>
+<td style="text-align:center">一个软件实体应当尽可能少地与其他实体发生相互作用</td>
+<td style="text-align:center">★★★☆☆</td>
+</tr>
+</tbody>
+</table>
+<h4 id="设计模式分类"><a href="#设计模式分类" class="headerlink" title="设计模式分类"></a>设计模式分类</h4><h5 id="创建型模式-5"><a href="#创建型模式-5" class="headerlink" title="创建型模式(5)"></a>创建型模式(5)</h5><p>创建型模式对类的实例化过程进行了抽象，能够将软件模块中对象的创建和对象的使用分离。为了使软件的结构更加清晰，外界对于这些对象只需要知道他们共同的接口，而不清楚其具体的实现细节，使整个系统的设计更加符合单一职责原则。</p>
+<ul>
+<li><a href="http://xusx1024.com/2017/02/11/design-patterns-singleton-1/" target="_blank" rel="external">单例模式</a></li>
+<li><a href="http://xusx1024.com/2017/03/03/design-patterns-builder-1/" target="_blank" rel="external">建造者模式</a></li>
+<li><a href="http://xusx1024.com/2017/03/18/design-patterns-prototype-1/" target="_blank" rel="external">原型模式</a></li>
+<li><a href="http://xusx1024.com/2017/05/24/design-patterns-factory-method/" target="_blank" rel="external">工厂方法模式</a></li>
+<li><a href="http://xusx1024.com/2017/05/25/design-patterns-abstract-factory/" target="_blank" rel="external">抽象工厂模式</a></li>
+</ul>
+<h5 id="行为型模式-11"><a href="#行为型模式-11" class="headerlink" title="行为型模式(11)"></a>行为型模式(11)</h5><p>行为型模式是对在不同的对象之间划分责任和算法的抽象化。行为型模式不仅仅关注类和对象的结构，而且重点关注他们之间的相互作用。</p>
+<ul>
+<li><a href="http://xusx1024.com/2017/05/25/design-patterns-strategy-pattern/" target="_blank" rel="external">策略模式</a></li>
+<li><a href="http://xusx1024.com/2017/06/19/design-patterns-template-method/" target="_blank" rel="external">模版方法模式</a></li>
+<li><a href="http://xusx1024.com/2017/06/09/design-patterns-observer/" target="_blank" rel="external">观察者模式</a></li>
+<li><a href="http://xusx1024.com/2017/06/15/design-patterns-iterator/" target="_blank" rel="external">迭代器模式</a></li>
+<li><a href="http://xusx1024.com/2017/05/31/design-patterns-chain-of-responsibility/" target="_blank" rel="external">责任链模式</a></li>
+<li><a href="http://xusx1024.com/2017/06/14/design-patterns-command/" target="_blank" rel="external">命令模式</a></li>
+<li><a href="http://xusx1024.com/2017/06/16/design-patterns-memento/" target="_blank" rel="external">备忘录模式</a></li>
+<li><a href="http://xusx1024.com/2017/05/26/design-patterns-state-pattern/" target="_blank" rel="external">状态模式</a></li>
+<li><a href="http://xusx1024.com/2017/06/20/design-patterns-visitor/" target="_blank" rel="external">访问者模式</a></li>
+<li><a href="http://xusx1024.com/2017/06/13/design-patterns-mediator/" target="_blank" rel="external">中介者模式</a></li>
+<li><a href="http://xusx1024.com/2017/06/02/design-patterns-interpreter/" target="_blank" rel="external">解释器模式</a></li>
+</ul>
+<h5 id="结构型模式-7"><a href="#结构型模式-7" class="headerlink" title="结构型模式(7)"></a>结构型模式(7)</h5><p>描述如何将类或对象结合在一起形成更大的结构，就像搭积木，可以通过简单积木的组合形成复杂的、功能更为强大的结构。结构型模式可以分为类结构型模式和对象结构型模式：类结构型模式关心类的组合，一般只存在继承和实现。对象结构型模式关系类与对象的组合，通过关联关系使一个类中定义另一个类的实例对象。<br>根据“合成复用”原则，在系统中尽量使用关联关系来替代继承关系。</p>
+<ul>
+<li><a href="http://xusx1024.com/2017/06/21/design-patterns-adapter/" target="_blank" rel="external">适配器模式</a></li>
+<li><a href="http://xusx1024.com/2017/06/22/design-patterns-bridge/" target="_blank" rel="external">桥接模式</a></li>
+<li><a href="http://xusx1024.com/2017/06/23/design-patterns-decorator/" target="_blank" rel="external">装饰模式</a></li>
+<li><a href="http://xusx1024.com/2017/06/26/design-patterns-facade/" target="_blank" rel="external">外观模式</a></li>
+<li><a href="http://xusx1024.com/2017/06/27/design-patterns-flyweight/" target="_blank" rel="external">享元模式</a></li>
+<li><a href="http://xusx1024.com/2017/06/28/design-patterns-proxy/" target="_blank" rel="external">代理模式</a></li>
+<li><a href="http://xusx1024.com/2017/06/26/design-patterns-composite/" target="_blank" rel="external">组合模式</a></li>
+</ul>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="http://design-patterns.readthedocs.io/zh_CN/latest/" target="_blank" rel="external">图说设计模式</a></li>
+<li><a href="https://quanke.gitbooks.io/design-pattern-java/" target="_blank" rel="external">设计模式</a></li>
+<li>《Android源码设计模式解析与实战》</li>
+<li><a href="http://blog.csdn.net/yanbober/article/category/3148699" target="_blank" rel="external">工匠若水</a></li>
+<li><a href="http://blog.csdn.net/zhengzhb/article/category/926691" target="_blank" rel="external">卡奴达摩</a></li>
+<li><a href="http://blog.csdn.net/column/details/loveyun.html" target="_blank" rel="external">特种兵—AK47</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/15/tinker-source-code-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/15/tinker-source-code-1/" itemprop="url">Tinker学习(一)热修复基础知识</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-15T00:00:00Z">
+                2017-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="Dalvik"><a href="#Dalvik" class="headerlink" title="Dalvik"></a>Dalvik</h4><p>Dalvik虚拟机实则也算是一个Java虚拟机，只不过它执行的不是class文件，而是dex文件。Dalvik VM是基于寄存器的，而JVM是基于栈的；Dalvik有专属的<code>文件执行格式dex（dalvik executable）</code>，而JVM则执行的是java字节码。Dalvik VM比JVM速度更快，占用空间更少。</p>
+<p>通过Dalvik的字节码我们不能直接看到原来的逻辑代码，这时需要借助如<a href="https://ibotpeaches.github.io/Apktool/install/" target="_blank" rel="external">Apktool</a>或dex2jar+jd-gui工具来帮助查看。但是，注意的是最终我们修改APK需要操作的文件是.smali文件，而不是导出来的Java文件重新编译（况且这基本上不可能）。</p>
+<p>当 Android 系统安装一个应用的时候，有一步是对 Dex 进行优化，这个过程有一个专门的工具来处理，叫 DexOpt。DexOpt 是在第一次加载 Dex 文件的时候执行的。这个过程会生成一个 ODEX 文件，即 Optimised Dex。执行 ODEX 的效率会比直接执行 Dex 文件的效率要高很多。</p>
+<p>但是在早期的 Android 系统中，DexOpt 有两个问题。<br>（一）：DexOpt 会把每一个类的方法 id 检索起来，存在一个链表结构里面，但是这个链表的长度是用一个 short 类型来保存的，导致了方法 id 的数目不能够超过65536个。当一个项目足够大的时候，显然这个方法数的上限是不够的。<br>（二）：Dexopt 使用 LinearAlloc 来存储应用的方法信息。Dalvik LinearAlloc 是一个固定大小的缓冲区。在Android 版本的历史上，LinearAlloc 分别经历了4M/5M/8M/16M限制。Android 2.2和2.3的缓冲区只有5MB，Android 4.x提高到了8MB 或16MB。当方法数量过多导致超出缓冲区大小时，也会造成dexopt崩溃。<br><br></p>
+<h4 id="ART"><a href="#ART" class="headerlink" title="ART"></a>ART</h4><p>即Android Runtime，google为了替代Dalvik专门为Android研发的。Android KK为开发者推出，L版本正式上线。比替代品更高效省电，执行的是本地机器码，依靠Ahead-Of-Time (AOT)机制.</p>
+<ul>
+<li>系统性能大幅提升</li>
+<li>App启动、运行更快</li>
+<li>减少每次启动的编译增加电池续航</li>
+<li>存储占用更大</li>
+<li>安装时间更长</li>
+</ul>
+<p>还有一个地方需要注意的是，应用程序的安装发生在两个时机，第一个时机是系统启动的时候，第二个时机系统启动完成后用户自行安装的时候。在第一个时机中，系统除了会对/system/app和/data/app目录下的所有APK进行dex字节码到本地机器码的翻译之外，还会对/system/framework目录下的APK或者JAR文件，以及这些APK所引用的外部JAR，进行dex字节码到本地机器码的翻译。这样就可以保证除了应用之外，系统中使用Java来开发的系统服务，也会统一地从dex字节码翻译成本地机器码。也就是说，将Android系统中的Dalvik虚拟机替换成ART运行时之后，系统中的代码都是由ART运行时来执行的了，这时候就不会对Dalvik虚拟机产生任何的依赖。<br><br></p>
+<h4 id="Dalvik-vs-ART"><a href="#Dalvik-vs-ART" class="headerlink" title="Dalvik vs ART"></a>Dalvik vs ART</h4><p>Dalvik虚拟机执行的是dex字节码，ART虚拟机执行的是本地机器码。这意味着Dalvik虚拟机包含有一个解释器，用来执行dex字节码。当然，Android从2.2开始，也包含有JIT（Just-In-Time），用来在运行时动态地将执行频率很高的dex字节码翻译成本地机器码，然后再执行。通过JIT，就可以有效地提高Dalvik虚拟机的执行效率。但是，将dex字节码翻译成本地机器码是发生在应用程序的运行过程中的，并且应用程序每一次重新运行的时候，都要做重做这个翻译工作的。因此，即使用采用了JIT，Dalvik虚拟机的总体性能还是不能与直接执行本地机器码的ART虚拟机相比。</p>
+<p>在计算机的世界里，与JIT相对的是AOT。AOT进Ahead-Of-Time的简称，它发生在程序运行之前。我们用静态语言（例如C/C++）来开发应用程序的时候，编译器直接就把它们翻译成目标机器码。这种静态语言的编译方式也是AOT的一种。</p>
+<p>ART虚拟机并不要求开发者将自己的应用直接编译成目标机器码。这样，将应用的dex字节码翻译成本地机器码的最恰当AOT时机就发生在应用安装的时候。</p>
+<p><img src="/images/dalvik&amp;art.png" alt="示例图"></p>
+<p><br></p>
+<h4 id="dex（dalvik-executable）"><a href="#dex（dalvik-executable）" class="headerlink" title="dex（dalvik executable）"></a>dex（dalvik executable）</h4><p>Dex字节码,一种对class文件优化的产物,传统Class文件是一个Java源码文件会生成一个.class文件，而Android是把所有Class文件进行合并，优化，然后生成一个最终的class.dex,目的是把不同class文件重复的东西只需保留一份,如果我们的Android应用不进行分dex处理,最后一个应用的apk只会有一个dex文件。<br></p>
+<p>.dex格式是专为Dalvik设计的一种压缩格式，适合内存和处理器速度有限的系统。执行的是字节码，它是依靠Just-In-Time (JIT)机制去解释字节码<br></p>
+<p>odex（optimised dex）,优化后的dex。</p>
+<h4 id="主流修复方案：Native-hook"><a href="#主流修复方案：Native-hook" class="headerlink" title="主流修复方案：Native hook"></a>主流修复方案：Native hook</h4><p>以<a href="https://github.com/alibaba/AndFix" target="_blank" rel="external">AndFix</a>最著名。原理如下图：</p>
+<p><img src="/images/andfix-yuanli.png" alt="示例图"></p>
+<p>其修复过程如图：</p>
+<p><img src="/images/andfix-guocheng.png" alt="示例图"></p>
+<p>这套方案直接使用<code>dalvik_replaceMethod</code>替换class中方法的实现。由于它并没有整体替换class，而field在class中的相对地址在class加载时已确定，所以AndFix无法支持新增或者删除field的情况(通过替换init与clinit只可以修改field的数值)。</p>
+<h4 id="主流修复方案：基于android-dex分包"><a href="#主流修复方案：基于android-dex分包" class="headerlink" title="主流修复方案：基于android dex分包"></a>主流修复方案：基于android dex分包</h4><p>详细原理介绍<a href="https://mp.weixin.qq.com/s?__biz=MzI1MTA1MzM2Nw==&amp;mid=400118620&amp;idx=1&amp;sn=b4fdd5055731290eef12ad0d17f39d4a" target="_blank" rel="external">传送</a>。</p>
+<p>我用自己的话总结一下：<br><br>1.分包方案中，把修改的补丁dex，插入dexElements数组的最前面，这样根据classLoader找寻一个类的机制，理论上会优先找寻补丁dex里的修改类，从而完成修复；<br><br>2.如果修复好的类和引用该类的类不在同一个dex中则会引发错误，需要防止dexopt给修改后的类增加<code>CLASS_ISPREVERIFIED</code>标志，具体的说明可以参考上述文章；需要注意，dexopt是优化dex的，如果给所有的类都做非preverify，势必会引起一些性能上的损耗。<br><br>3.上述问题发生在dalvik虚拟机，如果是art上，插桩对代码的执行效率没什么影响，因为art直接执行本地机器码。但是如果补丁中的类出现修改类变量或者方法，可能会导致内存地址错乱，为了解决该问题，需要将修改类的父类、引用类、都加入补丁包中，补丁包会急剧变大。</p>
+<h4 id="主流修复方案：基于Instant-Run的冷插拔原理的Dex替换"><a href="#主流修复方案：基于Instant-Run的冷插拔原理的Dex替换" class="headerlink" title="主流修复方案：基于Instant Run的冷插拔原理的Dex替换"></a>主流修复方案：基于Instant Run的冷插拔原理的Dex替换</h4><ul>
+<li>热插拔：无需重启app，无需重建页面，适用与方法修改，变量修改；</li>
+<li>温插拔：需要重建页面，典型代表：修改了Resource文件；</li>
+<li>冷插拔：需要重启app，代表：涉及结构性变化的，比如修改了继承规则，方法签名等。</li>
+</ul>
+<p>Tinker的思路，使用差异dex文件和旧的dex文件，生成修复后的，新的dex文件，从而达到完全使用新的dex的修复效果。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/design-patterns-builder-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/03/design-patterns-builder-2/" itemprop="url">建造者设计模式(二) Android中的应用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-03T00:00:00Z">
+                2017-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="AlertDialog-Builder"><a href="#AlertDialog-Builder" class="headerlink" title="AlertDialog.Builder"></a>AlertDialog.Builder</h4><p>如何应用窗口主题，各种参数合法性检查，上下文切换，窗口创建内部流程，我们都略过，只看其参数的构建即可。<br><br>那么AlertDialog中的参数，如何传递？<br></p>
+<p>AlertDialog 中有一个AlertController的实例。<br><br>AlertController中有个AlertParams的静态类。<br><br>在AlertDialog中有一个静态类Builder，该Builder中持有AlertParams的一个实例。<br><br>Builder中的方法都把属性传入了AlertParams。<br><br>在Builder的create()方法，调用了AlertParams的applay，把参数传回了AlertController中。而AlertController的实例被AlertDialog持有。<br></p>
+<p>示意图如下：</p>
+<p><img src="/images/alertDialog.png" alt="示例图"></p>
+<h4 id="Uri-Builder"><a href="#Uri-Builder" class="headerlink" title="Uri.Builder"></a>Uri.Builder</h4><p>Uri.Builder;<br>Notification.Builder;<br>ContentProviderOperation.Builder;</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/design-patterns-builder-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/03/design-patterns-builder-1/" itemprop="url">建造者设计模式(一) 基础知识</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-03T00:00:00Z">
+                2017-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="what"><a href="#what" class="headerlink" title="what"></a>what</h4><p>一步一步创建一个复杂对象的创建型模式，它允许用户在不知道内部构建细节的情况下，可以更精细地控制对象的构造流程。<br><br></p>
+<p>将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。</p>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ol>
+<li>相同的方法，不同的执行顺序，产生不同的事件结果时；</li>
+<li>多个部件或零件，都可以装配到一个对象中，但是产生的运行结果又不相同时；</li>
+<li>当初始化一个对象特别复杂，如参数多，且很多参数都具有默认值。</li>
+</ol>
+<p>记住一句话:<code>遇到多个构造器参数时要考虑用构建器。</code></p>
+<h4 id="为什么是builder模式"><a href="#为什么是builder模式" class="headerlink" title="为什么是builder模式"></a>为什么是builder模式</h4><p>在创建一个对象时，如果有多个构造器参数，可选的方式有以下几种：</p>
+<ol>
+<li>重叠构造器-telescoping constructor</li>
+<li>JavaBeans模式</li>
+<li>构造器模式</li>
+</ol>
+<h5 id="重叠构造器"><a href="#重叠构造器" class="headerlink" title="重叠构造器"></a>重叠构造器</h5><ul>
+<li>随着参数数目的增加，很难控制</li>
+<li>代码很难编写，难以阅读</li>
+<li>如果参数的类型相同，那么调用时如果不小心颠倒了其中的俩。。</li>
+</ul>
+<pre><code>/**
+ * 重叠构造器Demo
+ * 
+ * @author Administrator
+ * 
+ */
+public class TeleScopDemo {
+
+    private final int param1;
+    private final int param2;
+    private final int param3;
+    private final int param4;
+    private final int param5;
+
+    public TeleScopDemo(int param1) {
+        this(param1, 0);
+    }
+
+    public TeleScopDemo(int param1, int param2) {
+        this(param1, param2, 0);
+    }
+
+    public TeleScopDemo(int param1, int param2, int param3) {
+        this(param1, param2, param3, 0);
+    }
+
+    public TeleScopDemo(int param1, int param2, int param3, int param4) {
+        this(param1, param2, param3, param4, 0);
+    }
+
+    public TeleScopDemo(int param1, int param2, int param3, int param4,
+            int param5) {
+        this.param1 = param1;
+        this.param2 = param2;
+        this.param3 = param3;
+        this.param4 = param4;
+        this.param5 = param5;
+    }
+
+}
+</code></pre><h5 id="JavaBeans"><a href="#JavaBeans" class="headerlink" title="JavaBeans"></a>JavaBeans</h5><p>由于其构造过程被分到了几个调用中，在构造过程中可能处于不一致的状态。需要同步来保证其线程安全。 </p>
+<pre><code>/**
+ * JavaBeans模式Demo
+ * 
+ * @author Administrator
+ * 
+ */
+public class JavaBeansDemo {
+
+    private int param1;
+    private int param2;
+    private int param3;
+    private int param4;
+    private int param5;
+
+    public JavaBeansDemo() {
+    }
+
+    public void setParam1(int param1) {
+        this.param1 = param1;
+    }
+
+    public void setParam2(int param2) {
+        this.param2 = param2;
+    }
+
+    public void setParam3(int param3) {
+        this.param3 = param3;
+    }
+
+    public void setParam4(int param4) {
+        this.param4 = param4;
+    }
+
+    public void setParam5(int param5) {
+        this.param5 = param5;
+    }
+
+}
+</code></pre><h5 id="Builder模式"><a href="#Builder模式" class="headerlink" title="Builder模式"></a>Builder模式</h5><p>既有重叠构造器的安全性，也有JavaBeans的可读性。</p>
+<pre><code>/**
+ * 构建器模式Demo
+ * 
+ * @author Administrator
+ * 
+ */
+public class BuilderPatternDemo {
+
+    private final int param1;
+    private final int param2;
+    private final int param3;
+    private final int param4;
+    private final int param5;
+
+    private BuilderPatternDemo(Builder builder) {
+        param1 = builder.param1;
+        param2 = builder.param2;
+        param3 = builder.param3;
+        param4 = builder.param4;
+        param5 = builder.param5;
+    }
+
+    public static class Builder {
+        // 必需的参数
+        private final int param1;
+
+        // 可选的参数，带有初始值
+        private int param2 = 0;
+        private int param3 = 0;
+        private int param4 = 0;
+        private int param5 = 0;
+
+        public Builder(int param1) {
+            this.param1 = param1;
+        }
+
+        public Builder param2(int val) {
+            param2 = val;
+            return this;
+        }
+
+        public Builder param3(int val) {
+            param3 = val;
+            return this;
+        }
+
+        public Builder param4(int val) {
+            param4 = val;
+            return this;
+        }
+
+        public Builder param5(int val) {
+            param5 = val;
+            return this;
+        }
+
+        public BuilderPatternDemo build(){
+            return new BuilderPatternDemo(this);
+        }
+    }
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/02/android-system-service-window-manager/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -705,265 +1536,6 @@ fun main(args: Array&lt;String&gt;) {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/java-volatile/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/23/java-volatile/" itemprop="url">Java并发中的关键字：volatile</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-23T00:00:00Z">
-                2017-02-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA & kotlin</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><p>第一次与volatile相识，是在单例模式的介绍中，一个DCL的单例，是如何因为非原子性操作而导致在多线程环境下破坏了单例的唯一性。volatile就在此时挺身而出，搞得人对之好感满满。于此时，我又认识到了锁、同步、原子性，这些概念，下面做一个简单的基础知识科普。<br></p>
-<h5 id="为什么需要锁"><a href="#为什么需要锁" class="headerlink" title="为什么需要锁"></a>为什么需要锁</h5><p><img src="/images/why_need_lock.jpg" alt="为什么需要锁"></p>
-<p>由上图，两颗CPU都在修改内存的变量，导致其计数有误。</p>
-<h5 id="锁-lock"><a href="#锁-lock" class="headerlink" title="锁(lock)"></a>锁(lock)</h5><p>锁是用来做并发最简单的方式，当然其代价也是最高的。<code>内核态的锁</code>的时候需要操作系统进行一次上下文切换，加锁、释放锁会导致比较多的上下文切换和调度延时，等待锁的线程会被挂起直至锁释放。在上下文切换的时候，cpu之前缓存的指令和数据都将失效，对性能有很大的损失。<code>用户态的锁</code>避免了这些问题，但是他们只是在没有真实的竞争时才有效。<br></p>
-<p>JDK之前，都是靠synchronized关键字保证同步的，这种通过使用一致的锁定协议来协调对共享状态的访问，可以确保无论哪个线程持有守护变量的锁，都采用<code>独占的方式</code>来访问这些变量，如果出现多个线程同时访问锁，一些线程将被挂起，必须等待其他线程执行完他们的时间片以后才能被调度执行，在挂起和恢复执行过程中存在着很大的开销。锁还存在着其它的一些缺点，当一个线程正在等待锁时，它不能做任何事。如果一个线程在持有锁的情况下被延迟执行，那么所有需要这个锁的线程都无法执行下去。如果被阻塞的线程优先级高，而持有锁的线程优先级低，将会导致优先级反转。</p>
-<h6 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h6><p>独占锁是一种悲观锁，synchronized就是一种独占锁，他假设最坏的情况，并且只有在确保其他线程不会造成干扰的情况下执行，会导致其他所有需要锁的线程挂起，等待持有锁的线程释放锁。</p>
-<h6 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h6><p>比悲观锁更加有效，每次不加锁而是假设没有冲突而去完成某项操作，如果冲突失败就重试，直到成功为止。<br>CAS乐观锁算法如图：<br>CAS比较与交换的伪代码可以表示为：</p>
-<pre><code>do{
-备份旧数据
-基于旧数据构造新数据
-}while(!CAS(内存地址，备份的旧数据，新数据))
-</code></pre><p><img src="/images/cas.png" alt="CAS乐观锁"></p>
-<h5 id="原子操作-atomic-operations"><a href="#原子操作-atomic-operations" class="headerlink" title="原子操作(atomic operations)"></a>原子操作(atomic operations)</h5><ul>
-<li>所有的原始类型的赋值，long和double除外；</li>
-<li>所有引用的赋值；</li>
-<li>所有java.concurrent.Atomic*中类中的操作</li>
-<li>所有volatile修饰的long和double</li>
-</ul>
-<p>为什么long型赋值不是原子操作呢？</p>
-<p>事实上java会分两步写入这个long变量，先写32位，再写后32位。这样就线程不安全了。如果改成下面的就线程安全了：</p>
-<pre><code>private volatile long foo;
-</code></pre><p>因为volatile内部已经做了synchronized.</p>
-<h5 id="线程与内存的交互"><a href="#线程与内存的交互" class="headerlink" title="线程与内存的交互"></a>线程与内存的交互</h5><p>每一个线程运行时都有一个线程栈，线程栈保存了线程运行时候变量值信息。当线程访问某一个对象的值的时候，首先通过对象的引用找到对应在堆内存的变量的值，然后把堆内存变量的具体值load到线程本地内存中，建立一个变量副本，之后线程就不再和对象在堆内存变量值有任何关系，而是直接修改副本变量的值，在修改完之后的某一个时刻，自动把线程变量副本的值回写到对象在堆中的变量。如图：</p>
-<p><img src="/images/thread-read-write.jpg" alt="线程与内存的交互"><br>其中use and assign 可以多次出现</p>
-<h5 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h5><p>volatile，声明其修饰的字段易变（可能被多个线程使用），Java内存模型负责各个线程的工作区与主存区的该字段的值保持同步。<br><br>volatile的同步，不同于synchronized，前者是内存同步，后者不仅包含内存同步，并且保证线程互斥。<br><br>volatile能替代简单的锁，却不能保证原子性。<br></p>
-<h5 id="内存屏障-Memory-Barrier"><a href="#内存屏障-Memory-Barrier" class="headerlink" title="内存屏障-Memory Barrier"></a>内存屏障-Memory Barrier</h5><p>内存屏障是一个CPU指令。</p>
-<ol>
-<li>确保一些特定操作执行的顺序；</li>
-<li>影响一些数据的可见性(可能是某些指令执行后的结果)。编译器和CPU可以在保证输出结果一样的情况下对指令重排序，使性能得到优化。插入一个内存屏障，相当于告诉CPU和编译器先于这个命令的必须先执行，后于这个命令的必须后执行。内存屏障的另一个作用是强制更新一次不同CPU的缓存。例如，一个写屏障会把这个屏障前写入的数据刷新到缓存，这样任何试图读取该数据的线程都将得到最新值，而不用考虑到底是被哪个CPU核心或者哪颗CPU执行的。</li>
-</ol>
-<p><br></p>
-<p>如果你的字段是volatile，java内存模型将在写操作后插入一个写屏障指令，在读操作前插入一个读屏障指令。<br></p>
-<p>由<code>线程和内存交互的图</code>，可得：</p>
-<pre><code>[读屏障指令] - read - load - use - asign - store - write - [写屏障指令].
-</code></pre><p>可以看到，从load到store是不安全的，这期间，如果别的CPU修改了值，将会丢失。因此，我们说<code>volatile不能保证原子性。</code>这同时说明：<code>volatile不能用在getAndOperate场合，仅仅set/get场景是适合volatile的</code>。</p>
-<h4 id="voaltile-使用场景及模式"><a href="#voaltile-使用场景及模式" class="headerlink" title="voaltile 使用场景及模式"></a>voaltile 使用场景及模式</h4><pre><code>要始终牢记使用volatile的限制——只有在状态真正独立于程序内其他内容时才能使用volatile——这条规则能够避免将这些模式扩展到不安全的用例。 
-
-Always keep in mind the rules about the limits of where volatile can be used -- only use volatile for state that is truly independent of everything else in your program -- and this should keep you from trying to extend these patterns into dangerous territory.
-</code></pre><h5 id="模式1：状态标志"><a href="#模式1：状态标志" class="headerlink" title="模式1：状态标志"></a>模式1：状态标志</h5><p>也许实现volatile变量的规范使用仅仅是使用一个布尔状态标志，用于指示发生了一个重要的一次性事件，例如完成初始化或请求停机。很多应用程序包含了一种控制结构，形式为“在还没有准备好停止程序时再执行一些工作”。</p>
-<pre><code>volatile boolean shutdownRequested;
-
-...
-
-public void shutdown() { shutdownRequested = true; }
-
-public void doWork() { 
-    while (!shutdownRequested) { 
-        // do stuff
-    }
-}
-</code></pre><p>这种类型的状态标记的一个公共特性是：通常只有一种状态转换；shutdownRequest标志从false转换为true，然后程序停止。这种模式可以扩展到来回转换的状态标志，但是只有在转换周期不被察觉的情况下才能扩展。</p>
-<h5 id="模式2：一次性安全发布-one-time-safe-publication"><a href="#模式2：一次性安全发布-one-time-safe-publication" class="headerlink" title="模式2：一次性安全发布(one time safe publication)"></a>模式2：一次性安全发布(one time safe publication)</h5><p>缺乏同步会导致无法实现可见性，这使得确定何时写入对象引用而不是原语值变得更加困难。在缺乏同步的情况下，可能会遇到某个对象引用的更新值和该对象状态的旧值同时存在。这就是造成著名的双重检查锁定(double checked locking)问题的根源，其中对象引用在没有同步的情况下进行读操作，产生的问题是您可能会看到一个更新的引用，但是仍然会通过该引用看到不完全构造的对象。</p>
-<p>实现安全发布对象的一种技术就是将对象引用定义为volatile类型。</p>
-<pre><code>public class BackgroundFloobleLoader {
-    public volatile Flooble theFlooble;
-    public void initInBackground() {
-        // do lots of stuff
-        theFlooble = new Flooble();  // this is the only write to theFlooble
-    }
-}
-
-public class SomeOtherClass {
-    public void doWork() {
-        while (true) { 
-            // do some stuff...
-            // use the Flooble, but only if it is ready
-            if (floobleLoader.theFlooble != null) 
-                doSomething(floobleLoader.theFlooble);
-        }
-    }
-}
-</code></pre><p>该模式的一个必要条件是：被发布的对象必须是线程安全的，或者是有效的不可变对象(有效不可变意味着对象的状态在发布之后永远不会被修改)。volatile类型的引用可以确保对象的发布形式的可见性，但是如果对象的状态在发布后将发生更改，那么就需要额外的同步。</p>
-<h5 id="模式3：独立观察-independent-observation"><a href="#模式3：独立观察-independent-observation" class="headerlink" title="模式3：独立观察(independent observation)"></a>模式3：独立观察(independent observation)</h5><p>安全使用volatile的另一种简单模式是：定期“发布”观察结果供程序内部使用。例如：假设有一种环境传感器能够感觉环境温度。一个后台线程可能会每隔几秒读取一次该传感器，并更新包含当前文档的volatile变量。然后，其他线程可以读取这个变量，从而随时能够看到最新的温度值。</p>
-<pre><code>public class UserManager {
-    public volatile String lastUser;
-
-    public boolean authenticate(String user, String password) {
-        boolean valid = passwordIsValid(user, password);
-        if (valid) {
-            User u = new User();
-            activeUsers.add(u);
-            lastUser = user;
-        }
-        return valid;
-    }
-}
-</code></pre><p>该模式是一次性安全发布的扩展，将某个值发布，以在程序内的其他地方使用，但是这与一次性事件的发布不同，这是一系列独立事件。这个模式要求被发布的值是有效不可变的——即值的状态在发布后不会更改。使用该值的代码需要清除该值可能随时发生变化。</p>
-<h5 id="模式4：volatile-bean-模式"><a href="#模式4：volatile-bean-模式" class="headerlink" title="模式4：volatile bean 模式"></a>模式4：volatile bean 模式</h5><p>volatile bean模式适用于将JavaBeans作为“荣誉结构”使用的框架。在volatile bean模式中，JavaBean被用作一组具有getter/setter方法的独立属性的容器。volatile bean 模式的基本原理是：很多框架为易变数据的持有者(例如HttpSession)提供了容器，但是放入这些容器中的对象必须是线程安全的。<br><br>在volatile bean模式中，JavaBean的所有数据成员都是volatile类型的，并且getter/setter方法必须非常普通——除了获取或设置相应的属性外，不能包含任何逻辑。此外，对于对象引用的数据成员，引用的对象必须是有效不可变的。(这将禁止具有数组值的属性，因为当数组引用被声明为volatile时，只有引用而不是数组本身具有volatile语义)。对于任何volatile变量，不变式或约束都不能包含JavaBean属性。</p>
-<pre><code>@ThreadSafe
-public class Person {
-    private volatile String firstName;
-    private volatile String lastName;
-    private volatile int age;
-
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
-    public int getAge() { return age; }
-
-    public void setFirstName(String firstName) { 
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) { 
-        this.lastName = lastName;
-    }
-
-    public void setAge(int age) { 
-        this.age = age;
-    }
-}
-</code></pre><h5 id="模式5：volatile-高级模式，开销较低的读-写锁策略"><a href="#模式5：volatile-高级模式，开销较低的读-写锁策略" class="headerlink" title="模式5：volatile 高级模式，开销较低的读-写锁策略"></a>模式5：volatile 高级模式，开销较低的读-写锁策略</h5><p>如果读操作远远超过写操作，您可以结合使用内部锁和volatile变量来减少公共代码路径的开销。</p>
-<pre><code>@ThreadSafe
-public class CheesyCounter {
-    // Employs the cheap read-write lock trick
-    // All mutative operations MUST be done with the &apos;this&apos; lock held
-    @GuardedBy(&quot;this&quot;) private volatile int value;
-
-    public int getValue() { return value; }
-
-    public synchronized int increment() {
-        return value++;
-    }
-}
-</code></pre><p>上述中显示的线程安全的计数器使用synchronized确保增量操作是原子的，并使用volatile保证当前结果的可见性。如果更新不频繁的话，该方法可实现更好的性能，因为读路径的开销仅仅涉及volatile读操作，这通常要优于一个无竞争的锁获取的开销。</p>
-<h4 id="voaltile-与-static"><a href="#voaltile-与-static" class="headerlink" title="voaltile 与 static"></a>voaltile 与 static</h4><p>volatile，声明这个字段易变(可能被多个线程使用)，java内存模型负责各个线程的工作区与主存区的该字段的值保持同步，即一致性；强调变量值的唯一性；</p>
-<p>static，声明这个字段是静态的(可能被多个实例共享)，在主存区上该类的所有实例的该字段为同一个变量，即唯一性；强调变量的唯一性。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/android-system-service-LayoutInflater/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1312,6 +1884,265 @@ try {
 <li>如果不存在或者存在但没通过验证，就重新生成并缓存，生成时如果name有前缀就拼装上，通过反射获取其构造函数；</li>
 <li>通过其构造生成view。</li>
 </ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/java-volatile/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/23/java-volatile/" itemprop="url">Java并发中的关键字：volatile</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-23T00:00:00Z">
+                2017-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA & kotlin</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><p>第一次与volatile相识，是在单例模式的介绍中，一个DCL的单例，是如何因为非原子性操作而导致在多线程环境下破坏了单例的唯一性。volatile就在此时挺身而出，搞得人对之好感满满。于此时，我又认识到了锁、同步、原子性，这些概念，下面做一个简单的基础知识科普。<br></p>
+<h5 id="为什么需要锁"><a href="#为什么需要锁" class="headerlink" title="为什么需要锁"></a>为什么需要锁</h5><p><img src="/images/why_need_lock.jpg" alt="为什么需要锁"></p>
+<p>由上图，两颗CPU都在修改内存的变量，导致其计数有误。</p>
+<h5 id="锁-lock"><a href="#锁-lock" class="headerlink" title="锁(lock)"></a>锁(lock)</h5><p>锁是用来做并发最简单的方式，当然其代价也是最高的。<code>内核态的锁</code>的时候需要操作系统进行一次上下文切换，加锁、释放锁会导致比较多的上下文切换和调度延时，等待锁的线程会被挂起直至锁释放。在上下文切换的时候，cpu之前缓存的指令和数据都将失效，对性能有很大的损失。<code>用户态的锁</code>避免了这些问题，但是他们只是在没有真实的竞争时才有效。<br></p>
+<p>JDK之前，都是靠synchronized关键字保证同步的，这种通过使用一致的锁定协议来协调对共享状态的访问，可以确保无论哪个线程持有守护变量的锁，都采用<code>独占的方式</code>来访问这些变量，如果出现多个线程同时访问锁，一些线程将被挂起，必须等待其他线程执行完他们的时间片以后才能被调度执行，在挂起和恢复执行过程中存在着很大的开销。锁还存在着其它的一些缺点，当一个线程正在等待锁时，它不能做任何事。如果一个线程在持有锁的情况下被延迟执行，那么所有需要这个锁的线程都无法执行下去。如果被阻塞的线程优先级高，而持有锁的线程优先级低，将会导致优先级反转。</p>
+<h6 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h6><p>独占锁是一种悲观锁，synchronized就是一种独占锁，他假设最坏的情况，并且只有在确保其他线程不会造成干扰的情况下执行，会导致其他所有需要锁的线程挂起，等待持有锁的线程释放锁。</p>
+<h6 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h6><p>比悲观锁更加有效，每次不加锁而是假设没有冲突而去完成某项操作，如果冲突失败就重试，直到成功为止。<br>CAS乐观锁算法如图：<br>CAS比较与交换的伪代码可以表示为：</p>
+<pre><code>do{
+备份旧数据
+基于旧数据构造新数据
+}while(!CAS(内存地址，备份的旧数据，新数据))
+</code></pre><p><img src="/images/cas.png" alt="CAS乐观锁"></p>
+<h5 id="原子操作-atomic-operations"><a href="#原子操作-atomic-operations" class="headerlink" title="原子操作(atomic operations)"></a>原子操作(atomic operations)</h5><ul>
+<li>所有的原始类型的赋值，long和double除外；</li>
+<li>所有引用的赋值；</li>
+<li>所有java.concurrent.Atomic*中类中的操作</li>
+<li>所有volatile修饰的long和double</li>
+</ul>
+<p>为什么long型赋值不是原子操作呢？</p>
+<p>事实上java会分两步写入这个long变量，先写32位，再写后32位。这样就线程不安全了。如果改成下面的就线程安全了：</p>
+<pre><code>private volatile long foo;
+</code></pre><p>因为volatile内部已经做了synchronized.</p>
+<h5 id="线程与内存的交互"><a href="#线程与内存的交互" class="headerlink" title="线程与内存的交互"></a>线程与内存的交互</h5><p>每一个线程运行时都有一个线程栈，线程栈保存了线程运行时候变量值信息。当线程访问某一个对象的值的时候，首先通过对象的引用找到对应在堆内存的变量的值，然后把堆内存变量的具体值load到线程本地内存中，建立一个变量副本，之后线程就不再和对象在堆内存变量值有任何关系，而是直接修改副本变量的值，在修改完之后的某一个时刻，自动把线程变量副本的值回写到对象在堆中的变量。如图：</p>
+<p><img src="/images/thread-read-write.jpg" alt="线程与内存的交互"><br>其中use and assign 可以多次出现</p>
+<h5 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h5><p>volatile，声明其修饰的字段易变（可能被多个线程使用），Java内存模型负责各个线程的工作区与主存区的该字段的值保持同步。<br><br>volatile的同步，不同于synchronized，前者是内存同步，后者不仅包含内存同步，并且保证线程互斥。<br><br>volatile能替代简单的锁，却不能保证原子性。<br></p>
+<h5 id="内存屏障-Memory-Barrier"><a href="#内存屏障-Memory-Barrier" class="headerlink" title="内存屏障-Memory Barrier"></a>内存屏障-Memory Barrier</h5><p>内存屏障是一个CPU指令。</p>
+<ol>
+<li>确保一些特定操作执行的顺序；</li>
+<li>影响一些数据的可见性(可能是某些指令执行后的结果)。编译器和CPU可以在保证输出结果一样的情况下对指令重排序，使性能得到优化。插入一个内存屏障，相当于告诉CPU和编译器先于这个命令的必须先执行，后于这个命令的必须后执行。内存屏障的另一个作用是强制更新一次不同CPU的缓存。例如，一个写屏障会把这个屏障前写入的数据刷新到缓存，这样任何试图读取该数据的线程都将得到最新值，而不用考虑到底是被哪个CPU核心或者哪颗CPU执行的。</li>
+</ol>
+<p><br></p>
+<p>如果你的字段是volatile，java内存模型将在写操作后插入一个写屏障指令，在读操作前插入一个读屏障指令。<br></p>
+<p>由<code>线程和内存交互的图</code>，可得：</p>
+<pre><code>[读屏障指令] - read - load - use - asign - store - write - [写屏障指令].
+</code></pre><p>可以看到，从load到store是不安全的，这期间，如果别的CPU修改了值，将会丢失。因此，我们说<code>volatile不能保证原子性。</code>这同时说明：<code>volatile不能用在getAndOperate场合，仅仅set/get场景是适合volatile的</code>。</p>
+<h4 id="voaltile-使用场景及模式"><a href="#voaltile-使用场景及模式" class="headerlink" title="voaltile 使用场景及模式"></a>voaltile 使用场景及模式</h4><pre><code>要始终牢记使用volatile的限制——只有在状态真正独立于程序内其他内容时才能使用volatile——这条规则能够避免将这些模式扩展到不安全的用例。 
+
+Always keep in mind the rules about the limits of where volatile can be used -- only use volatile for state that is truly independent of everything else in your program -- and this should keep you from trying to extend these patterns into dangerous territory.
+</code></pre><h5 id="模式1：状态标志"><a href="#模式1：状态标志" class="headerlink" title="模式1：状态标志"></a>模式1：状态标志</h5><p>也许实现volatile变量的规范使用仅仅是使用一个布尔状态标志，用于指示发生了一个重要的一次性事件，例如完成初始化或请求停机。很多应用程序包含了一种控制结构，形式为“在还没有准备好停止程序时再执行一些工作”。</p>
+<pre><code>volatile boolean shutdownRequested;
+
+...
+
+public void shutdown() { shutdownRequested = true; }
+
+public void doWork() { 
+    while (!shutdownRequested) { 
+        // do stuff
+    }
+}
+</code></pre><p>这种类型的状态标记的一个公共特性是：通常只有一种状态转换；shutdownRequest标志从false转换为true，然后程序停止。这种模式可以扩展到来回转换的状态标志，但是只有在转换周期不被察觉的情况下才能扩展。</p>
+<h5 id="模式2：一次性安全发布-one-time-safe-publication"><a href="#模式2：一次性安全发布-one-time-safe-publication" class="headerlink" title="模式2：一次性安全发布(one time safe publication)"></a>模式2：一次性安全发布(one time safe publication)</h5><p>缺乏同步会导致无法实现可见性，这使得确定何时写入对象引用而不是原语值变得更加困难。在缺乏同步的情况下，可能会遇到某个对象引用的更新值和该对象状态的旧值同时存在。这就是造成著名的双重检查锁定(double checked locking)问题的根源，其中对象引用在没有同步的情况下进行读操作，产生的问题是您可能会看到一个更新的引用，但是仍然会通过该引用看到不完全构造的对象。</p>
+<p>实现安全发布对象的一种技术就是将对象引用定义为volatile类型。</p>
+<pre><code>public class BackgroundFloobleLoader {
+    public volatile Flooble theFlooble;
+    public void initInBackground() {
+        // do lots of stuff
+        theFlooble = new Flooble();  // this is the only write to theFlooble
+    }
+}
+
+public class SomeOtherClass {
+    public void doWork() {
+        while (true) { 
+            // do some stuff...
+            // use the Flooble, but only if it is ready
+            if (floobleLoader.theFlooble != null) 
+                doSomething(floobleLoader.theFlooble);
+        }
+    }
+}
+</code></pre><p>该模式的一个必要条件是：被发布的对象必须是线程安全的，或者是有效的不可变对象(有效不可变意味着对象的状态在发布之后永远不会被修改)。volatile类型的引用可以确保对象的发布形式的可见性，但是如果对象的状态在发布后将发生更改，那么就需要额外的同步。</p>
+<h5 id="模式3：独立观察-independent-observation"><a href="#模式3：独立观察-independent-observation" class="headerlink" title="模式3：独立观察(independent observation)"></a>模式3：独立观察(independent observation)</h5><p>安全使用volatile的另一种简单模式是：定期“发布”观察结果供程序内部使用。例如：假设有一种环境传感器能够感觉环境温度。一个后台线程可能会每隔几秒读取一次该传感器，并更新包含当前文档的volatile变量。然后，其他线程可以读取这个变量，从而随时能够看到最新的温度值。</p>
+<pre><code>public class UserManager {
+    public volatile String lastUser;
+
+    public boolean authenticate(String user, String password) {
+        boolean valid = passwordIsValid(user, password);
+        if (valid) {
+            User u = new User();
+            activeUsers.add(u);
+            lastUser = user;
+        }
+        return valid;
+    }
+}
+</code></pre><p>该模式是一次性安全发布的扩展，将某个值发布，以在程序内的其他地方使用，但是这与一次性事件的发布不同，这是一系列独立事件。这个模式要求被发布的值是有效不可变的——即值的状态在发布后不会更改。使用该值的代码需要清除该值可能随时发生变化。</p>
+<h5 id="模式4：volatile-bean-模式"><a href="#模式4：volatile-bean-模式" class="headerlink" title="模式4：volatile bean 模式"></a>模式4：volatile bean 模式</h5><p>volatile bean模式适用于将JavaBeans作为“荣誉结构”使用的框架。在volatile bean模式中，JavaBean被用作一组具有getter/setter方法的独立属性的容器。volatile bean 模式的基本原理是：很多框架为易变数据的持有者(例如HttpSession)提供了容器，但是放入这些容器中的对象必须是线程安全的。<br><br>在volatile bean模式中，JavaBean的所有数据成员都是volatile类型的，并且getter/setter方法必须非常普通——除了获取或设置相应的属性外，不能包含任何逻辑。此外，对于对象引用的数据成员，引用的对象必须是有效不可变的。(这将禁止具有数组值的属性，因为当数组引用被声明为volatile时，只有引用而不是数组本身具有volatile语义)。对于任何volatile变量，不变式或约束都不能包含JavaBean属性。</p>
+<pre><code>@ThreadSafe
+public class Person {
+    private volatile String firstName;
+    private volatile String lastName;
+    private volatile int age;
+
+    public String getFirstName() { return firstName; }
+    public String getLastName() { return lastName; }
+    public int getAge() { return age; }
+
+    public void setFirstName(String firstName) { 
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) { 
+        this.lastName = lastName;
+    }
+
+    public void setAge(int age) { 
+        this.age = age;
+    }
+}
+</code></pre><h5 id="模式5：volatile-高级模式，开销较低的读-写锁策略"><a href="#模式5：volatile-高级模式，开销较低的读-写锁策略" class="headerlink" title="模式5：volatile 高级模式，开销较低的读-写锁策略"></a>模式5：volatile 高级模式，开销较低的读-写锁策略</h5><p>如果读操作远远超过写操作，您可以结合使用内部锁和volatile变量来减少公共代码路径的开销。</p>
+<pre><code>@ThreadSafe
+public class CheesyCounter {
+    // Employs the cheap read-write lock trick
+    // All mutative operations MUST be done with the &apos;this&apos; lock held
+    @GuardedBy(&quot;this&quot;) private volatile int value;
+
+    public int getValue() { return value; }
+
+    public synchronized int increment() {
+        return value++;
+    }
+}
+</code></pre><p>上述中显示的线程安全的计数器使用synchronized确保增量操作是原子的，并使用volatile保证当前结果的可见性。如果更新不频繁的话，该方法可实现更好的性能，因为读路径的开销仅仅涉及volatile读操作，这通常要优于一个无竞争的锁获取的开销。</p>
+<h4 id="voaltile-与-static"><a href="#voaltile-与-static" class="headerlink" title="voaltile 与 static"></a>voaltile 与 static</h4><p>volatile，声明这个字段易变(可能被多个线程使用)，java内存模型负责各个线程的工作区与主存区的该字段的值保持同步，即一致性；强调变量值的唯一性；</p>
+<p>static，声明这个字段是静态的(可能被多个实例共享)，在主存区上该类的所有实例的该字段为同一个变量，即唯一性；强调变量的唯一性。</p>
 
           
         
@@ -2235,923 +3066,6 @@ public static BidiFormatter getInstance(Locale locale) {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/20/decrease-apk-size/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/20/decrease-apk-size/" itemprop="url">APK瘦身</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-20T00:00:00Z">
-                2017-02-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="在线检测"><a href="#在线检测" class="headerlink" title="在线检测"></a>在线检测</h4><blockquote>
-<p>在线分析APK：<a href="https://nimbledroid.com/" target="_blank" rel="external">NimbleDroid</a></p>
-</blockquote>
-<h5 id="实例分析-Summary"><a href="#实例分析-Summary" class="headerlink" title="实例分析-Summary"></a>实例分析-Summary</h5><pre><code>我们上传一个apk，看看这款App的分析结果。
-</code></pre><p><img src="/images/nimabledroid-1.png" alt="Summary"></p>
-<ul>
-<li>File Name 我们上传的App名字</li>
-<li>File Size 文件大小</li>
-<li>Method Count 方法总数</li>
-<li>Uploaded via Site 谁在什么时间上传 </li>
-</ul>
-<p><img src="/images/nimabledroid-2.png" alt="Summary"></p>
-<ul>
-<li>Scenario：Cold StartUp 冷启动场景下</li>
-<li>Slowdowns 速度减缓的地方</li>
-<li>Merm Leaks 内存泄漏的地方</li>
-<li>Time-Real Time 时间花费</li>
-<li>Memory-Max Use 内存占用</li>
-<li>Network-down 下载数据量</li>
-<li>Network-up 上传数据量</li>
-<li>Disk I/O-Read 从磁盘读取数据量</li>
-<li>Disk I/O-Write 写入磁盘的数据量</li>
-</ul>
-<h5 id="实例分析-File-Sizes"><a href="#实例分析-File-Sizes" class="headerlink" title="实例分析-File Sizes"></a>实例分析-File Sizes</h5><p><img src="/images/nimabledroid-3.png" alt="Summary"></p>
-<blockquote>
-<p>在此，我们看到100kb以上的文件。其中某些lib下的多余库，高清大图片是我们关注的重点。</p>
-</blockquote>
-<p><img src="/images/nimabledroid-4.png" alt="Summary"></p>
-<blockquote>
-<p>不同类型的文件所占体积大小。</p>
-</blockquote>
-<h5 id="实例分析-Method-Count"><a href="#实例分析-Method-Count" class="headerlink" title="实例分析-Method Count"></a>实例分析-Method Count</h5><p><img src="/images/nimabledroid-5.png" alt="Summary"></p>
-<blockquote>
-<p>各SDK方法数统计。</p>
-</blockquote>
-<h5 id="实例分析-具体Scenario分析"><a href="#实例分析-具体Scenario分析" class="headerlink" title="实例分析-具体Scenario分析"></a>实例分析-具体Scenario分析</h5><p>我们考察冷启动从欢迎页启动到主页这个场景。看到时间为<code>4.8s</code>,感觉有些长了。我们使用Android Monitor的日志，过滤<code>ActivityManager:Displayed</code>，看到欢迎页是<code>569ms</code>，主页是<code>613ms</code>。</p>
-<p><img src="/images/nimabledroid-6.png" alt="Summary"><br>如图：</p>
-<ul>
-<li>Speed - Hung CPU Methods 挂起CPU方法使UI落后，反应延迟。对用户来说是长于32ms。方法在该条目下因为此时正在使用CPU。</li>
-<li>Speed - Hung Wait Methods 挂起CPU方法使UI落后，反应延迟。对用户来说是长于32ms。方法在此条目下因为正在等待可用的资源，尽管没有使用CPU。</li>
-<li>Speed - Hot Methods 热方法即执行其调用的CPU时间长于100ms。</li>
-<li><p>Speed - Dependencies 有时应用中的依赖关系会影响性能。</p>
-</li>
-<li><p>BaseActivity、BaseFragment的初始化操作</p>
-</li>
-<li>PushAgent.onAppStart 推送服务启动</li>
-<li>ClassUtil.getGenericSuperclass fastjson的方法</li>
-<li>ViewPager.onMeasure 欢迎页的测量</li>
-<li>Jackson JSON Parser jackjson的解析</li>
-</ul>
-<p>我们选取一个方法点击进入详细，如图：</p>
-<p><img src="/images/nimabledroid-7.png" alt="Summary"></p>
-<p>在此我们可以看到，Umeng推送，百度定位，检查版本更新，检查热修复包版本，retrofitmanager初始化。</p>
-<p><img src="/images/nimabledroid-8.png" alt="Summary"></p>
-<blockquote>
-<p>看到这个对比图，还是老脸微红的。现在的SDK都要求在Application里初始化，搞的定位，推送，热修复，网络框架，图片框架都在这里了，皮，真的皮！</p>
-</blockquote>
-<h4 id="优化注意点"><a href="#优化注意点" class="headerlink" title="优化注意点"></a>优化注意点</h4><h5 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h5><ul>
-<li>清除未使用的资源，Android lint analyze &amp; shrinkResource</li>
-<li>大图片使用tinyPNG</li>
-<li>png转webp</li>
-<li><a href="https://github.com/shwenzhang/AndResGuard" target="_blank" rel="external">AndResGuard</a></li>
-</ul>
-<h5 id="第三方库"><a href="#第三方库" class="headerlink" title="第三方库"></a>第三方库</h5><ul>
-<li>清除不必须的第三方jar，尤其是Android support </li>
-</ul>
-<h5 id="冗余代码"><a href="#冗余代码" class="headerlink" title="冗余代码"></a>冗余代码</h5><ul>
-<li>inspect code</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/17/get-max-tree/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/17/get-max-tree/" itemprop="url">构造数组的MaxTree</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-17T00:00:00Z">
-                2017-02-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="构造数组的MaxTree"><a href="#构造数组的MaxTree" class="headerlink" title="构造数组的MaxTree"></a>构造数组的MaxTree</h5><p>定义二叉树结点如下：</p>
-<pre><code>public class Node {
-    public int value;
-    public Node left;
-    public Node right;
-
-    public Node(int data) {
-        this.value = data;
-    }
-}
-</code></pre><p>一个数组的MaxTree定义如下。</p>
-<ul>
-<li>数组必须没有重复元素。</li>
-<li>MaxTree是一颗二叉树，数组的每一个值对应一个二叉树节点。</li>
-<li>包括MaxTree树在内且在其中的每一颗树上，值最大的节点都是树的头。</li>
-</ul>
-<p>给定一个没有重复元素的数组arr，写出生成这个数组的MaxTree的函数，要求如果数组长度为N，则时间复杂度为O(n)、额外空间复杂度为O(n).</p>
-<h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>校 ★★★☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><p>下面举例说明如何在满足空间和时间复杂度的要求下生成MaxTree。</p>
-<blockquote>
-<p>arr = {3,4,5,1,2}<br><br>3的左边第一个比3大的数：无  3的右边第一个比3大的数：4<br><br>4的左边第一个比4大的数：无  4的右边第一个比4大的数：5<br><br>5的左边第一个比5大的数：无  5的右边第一个比5大的数：无<br><br>1的左边第一个比1大的数：5   1的右边第一个比1大的数：2<br><br>2的左边第一个比2大的数：5   2的右边第一个比2大的数：无<br></p>
-</blockquote>
-<p>以下列原则来建立这颗树：</p>
-<ul>
-<li>每一个数的父节点是他左边第一个比他大的数和他右边第一个比他大的数中，较小的那个。</li>
-<li>如果一个数左边没有比他大的数，右边也没有。也就是说，这个数是整个数组的最大值，那么这个数是MaxTree的头节点。</li>
-</ul>
-<p>示例代码如下：</p>
-<pre><code>import java.util.HashMap;
-import java.util.Stack;
-
-public class MaxTree {
-
-    public Node getMaxTree(int[] arr) {
-
-        Node[] nArr = new Node[arr.length];
-        for (int i = 0; i != arr.length; i++) {
-            nArr[i] = new Node(arr[i]);
-        }
-
-        Stack&lt;Node&gt; stack = new Stack&lt;&gt;();
-        HashMap&lt;Node, Node&gt; lBigMap = new HashMap&lt;&gt;();
-        HashMap&lt;Node, Node&gt; rBigMap = new HashMap&lt;&gt;();
-
-        for (int i = 0; i != nArr.length; i++) {
-            Node curNode = nArr[i];
-            while ((!stack.isEmpty()) &amp;&amp; stack.peek().value &lt; curNode.value) {
-                popStackSetMap(stack, lBigMap);
-            }
-            stack.push(curNode);
-        }
-
-        while (!stack.isEmpty()) {
-            popStackSetMap(stack, lBigMap);
-        }
-
-        for (int i = nArr.length; i != -1; i--) {
-            Node curNode = nArr[i];
-            while ((!stack.isEmpty()) &amp;&amp; stack.peek().value &lt; curNode.value) {
-                popStackSetMap(stack, rBigMap);
-            }
-            stack.push(curNode);
-        }
-
-        while (!stack.isEmpty()) {
-            popStackSetMap(stack, rBigMap);
-        }
-
-        Node head = null;
-        for (int i = 0; i != nArr.length; i++) {
-            Node curNode = nArr[i];
-            Node left = lBigMap.get(curNode);
-            Node right = rBigMap.get(curNode);
-
-            if (left == null &amp;&amp; right == null) {
-                head = curNode;
-            } else if (left == null) {
-                if (right.left == null) {
-                    right.left = curNode;
-                } else {
-                    right.right = curNode;
-                }
-            } else if (right == null) {
-                if (left.left == null) {
-                    left.left = curNode;
-                } else {
-                    left.right = curNode;
-                }
-            } else {
-                Node parent = left.value &lt; right.value ? left : right;
-                if (parent.left == null) {
-                    parent.left = curNode;
-                } else {
-                    parent.right = curNode;
-                }
-            }
-
-        }
-
-        return head;
-    }
-
-    private void popStackSetMap(Stack&lt;Node&gt; stack, HashMap&lt;Node, Node&gt; map) {
-        Node popNode = stack.pop();
-        if (stack.isEmpty()) {
-            map.put(popNode, null);
-        } else {
-            map.put(popNode, stack.peek());
-        }
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/hanoi-problom/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/16/hanoi-problom/" itemprop="url">用栈来求解汉诺塔的问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-16T00:00:00Z">
-                2017-02-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="用栈来求解汉诺塔问题"><a href="#用栈来求解汉诺塔问题" class="headerlink" title="用栈来求解汉诺塔问题"></a>用栈来求解汉诺塔问题</h5><pre><code>汉诺塔问题比较经典，这里修改一下游戏规则：现在限制不能从最左侧的塔直接移动到最右侧，也不能从最右侧直接移动到最左侧，而是必须经过中间。求当塔有N层的时候，打印最优移动过程和最优移动总步数。
-
-例如，当塔数为两层时，最上层的塔记为1，最下层的塔记为2，则打印：
-
-Move 1 from left to mid
-Move 1 from mid to right
-Move 2 from left to mid
-Move 1 from right to mid
-Move 1 from mid to left
-Move 2 from mid to right
-Move 1 from left to mid
-Move 1 from mid to right
-</code></pre><p>用以下两种方法解决</p>
-<ul>
-<li>方法一：递归的方法</li>
-<li>方法二：非递归的方法，用栈来模拟汉诺塔的三个塔</li>
-</ul>
-<h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>校 ★★★☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><h5 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h5><pre><code>/**
- * 递归的方法： 首先，如果只剩最上层(递归的终止条件)的塔需要移动，则有如下处理： 
- * 1.如果希望从“左”移到“中”，打印“Move 1 from left to mid” 
- * 2.如果希望从“中”移到“右”，打印“Move 1 from mid to right” 
- * 3.如果希望从“右”移到“中”，打印“Move 1 from right to mid” 
- * 4.如果希望从“中”移到“左”，打印“Move 1 from mind to left”
- * 5.如果希望从“右”移到“左”，打印“Move 1 from right to mid” 和 “Move 1 from mind to left”
- * 6.如果希望从“左”移到“右”，打印“Move 1 from left to mid” 和 “Move 1 from mid to right”
- * 
- */
-public class HanoiProblem {
-
-    public static void main(String[] args) {
-        System.out.println(process(7, &quot;left&quot;, &quot;mid&quot;, &quot;right&quot;, &quot;left&quot;, &quot;right&quot;));
-    }
-
-    public static int hanoiProblem1(int num, String left, String mid, String right) {
-        if (num &lt; 1)
-            return 0;
-
-        return process(num, left, mid, right, left, right);
-
-    }
-
-    public static int process(int num, String left, String mid, String right, String from, String to) {
-        if (num == 1) {
-            if (from.equals(mid) || to.equals(mid)) {
-                System.out.println(&quot;Move 1 from &quot; + from + &quot; to &quot; + to);
-                return 1;
-            } else {
-                System.out.println(&quot;Move 1 from &quot; + from + &quot; to &quot; + mid);
-                System.out.println(&quot;Move 1 from &quot; + mid + &quot; to &quot; + to);
-                return 1;
-            }
-        }
-        if (from.equals(mid) || to.equals(mid)) {
-            String another = (from.equals(left) || to.equals(left)) ? right : left;
-            int part1 = process(num, left, mid, right, from, another);
-            int part2 = 1;// what&apos;s this?
-            System.out.println(&quot;Move &quot; + num + &quot; from &quot; + from + &quot; to &quot; + to);
-            int part3 = process(num - 1, left, mid, right, another, to);
-            return part1 + part2 + part3;
-        } else {
-            int part1 = process(num - 1, left, mid, right, from, to);
-            int part2 = 1;
-            System.out.println(&quot;Move &quot; + num + &quot; from &quot; + from + &quot; to &quot; + mid);
-            int part3 = process(num - 1, left, mid, right, to, from);
-            int part4 = 1;
-            System.out.println(&quot;Move &quot; + num + &quot; from &quot; + mid + &quot; to &quot; + to);
-            int part5 = process(num - 1, left, mid, right, from, to);
-            return part1 + part2 + part3 + part4 + part5;
-        }
-    }
-}
-</code></pre><h5 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h5><pre><code>import java.util.Stack;
-
-/**
- * 非递归方法 —— 用栈来模拟整个过程 修改后的汉诺塔问题不能让任何塔从“左”直接移动到“右”，也不能从“右”直接移动到“左”，而是要经过
- * 中间。也就是说，实际动作只有4个：“左”到“中”、“中”到“左”、“中”到“右”、“右”到“中”。
- * 
- * 现在我们把左、中、右三个地点抽象成栈，依次记为LS,MS,RS。最初所有的塔都在LS上。
- * 那么如上4个动作就可以看作是：某一个栈(from)把栈顶元素弹出，然后压入另一个栈(to)，做为该栈的栈顶。
- * 
- * 第一原则：小压大的原则；每个栈的栈顶-栈底元素，从小到大。
- * 第二原则：相邻不可逆原则；比如L-&gt;M发生了，那么下一步一定不可为：M-&gt;L这样的操作，没意义。
- * 
- * 非递归方法结论： &lt;br/&gt;
- * 1.第一个动作一定是L-&gt;M；&lt;br/&gt;
- * 2.在走出最少步数过程中的任何时刻，四个动作中只有一个动作不违反小压大和相邻不可逆原则，另外三个动作一定都会违反。
- * 
- * @author sxx.xu
- *
- */
-public class HanoiProblem2 {
-
-    public static void main(String[] args) {
-        System.out.println(hanoi(4, &quot;L&quot;, &quot;M&quot;, &quot;R&quot;));
-    }
-    public static int hanoi(int num, String left, String mid, String right) {
-        Stack&lt;Integer&gt; lS = new Stack&lt;&gt;();
-        Stack&lt;Integer&gt; mS = new Stack&lt;&gt;();
-        Stack&lt;Integer&gt; rS = new Stack&lt;&gt;();
-        lS.push(Integer.MAX_VALUE);
-        mS.push(Integer.MAX_VALUE);
-        rS.push(Integer.MAX_VALUE);
-        for (int i = num; i &gt; 0; i--) {
-            lS.push(i);
-        }
-
-        Action[] record = { Action.No };
-        int step = 0;
-        while (rS.size() != num + 1) {
-            step += fStackToStack(record, Action.MToL, Action.LToM, lS, mS, left, mid);
-            step += fStackToStack(record, Action.LToM, Action.MToL, mS, lS, mid, left);
-            step += fStackToStack(record, Action.RToM, Action.MToR, mS, rS, mid, right);
-            step += fStackToStack(record, Action.MToR, Action.RToM, rS, mS, right, mid);
-        }
-        return step;
-    }
-
-    public static int fStackToStack(Action[] record, Action preNoAct, Action nowAct, Stack&lt;Integer&gt; fStack,
-            Stack&lt;Integer&gt; tStack, String from, String to) {
-        if (record[0] != preNoAct &amp;&amp; fStack.peek() &lt; tStack.peek()) {
-            tStack.push(fStack.pop());
-            System.out.println(&quot;Move &quot; + tStack.peek() + &quot; from &quot; + from + &quot; to &quot; + to);
-            record[0] = nowAct;
-            return 1;
-        }
-        return 0;
-    }
-
-}
-
-enum Action {
-    No, LToM, MToL, MToR, RToM
-
-} 
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/get-max-window/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/16/get-max-window/" itemprop="url">生成窗口最大值数组</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-16T00:00:00Z">
-                2017-02-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="生成窗口最大值数组"><a href="#生成窗口最大值数组" class="headerlink" title="生成窗口最大值数组"></a>生成窗口最大值数组</h5><p>有一个整型数组arr和一个大小为w的窗口从数组的最左边滑倒最右边，窗口每次向右边滑一个位置。<br>例如，数组[4,3,5,4,3,3,6,7]，窗口大小为3时：</p>
-<blockquote>
-<p>[4 3 5] 4 3 3 6 7 窗口中最大值为5 <br><br>4 [3 5 4] 3 3 6 7 窗口中最大值为5 <br><br>4 3 [5 4 3] 3 6 7 窗口中最大值为5 <br><br>4 3 5 [4 3 3] 6 7 窗口中最大值为4 <br><br>4 3 5 4 [3 3 6] 7 窗口中最大值为6 <br><br>4 3 5 4 3 [3 6 7] 窗口中最大值为7 <br></p>
-<p>请实现一个函数：</p>
-<ul>
-<li>输入：整型数组arr，窗口大小为w</li>
-<li>输出：一个长度为n-w+1的数组res，res[i]表示每一种窗口状态下的最大值。</li>
-</ul>
-</blockquote>
-<p>以上例，结果应为：{5,5,5,4,6,7}.</p>
-<h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><h5 id="方法一-O-N-w"><a href="#方法一-O-N-w" class="headerlink" title="方法一:O(N * w)"></a>方法一:O(N * w)</h5><pre><code> public class Demo {
-
-    public static void main(String[] args) {
-        int[] arr = getMaxWindow(new int[] { 4, 3, 5, 4, 3, 3, 6, 7 }, 3);
-        for (int i = 0; i &lt; arr.length; i++) {
-            System.out.println(arr[i]);
-        }
-    }
-
-    public static int[] getMaxWindow(int[] arr, int w) {
-        int[] result = new int[arr.length - w + 1];
-        for (int i = 0; i &lt; arr.length - w + 1; i++) {
-            int x = arr[i];
-            for (int j = 0; j &lt; w; j++) {
-                if (arr[i + j] &gt;= x)
-                    x = arr[i + j];
-            }
-            result[i] = x;
-        }
-        return result;
-    }
-}
-</code></pre><h5 id="方法二-O-N"><a href="#方法二-O-N" class="headerlink" title="方法二:O(N)"></a>方法二:O(N)</h5><blockquote>
-<p>本题的关键在于利用双端队列来实现窗口最大值的更新。生成双端队列qmax存放数组arr中的下标。<br>放入规则：</p>
-<ol>
-<li>如果qmax为空，直接把下标i放入；</li>
-<li>如果qmax不为空，比较arr[i]和qmax队尾下标对应的数组元素，如果arr[i]比较大，则持续弹出qmax中的元素，直至arr[i]小于qmax下标对应的元素或者qmax符合第一条；</li>
-</ol>
-<p>弹出规则：<br>如果qmax对头的下标等于i-w，说明当前qmax队头的下标已过期，弹出队头。</p>
-<p>上述过程，每个下标最多进入qmax一次，出qmax一次，所以遍历的过程中进出双端队列的操作时间复杂度是O(n).</p>
-<p>注意，我们的目的数组的大小为：n-w+1，在arr的循环过程中，录入数据进入目的数组时，注意过滤其边界，否则<code>java.lang.ArrayIndexOutOfBoundsException</code>.</p>
-</blockquote>
-<pre><code>public static int[] getMaxWindow2(int[] arr, int w) {
-        int[] result = new int[arr.length - w + 1];
-        LinkedList&lt;Integer&gt; qmax = new LinkedList&lt;&gt;();
-        int index = 0;
-        for (int i = 0; i &lt; arr.length; i++) {
-
-            while (!qmax.isEmpty() &amp;&amp; arr[qmax.peekLast()] &lt;= arr[i]) {
-                qmax.pollLast();
-            }
-            qmax.addLast(i);
-            if (qmax.peekFirst() == i - w) {
-                qmax.pollFirst();
-            }
-            if (i &gt;= w - 1)
-                result[index++] = arr[qmax.peekFirst()];
-
-        }
-        return result;
-    }
-</code></pre><h6 id="双端队列的实现类"><a href="#双端队列的实现类" class="headerlink" title="双端队列的实现类"></a>双端队列的实现类</h6><pre><code>public class LinkedList&lt;E&gt; extends AbstractSequentialList&lt;E&gt;
-    implements List&lt;E&gt;, Deque&lt;E&gt;, Cloneable, java.io.Serializable
-
-
-
-public class ArrayDeque&lt;E&gt; extends AbstractCollection&lt;E&gt;
-                           implements Deque&lt;E&gt;, Cloneable, Serializable
-</code></pre><p><a href="http://shmilyaw-hotmail-com.iteye.com/blog/1700599" target="_blank" rel="external">java集合类深入分析之Queue篇</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -3201,7 +3115,7 @@ public class ArrayDeque&lt;E&gt; extends AbstractCollection&lt;E&gt;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">104</span>
+                <span class="site-state-item-count">108</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

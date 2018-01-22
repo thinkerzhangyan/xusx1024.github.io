@@ -267,6 +267,783 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/pat-yi-1014/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/22/pat-yi-1014/" itemprop="url">乙1014. 福尔摩斯的约会 (20)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-22T00:00:00Z">
+                2018-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>大侦探福尔摩斯接到一张奇怪的字条：“我们约会吧！ 3485djDkxh4hhGE 2984akDfkkkkggEdsb s&amp;hgsfdk d&amp;Hyscvnm”。大侦探很快就明白了，字条上奇怪的乱码实际上就是约会的时间“星期四 14:04”，因为前面两字符串中第1对相同的大写英文字母（大小写有区分）是第4个字母’D’，代表星期四；第2对相同的字符是’E’，那是第5个英文字母，代表一天里的第14个钟头（于是一天的0点到23点由数字0到9、以及大写字母A到N表示）；后面两字符串第1对相同的英文字母’s’出现在第4个位置（从0开始计数）上，代表第4分钟。现给定两对字符串，请帮助福尔摩斯解码得到约会的时间。</p>
+<p>输入格式：</p>
+<p>输入在4行中分别给出4个非空、不包含空格、且长度不超过60的字符串。</p>
+<p>输出格式：</p>
+<p>在一行中输出约会的时间，格式为“DAY HH:MM”，其中“DAY”是某星期的3字符缩写，即MON表示星期一，TUE表示星期二，WED表示星期三，THU表示星期四，FRI表示星期五，SAT表示星期六，SUN表示星期日。题目输入保证每个测试存在唯一解。</p>
+<p>输入样例：<br>    3485djDkxh4hhGE<br>    2984akDfkkkkggEdsb<br>    s&amp;hgsfdk<br>    d&amp;Hyscvnm<br>输出样例：<br>    THU 14:04</p>
+<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+
+public class No1014 {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String weekStr1 = in.nextLine();
+        String weekStr2 = in.nextLine();
+        String timeStr1 = in.nextLine();
+        String timeStr2 = in.nextLine();
+        in.close();
+        String[] week = { &quot;MON&quot;, &quot;TUE&quot;, &quot;WED&quot;, &quot;THU&quot;, &quot;FRI&quot;, &quot;SAT&quot;, &quot;SUN&quot; };
+        StringBuilder sb = new StringBuilder();
+        char week_c1, week_c2;
+        int counts = 0;
+        for (int i = 0; i &lt; Math.min(weekStr1.length(), weekStr2.length()); i++) {
+            week_c1 = weekStr1.charAt(i);
+            week_c2 = weekStr2.charAt(i);
+
+            if (week_c1 == week_c2) {
+                if (counts == 0 &amp;&amp; week_c1 &gt;= &apos;A&apos; &amp;&amp; week_c1 &lt;= &apos;G&apos;) {
+                    counts++;
+                    sb.append(week[week_c1 - &apos;A&apos;]).append(&quot; &quot;);
+                    continue;
+                }
+
+                if (counts == 1) {
+                    if (week_c1 &gt;= &apos;A&apos; &amp;&amp; week_c1 &lt;= &apos;N&apos;) {
+                        sb.append(week_c1 - &apos;A&apos; + 10).append(&quot;:&quot;);
+                        break;
+                    } else if (Character.isDigit(week_c1)) {
+                        sb.append(&quot;0&quot;).append(week_c1).append(&quot;:&quot;);
+                        break;
+                    } else {
+                        continue;
+                    }
+                }
+            }
+        }
+        for (int i = 0; i &lt; Math.min(timeStr1.length(), timeStr2.length()); i++) {
+            if (timeStr1.charAt(i) == timeStr2.charAt(i) &amp;&amp; (timeStr1.charAt(i) &gt;= &apos;a&apos; &amp;&amp; timeStr1.charAt(i) &lt;= &apos;z&apos;
+                    || timeStr1.charAt(i) &gt;= &apos;A&apos; &amp;&amp; timeStr1.charAt(i) &lt;= &apos;Z&apos;)) {
+                if (i &lt; 10)
+                    sb.append(&quot;0&quot;);
+                sb.append(i);
+                break;
+            }
+        }
+        System.out.print(sb.toString());
+    }
+
+}
+</code></pre><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li>前两行字符串,第一对相同的A-G之间的大写字母,确定星期</li>
+<li>前两行字符串,第二对相同的0-9,A-N之间的字符,确定24小时</li>
+<li>后两行字符串,第一对相同的a-z,A-Z之间的字母,所在字符串的序号,确定分钟</li>
+<li>小时分钟的输出为:HH:MM</li>
+</ul>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li>牛客网全测试通过</li>
+<li>PAT有两个一直答案错误,经过我深思熟虑一番修改,错误答案,嘎巴一下~增加到了三个!!</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/pat-yi-1013/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/22/pat-yi-1013/" itemprop="url">乙1013. 数素数 (20)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-22T00:00:00Z">
+                2018-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>令Pi表示第i个素数。现任给两个正整数M &lt;= N &lt;= 104，请输出PM到PN的所有素数。</p>
+<p>输入格式：</p>
+<p>输入在一行中给出M和N，其间以空格分隔。</p>
+<p>输出格式：</p>
+<p>输出从PM到PN的所有素数，每10个数字占1行，其间以空格分隔，但行末不得有多余空格。</p>
+<p>输入样例：<br>    5 27<br>输出样例：<br>    11 13 17 19 23 29 31 37 41 43<br>    47 53 59 61 67 71 73 79 83 89<br>    97 101 103</p>
+<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+
+public class No1013 {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int M = in.nextInt();
+        int N = in.nextInt();
+        in.close();
+        int current = 0;
+        int[] res = new int[N];
+        for (int i = 2; current &lt; N; i++) {
+            if (isSu(i)) {
+                res[current++] = i;
+                if (current &gt;= M) {
+                    System.out.print(i);
+                    if (current - M + 1 &gt;= 10 &amp;&amp; (current - M + 1) % 10 == 0) {
+                        System.out.println();
+                    } else {
+                        if (current != N)
+                            System.out.print(&quot; &quot;);
+                    }
+                }
+            }
+        }
+    }
+
+    static boolean isSu(int a) {
+        boolean flag = true;
+        for (int i = 2; i &lt;= Math.sqrt(a); i++) {
+            if (a % i == 0) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+}
+</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li>列出从0-N的素数,然后截取M-N个</li>
+<li>需要加强白板写代码的能力,尤其是在输出的时候,角标什么的老爱弄错,大脑一锅粥.</li>
+<li>IDE是个好东西,在此处,让人发懒了.</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/pat-yi-1012/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/22/pat-yi-1012/" itemprop="url">乙1012. 数字分类 (20)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-22T00:00:00Z">
+                2018-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>给定一系列正整数，请按要求对数字进行分类，并输出以下5个数字：</p>
+<ul>
+<li>A1 = 能被5整除的数字中所有偶数的和；</li>
+<li>A2 = 将被5除后余1的数字按给出顺序进行交错求和，即计算n1-n2+n3-n4…；</li>
+<li>A3 = 被5除后余2的数字的个数；</li>
+<li>A4 = 被5除后余3的数字的平均数，精确到小数点后1位；</li>
+<li>A5 = 被5除后余4的数字中最大数字。</li>
+<li>输入格式：</li>
+</ul>
+<p>每个输入包含1个测试用例。每个测试用例先给出一个不超过1000的正整数N，随后给出N个不超过1000的待分类的正整数。数字间以空格分隔。</p>
+<p>输出格式：</p>
+<p>对给定的N个正整数，按题目要求计算A1~A5并在一行中顺序输出。数字间以空格分隔，但行末不得有多余空格。</p>
+<p>若其中某一类数字不存在，则在相应位置输出“N”。</p>
+<p>输入样例1：<br>    13 1 2 3 4 5 6 7 8 9 10 20 16 18<br>输出样例1：<br>    30 11 2 9.7 9<br>输入样例2：<br>    8 1 2 4 5 6 7 9 16<br>输出样例2：<br>    N 11 2 N 9</p>
+<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.text.DecimalFormat;
+import java.util.Scanner;
+
+public class No1012 {
+
+    public static void main(String[] args) {
+        // long start = System.currentTimeMillis();
+        Scanner in = new Scanner(System.in);
+        String input = in.nextLine();
+        String[] numbers = input.split(&quot; &quot;);
+        int len = numbers.length;
+        int median, A1 = -1, A2 = Integer.MAX_VALUE, A3 = -1, A4 = -1, A5 = -1, A2Nums = 0, A4Nums = 0;
+        for (int i = 1; i &lt; len; i++) {
+            median = Integer.parseInt(numbers[i]);
+            if (median % 5 == 0 &amp;&amp; median % 2 == 0) {
+                if (A1 == -1) {
+                    A1 = 0;
+                }
+                A1 += median;
+            } else if (median % 5 == 1) {
+                A2Nums++;
+                if (A2 == Integer.MAX_VALUE) {
+                    A2 = 0;
+                }
+                if (A2Nums % 2 == 0) {
+                    A2 -= median;
+                } else {
+                    A2 += median;
+                }
+            } else if (median % 5 == 2) {
+                if (A3 == -1)
+                    A3 = 0;
+                A3++;
+            } else if (median % 5 == 3) {
+                A4Nums++;
+                if (A4 == -1) {
+                    A4 = 0;
+                }
+                A4 += median;
+                System.out.println(A4 + &quot;/&quot; + A4Nums);
+            } else if (median % 5 == 4) {
+                if (A5 == -1)
+                    A5 = median;
+                else
+                    A5 = A5 - median &gt; 0 ? A5 : median;
+            }
+        }
+        in.close();
+        double A4Res;
+        String s4;
+        if (A4 != -1) {
+            DecimalFormat df = new DecimalFormat(&quot;0.0&quot;);
+            A4Res = (float) A4 / A4Nums;
+            s4 = df.format(A4Res);
+        } else {
+            s4 = String.valueOf(A4);
+        }
+        String[] res = { String.valueOf(A1), String.valueOf(A2), String.valueOf(A3), s4, String.valueOf(A5) };
+        for (int j = 0; j &lt; res.length; j++) {
+            if (res[j].equals(&quot;-1&quot;) || res[j].equals(&quot;2147483647&quot;)) {
+                System.out.print(&quot;N&quot;);
+            } else {
+                System.out.print(res[j]);
+            }
+            if (j != res.length - 1)
+                System.out.print(&quot; &quot;);
+        }
+        // System.out.println((System.currentTimeMillis() - start));
+    }
+}
+</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p>PAT的编译器有些抽风,你可能会遇到<code>运行超时</code>的问题,解决步骤如下:</p>
+<ul>
+<li>去牛客网,找到该题,查看运行结果和时间</li>
+<li>返回PAT再次尝试提交,看是否可以成功</li>
+<li>如果第二步没有成功,小睡片刻,睡醒后再次提交,应该就可以了(开玩笑的,PAT用的JDK6,然后的确是有些问题的.多提交几次就好了.)</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/pat-yi-1011/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/22/pat-yi-1011/" itemprop="url">乙1011. A+B和C (15)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-22T00:00:00Z">
+                2018-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>给定区间[-2<sup>31</sup>, 2<sup>31</sup>]内的3个整数A、B和C，请判断A+B是否大于C。</p>
+<p>输入格式：</p>
+<p>输入第1行给出正整数T(&lt;=10)，是测试用例的个数。随后给出T组测试用例，每组占一行，顺序给出A、B和C。整数间以空格分隔。</p>
+<p>输出格式：</p>
+<p>对每组测试用例，在一行中输出“Case #X: true”如果A+B&gt;C，否则输出“Case #X: false”，其中X是测试用例的编号（从1开始）。</p>
+<p>输入样例：<br>4<br>1 2 3<br>2 3 4<br>2147483647 0 2147483646<br>0 -2147483648 -2147483647<br>输出样例：<br>Case #1: false<br>Case #2: true<br>Case #3: true<br>Case #4: false    </p>
+<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.math.BigDecimal;
+import java.util.Scanner;
+
+public class No1011 {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int num = Integer.parseInt(in.nextLine());
+        String originStr;
+        String[] split;
+        BigDecimal a;
+        BigDecimal b;
+        BigDecimal c;
+        boolean[] res = new boolean[num];
+        for (int i = 0; i &lt; num; i++) {
+            originStr = in.nextLine();
+            split = originStr.split(&quot; &quot;);
+            a = new BigDecimal(split[0]);
+            b = new BigDecimal(split[1]);
+            c = new BigDecimal(split[2]);
+            res[i] = (a.add(b).compareTo(c) == 1);
+        }
+        in.close();
+        for (int i = 0; i &lt; num; i++) {
+            System.out.println(&quot;Case #&quot; + (i+1) + &quot;: &quot; + res[i]);
+        }
+    }
+}
+</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li>整型可能会越界</li>
+<li>输出是从”1”开始</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/15/android-samples-index/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2172,738 +2949,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/kotlin-extension-function/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/26/kotlin-extension-function/" itemprop="url">kotlin-扩展函数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T00:00:00Z">
-                2017-12-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA & kotlin</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="问题引出"><a href="#问题引出" class="headerlink" title="问题引出"></a>问题引出</h4><p>在调用一个对象的方法的时候,IDE自动提示了如下的方法:(请看图中白色的方法)<br><img src="/images/kotlin_extension_fun.png" alt="1-1"></p>
-<h4 id="追踪"><a href="#追踪" class="headerlink" title="追踪"></a>追踪</h4><pre><code>文件位置`org\jetbrains\kotlin\kotlin-stdlib\1.1.51\kotlin-stdlib-1.1.51.jar!\kotlin\NotImplementedError.class`
-
-打开方法所在的文件,第一行:
-
-@file:kotlin.jvm.JvmMultifileClass // 包名相同,类名也相同,或者有相同的@JvmName注解,会出错,使用此注解
-@file:kotlin.jvm.JvmName(&quot;StandardKt&quot;) // 使用注解,修改生成的Java类的类名
-</code></pre><p>引申:<br>    在Java中,如果需要把kotlin属性作为字段暴露,需要使用@JvmField注解标注.<a href="https://www.kotlincn.net/docs/reference/java-to-kotlin-interop.html" target="_blank" rel="external">更多Java和kotlin互相调用</a></p>
-<p>最后发现这几个函数叫做扩展函数.官方api:<a href="https://www.kotlincn.net/docs/reference/extensions.html" target="_blank" rel="external">链接</a></p>
-<ul>
-<li>能够扩展一个类的新功能而无需继承该类或使用像装饰者这样的设计模式.</li>
-<li>扩展函数不能真正的修改他们所扩展的类.通过定义一个扩展,你并没有在一个类中插入新成员,仅仅是可以通过该类型的变量用点表达式去调用该函数</li>
-<li>图片上的是官方提供的扩展函数,我们也可以自己扩展,参考链接中的注意事项.</li>
-</ul>
-<h4 id="官方扩展函数"><a href="#官方扩展函数" class="headerlink" title="官方扩展函数"></a>官方扩展函数</h4><h6 id="let函数"><a href="#let函数" class="headerlink" title="let函数"></a>let函数</h6><pre><code>let默认当前这个对象作为闭包的it参数，返回值是函数里面最后一行，或者指定return
-</code></pre><ul>
-<li>闭包<ul>
-<li>外部变量 + 函数 组成一个闭包</li>
-<li>通常实现方式为函数内定义另外一个函数</li>
-<li>内部函数可以引用外部函数的变量和参数</li>
-<li>参数和变量不会被垃圾回收器回收</li>
-<li>作用:<ul>
-<li>隐藏关键的变量,把一个全局变量写成局部变量</li>
-<li></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>it参数,一个方法如果只有一个参数,可以用it代替 </li>
-</ul>
-<h6 id="apply函数"><a href="#apply函数" class="headerlink" title="apply函数"></a>apply函数</h6><pre><code>调用某对象的apply函数,在apply里可以调用该对象的任意方法,并返回该对象,如果let指定return it,两个一样的.
-</code></pre><p>buıxbuıɥs‾</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1009/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/25/pat-yi-1009/" itemprop="url">乙1009. 说反话 (20)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T00:00:00Z">
-                2017-12-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>给定一句英语，要求你编写程序，将句中所有单词的顺序颠倒输出。
-
-输入格式：测试输入包含一个测试用例，在一行内给出总长度不超过80的字符串。
-
-字符串由若干单词和若干空格组成，其中单词是由英文字母（大小写有区分）组成的字符串，
-
-单词之间用1个空格分开，输入保证句子末尾没有多余的空格。
-
-输出格式：每个测试用例的输出占一行，输出倒序后的句子。
-
-输入样例：
-Hello World Here I Come
-输出样例：
-Come I Here World Hello
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-/**
- * No.1009. 说反话 (20)
- * 
- * @author sxx.xu
- *
- */
-public class No1009 {
-
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        String str = in.nextLine();
-        in.close();
-        String[] datas = str.split(&quot; &quot;);
-        for (int i = datas.length - 1; i &gt;= 0; i--) {
-            System.out.print(datas[i]);
-            if (i &gt;= 1) {
-                System.out.print(&quot; &quot;);
-            }
-        }
-
-    }
-
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1007/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/25/pat-yi-1007/" itemprop="url">乙1007. 素数对猜想 (20)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T00:00:00Z">
-                2017-12-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>让我们定义 dn 为：dn = pn+1 - pn，其中 pi 是第i个素数。显然有 d1=1 且对于n&gt;1有 dn 是偶数。
-
-“素数对猜想”认为“存在无穷多对相邻且差为2的素数”。
-
-现给定任意正整数N (&lt; 105)，请计算不超过N的满足猜想的素数对的个数。
-
-输入格式：每个测试输入包含1个测试用例，给出正整数N。
-
-输出格式：每个测试用例的输出占一行，不超过N的满足猜想的素数对的个数。
-
-输入样例：
-20
-输出样例：
-4
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-
-/**
- * No.1007: 素数对猜想 (20)
- * 
- * @author sxx.xu
- *
- */
-public class No1007 {
-
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int total = in.nextInt();
-        int times = 0;
-        in.close();
-
-        for (int i = 1; i &lt;= total - 2; i++) {
-            if (isSu(i) &amp;&amp; isSu(i + 2)) {
-                times++;
-            }
-        }
-        System.out.println(times);
-    }
-
-    static boolean isSu(int a) {
-        boolean flag = true;
-        if (a &lt; 2) {
-            return false;
-        } else {
-            for (int i = 2; i &lt;= Math.sqrt(a); i++) {
-                if (a % i == 0) {
-                    flag = false;
-                    break;
-                }
-            }
-        }
-        return flag;
-    }
-}
-</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
-<li>Math不需要import语句</li>
-<li>求解素数,循环整除的上限是该数的平方根</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1008/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/25/pat-yi-1008/" itemprop="url">乙1008. 数组元素循环右移问题 (20)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T00:00:00Z">
-                2017-12-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>一个数组A中存有N（N&gt;0）个整数，在不允许使用另外数组的前提下，将每个整数循环向右移M（M&gt;=0）个位置，
-
-即将A中的数据由（A0 A1……AN-1）变换为（AN-M …… AN-1 A0 A1……AN-M-1）（最后M个数循环移至最前面的M个位置）。如果需要考
-
-虑程序移动数据的次数尽量少，要如何设计移动的方法？
-
-输入格式：每个输入包含一个测试用例，第1行输入N ( 1&lt;=N&lt;=100)、M（M&gt;=0）；第2行输入N个整数，之间用空格分隔。
-
-输出格式：在一行中输出循环右移M位以后的整数序列，之间用空格分隔，序列结尾不能有多余空格。
-
-输入样例：
-6 2
-1 2 3 4 5 6
-输出样例：
-5 6 1 2 3 4
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-
-/**
- * No.1008: 数组元素循环右移问题 (20)
- * 
- * @author sxx.xu
- *
- */
-public class No1008 {
-
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int total = in.nextInt();
-        int offset = in.nextInt();
-        int[] array = new int[total];
-        for (int i = 0; i &lt; total; i++) {
-            int temp = in.nextInt();
-            if (i + offset &lt; total) {
-                array[i + offset] = temp;
-            } else {
-                array[(i + offset) % total] = temp;
-            }
-        }
-        in.close();
-
-        for (int i = 0; i &lt; total; i++) {
-            System.out.print(array[i]);
-            if (i &lt; total - 1) {
-                System.out.print(&quot; &quot;);
-            }
-        }
-
-    }
-
-}
-</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
-<li>根据示例,我一开始用的数组截取,然后打印,但是有两个测试用例没有通过.代码如下:</li>
-</ul>
-<pre><code>public class No1008 {
-
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        String firstLine = in.nextLine();
-        String secondLine = in.nextLine();
-        in.close();
-        String datas[] = secondLine.split(&quot; &quot;);
-        int total = Integer.parseInt(firstLine.split(&quot; &quot;)[0]);
-        int offset = Integer.parseInt(firstLine.split(&quot; &quot;)[1]);
-        StringBuilder sb = new StringBuilder();
-        for (int i = total - offset; i &lt; datas.length; i++) {
-            sb.append(datas[i]).append(&quot; &quot;);
-        }
-        for (int i = 0; i &lt; total - offset; i++) {
-            sb.append(datas[i]).append(&quot; &quot;);
-        }
-        System.out.println(sb.toString().trim());
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2953,7 +2998,7 @@ public class No1008 {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">104</span>
+                <span class="site-state-item-count">108</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
