@@ -267,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1003/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1002/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -286,7 +286,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1003/" itemprop="url">乙1003. 我要通过！(20)</a></h1>
+                <a class="post-title-link" href="/2017/12/21/pat-yi-1002/" itemprop="url">乙1002. 写出这个数 (20)</a></h1>
         
 
         <div class="post-meta">
@@ -357,96 +357,216 @@
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>“答案正确”是自动判题系统给出的最令人欢喜的回复。本题属于PAT的“答案正确”大派送 —— 只要读入的字符串满足下列条件，系统就输出“答案正确”，否则输出“答案错误”。
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入一个自然数n，计算其各位数字之和，用汉语拼音写出和的每一位数字。
 
-得到“答案正确”的条件是：
+输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。这里保证n小于10100。
 
-    1. 字符串中必须仅有P, A, T这三种字符，不可以包含其它字符；
-    2. 任意形如 xPATx 的字符串都可以获得“答案正确”，其中 x 或者是空字符串，或者是仅由字母 A 组成的字符串；
-    3. 如果 aPbTc 是正确的，那么 aPbATca 也是正确的，其中 a, b, c 均或者是空字符串，或者是仅由字母 A 组成的字符串。
-
-现在就请你为PAT写一个自动裁判程序，判定哪些字符串是可以获得“答案正确”的。
-输入格式： 每个测试输入包含1个测试用例。第1行给出一个自然数n (&lt;10)，是需要检测的字符串个数。接下来每个字符串占一行，字符串长度不超过100，且不包含空格。
-
-输出格式：每个字符串的检测结果占一行，如果该字符串可以获得“答案正确”，则输出YES，否则输出NO。
+输出格式：在一行内输出n的各位数字之和的每一位，拼音数字间有1 空格，但一行中最后一个拼音数字后没有空格。
 
 输入样例：
-8
-PAT
-PAAT
-AAPATAA
-AAPAATAAAA
-xPATx
-PT
-Whatever
-APAAATAA
+1234567890987654321123456789
 输出样例：
-YES
-YES
-YES
-YES
-NO
-NO
-NO
-NO
-</code></pre><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
-<li>这是一道找规律题.发现,最后一个看着应该输出<code>YES</code>,为什么样例给出<code>NO</code>,从这里结合要求[3]找出A的个数的规律.可得:请拉倒页面底部看.</li>
-<li>PT,结合要求[1],得出判定条件.</li>
-</ul>
-<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+yi san wu
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
 
 /**
- * NO.1003: 我要通过！(20)
+ * NO.1002:写出这个数 (20)
  * 
  * @author sxx.xu
  *
  */
-public class No1003 {
+public class No1002 {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int num = Integer.parseInt(scanner.nextLine());
-        boolean[] res = new boolean[num];
-        char chars[];
-        int index = 0;
-        int pIndex = 0;
-        int tIndex = 0;
-        out: while (num &gt; 0) {
-            num--;
-            String str = scanner.nextLine();
-            chars = str.toCharArray();
-            in: for (char c : chars) {
-                if (c != &apos;P&apos; &amp;&amp; c != &apos;T&apos; &amp;&amp; c != &apos;A&apos;) {
-                    res[index] = false;
-                    index++;
-                    continue out;
-                }
-            }
-            pIndex = str.indexOf(&apos;P&apos;);
-            tIndex = str.indexOf(&apos;T&apos;);
-
-            if (tIndex &lt;= pIndex || str.length() &lt; 3) {
-                res[index] = false;
-                index++;
-                continue out;
-            }
-            if (pIndex * (tIndex - pIndex - 1) == str.length() - 1 - tIndex) {
-                res[index] = true;
-            } else {
-                res[index] = false;
-            }
-            index++;
-            continue out;
+        String[] com = new String[] { &quot;ling &quot;, &quot;yi &quot;, &quot;er &quot;, &quot;san &quot;, &quot;si &quot;, &quot;wu &quot;, &quot;liu &quot;, &quot;qi &quot;, &quot;ba &quot;, &quot;jiu &quot; };
+        Scanner in = new Scanner(System.in);
+        String num = in.nextLine().trim();
+        char[] nums = num.toCharArray();
+        int ans = 0;
+        for (char c : nums) {
+            ans += Integer.parseInt(String.valueOf(c));
         }
 
-        for (boolean b : res) {
-            System.out.println(b ? &quot;YES&quot; : &quot;NO&quot;);
+        String res = String.valueOf(ans);
+        nums = res.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        for (char c : nums) {
+            sb.append(com[Integer.parseInt(String.valueOf(c))]);
         }
+        System.out.println(sb.toString().trim());
     }
 
 }
-</code></pre><h4 id="规律"><a href="#规律" class="headerlink" title="规律"></a>规律</h4><p>由:<code>如果 aPbTc 是正确的</code>,半句可得:b&gt;=1<br>由:<code>那么 aPbATca 也是正确的</code> 和 样例给出,可以得到: a x (b+1) = c + a (单位为A)<br>化简得: a x b = c</p>
+</code></pre>
+          
+        
+      
+    </div>
 
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1001/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/21/pat-yi-1001/" itemprop="url">乙1001. 害死人不偿命的(3n+1)猜想 (15)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
+                2017-12-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>卡拉兹(Callatz)猜想：
+
+对任何一个自然数n，如果它是偶数，那么把它砍掉一半；如果它是奇数，那么把(3n+1)砍掉一半。这样一直反复砍下去，最后一定在某一步得到n=1。卡拉兹在1950年的世界数学家大会上公布了这个猜想，传说当时耶鲁大学师生齐动员，拼命想证明这个貌似很傻很天真的命题，结果闹得学生们无心学业，一心只证(3n+1)，以至于有人说这是一个阴谋，卡拉兹是在蓄意延缓美国数学界教学与科研的进展……
+
+我们今天的题目不是证明卡拉兹猜想，而是对给定的任一不超过1000的正整数n，简单地数一下，需要多少步（砍几下）才能得到n=1？
+
+输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。
+
+输出格式：输出从n计算到1需要的步数。
+
+输入样例：
+3
+输出样例：
+5
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int num = in.nextInt();
+        int times = 0;
+        num = getNum(num);
+        while (num != 1) {
+            num = getNum(num / 2);
+            times++;
+        }
+        System.out.println(times);
+    }
+
+    static int getNum(int num) {
+        while (num % 2 != 0 &amp;&amp; num != 1) {
+            num = 3 * num + 1;
+        }
+        return num;
+    }
+
+}
+</code></pre>
           
         
       
@@ -1567,140 +1687,6 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/17/raspbarry-first/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/17/raspbarry-first/" itemprop="url">Raspbarry first</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-17T00:00:00Z">
-                2017-08-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Others/" itemprop="url" rel="index">
-                    <span itemprop="name">Others</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>想要利用树莓派+DuerOS做一个可以人机交互的家用终端。<br>大概可以给讲故事，背诗词，报时，报天气。<br>车载大概可以导航，实时路况，广播之类。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/17/android-system-service-Account-Manager/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2064,7 +2050,7 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/14/android-notes/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/17/raspbarry-first/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -2083,7 +2069,7 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/07/14/android-notes/" itemprop="url">android - 消除非受检的警告</a></h1>
+                <a class="post-title-link" href="/2017/08/17/raspbarry-first/" itemprop="url">Raspbarry first</a></h1>
         
 
         <div class="post-meta">
@@ -2095,8 +2081,8 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-14T00:00:00Z">
-                2017-07-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-17T00:00:00Z">
+                2017-08-17
               </time>
             
 
@@ -2118,8 +2104,8 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
+                  <a href="/categories/Others/" itemprop="url" rel="index">
+                    <span itemprop="name">Others</span>
                   </a>
                 </span>
 
@@ -2154,100 +2140,7 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
       
         
           
-            <h4 id="using-setjavascriptenabled-can-introduce-xss-vulnerabilities-into-your-application"><a href="#using-setjavascriptenabled-can-introduce-xss-vulnerabilities-into-your-application" class="headerlink" title="using setjavascriptenabled can introduce xss vulnerabilities into your application"></a>using setjavascriptenabled can introduce xss vulnerabilities into your application</h4><p>在WebView中，如果你启用js，kotlin代码如下：</p>
-<pre><code>webview.settings.javaScriptEnabled = true
-</code></pre><p>会得到题目的警告提示。</p>
-<p>原因是：启用js可能不安全，如果你真的需要，好好检查这些js。<br>消除：</p>
-<pre><code>@SuppressLint(&quot;SetJavaScriptEnabled&quot;)
-</code></pre><h4 id="WebView-addJavascriptInterface-should-not-be-called-with-minSdkVersion-lt-17-for-security-reasons-JavaScript-can-use-reflection-to-manipulate-application"><a href="#WebView-addJavascriptInterface-should-not-be-called-with-minSdkVersion-lt-17-for-security-reasons-JavaScript-can-use-reflection-to-manipulate-application" class="headerlink" title="WebView.addJavascriptInterface should not be called with minSdkVersion &lt; 17 for security reasons: JavaScript can use reflection to manipulate application"></a><code>WebView.addJavascriptInterface</code> should not be called with minSdkVersion &lt; 17 for security reasons: JavaScript can use reflection to manipulate application</h4><p>在WebView中，如果添加JS调用Java代码，kotlin代码如下：</p>
-<pre><code>webview.addJavascriptInterface(JsObject(), &quot;onClick&quot;)
-</code></pre><p>会得到题目的警告提示。</p>
-<p>原因题目说的很清楚，“JavaScript可以通过反射操作应用”</p>
-<p>官方的说明：<a href="https://developer.android.com/reference/android/webkit/WebView.html#addJavascriptInterface%28java.lang.Object,%20java.lang.String%29" target="_blank" rel="external">JavaScript安全不</a></p>
-<p>一篇不错的<a href="http://blog.csdn.net/leehong2005/article/details/11808557" target="_blank" rel="external">blog</a></p>
-<p>可以确定的是4.2，也就是17，JELLY BEAN之前，可以获取到SD读写权限，然后操作你的联系人、短信、etc</p>
-<p>这个问题相当的经典。一般的应用估计都不会修复它。但如果应用用户太大，不得不修复。</p>
-<h4 id="加载JS的时机"><a href="#加载JS的时机" class="headerlink" title="加载JS的时机"></a>加载JS的时机</h4><p>引申问题，你有一段JS，何时加载？</p>
-<ul>
-<li>onLoadResource</li>
-<li>doUpdateVisitedHistory</li>
-<li>onPageStarted</li>
-<li>onPageFinished</li>
-<li>onReceivedTitle</li>
-<li>onProgressChanged</li>
-</ul>
-<h4 id="setRenderPriority-android-webkit-WebSettings-RenderPriority-’-is-deprecated"><a href="#setRenderPriority-android-webkit-WebSettings-RenderPriority-’-is-deprecated" class="headerlink" title="setRenderPriority(android.webkit.WebSettings.RenderPriority)’ is deprecated"></a>setRenderPriority(android.webkit.WebSettings.RenderPriority)’ is deprecated</h4><p>源码中：</p>
-<blockquote>
-<p>It is not recommended to adjust thread priorities, and this will not be supported in future versions.</p>
-</blockquote>
-<h4 id="webView-加载缓慢"><a href="#webView-加载缓慢" class="headerlink" title="webView 加载缓慢"></a>webView 加载缓慢</h4><pre><code>if (Build.VERSION.SDK_INT &gt;= 19) {//4.4，KK
-           mWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-       }
-       else {
-           mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-       }
-</code></pre><h4 id="This-Handler-class-should-be-static-or-leaks-might-occur-anonymous-android-os-Handler"><a href="#This-Handler-class-should-be-static-or-leaks-might-occur-anonymous-android-os-Handler" class="headerlink" title="This Handler class should be static or leaks might occur (anonymous android.os.Handler)"></a>This Handler class should be static or leaks might occur (anonymous android.os.Handler)</h4><p>我们在使用Handler发送消息时，往往使用内部类来实现Handler，这样可能导致内存泄露。</p>
-<p>原因：</p>
-<p>handler实例做为一个嵌套类，确切的说是做为一个内部类时，默认持有外部类的引用，</p>
-<p>假设外部类为<code>SampleActivity</code>，并且Handler里有延时执行的任务，并且Activity提前finish</p>
-<p>这样，由于activity的引用还在Handler的延时任务里，GC判定，该Activity虽然finish，但是不可回收，此时就发生了内存泄露</p>
-<p>解决：</p>
-<p>Handler使用静态内部类</p>
-<p>Handler类中使用弱引用维护对activity的引用：</p>
-<pre><code>private static class MyHandler extends Handler {
-    private final WeakReference&lt;SampleActivity&gt; mActivity;
-
-    public MyHandler(SampleActivity activity) {
-      mActivity = new WeakReference&lt;SampleActivity&gt;(activity);
-    }
-
-    @Override
-    public void handleMessage(Message msg) {
-      SampleActivity activity = mActivity.get();
-      if (activity != null) {
-        // ...
-      }
-    }
-  }
-
-  private final MyHandler mHandler = new MyHandler(this);
-</code></pre><p><a href="http://www.androiddesignpatterns.com/2013/01/inner-class-handler-memory-leak.html" target="_blank" rel="external">E文传送</a><br><a href="http://www.jianshu.com/p/1b39416f1508" target="_blank" rel="external">译文传送</a></p>
-<h4 id="Warning-168-72-Unchecked-assignment-‘java-util-List’-to-‘java-util-List‘-Reason-‘queries’-has-raw-type-so-result-of-list-is-erased"><a href="#Warning-168-72-Unchecked-assignment-‘java-util-List’-to-‘java-util-List‘-Reason-‘queries’-has-raw-type-so-result-of-list-is-erased" class="headerlink" title="Warning:(168, 72) Unchecked assignment: ‘java.util.List’ to ‘java.util.List‘. Reason: ‘queries’ has raw type, so result of list is erased"></a>Warning:(168, 72) Unchecked assignment: ‘java.util.List’ to ‘java.util.List<com.xxx.greendao.xxbean>‘. Reason: ‘queries’ has raw type, so result of list is erased</com.xxx.greendao.xxbean></h4><p>只能添加指定类型，不会有警告：</p>
-<pre><code>ArrayList&lt;String&gt; arr = new ArrayList&lt;String&gt;();
-</code></pre><p>如果添加了String之外的类型，会有编译时警告：</p>
-<pre><code>ArrayList&lt;String&gt; arr = new ArrayList();
-</code></pre><p>这就是raw type，可以添加Object类型的对象，此时会提示<code>Unchecked assignment...</code>，</p>
-<pre><code>ArrayList arr = new ArrayList&lt;String&gt;();
-</code></pre><p>考察如下DEMO，可以编译通过，但是运行异常：</p>
-<pre><code>import java.util.ArrayList;
-
-public class TestRawType {
-
-    public static void main(String[] args) {
-          ArrayList arr = new ArrayList&lt;String&gt;();
-
-          arr.add(&quot;qwer&quot;);
-          arr.add(1234);
-          arr.add(new Integer(2));
-
-          System.out.println(arr.toString());
-
-          for(Object o : arr){
-              System.out.println((String)o);
-          }
-    }
-
-}
-</code></pre><blockquote>
-<p>控制台输出：[qwer, 1234, 2]<br>qwer<br>Exception in thread “main” java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.String<br>    at TestRawType.main(TestRawType.java:17)</p>
-</blockquote>
-<p>更加详细的解释，参考《effective java》 2nd 第23条：请不要在新代码中使用原生态类型</p>
-<h4 id="Static-member-‘android-support-v4-app-FragmentActivity-RESULT-OK’-accessed-via-instance-reference"><a href="#Static-member-‘android-support-v4-app-FragmentActivity-RESULT-OK’-accessed-via-instance-reference" class="headerlink" title="Static member ‘android.support.v4.app.FragmentActivity.RESULT_OK’ accessed via instance reference"></a>Static member ‘android.support.v4.app.FragmentActivity.RESULT_OK’ accessed via instance reference</h4><p>原因：通过实例引用了某个类的静态变量，如下：</p>
-<pre><code>getActivity().RESULT_OK
-</code></pre><p>修改：</p>
-<pre><code>Activity.RESULT_OK;
-</code></pre><p><code>update @ 2017年7月14日18:50:52</code></p>
-<h4 id="Dangling-Javadoc-comment"><a href="#Dangling-Javadoc-comment" class="headerlink" title="Dangling Javadoc comment"></a>Dangling Javadoc comment</h4><p>原因：悬空的注释（在你导出文档时，可能会丢失）</p>
+            <p>想要利用树莓派+DuerOS做一个可以人机交互的家用终端。<br>大概可以给讲故事，背诗词，报时，报天气。<br>车载大概可以导航，实时路况，广播之类。</p>
 
           
         
@@ -2331,7 +2224,7 @@ public class TestRawType {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-count">109</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
