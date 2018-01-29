@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="算法,android," />
+  <meta name="keywords" content="算法," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="简介BSDiff，用于服务端比较二进制文件并生成差异补丁；BSPatch，将旧文件和补丁文件合并生成新的文件。 比较差异使用的算法是suffix sort后缀排序算法。其中：  C实现可以参照：Colin Percival的bsdiff Java实现可以参照：Joe Desbonnet的jbdiff  Tinker的com.tencent.tinker.bsdiff实现基本上和Joe Desbon">
-<meta name="keywords" content="算法,android">
+<meta name="description" content="题目宋代史学家司马光在《资治通鉴》中有一段著名的“德才论”：“是故才德全尽谓之圣人，才德兼亡谓之愚人，德胜才谓之君子，才胜德谓之小人。凡取人之术，苟不得圣人，君子而与之，与其得小人，不若得愚人。” 现给出一批考生的德才分数，请根据司马光的理论给出录取排名。 输入格式： 输入第1行给出3个正整数，分别为：N（&amp;lt;=105），即考生总数；L（&amp;gt;=60），为录取最低分数线，即德分和才分均不低于">
+<meta name="keywords" content="算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Tinker学习(三) 核心的算法BSDiff、BSPatch">
-<meta property="og:url" content="http://yoursite.com/2017/03/30/tinker-source-code-3/index.html">
+<meta property="og:title" content="乙1015. 德才论 (25)">
+<meta property="og:url" content="http://yoursite.com/2018/01/29/pat-yi-1015/index.html">
 <meta property="og:site_name" content="行次">
-<meta property="og:description" content="简介BSDiff，用于服务端比较二进制文件并生成差异补丁；BSPatch，将旧文件和补丁文件合并生成新的文件。 比较差异使用的算法是suffix sort后缀排序算法。其中：  C实现可以参照：Colin Percival的bsdiff Java实现可以参照：Joe Desbonnet的jbdiff  Tinker的com.tencent.tinker.bsdiff实现基本上和Joe Desbon">
-<meta property="og:updated_time" content="2017-11-16T08:32:34.715Z">
+<meta property="og:description" content="题目宋代史学家司马光在《资治通鉴》中有一段著名的“德才论”：“是故才德全尽谓之圣人，才德兼亡谓之愚人，德胜才谓之君子，才胜德谓之小人。凡取人之术，苟不得圣人，君子而与之，与其得小人，不若得愚人。” 现给出一批考生的德才分数，请根据司马光的理论给出录取排名。 输入格式： 输入第1行给出3个正整数，分别为：N（&amp;lt;=105），即考生总数；L（&amp;gt;=60），为录取最低分数线，即德分和才分均不低于">
+<meta property="og:updated_time" content="2018-01-29T05:59:44.638Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tinker学习(三) 核心的算法BSDiff、BSPatch">
-<meta name="twitter:description" content="简介BSDiff，用于服务端比较二进制文件并生成差异补丁；BSPatch，将旧文件和补丁文件合并生成新的文件。 比较差异使用的算法是suffix sort后缀排序算法。其中：  C实现可以参照：Colin Percival的bsdiff Java实现可以参照：Joe Desbonnet的jbdiff  Tinker的com.tencent.tinker.bsdiff实现基本上和Joe Desbon">
+<meta name="twitter:title" content="乙1015. 德才论 (25)">
+<meta name="twitter:description" content="题目宋代史学家司马光在《资治通鉴》中有一段著名的“德才论”：“是故才德全尽谓之圣人，才德兼亡谓之愚人，德胜才谓之君子，才胜德谓之小人。凡取人之术，苟不得圣人，君子而与之，与其得小人，不若得愚人。” 现给出一批考生的德才分数，请根据司马光的理论给出录取排名。 输入格式： 输入第1行给出3个正整数，分别为：N（&amp;lt;=105），即考生总数；L（&amp;gt;=60），为录取最低分数线，即德分和才分均不低于">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/30/tinker-source-code-3/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/29/pat-yi-1015/"/>
 
 
 
 
 
-  <title>Tinker学习(三) 核心的算法BSDiff、BSPatch | 行次</title>
+  <title>乙1015. 德才论 (25) | 行次</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -267,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/30/tinker-source-code-3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/29/pat-yi-1015/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -284,7 +284,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Tinker学习(三) 核心的算法BSDiff、BSPatch</h1>
+          <h1 class="post-title" itemprop="name headline">乙1015. 德才论 (25)</h1>
         
 
         <div class="post-meta">
@@ -296,8 +296,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-30T08:00:00+08:00">
-                2017-03-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-29T08:00:00+08:00">
+                2018-01-29
               </time>
             
 
@@ -319,8 +319,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
                   </a>
                 </span>
 
@@ -353,29 +353,126 @@
       
 
       
-        <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>BSDiff，用于服务端比较二进制文件并生成差异补丁；<br><br>BSPatch，将旧文件和补丁文件合并生成新的文件。</p>
-<p>比较差异使用的算法是<code>suffix sort</code>后缀排序算法。其中：<br></p>
-<ul>
-<li>C实现可以参照：<a href="https://github.com/cperciva" target="_blank" rel="external">Colin Percival</a>的<a href="https://github.com/cperciva/bsdiff" target="_blank" rel="external">bsdiff</a></li>
-<li>Java实现可以参照：<a href="https://github.com/jdesbonnet" target="_blank" rel="external">Joe Desbonnet</a>的<a href="https://github.com/jdesbonnet/jbdiff" target="_blank" rel="external">jbdiff</a><br></li>
+        <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>宋代史学家司马光在《资治通鉴》中有一段著名的“德才论”：“是故才德全尽谓之圣人，才德兼亡谓之愚人，德胜才谓之君子，才胜德谓之小人。凡取人之术，苟不得圣人，君子而与之，与其得小人，不若得愚人。”</p>
+<p>现给出一批考生的德才分数，请根据司马光的理论给出录取排名。</p>
+<p>输入格式：</p>
+<p>输入第1行给出3个正整数，分别为：N（&lt;=105），即考生总数；L（&gt;=60），为录取最低分数线，即德分和才分均不低于L的考生才有资格被考虑录取；H（&lt;100），为优先录取线——德分和才分均不低于此线的被定义为“才德全尽”，此类考生按德才总分从高到低排序；才分不到但德分到线的一类考生属于“德胜才”，也按总分排序，但排在第一类考生之后；德才分均低于H，但是德分不低于才分的考生属于“才德兼亡”但尚有“德胜才”者，按总分排序，但排在第二类考生之后；其他达到最低线L的考生也按总分排序，但排在第三类考生之后。</p>
+<p>随后N行，每行给出一位考生的信息，包括：准考证号、德分、才分，其中准考证号为8位整数，德才分为区间[0, 100]内的整数。数字间以空格分隔。</p>
+<p>输出格式：</p>
+<p>输出第1行首先给出达到最低分数线的考生人数M，随后M行，每行按照输入格式输出一位考生的信息，考生按输入中说明的规则从高到低排序。当某类考生中有多人总分相同时，按其德分降序排列；若德分也并列，则按准考证号的升序输出。</p>
+<p>输入样例：<br>    14 60 80<br>    10000001 64 90<br>    10000002 90 60<br>    10000011 85 80<br>    10000003 85 80<br>    10000004 80 85<br>    10000005 82 77<br>    10000006 83 76<br>    10000007 90 78<br>    10000008 75 79<br>    10000009 59 90<br>    10000010 88 45<br>    10000012 80 100<br>    10000013 90 99<br>    10000014 66 60<br>输出样例：<br>    12<br>    10000013 90 99<br>    10000012 80 100<br>    10000003 85 80<br>    10000011 85 80<br>    10000004 80 85<br>    10000007 90 78<br>    10000006 83 76<br>    10000005 82 77<br>    10000002 90 60<br>    10000014 66 60<br>    10000008 75 79<br>    10000001 64 90</p>
+<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
+
+public class No1015 {
+
+    // 才德全尽谓之圣人
+    // 才德兼亡谓之愚人
+    // 德胜才谓之君子
+    // 才胜德谓之小人
+    // 苟不得圣人，君子而与之
+    // 与其得小人，不若得愚人
+
+    // 圣人 &gt; 君子 &gt; 愚人 &gt; 小人
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        Set&lt;Stu&gt; best = new TreeSet&lt;&gt;();
+        Set&lt;Stu&gt; better = new TreeSet&lt;&gt;();
+        Set&lt;Stu&gt; good = new TreeSet&lt;&gt;();
+        Set&lt;Stu&gt; normal = new TreeSet&lt;&gt;();
+        String standard = in.nextLine();
+        String[] split = standard.split(&quot; &quot;);
+        int total = Integer.valueOf(split[0]);
+        int normal_score = Integer.valueOf(split[1]);
+        int good_score = Integer.valueOf(split[2]);
+
+        int de, cai;
+
+        while (total &gt; 0) {
+            total--;
+            standard = in.nextLine();
+            split = standard.split(&quot; &quot;);
+            de = Integer.parseInt(split[1]);
+            cai = Integer.parseInt(split[2]);
+            if (de &gt;= normal_score &amp;&amp; cai &gt;= normal_score) {
+                Stu s = new Stu(split[0], split[1], split[2]);
+                if (de &gt;= good_score &amp;&amp; cai &gt;= good_score) {
+                    best.add(s);
+                } else if (de &gt;= good_score &amp;&amp; cai &lt; good_score) {
+                    better.add(s);
+                } else {
+                    if (de &gt;= cai) {
+                        good.add(s);
+                    } else {
+                        normal.add(s);
+                    }
+                }
+            } else {
+                continue;
+            }
+        }
+
+        in.close();
+        System.out.println(best.size() + better.size() + good.size() + normal.size());
+        for (Stu stu : best) {
+            System.out.println(stu.toString());
+        }
+        for (Stu stu : better) {
+            System.out.println(stu.toString());
+        }
+        for (Stu stu : good) {
+            System.out.println(stu.toString());
+        }
+        for (Stu stu : normal) {
+            System.out.println(stu.toString());
+        }
+
+    }
+
+}
+
+class Stu implements Comparable&lt;Stu&gt; {
+    private int id;
+    private int de, cai;
+
+    public Stu(String id, String de, String cai) {
+        super();
+        this.id = Integer.valueOf(id);
+        this.de = Integer.valueOf(de);
+        this.cai = Integer.valueOf(cai);
+    }
+
+    @Override
+    public String toString() {
+        return id + &quot; &quot; + de + &quot; &quot; + cai;
+    }
+
+    @Override
+    public int compareTo(Stu o2) {
+        int i = (this.de + this.cai);
+        int j = (o2.de + o2.cai);
+        if (i == j) {
+            if (this.de == o2.de) {
+                return (this.id - o2.id);
+            } else {
+                return (o2.de - this.de);
+            }
+        } else {
+            return j - i;
+        }
+    }
+}
+</code></pre><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li>四个层级之间,按优先级排序</li>
+<li>层级之内,按分数排序</li>
 </ul>
-<p>Tinker的<code>com.tencent.tinker.bsdiff</code>实现基本上和Joe Desbonnet的实现并无两样。</p>
-<h4 id="BSDiff基本步骤"><a href="#BSDiff基本步骤" class="headerlink" title="BSDiff基本步骤"></a>BSDiff基本步骤</h4><ol>
-<li>将old文件中所有子字符串形成一个字典 </li>
-<li>对比old文件和new文件，产生diff string 和 extra string</li>
-<li>将diffstring和extra string以及相应的控制字用zip压缩成一个patch包。</li>
-</ol>
-<p>所有差量更新算法的瓶颈，时间复杂度为O(nlogn)，空间复杂度为O(n)，n为old的文件长度，BSDiff采用了Fast suffix sorting方法生成后缀数组<br><br>关于后缀数组概念，需要懂得非比较排序算法：<br></p>
-<ul>
-<li><a href="http://xusx1024.com/2017/04/11/counting-sort/" target="_blank" rel="external">非比较排序之计数排序</a></li>
-<li><a href="http://xusx1024.com/2017/04/10/bucket-sort/" target="_blank" rel="external">非比较排序之桶/箱排序</a></li>
-<li><a href="http://xusx1024.com/2017/04/10/radix-sort/" target="_blank" rel="external">非比较排序之基数排序</a></li>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li>牛客网全测试通过</li>
+<li>PAT有两个一直超时</li>
 </ul>
-<p>需要懂得生成后缀数组算法：<br></p>
-<ul>
-<li><a href="http://xusx1024.com/2017/04/11/suffix-sort-baseon-prefix-doubleing/" target="_blank" rel="external">基于倍增算法实现后缀数组</a></li>
-<li><a href="http://xusx1024.com/2017/04/13/suffix-sort-baseon-dc3/" target="_blank" rel="external">基于DC3算法实现后缀数组</a></li>
-</ul>
+<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>如果去PAT考试,那么请选用C语言,多么痛的领悟!</p>
 
       
     </div>
@@ -407,8 +504,6 @@
           
             <a href="/tags/算法/" rel="tag"># 算法</a>
           
-            <a href="/tags/android/" rel="tag"># android</a>
-          
         </div>
       
 
@@ -420,8 +515,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/30/tinker-source-code-2/" rel="next" title="Tinker学习(二)标准java虚拟机动态加载代码示例">
-                <i class="fa fa-chevron-left"></i> Tinker学习(二)标准java虚拟机动态加载代码示例
+              <a href="/2018/01/22/pat-yi-1014/" rel="next" title="乙1014. 福尔摩斯的约会 (20)">
+                <i class="fa fa-chevron-left"></i> 乙1014. 福尔摩斯的约会 (20)
               </a>
             
           </div>
@@ -429,10 +524,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/04/01/android-study-path/" rel="prev" title="Android学习路线图">
-                Android学习路线图 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -578,7 +669,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BSDiff基本步骤"><span class="nav-number">2.</span> <span class="nav-text">BSDiff基本步骤</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解答"><span class="nav-number">2.</span> <span class="nav-text">解答</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#思路"><span class="nav-number">3.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意"><span class="nav-number">4.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#结论"><span class="nav-number">5.</span> <span class="nav-text">结论</span></a></li></ol></div>
             
 
           </div>

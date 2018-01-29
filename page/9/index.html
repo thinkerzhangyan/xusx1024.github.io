@@ -500,6 +500,167 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/18/design-patterns-prototype-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/18/design-patterns-prototype-1/" itemprop="url">原型设计模式(一) 基础知识</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-18T00:00:00Z">
+                2017-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ul>
+<li>content<br>{:toc}</li>
+</ul>
+<h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>创建型模式的一种。通过复制一个已经存在的实例来返回新的实例，而不是新建实例。</p>
+<blockquote>
+<p>《设计模式》：<br> 使用原型实例指定创建对象的种类，然后通过拷贝这些原型来创建新的对象。</p>
+</blockquote>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li>创建重复的新对象的成本较大—— 创建复杂，初始化消耗资源过多，初始化耗时，繁琐的数据准备，访问权限</li>
+<li>一个对象多个修改者-浅拷贝</li>
+<li>一个对象需要提供给其他对象访问，而且各个调用者可能都需要修改其值</li>
+<li>在实际项目中，原型模式很少单独出现，一般是和工厂方法模式一起出现，通过clone的方法创建一个对象，然后由工厂方法提供给调用者</li>
+<li>如果系统要保存对象的状态，而对象的状态变化很小，或者对象本身占内存不大的时候，也可以使用原型模式配合备忘录模式来应用。相反，如果对象的状态变化很大，或者对象占用的内存很大，那么采用状态模式会比原型模式更好</li>
+</ul>
+<h4 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h4><p><img src="/images/prototype_class_uml.png" alt="类图"></p>
+<h4 id="时序图"><a href="#时序图" class="headerlink" title="时序图"></a>时序图</h4><p><img src="/images/prototype_sequence_uml.png" alt="时序图"></p>
+<h4 id="优点-缺点"><a href="#优点-缺点" class="headerlink" title="优点/缺点"></a>优点/缺点</h4><ul>
+<li>clone并不一定比new一个对象速度快，只有new构造对象耗时或成功高时，clone才有明显的效率提升</li>
+<li>逃避构造函数的约束(既是优点也是缺点)</li>
+<li>配备克隆方法需要对类的功能进行通盘考虑，这对于全新的类不是很难，但对于已有的类不一定很容易，特别当一个类引用不支持串行化的间接对象，或者引用含有循环结构的时候</li>
+<li>必须实现cloneable接口(java)</li>
+</ul>
+<h4 id="深-浅复制"><a href="#深-浅复制" class="headerlink" title="深/浅复制"></a>深/浅复制</h4><p> 浅复制：<br><br>复制了值类型对象，对于引用类型对象，只复制了引用，它指向原来引用的对象。<br><br><br>深复制：<br><br>对值类型和引用类型的对象都生成一份新的拷贝，java中可以通过串行化来进行深复制，前提是对象以及其内部所引用的对象都是可串行化的，否则需要考虑把不可串行话的对象设为transient，排除在复制过程之外。<br><br>被复制对象的任何变量都含有和原来的对象相同的值，除去那些引用其他对象的变量。那些引用其他对象的变量将指向被复制过的新对象，而不再是原有的那些被引用的对象。换言之，深复制把要复制的对象所引用的对象都复制了一遍。</p>
+<h4 id="来自《effective-java》的建议"><a href="#来自《effective-java》的建议" class="headerlink" title="来自《effective java》的建议"></a>来自《effective java》的建议</h4><blockquote>
+<p>第11条：谨慎地覆盖clone</p>
+</blockquote>
+<p>克隆复杂对象，可以使用deep copy，也可以先调用super.clone，然后把结果对象中的所有域都设置成它们的空白状态，然后调用高层的方法来重新产生对象的状态。</p>
+<p>建议使用拷贝构造器/拷贝工厂，确切地说是转换构造器/转换工厂。<br></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/15/tinker-source-code-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1536,6 +1697,265 @@ fun main(args: Array&lt;String&gt;) {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/java-volatile/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/23/java-volatile/" itemprop="url">Java并发中的关键字：volatile</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-23T00:00:00Z">
+                2017-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA & kotlin</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><p>第一次与volatile相识，是在单例模式的介绍中，一个DCL的单例，是如何因为非原子性操作而导致在多线程环境下破坏了单例的唯一性。volatile就在此时挺身而出，搞得人对之好感满满。于此时，我又认识到了锁、同步、原子性，这些概念，下面做一个简单的基础知识科普。<br></p>
+<h5 id="为什么需要锁"><a href="#为什么需要锁" class="headerlink" title="为什么需要锁"></a>为什么需要锁</h5><p><img src="/images/why_need_lock.jpg" alt="为什么需要锁"></p>
+<p>由上图，两颗CPU都在修改内存的变量，导致其计数有误。</p>
+<h5 id="锁-lock"><a href="#锁-lock" class="headerlink" title="锁(lock)"></a>锁(lock)</h5><p>锁是用来做并发最简单的方式，当然其代价也是最高的。<code>内核态的锁</code>的时候需要操作系统进行一次上下文切换，加锁、释放锁会导致比较多的上下文切换和调度延时，等待锁的线程会被挂起直至锁释放。在上下文切换的时候，cpu之前缓存的指令和数据都将失效，对性能有很大的损失。<code>用户态的锁</code>避免了这些问题，但是他们只是在没有真实的竞争时才有效。<br></p>
+<p>JDK之前，都是靠synchronized关键字保证同步的，这种通过使用一致的锁定协议来协调对共享状态的访问，可以确保无论哪个线程持有守护变量的锁，都采用<code>独占的方式</code>来访问这些变量，如果出现多个线程同时访问锁，一些线程将被挂起，必须等待其他线程执行完他们的时间片以后才能被调度执行，在挂起和恢复执行过程中存在着很大的开销。锁还存在着其它的一些缺点，当一个线程正在等待锁时，它不能做任何事。如果一个线程在持有锁的情况下被延迟执行，那么所有需要这个锁的线程都无法执行下去。如果被阻塞的线程优先级高，而持有锁的线程优先级低，将会导致优先级反转。</p>
+<h6 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h6><p>独占锁是一种悲观锁，synchronized就是一种独占锁，他假设最坏的情况，并且只有在确保其他线程不会造成干扰的情况下执行，会导致其他所有需要锁的线程挂起，等待持有锁的线程释放锁。</p>
+<h6 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h6><p>比悲观锁更加有效，每次不加锁而是假设没有冲突而去完成某项操作，如果冲突失败就重试，直到成功为止。<br>CAS乐观锁算法如图：<br>CAS比较与交换的伪代码可以表示为：</p>
+<pre><code>do{
+备份旧数据
+基于旧数据构造新数据
+}while(!CAS(内存地址，备份的旧数据，新数据))
+</code></pre><p><img src="/images/cas.png" alt="CAS乐观锁"></p>
+<h5 id="原子操作-atomic-operations"><a href="#原子操作-atomic-operations" class="headerlink" title="原子操作(atomic operations)"></a>原子操作(atomic operations)</h5><ul>
+<li>所有的原始类型的赋值，long和double除外；</li>
+<li>所有引用的赋值；</li>
+<li>所有java.concurrent.Atomic*中类中的操作</li>
+<li>所有volatile修饰的long和double</li>
+</ul>
+<p>为什么long型赋值不是原子操作呢？</p>
+<p>事实上java会分两步写入这个long变量，先写32位，再写后32位。这样就线程不安全了。如果改成下面的就线程安全了：</p>
+<pre><code>private volatile long foo;
+</code></pre><p>因为volatile内部已经做了synchronized.</p>
+<h5 id="线程与内存的交互"><a href="#线程与内存的交互" class="headerlink" title="线程与内存的交互"></a>线程与内存的交互</h5><p>每一个线程运行时都有一个线程栈，线程栈保存了线程运行时候变量值信息。当线程访问某一个对象的值的时候，首先通过对象的引用找到对应在堆内存的变量的值，然后把堆内存变量的具体值load到线程本地内存中，建立一个变量副本，之后线程就不再和对象在堆内存变量值有任何关系，而是直接修改副本变量的值，在修改完之后的某一个时刻，自动把线程变量副本的值回写到对象在堆中的变量。如图：</p>
+<p><img src="/images/thread-read-write.jpg" alt="线程与内存的交互"><br>其中use and assign 可以多次出现</p>
+<h5 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h5><p>volatile，声明其修饰的字段易变（可能被多个线程使用），Java内存模型负责各个线程的工作区与主存区的该字段的值保持同步。<br><br>volatile的同步，不同于synchronized，前者是内存同步，后者不仅包含内存同步，并且保证线程互斥。<br><br>volatile能替代简单的锁，却不能保证原子性。<br></p>
+<h5 id="内存屏障-Memory-Barrier"><a href="#内存屏障-Memory-Barrier" class="headerlink" title="内存屏障-Memory Barrier"></a>内存屏障-Memory Barrier</h5><p>内存屏障是一个CPU指令。</p>
+<ol>
+<li>确保一些特定操作执行的顺序；</li>
+<li>影响一些数据的可见性(可能是某些指令执行后的结果)。编译器和CPU可以在保证输出结果一样的情况下对指令重排序，使性能得到优化。插入一个内存屏障，相当于告诉CPU和编译器先于这个命令的必须先执行，后于这个命令的必须后执行。内存屏障的另一个作用是强制更新一次不同CPU的缓存。例如，一个写屏障会把这个屏障前写入的数据刷新到缓存，这样任何试图读取该数据的线程都将得到最新值，而不用考虑到底是被哪个CPU核心或者哪颗CPU执行的。</li>
+</ol>
+<p><br></p>
+<p>如果你的字段是volatile，java内存模型将在写操作后插入一个写屏障指令，在读操作前插入一个读屏障指令。<br></p>
+<p>由<code>线程和内存交互的图</code>，可得：</p>
+<pre><code>[读屏障指令] - read - load - use - asign - store - write - [写屏障指令].
+</code></pre><p>可以看到，从load到store是不安全的，这期间，如果别的CPU修改了值，将会丢失。因此，我们说<code>volatile不能保证原子性。</code>这同时说明：<code>volatile不能用在getAndOperate场合，仅仅set/get场景是适合volatile的</code>。</p>
+<h4 id="voaltile-使用场景及模式"><a href="#voaltile-使用场景及模式" class="headerlink" title="voaltile 使用场景及模式"></a>voaltile 使用场景及模式</h4><pre><code>要始终牢记使用volatile的限制——只有在状态真正独立于程序内其他内容时才能使用volatile——这条规则能够避免将这些模式扩展到不安全的用例。 
+
+Always keep in mind the rules about the limits of where volatile can be used -- only use volatile for state that is truly independent of everything else in your program -- and this should keep you from trying to extend these patterns into dangerous territory.
+</code></pre><h5 id="模式1：状态标志"><a href="#模式1：状态标志" class="headerlink" title="模式1：状态标志"></a>模式1：状态标志</h5><p>也许实现volatile变量的规范使用仅仅是使用一个布尔状态标志，用于指示发生了一个重要的一次性事件，例如完成初始化或请求停机。很多应用程序包含了一种控制结构，形式为“在还没有准备好停止程序时再执行一些工作”。</p>
+<pre><code>volatile boolean shutdownRequested;
+
+...
+
+public void shutdown() { shutdownRequested = true; }
+
+public void doWork() { 
+    while (!shutdownRequested) { 
+        // do stuff
+    }
+}
+</code></pre><p>这种类型的状态标记的一个公共特性是：通常只有一种状态转换；shutdownRequest标志从false转换为true，然后程序停止。这种模式可以扩展到来回转换的状态标志，但是只有在转换周期不被察觉的情况下才能扩展。</p>
+<h5 id="模式2：一次性安全发布-one-time-safe-publication"><a href="#模式2：一次性安全发布-one-time-safe-publication" class="headerlink" title="模式2：一次性安全发布(one time safe publication)"></a>模式2：一次性安全发布(one time safe publication)</h5><p>缺乏同步会导致无法实现可见性，这使得确定何时写入对象引用而不是原语值变得更加困难。在缺乏同步的情况下，可能会遇到某个对象引用的更新值和该对象状态的旧值同时存在。这就是造成著名的双重检查锁定(double checked locking)问题的根源，其中对象引用在没有同步的情况下进行读操作，产生的问题是您可能会看到一个更新的引用，但是仍然会通过该引用看到不完全构造的对象。</p>
+<p>实现安全发布对象的一种技术就是将对象引用定义为volatile类型。</p>
+<pre><code>public class BackgroundFloobleLoader {
+    public volatile Flooble theFlooble;
+    public void initInBackground() {
+        // do lots of stuff
+        theFlooble = new Flooble();  // this is the only write to theFlooble
+    }
+}
+
+public class SomeOtherClass {
+    public void doWork() {
+        while (true) { 
+            // do some stuff...
+            // use the Flooble, but only if it is ready
+            if (floobleLoader.theFlooble != null) 
+                doSomething(floobleLoader.theFlooble);
+        }
+    }
+}
+</code></pre><p>该模式的一个必要条件是：被发布的对象必须是线程安全的，或者是有效的不可变对象(有效不可变意味着对象的状态在发布之后永远不会被修改)。volatile类型的引用可以确保对象的发布形式的可见性，但是如果对象的状态在发布后将发生更改，那么就需要额外的同步。</p>
+<h5 id="模式3：独立观察-independent-observation"><a href="#模式3：独立观察-independent-observation" class="headerlink" title="模式3：独立观察(independent observation)"></a>模式3：独立观察(independent observation)</h5><p>安全使用volatile的另一种简单模式是：定期“发布”观察结果供程序内部使用。例如：假设有一种环境传感器能够感觉环境温度。一个后台线程可能会每隔几秒读取一次该传感器，并更新包含当前文档的volatile变量。然后，其他线程可以读取这个变量，从而随时能够看到最新的温度值。</p>
+<pre><code>public class UserManager {
+    public volatile String lastUser;
+
+    public boolean authenticate(String user, String password) {
+        boolean valid = passwordIsValid(user, password);
+        if (valid) {
+            User u = new User();
+            activeUsers.add(u);
+            lastUser = user;
+        }
+        return valid;
+    }
+}
+</code></pre><p>该模式是一次性安全发布的扩展，将某个值发布，以在程序内的其他地方使用，但是这与一次性事件的发布不同，这是一系列独立事件。这个模式要求被发布的值是有效不可变的——即值的状态在发布后不会更改。使用该值的代码需要清除该值可能随时发生变化。</p>
+<h5 id="模式4：volatile-bean-模式"><a href="#模式4：volatile-bean-模式" class="headerlink" title="模式4：volatile bean 模式"></a>模式4：volatile bean 模式</h5><p>volatile bean模式适用于将JavaBeans作为“荣誉结构”使用的框架。在volatile bean模式中，JavaBean被用作一组具有getter/setter方法的独立属性的容器。volatile bean 模式的基本原理是：很多框架为易变数据的持有者(例如HttpSession)提供了容器，但是放入这些容器中的对象必须是线程安全的。<br><br>在volatile bean模式中，JavaBean的所有数据成员都是volatile类型的，并且getter/setter方法必须非常普通——除了获取或设置相应的属性外，不能包含任何逻辑。此外，对于对象引用的数据成员，引用的对象必须是有效不可变的。(这将禁止具有数组值的属性，因为当数组引用被声明为volatile时，只有引用而不是数组本身具有volatile语义)。对于任何volatile变量，不变式或约束都不能包含JavaBean属性。</p>
+<pre><code>@ThreadSafe
+public class Person {
+    private volatile String firstName;
+    private volatile String lastName;
+    private volatile int age;
+
+    public String getFirstName() { return firstName; }
+    public String getLastName() { return lastName; }
+    public int getAge() { return age; }
+
+    public void setFirstName(String firstName) { 
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) { 
+        this.lastName = lastName;
+    }
+
+    public void setAge(int age) { 
+        this.age = age;
+    }
+}
+</code></pre><h5 id="模式5：volatile-高级模式，开销较低的读-写锁策略"><a href="#模式5：volatile-高级模式，开销较低的读-写锁策略" class="headerlink" title="模式5：volatile 高级模式，开销较低的读-写锁策略"></a>模式5：volatile 高级模式，开销较低的读-写锁策略</h5><p>如果读操作远远超过写操作，您可以结合使用内部锁和volatile变量来减少公共代码路径的开销。</p>
+<pre><code>@ThreadSafe
+public class CheesyCounter {
+    // Employs the cheap read-write lock trick
+    // All mutative operations MUST be done with the &apos;this&apos; lock held
+    @GuardedBy(&quot;this&quot;) private volatile int value;
+
+    public int getValue() { return value; }
+
+    public synchronized int increment() {
+        return value++;
+    }
+}
+</code></pre><p>上述中显示的线程安全的计数器使用synchronized确保增量操作是原子的，并使用volatile保证当前结果的可见性。如果更新不频繁的话，该方法可实现更好的性能，因为读路径的开销仅仅涉及volatile读操作，这通常要优于一个无竞争的锁获取的开销。</p>
+<h4 id="voaltile-与-static"><a href="#voaltile-与-static" class="headerlink" title="voaltile 与 static"></a>voaltile 与 static</h4><p>volatile，声明这个字段易变(可能被多个线程使用)，java内存模型负责各个线程的工作区与主存区的该字段的值保持同步，即一致性；强调变量值的唯一性；</p>
+<p>static，声明这个字段是静态的(可能被多个实例共享)，在主存区上该类的所有实例的该字段为同一个变量，即唯一性；强调变量的唯一性。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/android-system-service-LayoutInflater/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1884,265 +2304,6 @@ try {
 <li>如果不存在或者存在但没通过验证，就重新生成并缓存，生成时如果name有前缀就拼装上，通过反射获取其构造函数；</li>
 <li>通过其构造生成view。</li>
 </ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/java-volatile/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/23/java-volatile/" itemprop="url">Java并发中的关键字：volatile</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-23T00:00:00Z">
-                2017-02-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA & kotlin</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><p>第一次与volatile相识，是在单例模式的介绍中，一个DCL的单例，是如何因为非原子性操作而导致在多线程环境下破坏了单例的唯一性。volatile就在此时挺身而出，搞得人对之好感满满。于此时，我又认识到了锁、同步、原子性，这些概念，下面做一个简单的基础知识科普。<br></p>
-<h5 id="为什么需要锁"><a href="#为什么需要锁" class="headerlink" title="为什么需要锁"></a>为什么需要锁</h5><p><img src="/images/why_need_lock.jpg" alt="为什么需要锁"></p>
-<p>由上图，两颗CPU都在修改内存的变量，导致其计数有误。</p>
-<h5 id="锁-lock"><a href="#锁-lock" class="headerlink" title="锁(lock)"></a>锁(lock)</h5><p>锁是用来做并发最简单的方式，当然其代价也是最高的。<code>内核态的锁</code>的时候需要操作系统进行一次上下文切换，加锁、释放锁会导致比较多的上下文切换和调度延时，等待锁的线程会被挂起直至锁释放。在上下文切换的时候，cpu之前缓存的指令和数据都将失效，对性能有很大的损失。<code>用户态的锁</code>避免了这些问题，但是他们只是在没有真实的竞争时才有效。<br></p>
-<p>JDK之前，都是靠synchronized关键字保证同步的，这种通过使用一致的锁定协议来协调对共享状态的访问，可以确保无论哪个线程持有守护变量的锁，都采用<code>独占的方式</code>来访问这些变量，如果出现多个线程同时访问锁，一些线程将被挂起，必须等待其他线程执行完他们的时间片以后才能被调度执行，在挂起和恢复执行过程中存在着很大的开销。锁还存在着其它的一些缺点，当一个线程正在等待锁时，它不能做任何事。如果一个线程在持有锁的情况下被延迟执行，那么所有需要这个锁的线程都无法执行下去。如果被阻塞的线程优先级高，而持有锁的线程优先级低，将会导致优先级反转。</p>
-<h6 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h6><p>独占锁是一种悲观锁，synchronized就是一种独占锁，他假设最坏的情况，并且只有在确保其他线程不会造成干扰的情况下执行，会导致其他所有需要锁的线程挂起，等待持有锁的线程释放锁。</p>
-<h6 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h6><p>比悲观锁更加有效，每次不加锁而是假设没有冲突而去完成某项操作，如果冲突失败就重试，直到成功为止。<br>CAS乐观锁算法如图：<br>CAS比较与交换的伪代码可以表示为：</p>
-<pre><code>do{
-备份旧数据
-基于旧数据构造新数据
-}while(!CAS(内存地址，备份的旧数据，新数据))
-</code></pre><p><img src="/images/cas.png" alt="CAS乐观锁"></p>
-<h5 id="原子操作-atomic-operations"><a href="#原子操作-atomic-operations" class="headerlink" title="原子操作(atomic operations)"></a>原子操作(atomic operations)</h5><ul>
-<li>所有的原始类型的赋值，long和double除外；</li>
-<li>所有引用的赋值；</li>
-<li>所有java.concurrent.Atomic*中类中的操作</li>
-<li>所有volatile修饰的long和double</li>
-</ul>
-<p>为什么long型赋值不是原子操作呢？</p>
-<p>事实上java会分两步写入这个long变量，先写32位，再写后32位。这样就线程不安全了。如果改成下面的就线程安全了：</p>
-<pre><code>private volatile long foo;
-</code></pre><p>因为volatile内部已经做了synchronized.</p>
-<h5 id="线程与内存的交互"><a href="#线程与内存的交互" class="headerlink" title="线程与内存的交互"></a>线程与内存的交互</h5><p>每一个线程运行时都有一个线程栈，线程栈保存了线程运行时候变量值信息。当线程访问某一个对象的值的时候，首先通过对象的引用找到对应在堆内存的变量的值，然后把堆内存变量的具体值load到线程本地内存中，建立一个变量副本，之后线程就不再和对象在堆内存变量值有任何关系，而是直接修改副本变量的值，在修改完之后的某一个时刻，自动把线程变量副本的值回写到对象在堆中的变量。如图：</p>
-<p><img src="/images/thread-read-write.jpg" alt="线程与内存的交互"><br>其中use and assign 可以多次出现</p>
-<h5 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h5><p>volatile，声明其修饰的字段易变（可能被多个线程使用），Java内存模型负责各个线程的工作区与主存区的该字段的值保持同步。<br><br>volatile的同步，不同于synchronized，前者是内存同步，后者不仅包含内存同步，并且保证线程互斥。<br><br>volatile能替代简单的锁，却不能保证原子性。<br></p>
-<h5 id="内存屏障-Memory-Barrier"><a href="#内存屏障-Memory-Barrier" class="headerlink" title="内存屏障-Memory Barrier"></a>内存屏障-Memory Barrier</h5><p>内存屏障是一个CPU指令。</p>
-<ol>
-<li>确保一些特定操作执行的顺序；</li>
-<li>影响一些数据的可见性(可能是某些指令执行后的结果)。编译器和CPU可以在保证输出结果一样的情况下对指令重排序，使性能得到优化。插入一个内存屏障，相当于告诉CPU和编译器先于这个命令的必须先执行，后于这个命令的必须后执行。内存屏障的另一个作用是强制更新一次不同CPU的缓存。例如，一个写屏障会把这个屏障前写入的数据刷新到缓存，这样任何试图读取该数据的线程都将得到最新值，而不用考虑到底是被哪个CPU核心或者哪颗CPU执行的。</li>
-</ol>
-<p><br></p>
-<p>如果你的字段是volatile，java内存模型将在写操作后插入一个写屏障指令，在读操作前插入一个读屏障指令。<br></p>
-<p>由<code>线程和内存交互的图</code>，可得：</p>
-<pre><code>[读屏障指令] - read - load - use - asign - store - write - [写屏障指令].
-</code></pre><p>可以看到，从load到store是不安全的，这期间，如果别的CPU修改了值，将会丢失。因此，我们说<code>volatile不能保证原子性。</code>这同时说明：<code>volatile不能用在getAndOperate场合，仅仅set/get场景是适合volatile的</code>。</p>
-<h4 id="voaltile-使用场景及模式"><a href="#voaltile-使用场景及模式" class="headerlink" title="voaltile 使用场景及模式"></a>voaltile 使用场景及模式</h4><pre><code>要始终牢记使用volatile的限制——只有在状态真正独立于程序内其他内容时才能使用volatile——这条规则能够避免将这些模式扩展到不安全的用例。 
-
-Always keep in mind the rules about the limits of where volatile can be used -- only use volatile for state that is truly independent of everything else in your program -- and this should keep you from trying to extend these patterns into dangerous territory.
-</code></pre><h5 id="模式1：状态标志"><a href="#模式1：状态标志" class="headerlink" title="模式1：状态标志"></a>模式1：状态标志</h5><p>也许实现volatile变量的规范使用仅仅是使用一个布尔状态标志，用于指示发生了一个重要的一次性事件，例如完成初始化或请求停机。很多应用程序包含了一种控制结构，形式为“在还没有准备好停止程序时再执行一些工作”。</p>
-<pre><code>volatile boolean shutdownRequested;
-
-...
-
-public void shutdown() { shutdownRequested = true; }
-
-public void doWork() { 
-    while (!shutdownRequested) { 
-        // do stuff
-    }
-}
-</code></pre><p>这种类型的状态标记的一个公共特性是：通常只有一种状态转换；shutdownRequest标志从false转换为true，然后程序停止。这种模式可以扩展到来回转换的状态标志，但是只有在转换周期不被察觉的情况下才能扩展。</p>
-<h5 id="模式2：一次性安全发布-one-time-safe-publication"><a href="#模式2：一次性安全发布-one-time-safe-publication" class="headerlink" title="模式2：一次性安全发布(one time safe publication)"></a>模式2：一次性安全发布(one time safe publication)</h5><p>缺乏同步会导致无法实现可见性，这使得确定何时写入对象引用而不是原语值变得更加困难。在缺乏同步的情况下，可能会遇到某个对象引用的更新值和该对象状态的旧值同时存在。这就是造成著名的双重检查锁定(double checked locking)问题的根源，其中对象引用在没有同步的情况下进行读操作，产生的问题是您可能会看到一个更新的引用，但是仍然会通过该引用看到不完全构造的对象。</p>
-<p>实现安全发布对象的一种技术就是将对象引用定义为volatile类型。</p>
-<pre><code>public class BackgroundFloobleLoader {
-    public volatile Flooble theFlooble;
-    public void initInBackground() {
-        // do lots of stuff
-        theFlooble = new Flooble();  // this is the only write to theFlooble
-    }
-}
-
-public class SomeOtherClass {
-    public void doWork() {
-        while (true) { 
-            // do some stuff...
-            // use the Flooble, but only if it is ready
-            if (floobleLoader.theFlooble != null) 
-                doSomething(floobleLoader.theFlooble);
-        }
-    }
-}
-</code></pre><p>该模式的一个必要条件是：被发布的对象必须是线程安全的，或者是有效的不可变对象(有效不可变意味着对象的状态在发布之后永远不会被修改)。volatile类型的引用可以确保对象的发布形式的可见性，但是如果对象的状态在发布后将发生更改，那么就需要额外的同步。</p>
-<h5 id="模式3：独立观察-independent-observation"><a href="#模式3：独立观察-independent-observation" class="headerlink" title="模式3：独立观察(independent observation)"></a>模式3：独立观察(independent observation)</h5><p>安全使用volatile的另一种简单模式是：定期“发布”观察结果供程序内部使用。例如：假设有一种环境传感器能够感觉环境温度。一个后台线程可能会每隔几秒读取一次该传感器，并更新包含当前文档的volatile变量。然后，其他线程可以读取这个变量，从而随时能够看到最新的温度值。</p>
-<pre><code>public class UserManager {
-    public volatile String lastUser;
-
-    public boolean authenticate(String user, String password) {
-        boolean valid = passwordIsValid(user, password);
-        if (valid) {
-            User u = new User();
-            activeUsers.add(u);
-            lastUser = user;
-        }
-        return valid;
-    }
-}
-</code></pre><p>该模式是一次性安全发布的扩展，将某个值发布，以在程序内的其他地方使用，但是这与一次性事件的发布不同，这是一系列独立事件。这个模式要求被发布的值是有效不可变的——即值的状态在发布后不会更改。使用该值的代码需要清除该值可能随时发生变化。</p>
-<h5 id="模式4：volatile-bean-模式"><a href="#模式4：volatile-bean-模式" class="headerlink" title="模式4：volatile bean 模式"></a>模式4：volatile bean 模式</h5><p>volatile bean模式适用于将JavaBeans作为“荣誉结构”使用的框架。在volatile bean模式中，JavaBean被用作一组具有getter/setter方法的独立属性的容器。volatile bean 模式的基本原理是：很多框架为易变数据的持有者(例如HttpSession)提供了容器，但是放入这些容器中的对象必须是线程安全的。<br><br>在volatile bean模式中，JavaBean的所有数据成员都是volatile类型的，并且getter/setter方法必须非常普通——除了获取或设置相应的属性外，不能包含任何逻辑。此外，对于对象引用的数据成员，引用的对象必须是有效不可变的。(这将禁止具有数组值的属性，因为当数组引用被声明为volatile时，只有引用而不是数组本身具有volatile语义)。对于任何volatile变量，不变式或约束都不能包含JavaBean属性。</p>
-<pre><code>@ThreadSafe
-public class Person {
-    private volatile String firstName;
-    private volatile String lastName;
-    private volatile int age;
-
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
-    public int getAge() { return age; }
-
-    public void setFirstName(String firstName) { 
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) { 
-        this.lastName = lastName;
-    }
-
-    public void setAge(int age) { 
-        this.age = age;
-    }
-}
-</code></pre><h5 id="模式5：volatile-高级模式，开销较低的读-写锁策略"><a href="#模式5：volatile-高级模式，开销较低的读-写锁策略" class="headerlink" title="模式5：volatile 高级模式，开销较低的读-写锁策略"></a>模式5：volatile 高级模式，开销较低的读-写锁策略</h5><p>如果读操作远远超过写操作，您可以结合使用内部锁和volatile变量来减少公共代码路径的开销。</p>
-<pre><code>@ThreadSafe
-public class CheesyCounter {
-    // Employs the cheap read-write lock trick
-    // All mutative operations MUST be done with the &apos;this&apos; lock held
-    @GuardedBy(&quot;this&quot;) private volatile int value;
-
-    public int getValue() { return value; }
-
-    public synchronized int increment() {
-        return value++;
-    }
-}
-</code></pre><p>上述中显示的线程安全的计数器使用synchronized确保增量操作是原子的，并使用volatile保证当前结果的可见性。如果更新不频繁的话，该方法可实现更好的性能，因为读路径的开销仅仅涉及volatile读操作，这通常要优于一个无竞争的锁获取的开销。</p>
-<h4 id="voaltile-与-static"><a href="#voaltile-与-static" class="headerlink" title="voaltile 与 static"></a>voaltile 与 static</h4><p>volatile，声明这个字段易变(可能被多个线程使用)，java内存模型负责各个线程的工作区与主存区的该字段的值保持同步，即一致性；强调变量值的唯一性；</p>
-<p>static，声明这个字段是静态的(可能被多个实例共享)，在主存区上该类的所有实例的该字段为同一个变量，即唯一性；强调变量的唯一性。</p>
 
           
         
@@ -2711,361 +2872,6 @@ public class CheesyCounter {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/design-patterns-singleton-5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/21/design-patterns-singleton-5/" itemprop="url">单例设计模式(五) Android中单例的应用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-21T00:00:00Z">
-                2017-02-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="写在前面的关键点"><a href="#写在前面的关键点" class="headerlink" title="写在前面的关键点"></a>写在前面的关键点</h4><p>我们知道，单例模式的特点：</p>
-<ul>
-<li>只有一个实例</li>
-<li>占用内存及资源较少，可防止对象不停的创建和销毁</li>
-<li>全局访问</li>
-<li>扩展性差</li>
-<li>与单一职责原则有冲突</li>
-</ul>
-<p>根据其特点，我们去看源码或者设计应用就可以做到有据可循了。</p>
-<h4 id="Android系统源码中"><a href="#Android系统源码中" class="headerlink" title="Android系统源码中"></a>Android系统源码中</h4><h5 id="示例一【饿汉单例】：android-text-Editable-Factory-java"><a href="#示例一【饿汉单例】：android-text-Editable-Factory-java" class="headerlink" title="示例一【饿汉单例】：android.text.Editable.Factory.java"></a>示例一【饿汉单例】：android.text.Editable.Factory.java</h5><pre><code>/**
-  * Factory used by TextView to create new Editables.  You can subclass
-  * it to provide something other than SpannableStringBuilder.
-  */
- public static class Factory {
-     private static Editable.Factory sInstance = new Editable.Factory();
-
-     public static Editable.Factory getInstance() {
-         return sInstance;
-     }
-
-     public Editable newEditable(CharSequence source) {
-         return new SpannableStringBuilder(source);
-     }
- }
-</code></pre><blockquote>
-<p>Editable 即 <code>android.widget.EditText#getText()</code> 返回的对象。最常用的大概是<code>et.getText().toString()</code>吧。</p>
-</blockquote>
-<p>然后从EditText-&gt; TextView可以看到：</p>
-<pre><code>private Editable.Factory mEditableFactory = Editable.Factory.getInstance();
-private Spannable.Factory mSpannableFactory = Spannable.Factory.getInstance();
-</code></pre><p>然后考察其应用：</p>
-<pre><code> private InputFilter[] mFilters = NO_FILTERS;
- private void setText(CharSequence text, BufferType type,
-                         boolean notifyBefore, int oldlen) {
-    .
-    .
-    .
-
-    Editable t = mEditableFactory.newEditable(text);
-    text = t;
-    setFilters(t, mFilters);
-
-    .
-    .
-    .
-}
-</code></pre><p>得到其用途：提供一个Editable的实现类【SpannableStringBuilder】的实例，然后应用filter。</p>
-<h5 id="示例二【懒汉单例】：ArrowKeyMovementMethod-java"><a href="#示例二【懒汉单例】：ArrowKeyMovementMethod-java" class="headerlink" title="示例二【懒汉单例】：ArrowKeyMovementMethod.java"></a>示例二【懒汉单例】：ArrowKeyMovementMethod.java</h5><pre><code>private static ArrowKeyMovementMethod sInstance;    
-public static MovementMethod getInstance() {
-    if (sInstance == null) {
-        sInstance = new ArrowKeyMovementMethod();
-    }
-
-    return sInstance;
-}
-</code></pre><blockquote>
-<p>看类名好像是光标移动相关的东东，跟进去看一下好了。<br><br><code>initialize</code>初始化，把光标放在末尾位置；<br><br><code>onTouchEvent</code>处理触摸拖拽事件；<br><br><code>canSelectArbitrarily</code> 根据名字，是否可以任意选择，固定返回true；<br><br><code>onTakeFocus</code> 获取焦点后的默认操作：光标放末尾</p>
-</blockquote>
-<h5 id="示例三【线程同步锁单例】：LocalBroadcastManager-java"><a href="#示例三【线程同步锁单例】：LocalBroadcastManager-java" class="headerlink" title="示例三【线程同步锁单例】：LocalBroadcastManager.java"></a>示例三【线程同步锁单例】：LocalBroadcastManager.java</h5><pre><code>private static final Object mLock = new Object();
-private static LocalBroadcastManager mInstance;
-
-public static LocalBroadcastManager getInstance(Context context) {
-    synchronized (mLock) {
-        if (mInstance == null) {
-            mInstance = new LocalBroadcastManager(context.getApplicationContext());
-        }
-        return mInstance;
-    }
-}
-</code></pre><blockquote>
-<p>看类名是本地广播管理类，先看其类注释：<br></p>
-</blockquote>
-<p>&gt;<br> Helper to register for and send broadcasts of Intents to local objects<br> within your process.  This has a number of advantages over sending<br> global broadcasts with {@link android.content.Context#sendBroadcast}<br><br>进程内帮助注册和发送广播给本地对象。相比于<code>Context#sendBroadcast</code>有巨大优势！<br></p>
-<p>优势有三：<br></p>
-<ol>
-<li>应用内发送，不必担心私有数据泄露；<br></li>
-<li>别的应用无法发送我自己的应用本地广播，不必担心安全漏洞；<br></li>
-<li>比通过系统发送广播更加有效。</li>
-</ol>
-<h5 id="示例四【线程同步锁单例】：InputMethodManager-java"><a href="#示例四【线程同步锁单例】：InputMethodManager-java" class="headerlink" title="示例四【线程同步锁单例】：InputMethodManager.java"></a>示例四【线程同步锁单例】：InputMethodManager.java</h5><pre><code>static InputMethodManager sInstance;
-public static InputMethodManager getInstance() {
-        synchronized (InputMethodManager.class) {
-            if (sInstance == null) {
-                IBinder b = ServiceManager.getService(Context.INPUT_METHOD_SERVICE);
-                IInputMethodManager service = IInputMethodManager.Stub.asInterface(b);
-                sInstance = new InputMethodManager(service, Looper.getMainLooper());
-            }
-            return sInstance;
-        }
-    }
-</code></pre><blockquote>
-<p>用来控制显示和隐藏输入法面板。</p>
-<h5 id="示例五【容器单例】：FocusFinder-java"><a href="#示例五【容器单例】：FocusFinder-java" class="headerlink" title="示例五【容器单例】：FocusFinder.java"></a>示例五【容器单例】：FocusFinder.java</h5></blockquote>
-<p>FocusFinder.java</p>
-<pre><code>private static final ThreadLocal&lt;FocusFinder&gt; tlFocusFinder =
-    new ThreadLocal&lt;FocusFinder&gt;() {
-        @Override
-        protected FocusFinder initialValue() {
-            return new FocusFinder();
-        }
-    };
-
-public static FocusFinder getInstance() {
-    return tlFocusFinder.get();
-}
-</code></pre><p>ThreadLocal.java</p>
-<pre><code>/**
- * Returns the value in the current thread&apos;s copy of this
- * thread-local variable.  If the variable has no value for the
- * current thread, it is first initialized to the value returned
- * by an invocation of the {@link #initialValue} method.
- *
- * @return the current thread&apos;s value of this thread-local
- */
-public T get() {
-    Thread t = Thread.currentThread();
-    ThreadLocalMap map = getMap(t);
-    if (map != null) {
-        ThreadLocalMap.Entry e = map.getEntry(this);
-        if (e != null)
-            return (T)e.value;
-    }
-    return setInitialValue();
-}
-</code></pre><p>-</p>
-<pre><code>/**
- * Variant of set() to establish initialValue. Used instead
- * of set() in case user has overridden the set() method.
- *
- * @return the initial value
- */
-private T setInitialValue() {
-    T value = initialValue();
-    Thread t = Thread.currentThread();
-    ThreadLocalMap map = getMap(t);
-    if (map != null)
-        map.set(this, value);
-    else
-        createMap(t, value);
-    return value;
-}
-
-protected T initialValue() {
-    return null;
-}
-</code></pre><blockquote>
-<p>一个用来从当前焦点视图给定的方向中找到下个焦点视图的算法。主要功能代码在此方法里：</p>
-</blockquote>
-<pre><code>private View findNextFocus(ViewGroup root, View focused, Rect focusedRect, int direction) {
-    View next = null;
-    if (focused != null) {
-        next = findNextUserSpecifiedFocus(root, focused, direction);
-    }
-    if (next != null) {
-        return next;
-    }
-    ArrayList&lt;View&gt; focusables = mTempList;
-    try {
-        focusables.clear();
-        root.addFocusables(focusables, direction);
-        if (!focusables.isEmpty()) {
-            next = findNextFocus(root, focused, focusedRect, direction, focusables);
-        }
-    } finally {
-        focusables.clear();
-    }
-    return next;
-}
-</code></pre><h5 id="示例六【容器单例】：android-app-SystemServiceRegistry-java"><a href="#示例六【容器单例】：android-app-SystemServiceRegistry-java" class="headerlink" title="示例六【容器单例】：android.app.SystemServiceRegistry.java"></a>示例六【容器单例】：android.app.SystemServiceRegistry.java</h5><p>&gt;<br>该类我们就不粘贴代码了，因为Android里所有的系统的单例都维护在这里。</p>
-<p><a href="https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/app/SystemServiceRegistry.java" target="_blank" rel="external">源码地址</a>。</p>
-<p><a href="http://xusx1024.com/2017/02/22/android-system-service/" target="_blank" rel="external">服务说明在此</a>。</p>
-<h5 id="示例七【别样的单例】：BidiFormatter-java"><a href="#示例七【别样的单例】：BidiFormatter-java" class="headerlink" title="示例七【别样的单例】：BidiFormatter.java"></a>示例七【别样的单例】：BidiFormatter.java</h5><p>实例</p>
-<pre><code>private static final BidiFormatter DEFAULT_LTR_INSTANCE = new BidiFormatter(
-        false /* LTR context */,
-        DEFAULT_FLAGS,
-        DEFAULT_TEXT_DIRECTION_HEURISTIC);
-
-private static final BidiFormatter DEFAULT_RTL_INSTANCE = new BidiFormatter(
-        true /* RTL context */,
-        DEFAULT_FLAGS,
-        DEFAULT_TEXT_DIRECTION_HEURISTIC);
-</code></pre><p>构造</p>
-<pre><code>private BidiFormatter(boolean isRtlContext, int flags, TextDirectionHeuristic heuristic) {
-     mIsRtlContext = isRtlContext;
-     mFlags = flags;
-     mDefaultTextDirectionHeuristic = heuristic;
- }
-</code></pre><p>获取实例：</p>
-<pre><code>public static BidiFormatter getInstance() {
-    return getDefaultInstanceFromContext(isRtlLocale(Locale.getDefault()));
-}
-
-public static BidiFormatter getInstance(boolean rtlContext) {
-    return getDefaultInstanceFromContext(rtlContext);
-}
-
-public static BidiFormatter getInstance(Locale locale) {
-    return getDefaultInstanceFromContext(isRtlLocale(locale));
-}
-</code></pre><blockquote>
-<p>BidiFormatter中的单例让我耳目一新。多种类型的static final 修饰的实例。<br><br>这个类是4.2之后增加的新功能，通常文本是从左到右的顺序排列和阅读的。如果你是用阿拉伯语或者希伯来语，那么文本就从右往左排序才方便了。<br><br>如果要开启，在Manifest.xml中，修改Application结点的属性<code>android:supportsRtl</code>为true<br><br>另外，我们在xml布局时，经常看到提示：使用<code>android:layout_marginStart</code>替代<code>android:layout_marginLeft</code>这样的提示，这就是因为，在LTR和RTL模式下，view的布局是相反的，其相对距离也是相反，使用建议api，可省却该麻烦，真良心。</p>
-</blockquote>
-<p>注1：</p>
-<blockquote>
-<p>其中volatial修饰的实例没有找到，Enum实现的单例也没找到。</p>
-</blockquote>
-<p>注2：Android 源码中常见单例(在AS中ctrl+alt+shift+n)：</p>
-<p><img src="/images/android-singleton-1.png" alt="Android 源码中常见单例 图一"></p>
-<p><img src="/images/android-singleton-2.png" alt="Android 源码中常见单例 图二"></p>
-<h4 id="Android-App开发中"><a href="#Android-App开发中" class="headerlink" title="Android App开发中"></a>Android App开发中</h4><p>分析上半部可得：</p>
-<ul>
-<li>内部类单例-饿汉式</li>
-<li>简单单例-懒汉式</li>
-<li>多线程调用-带线程锁的懒汉式</li>
-<li>多种单例-容器管理单例</li>
-</ul>
-<p>我负责的app中，整理了一下，大概有如下会需要到单例：</p>
-<ol>
-<li>Application</li>
-<li>定位、汉字转拼音、crash抓取、图片、网络、以及其他工具类</li>
-<li>升级管理</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -3115,7 +2921,7 @@ public static BidiFormatter getInstance(Locale locale) {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-count">109</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

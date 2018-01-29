@@ -267,6 +267,361 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/21/design-patterns-singleton-5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/21/design-patterns-singleton-5/" itemprop="url">单例设计模式(五) Android中单例的应用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-21T00:00:00Z">
+                2017-02-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Design Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="写在前面的关键点"><a href="#写在前面的关键点" class="headerlink" title="写在前面的关键点"></a>写在前面的关键点</h4><p>我们知道，单例模式的特点：</p>
+<ul>
+<li>只有一个实例</li>
+<li>占用内存及资源较少，可防止对象不停的创建和销毁</li>
+<li>全局访问</li>
+<li>扩展性差</li>
+<li>与单一职责原则有冲突</li>
+</ul>
+<p>根据其特点，我们去看源码或者设计应用就可以做到有据可循了。</p>
+<h4 id="Android系统源码中"><a href="#Android系统源码中" class="headerlink" title="Android系统源码中"></a>Android系统源码中</h4><h5 id="示例一【饿汉单例】：android-text-Editable-Factory-java"><a href="#示例一【饿汉单例】：android-text-Editable-Factory-java" class="headerlink" title="示例一【饿汉单例】：android.text.Editable.Factory.java"></a>示例一【饿汉单例】：android.text.Editable.Factory.java</h5><pre><code>/**
+  * Factory used by TextView to create new Editables.  You can subclass
+  * it to provide something other than SpannableStringBuilder.
+  */
+ public static class Factory {
+     private static Editable.Factory sInstance = new Editable.Factory();
+
+     public static Editable.Factory getInstance() {
+         return sInstance;
+     }
+
+     public Editable newEditable(CharSequence source) {
+         return new SpannableStringBuilder(source);
+     }
+ }
+</code></pre><blockquote>
+<p>Editable 即 <code>android.widget.EditText#getText()</code> 返回的对象。最常用的大概是<code>et.getText().toString()</code>吧。</p>
+</blockquote>
+<p>然后从EditText-&gt; TextView可以看到：</p>
+<pre><code>private Editable.Factory mEditableFactory = Editable.Factory.getInstance();
+private Spannable.Factory mSpannableFactory = Spannable.Factory.getInstance();
+</code></pre><p>然后考察其应用：</p>
+<pre><code> private InputFilter[] mFilters = NO_FILTERS;
+ private void setText(CharSequence text, BufferType type,
+                         boolean notifyBefore, int oldlen) {
+    .
+    .
+    .
+
+    Editable t = mEditableFactory.newEditable(text);
+    text = t;
+    setFilters(t, mFilters);
+
+    .
+    .
+    .
+}
+</code></pre><p>得到其用途：提供一个Editable的实现类【SpannableStringBuilder】的实例，然后应用filter。</p>
+<h5 id="示例二【懒汉单例】：ArrowKeyMovementMethod-java"><a href="#示例二【懒汉单例】：ArrowKeyMovementMethod-java" class="headerlink" title="示例二【懒汉单例】：ArrowKeyMovementMethod.java"></a>示例二【懒汉单例】：ArrowKeyMovementMethod.java</h5><pre><code>private static ArrowKeyMovementMethod sInstance;    
+public static MovementMethod getInstance() {
+    if (sInstance == null) {
+        sInstance = new ArrowKeyMovementMethod();
+    }
+
+    return sInstance;
+}
+</code></pre><blockquote>
+<p>看类名好像是光标移动相关的东东，跟进去看一下好了。<br><br><code>initialize</code>初始化，把光标放在末尾位置；<br><br><code>onTouchEvent</code>处理触摸拖拽事件；<br><br><code>canSelectArbitrarily</code> 根据名字，是否可以任意选择，固定返回true；<br><br><code>onTakeFocus</code> 获取焦点后的默认操作：光标放末尾</p>
+</blockquote>
+<h5 id="示例三【线程同步锁单例】：LocalBroadcastManager-java"><a href="#示例三【线程同步锁单例】：LocalBroadcastManager-java" class="headerlink" title="示例三【线程同步锁单例】：LocalBroadcastManager.java"></a>示例三【线程同步锁单例】：LocalBroadcastManager.java</h5><pre><code>private static final Object mLock = new Object();
+private static LocalBroadcastManager mInstance;
+
+public static LocalBroadcastManager getInstance(Context context) {
+    synchronized (mLock) {
+        if (mInstance == null) {
+            mInstance = new LocalBroadcastManager(context.getApplicationContext());
+        }
+        return mInstance;
+    }
+}
+</code></pre><blockquote>
+<p>看类名是本地广播管理类，先看其类注释：<br></p>
+</blockquote>
+<p>&gt;<br> Helper to register for and send broadcasts of Intents to local objects<br> within your process.  This has a number of advantages over sending<br> global broadcasts with {@link android.content.Context#sendBroadcast}<br><br>进程内帮助注册和发送广播给本地对象。相比于<code>Context#sendBroadcast</code>有巨大优势！<br></p>
+<p>优势有三：<br></p>
+<ol>
+<li>应用内发送，不必担心私有数据泄露；<br></li>
+<li>别的应用无法发送我自己的应用本地广播，不必担心安全漏洞；<br></li>
+<li>比通过系统发送广播更加有效。</li>
+</ol>
+<h5 id="示例四【线程同步锁单例】：InputMethodManager-java"><a href="#示例四【线程同步锁单例】：InputMethodManager-java" class="headerlink" title="示例四【线程同步锁单例】：InputMethodManager.java"></a>示例四【线程同步锁单例】：InputMethodManager.java</h5><pre><code>static InputMethodManager sInstance;
+public static InputMethodManager getInstance() {
+        synchronized (InputMethodManager.class) {
+            if (sInstance == null) {
+                IBinder b = ServiceManager.getService(Context.INPUT_METHOD_SERVICE);
+                IInputMethodManager service = IInputMethodManager.Stub.asInterface(b);
+                sInstance = new InputMethodManager(service, Looper.getMainLooper());
+            }
+            return sInstance;
+        }
+    }
+</code></pre><blockquote>
+<p>用来控制显示和隐藏输入法面板。</p>
+<h5 id="示例五【容器单例】：FocusFinder-java"><a href="#示例五【容器单例】：FocusFinder-java" class="headerlink" title="示例五【容器单例】：FocusFinder.java"></a>示例五【容器单例】：FocusFinder.java</h5></blockquote>
+<p>FocusFinder.java</p>
+<pre><code>private static final ThreadLocal&lt;FocusFinder&gt; tlFocusFinder =
+    new ThreadLocal&lt;FocusFinder&gt;() {
+        @Override
+        protected FocusFinder initialValue() {
+            return new FocusFinder();
+        }
+    };
+
+public static FocusFinder getInstance() {
+    return tlFocusFinder.get();
+}
+</code></pre><p>ThreadLocal.java</p>
+<pre><code>/**
+ * Returns the value in the current thread&apos;s copy of this
+ * thread-local variable.  If the variable has no value for the
+ * current thread, it is first initialized to the value returned
+ * by an invocation of the {@link #initialValue} method.
+ *
+ * @return the current thread&apos;s value of this thread-local
+ */
+public T get() {
+    Thread t = Thread.currentThread();
+    ThreadLocalMap map = getMap(t);
+    if (map != null) {
+        ThreadLocalMap.Entry e = map.getEntry(this);
+        if (e != null)
+            return (T)e.value;
+    }
+    return setInitialValue();
+}
+</code></pre><p>-</p>
+<pre><code>/**
+ * Variant of set() to establish initialValue. Used instead
+ * of set() in case user has overridden the set() method.
+ *
+ * @return the initial value
+ */
+private T setInitialValue() {
+    T value = initialValue();
+    Thread t = Thread.currentThread();
+    ThreadLocalMap map = getMap(t);
+    if (map != null)
+        map.set(this, value);
+    else
+        createMap(t, value);
+    return value;
+}
+
+protected T initialValue() {
+    return null;
+}
+</code></pre><blockquote>
+<p>一个用来从当前焦点视图给定的方向中找到下个焦点视图的算法。主要功能代码在此方法里：</p>
+</blockquote>
+<pre><code>private View findNextFocus(ViewGroup root, View focused, Rect focusedRect, int direction) {
+    View next = null;
+    if (focused != null) {
+        next = findNextUserSpecifiedFocus(root, focused, direction);
+    }
+    if (next != null) {
+        return next;
+    }
+    ArrayList&lt;View&gt; focusables = mTempList;
+    try {
+        focusables.clear();
+        root.addFocusables(focusables, direction);
+        if (!focusables.isEmpty()) {
+            next = findNextFocus(root, focused, focusedRect, direction, focusables);
+        }
+    } finally {
+        focusables.clear();
+    }
+    return next;
+}
+</code></pre><h5 id="示例六【容器单例】：android-app-SystemServiceRegistry-java"><a href="#示例六【容器单例】：android-app-SystemServiceRegistry-java" class="headerlink" title="示例六【容器单例】：android.app.SystemServiceRegistry.java"></a>示例六【容器单例】：android.app.SystemServiceRegistry.java</h5><p>&gt;<br>该类我们就不粘贴代码了，因为Android里所有的系统的单例都维护在这里。</p>
+<p><a href="https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/app/SystemServiceRegistry.java" target="_blank" rel="external">源码地址</a>。</p>
+<p><a href="http://xusx1024.com/2017/02/22/android-system-service/" target="_blank" rel="external">服务说明在此</a>。</p>
+<h5 id="示例七【别样的单例】：BidiFormatter-java"><a href="#示例七【别样的单例】：BidiFormatter-java" class="headerlink" title="示例七【别样的单例】：BidiFormatter.java"></a>示例七【别样的单例】：BidiFormatter.java</h5><p>实例</p>
+<pre><code>private static final BidiFormatter DEFAULT_LTR_INSTANCE = new BidiFormatter(
+        false /* LTR context */,
+        DEFAULT_FLAGS,
+        DEFAULT_TEXT_DIRECTION_HEURISTIC);
+
+private static final BidiFormatter DEFAULT_RTL_INSTANCE = new BidiFormatter(
+        true /* RTL context */,
+        DEFAULT_FLAGS,
+        DEFAULT_TEXT_DIRECTION_HEURISTIC);
+</code></pre><p>构造</p>
+<pre><code>private BidiFormatter(boolean isRtlContext, int flags, TextDirectionHeuristic heuristic) {
+     mIsRtlContext = isRtlContext;
+     mFlags = flags;
+     mDefaultTextDirectionHeuristic = heuristic;
+ }
+</code></pre><p>获取实例：</p>
+<pre><code>public static BidiFormatter getInstance() {
+    return getDefaultInstanceFromContext(isRtlLocale(Locale.getDefault()));
+}
+
+public static BidiFormatter getInstance(boolean rtlContext) {
+    return getDefaultInstanceFromContext(rtlContext);
+}
+
+public static BidiFormatter getInstance(Locale locale) {
+    return getDefaultInstanceFromContext(isRtlLocale(locale));
+}
+</code></pre><blockquote>
+<p>BidiFormatter中的单例让我耳目一新。多种类型的static final 修饰的实例。<br><br>这个类是4.2之后增加的新功能，通常文本是从左到右的顺序排列和阅读的。如果你是用阿拉伯语或者希伯来语，那么文本就从右往左排序才方便了。<br><br>如果要开启，在Manifest.xml中，修改Application结点的属性<code>android:supportsRtl</code>为true<br><br>另外，我们在xml布局时，经常看到提示：使用<code>android:layout_marginStart</code>替代<code>android:layout_marginLeft</code>这样的提示，这就是因为，在LTR和RTL模式下，view的布局是相反的，其相对距离也是相反，使用建议api，可省却该麻烦，真良心。</p>
+</blockquote>
+<p>注1：</p>
+<blockquote>
+<p>其中volatial修饰的实例没有找到，Enum实现的单例也没找到。</p>
+</blockquote>
+<p>注2：Android 源码中常见单例(在AS中ctrl+alt+shift+n)：</p>
+<p><img src="/images/android-singleton-1.png" alt="Android 源码中常见单例 图一"></p>
+<p><img src="/images/android-singleton-2.png" alt="Android 源码中常见单例 图二"></p>
+<h4 id="Android-App开发中"><a href="#Android-App开发中" class="headerlink" title="Android App开发中"></a>Android App开发中</h4><p>分析上半部可得：</p>
+<ul>
+<li>内部类单例-饿汉式</li>
+<li>简单单例-懒汉式</li>
+<li>多线程调用-带线程锁的懒汉式</li>
+<li>多种单例-容器管理单例</li>
+</ul>
+<p>我负责的app中，整理了一下，大概有如下会需要到单例：</p>
+<ol>
+<li>Application</li>
+<li>定位、汉字转拼音、crash抓取、图片、网络、以及其他工具类</li>
+<li>升级管理</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/20/decrease-apk-size/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1740,7 +2095,7 @@ Android进程与Linux进程一样。默认情况下，每个apk运行在自己�
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/different-between-ADT/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/two-stacks-makeup-queue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -1759,7 +2114,7 @@ Android进程与Linux进程一样。默认情况下，每个apk运行在自己�
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/11/different-between-ADT/" itemprop="url">队列、堆栈与数组链表的关系</a></h1>
+                <a class="post-title-link" href="/2017/02/11/two-stacks-makeup-queue/" itemprop="url">由两个栈组成的队列</a></h1>
         
 
         <div class="post-meta">
@@ -1830,230 +2185,52 @@ Android进程与Linux进程一样。默认情况下，每个apk运行在自己�
       
         
           
-            <h4 id="数据结构的概念"><a href="#数据结构的概念" class="headerlink" title="数据结构的概念"></a>数据结构的概念</h4><pre><code>指相互之间存在一种或多种特定关系的数据元素的集合。简单的理解就是：数据结构就是描述对象逻辑关系的学科。比如：队列就是一种先进先出的逻辑结构，栈是一种先进后出的逻辑结构，家谱是一种树形的逻辑结构。
-</code></pre><h4 id="数据存储结构的概念"><a href="#数据存储结构的概念" class="headerlink" title="数据存储结构的概念"></a>数据存储结构的概念</h4><pre><code>这是计算机的一个概念，即描述数据在计算机中存储方式的学科；常用的存储方式就两种：顺序存储、非顺序存储。顺序存储就是把数据存储在一块连续的存储介质(硬盘)上，数组就是典型的连续存储。
-非顺序存储就是各个数据不一定存在一个连续的位置上，只要每个数据知道它前面的数据和后面的数据，就能把所有的数据连续起来，链表就是典型的非顺序存储。
-</code></pre><h5 id="数组和链表"><a href="#数组和链表" class="headerlink" title="数组和链表"></a>数组和链表</h5><pre><code>数组属于顺序存储，通过直接访问数组下标即可得到元素的存储位置，所以访问时间都是相同。
-链表属于数据的链接存储，由于每个元素的位置保存在它的前驱或者后继中，所以只有访问到其前驱结点或后继结点后才能够按指针访问到自己，访问元素的时间与该元素结点在链接存储中的位置有关。
-</code></pre><table>
-<thead>
-<tr>
-<th>类型</th>
-<th style="text-align:center">内存空间</th>
-<th style="text-align:center">长度的可变性</th>
-<th style="text-align:center">对数据的访问</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>数组</td>
-<td style="text-align:center">连续的内存空间，相同多数据下占用较小内存</td>
-<td style="text-align:center">需要提前给定</td>
-<td style="text-align:center">移动数据麻烦，访问数据方便</td>
-</tr>
-<tr>
-<td>链表</td>
-<td style="text-align:center">可以连续，也可以不连续，占用较大内存，需要存放前驱和后继的空间</td>
-<td style="text-align:center">可以伸缩</td>
-<td style="text-align:center">移动数据方便，访问数据麻烦</td>
-</tr>
-</tbody>
-</table>
-<h5 id="堆栈和栈"><a href="#堆栈和栈" class="headerlink" title="堆栈和栈"></a>堆栈和栈</h5><pre><code>[堆栈](https://zh.wikipedia.org/wiki/%E5%A0%86%E6%A0%88)（英语：stack），也可直接称栈（港澳台作堆叠）
-</code></pre><h5 id="Java中的堆和栈"><a href="#Java中的堆和栈" class="headerlink" title="Java中的堆和栈"></a>Java中的堆和栈</h5><pre><code>1. 栈具有数据结构中栈的特点，所有存放在它里面的数据都是生命周期很明确，能够快速反应的，所以在Java中使用栈来存放8个基本数据类型和引用变量，用完就马上销毁。
-2. 堆可以理解它就是一个可大可小，任人分配的内存操作单元，因此它的特点就是动态分配内存，适合存放大的数据量，比如一个对象的所有信息，虽然它的引用指向栈中的某个引用变量；所以Java中堆是存放new出来的对象的。
-</code></pre>
-          
-        
-      
-    </div>
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><h5 id="由两个栈组成的队列"><a href="#由两个栈组成的队列" class="headerlink" title="由两个栈组成的队列"></a>由两个栈组成的队列</h5><pre><code>编写一个类，使用两个栈实现队列，支持队列的基本操作(add,poll,peek)
+</code></pre><h4 id="难度"><a href="#难度" class="headerlink" title="难度"></a>难度</h4><pre><code>尉 ★★☆☆
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>栈的特点是先进后出，而队列的特点是先进先出。我们用两个栈，互相反序，实现类似队列的操作。
+具体实现上是一个栈作为压入栈，在压入数据时只往这个栈中压入，记为stackPush，另一个栈只作为弹出栈，记为stackPop。
+根据栈的特点，循环把stackPush中的数据压入stackPop中，stackPop的栈顶元素即为队列的dequeue元素。
+</code></pre><h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><pre><code>1. 如果stackPush要往stackPop中压入数据，必须一次性压入完毕；
+2. 如果stackPop要接收数据，必须保证stackPop为空。
+</code></pre><h5 id="stackPush压入stackPop的操作时机"><a href="#stackPush压入stackPop的操作时机" class="headerlink" title="stackPush压入stackPop的操作时机"></a>stackPush压入stackPop的操作时机</h5><pre><code>调用add、poll、peek三种方法中任何一种时发生都是可以，只要满足注意事项提到的两点，就不会出错。下面的例子是在调用poll和peek方法时进行压入数据的。
+</code></pre><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>import java.util.Stack;
 
-    <div>
-      
-    </div>
+public class TwoStackQueue {
 
-    <div>
-      
-    </div>
+    public Stack&lt;Integer&gt; stackPush;
+    public Stack&lt;Integer&gt; stackPop;
 
-    <div>
-      
-    </div>
+    public TwoStackQueue() {
+        stackPop = new Stack&lt;&gt;();
+        stackPush = new Stack&lt;&gt;();
+    }
 
-    <footer class="post-footer">
-      
+    public void add(int pushInt) {
+        stackPush.push(pushInt);
+    }
 
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/11/design-patterns-singleton-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/02/11/design-patterns-singleton-3/" itemprop="url">单例设计模式(三)真●单例唯一$反射</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T00:00:00Z">
-                2017-02-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="反射对单例的破坏"><a href="#反射对单例的破坏" class="headerlink" title="反射对单例的破坏"></a>反射对单例的破坏</h4><p>先看一个DCL单例：</p>
-<pre><code>import java.io.Serializable;
-
-/**
- * double check lock 实现单例
- */
-public class Singleton implements Serializable {
-    private Singleton() {
-    };
-
-    public static volatile Singleton singleton;
-
-    public static Singleton getInstance() {
-        if (singleton == null) {
-            synchronized (Singleton.class) {
-                if (singleton == null) {
-                    singleton = new Singleton();
-                }
+    public int poll() {
+        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
+            throw new RuntimeException(&quot;Queue is empty!&quot;);
+        } else if (stackPop.empty()) {
+            while (!stackPush.empty()) {
+                stackPop.push(stackPush.pop());
             }
         }
-        return singleton;
+        return stackPop.pop();
     }
 
-}
-</code></pre><p>然后看我们的测试代码：</p>
-<pre><code>import java.lang.reflect.Constructor;
-
-public class ReflectAttackSingleton {
-
-    public static void main(String[] args) {
-        try {
-            Class&lt;?&gt; classType = Singleton.class;
-            Constructor&lt;?&gt; c;
-            c = classType.getDeclaredConstructor(null);
-            c.setAccessible(true);
-            Singleton instance1 = (Singleton) c.newInstance();
-            Singleton instance2 = Singleton.getInstance();
-            System.out.println(&quot;反射得到的实例与单例中的实例是否相等？&quot; +(instance1 == instance2));
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+    public int peek(){
+        if (stackPop.empty() &amp;&amp; stackPush.empty()) {
+            throw new RuntimeException(&quot;Queue is empty!&quot;);
+        } else if (stackPop.empty()) {
+            while (!stackPush.empty()) {
+                stackPop.push(stackPush.pop());
+            }
         }
-
+        return stackPop.peek();
     }
 }
-</code></pre><blockquote>
-<p>运行后： <code>反射得到的实例与单例中的实例是否相等？false</code></p>
-<p>通过反射获取构造函数，然后调用即可获取新的单例的实例，这就破坏了Singleton的单例性。</p>
-</blockquote>
-<h4 id="修改构造器抵御攻击"><a href="#修改构造器抵御攻击" class="headerlink" title="修改构造器抵御攻击"></a>修改构造器抵御攻击</h4><pre><code>private static boolean flag = false;
-private Singleton() {
-    synchronized (Singleton.class) {
-        if(flag == false)
-            flag = !flag;
-        else
-            throw new RuntimeException(&quot;单例模式被攻击！&quot;);
-    }
-};
-</code></pre><h4 id="终极方法"><a href="#终极方法" class="headerlink" title="终极方法"></a>终极方法</h4><pre><code>使用枚举单例
 </code></pre>
           
         
@@ -2300,7 +2477,7 @@ public static void reverse(Stack&lt;Integer&gt; stack) {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-count">109</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

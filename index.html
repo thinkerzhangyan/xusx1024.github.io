@@ -267,6 +267,259 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/29/pat-yi-1015/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/29/pat-yi-1015/" itemprop="url">乙1015. 德才论 (25)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-29T00:00:00Z">
+                2018-01-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>宋代史学家司马光在《资治通鉴》中有一段著名的“德才论”：“是故才德全尽谓之圣人，才德兼亡谓之愚人，德胜才谓之君子，才胜德谓之小人。凡取人之术，苟不得圣人，君子而与之，与其得小人，不若得愚人。”</p>
+<p>现给出一批考生的德才分数，请根据司马光的理论给出录取排名。</p>
+<p>输入格式：</p>
+<p>输入第1行给出3个正整数，分别为：N（&lt;=105），即考生总数；L（&gt;=60），为录取最低分数线，即德分和才分均不低于L的考生才有资格被考虑录取；H（&lt;100），为优先录取线——德分和才分均不低于此线的被定义为“才德全尽”，此类考生按德才总分从高到低排序；才分不到但德分到线的一类考生属于“德胜才”，也按总分排序，但排在第一类考生之后；德才分均低于H，但是德分不低于才分的考生属于“才德兼亡”但尚有“德胜才”者，按总分排序，但排在第二类考生之后；其他达到最低线L的考生也按总分排序，但排在第三类考生之后。</p>
+<p>随后N行，每行给出一位考生的信息，包括：准考证号、德分、才分，其中准考证号为8位整数，德才分为区间[0, 100]内的整数。数字间以空格分隔。</p>
+<p>输出格式：</p>
+<p>输出第1行首先给出达到最低分数线的考生人数M，随后M行，每行按照输入格式输出一位考生的信息，考生按输入中说明的规则从高到低排序。当某类考生中有多人总分相同时，按其德分降序排列；若德分也并列，则按准考证号的升序输出。</p>
+<p>输入样例：<br>    14 60 80<br>    10000001 64 90<br>    10000002 90 60<br>    10000011 85 80<br>    10000003 85 80<br>    10000004 80 85<br>    10000005 82 77<br>    10000006 83 76<br>    10000007 90 78<br>    10000008 75 79<br>    10000009 59 90<br>    10000010 88 45<br>    10000012 80 100<br>    10000013 90 99<br>    10000014 66 60<br>输出样例：<br>    12<br>    10000013 90 99<br>    10000012 80 100<br>    10000003 85 80<br>    10000011 85 80<br>    10000004 80 85<br>    10000007 90 78<br>    10000006 83 76<br>    10000005 82 77<br>    10000002 90 60<br>    10000014 66 60<br>    10000008 75 79<br>    10000001 64 90</p>
+<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
+
+public class No1015 {
+
+    // 才德全尽谓之圣人
+    // 才德兼亡谓之愚人
+    // 德胜才谓之君子
+    // 才胜德谓之小人
+    // 苟不得圣人，君子而与之
+    // 与其得小人，不若得愚人
+
+    // 圣人 &gt; 君子 &gt; 愚人 &gt; 小人
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        Set&lt;Stu&gt; best = new TreeSet&lt;&gt;();
+        Set&lt;Stu&gt; better = new TreeSet&lt;&gt;();
+        Set&lt;Stu&gt; good = new TreeSet&lt;&gt;();
+        Set&lt;Stu&gt; normal = new TreeSet&lt;&gt;();
+        String standard = in.nextLine();
+        String[] split = standard.split(&quot; &quot;);
+        int total = Integer.valueOf(split[0]);
+        int normal_score = Integer.valueOf(split[1]);
+        int good_score = Integer.valueOf(split[2]);
+
+        int de, cai;
+
+        while (total &gt; 0) {
+            total--;
+            standard = in.nextLine();
+            split = standard.split(&quot; &quot;);
+            de = Integer.parseInt(split[1]);
+            cai = Integer.parseInt(split[2]);
+            if (de &gt;= normal_score &amp;&amp; cai &gt;= normal_score) {
+                Stu s = new Stu(split[0], split[1], split[2]);
+                if (de &gt;= good_score &amp;&amp; cai &gt;= good_score) {
+                    best.add(s);
+                } else if (de &gt;= good_score &amp;&amp; cai &lt; good_score) {
+                    better.add(s);
+                } else {
+                    if (de &gt;= cai) {
+                        good.add(s);
+                    } else {
+                        normal.add(s);
+                    }
+                }
+            } else {
+                continue;
+            }
+        }
+
+        in.close();
+        System.out.println(best.size() + better.size() + good.size() + normal.size());
+        for (Stu stu : best) {
+            System.out.println(stu.toString());
+        }
+        for (Stu stu : better) {
+            System.out.println(stu.toString());
+        }
+        for (Stu stu : good) {
+            System.out.println(stu.toString());
+        }
+        for (Stu stu : normal) {
+            System.out.println(stu.toString());
+        }
+
+    }
+
+}
+
+class Stu implements Comparable&lt;Stu&gt; {
+    private int id;
+    private int de, cai;
+
+    public Stu(String id, String de, String cai) {
+        super();
+        this.id = Integer.valueOf(id);
+        this.de = Integer.valueOf(de);
+        this.cai = Integer.valueOf(cai);
+    }
+
+    @Override
+    public String toString() {
+        return id + &quot; &quot; + de + &quot; &quot; + cai;
+    }
+
+    @Override
+    public int compareTo(Stu o2) {
+        int i = (this.de + this.cai);
+        int j = (o2.de + o2.cai);
+        if (i == j) {
+            if (this.de == o2.de) {
+                return (this.id - o2.id);
+            } else {
+                return (o2.de - this.de);
+            }
+        } else {
+            return j - i;
+        }
+    }
+}
+</code></pre><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li>四个层级之间,按优先级排序</li>
+<li>层级之内,按分数排序</li>
+</ul>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li>牛客网全测试通过</li>
+<li>PAT有两个一直超时</li>
+</ul>
+<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>如果去PAT考试,那么请选用C语言,多么痛的领悟!</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/pat-yi-1014/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -468,7 +721,7 @@ public class No1014 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/pat-yi-1013/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/pat-yi-1011/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -487,7 +740,7 @@ public class No1014 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/22/pat-yi-1013/" itemprop="url">乙1013. 数素数 (20)</a></h1>
+                <a class="post-title-link" href="/2018/01/22/pat-yi-1011/" itemprop="url">乙1011. A+B和C (15)</a></h1>
         
 
         <div class="post-meta">
@@ -558,54 +811,43 @@ public class No1014 {
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>令Pi表示第i个素数。现任给两个正整数M &lt;= N &lt;= 104，请输出PM到PN的所有素数。</p>
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>给定区间[-2<sup>31</sup>, 2<sup>31</sup>]内的3个整数A、B和C，请判断A+B是否大于C。</p>
 <p>输入格式：</p>
-<p>输入在一行中给出M和N，其间以空格分隔。</p>
+<p>输入第1行给出正整数T(&lt;=10)，是测试用例的个数。随后给出T组测试用例，每组占一行，顺序给出A、B和C。整数间以空格分隔。</p>
 <p>输出格式：</p>
-<p>输出从PM到PN的所有素数，每10个数字占1行，其间以空格分隔，但行末不得有多余空格。</p>
-<p>输入样例：<br>    5 27<br>输出样例：<br>    11 13 17 19 23 29 31 37 41 43<br>    47 53 59 61 67 71 73 79 83 89<br>    97 101 103</p>
-<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+<p>对每组测试用例，在一行中输出“Case #X: true”如果A+B&gt;C，否则输出“Case #X: false”，其中X是测试用例的编号（从1开始）。</p>
+<p>输入样例：<br>4<br>1 2 3<br>2 3 4<br>2147483647 0 2147483646<br>0 -2147483648 -2147483647<br>输出样例：<br>Case #1: false<br>Case #2: true<br>Case #3: true<br>Case #4: false    </p>
+<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.math.BigDecimal;
+import java.util.Scanner;
 
-public class No1013 {
+public class No1011 {
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        int M = in.nextInt();
-        int N = in.nextInt();
+        int num = Integer.parseInt(in.nextLine());
+        String originStr;
+        String[] split;
+        BigDecimal a;
+        BigDecimal b;
+        BigDecimal c;
+        boolean[] res = new boolean[num];
+        for (int i = 0; i &lt; num; i++) {
+            originStr = in.nextLine();
+            split = originStr.split(&quot; &quot;);
+            a = new BigDecimal(split[0]);
+            b = new BigDecimal(split[1]);
+            c = new BigDecimal(split[2]);
+            res[i] = (a.add(b).compareTo(c) == 1);
+        }
         in.close();
-        int current = 0;
-        int[] res = new int[N];
-        for (int i = 2; current &lt; N; i++) {
-            if (isSu(i)) {
-                res[current++] = i;
-                if (current &gt;= M) {
-                    System.out.print(i);
-                    if (current - M + 1 &gt;= 10 &amp;&amp; (current - M + 1) % 10 == 0) {
-                        System.out.println();
-                    } else {
-                        if (current != N)
-                            System.out.print(&quot; &quot;);
-                    }
-                }
-            }
+        for (int i = 0; i &lt; num; i++) {
+            System.out.println(&quot;Case #&quot; + (i+1) + &quot;: &quot; + res[i]);
         }
-    }
-
-    static boolean isSu(int a) {
-        boolean flag = true;
-        for (int i = 2; i &lt;= Math.sqrt(a); i++) {
-            if (a % i == 0) {
-                flag = false;
-                break;
-            }
-        }
-        return flag;
     }
 }
 </code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
-<li>列出从0-N的素数,然后截取M-N个</li>
-<li>需要加强白板写代码的能力,尤其是在输出的时候,角标什么的老爱弄错,大脑一锅粥.</li>
-<li>IDE是个好东西,在此处,让人发懒了.</li>
+<li>整型可能会越界</li>
+<li>输出是从”1”开始</li>
 </ul>
 
           
@@ -873,7 +1115,7 @@ public class No1012 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/pat-yi-1011/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/pat-yi-1013/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -892,7 +1134,7 @@ public class No1012 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/22/pat-yi-1011/" itemprop="url">乙1011. A+B和C (15)</a></h1>
+                <a class="post-title-link" href="/2018/01/22/pat-yi-1013/" itemprop="url">乙1013. 数素数 (20)</a></h1>
         
 
         <div class="post-meta">
@@ -963,43 +1205,54 @@ public class No1012 {
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>给定区间[-2<sup>31</sup>, 2<sup>31</sup>]内的3个整数A、B和C，请判断A+B是否大于C。</p>
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>令Pi表示第i个素数。现任给两个正整数M &lt;= N &lt;= 104，请输出PM到PN的所有素数。</p>
 <p>输入格式：</p>
-<p>输入第1行给出正整数T(&lt;=10)，是测试用例的个数。随后给出T组测试用例，每组占一行，顺序给出A、B和C。整数间以空格分隔。</p>
+<p>输入在一行中给出M和N，其间以空格分隔。</p>
 <p>输出格式：</p>
-<p>对每组测试用例，在一行中输出“Case #X: true”如果A+B&gt;C，否则输出“Case #X: false”，其中X是测试用例的编号（从1开始）。</p>
-<p>输入样例：<br>4<br>1 2 3<br>2 3 4<br>2147483647 0 2147483646<br>0 -2147483648 -2147483647<br>输出样例：<br>Case #1: false<br>Case #2: true<br>Case #3: true<br>Case #4: false    </p>
-<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.math.BigDecimal;
-import java.util.Scanner;
+<p>输出从PM到PN的所有素数，每10个数字占1行，其间以空格分隔，但行末不得有多余空格。</p>
+<p>输入样例：<br>    5 27<br>输出样例：<br>    11 13 17 19 23 29 31 37 41 43<br>    47 53 59 61 67 71 73 79 83 89<br>    97 101 103</p>
+<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
 
-public class No1011 {
+public class No1013 {
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        int num = Integer.parseInt(in.nextLine());
-        String originStr;
-        String[] split;
-        BigDecimal a;
-        BigDecimal b;
-        BigDecimal c;
-        boolean[] res = new boolean[num];
-        for (int i = 0; i &lt; num; i++) {
-            originStr = in.nextLine();
-            split = originStr.split(&quot; &quot;);
-            a = new BigDecimal(split[0]);
-            b = new BigDecimal(split[1]);
-            c = new BigDecimal(split[2]);
-            res[i] = (a.add(b).compareTo(c) == 1);
-        }
+        int M = in.nextInt();
+        int N = in.nextInt();
         in.close();
-        for (int i = 0; i &lt; num; i++) {
-            System.out.println(&quot;Case #&quot; + (i+1) + &quot;: &quot; + res[i]);
+        int current = 0;
+        int[] res = new int[N];
+        for (int i = 2; current &lt; N; i++) {
+            if (isSu(i)) {
+                res[current++] = i;
+                if (current &gt;= M) {
+                    System.out.print(i);
+                    if (current - M + 1 &gt;= 10 &amp;&amp; (current - M + 1) % 10 == 0) {
+                        System.out.println();
+                    } else {
+                        if (current != N)
+                            System.out.print(&quot; &quot;);
+                    }
+                }
+            }
         }
+    }
+
+    static boolean isSu(int a) {
+        boolean flag = true;
+        for (int i = 2; i &lt;= Math.sqrt(a); i++) {
+            if (a % i == 0) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
     }
 }
 </code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
-<li>整型可能会越界</li>
-<li>输出是从”1”开始</li>
+<li>列出从0-N的素数,然后截取M-N个</li>
+<li>需要加强白板写代码的能力,尤其是在输出的时候,角标什么的老爱弄错,大脑一锅粥.</li>
+<li>IDE是个好东西,在此处,让人发懒了.</li>
 </ul>
 
           
@@ -2780,175 +3033,6 @@ public class No1011 {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/new-year-about-android/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/26/new-year-about-android/" itemprop="url">关于Android的感想</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T00:00:00Z">
-                2017-12-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Others/" itemprop="url" rel="index">
-                    <span itemprop="name">Others</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>元旦在即.突发一些感悟.Android平台的开发的该何去何从?</p>
-<p>我本身从2012年实习就一直开发做Android.因为本身天资并不高,</p>
-<p>缺少很多顿悟的灵气,许多感悟都是自己撞破头,才得出来一点点.</p>
-<p>到现在突然有了一些感悟,就赶紧记下来.</p>
-<p>前一段时间,<code>Android Studio 3.0</code> 发布稳定版本,我们去新建一个</p>
-<p>示例,得到的都是<code>kotlin</code>语言编写的源码.由于我在最近一年多的时间</p>
-<p>内都在使用kotlin,对kotlin还算<code>手熟</code>.没有感到很多意外.</p>
-<p>后半年在<code>Java虚拟机</code>,<code>数据结构</code>,<code>算法</code>,<code>Android多线程</code>相关的</p>
-<p>知识在补课.后来又接触<code>Python</code>,<code>Go</code>.发现语言都是在向程序员友好</p>
-<p>方面发展.轻量级语言越来越多.</p>
-<p>Android虽然是一个操作系统,但是如果编写普通的Android应用,</p>
-<p>还是和前端差不多的,但是他所使用的语言却是Java这样的庞然大物.</p>
-<p>再加上kotlin正式<code>扶正</code>,kotlin这种面向对象+脚本的快捷语言,才是</p>
-<p>编写Android应用的利器.</p>
-<p>我就感到Android的发展方向,要有变化:</p>
-<pre><code>Android应用的未来,要改写了:
-
-使用kotlin这种语言开发,然后配合成熟的hybrid框架,涉及核心
-
-业务或者安全的代码由c/c++去封装.
-</code></pre><p>这些,都不是什么新东西.尤其是混合应用,从Android诞生,就开始提,</p>
-<p>但是到现在也没有成熟的方案.kotlin发布也有几年了,今年才刚刚扶正.</p>
-<p>我预测,以后的Android App还会有一个高潮期,kotlin会默默融入并</p>
-<p>替换,但不会太震动,真的让大部分普通app纷纷改头换面的,应该是hybrid</p>
-<p>成熟的框架诞生.现在应该已经有人在做,但是还没有出世.</p>
-<p>现在的app,像支付宝,淘宝,应该是h5显示UI,安全核心模块配以C/C++</p>
-<p>像微信,是C/C++的基础支撑库配合Java编写,也有部分h5.</p>
-<p>想阿里的这些应用,已经在尝试,可以说很艰难,说得难听一些,就是现在的</p>
-<p>混合应用难用的屎一样.</p>
-<p>未来一旦成熟的hybrid框架发布,那么许多app就要迎来春天了.</p>
-<p>后面:</p>
-<p>这些想法,从我入行,就已经听到有人不停的在提,有许多人在做许多的</p>
-<p>尝试,这令人敬佩他们的前瞻性.而我今天才想到这个道理,并且描述</p>
-<p>的磕磕绊绊,只能露出一个尴尬而不失礼貌的微笑了.</p>
-<p>写到这里,昨天还立志做一个算法工程师,今天貌似就要变成开发一个令人</p>
-<p>激动的hybrid框架了.这个… … 还是保持刚才的微笑吧!</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2998,7 +3082,7 @@ public class No1011 {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">108</span>
+                <span class="site-state-item-count">109</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
