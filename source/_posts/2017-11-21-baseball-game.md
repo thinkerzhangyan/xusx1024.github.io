@@ -3,7 +3,7 @@ layout: post
 title:  682. Baseball Game
 date:   2017-11-21
 categories: Algorithm
-tag: [stack,easy]
+tag: [算法,PAT,LeetCode]
 ---
  
 

@@ -267,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/new-year-about-android/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/10/android-system-service-prework/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -286,7 +286,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/26/new-year-about-android/" itemprop="url">关于Android的感想</a></h1>
+                <a class="post-title-link" href="/2018/01/10/android-system-service-prework/" itemprop="url">Android系统服务:知识预备</a></h1>
         
 
         <div class="post-meta">
@@ -298,8 +298,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T00:00:00Z">
-                2017-12-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-10T00:00:00Z">
+                2018-01-10
               </time>
             
 
@@ -321,8 +321,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Others/" itemprop="url" rel="index">
-                    <span itemprop="name">Others</span>
+                  <a href="/categories/Android-System-Framework/" itemprop="url" rel="index">
+                    <span itemprop="name">Android System Framework</span>
                   </a>
                 </span>
 
@@ -357,42 +357,503 @@
       
         
           
-            <p>元旦在即.突发一些感悟.Android平台的开发的该何去何从?</p>
-<p>我本身从2012年实习就一直开发做Android.因为本身天资并不高,</p>
-<p>缺少很多顿悟的灵气,许多感悟都是自己撞破头,才得出来一点点.</p>
-<p>到现在突然有了一些感悟,就赶紧记下来.</p>
-<p>前一段时间,<code>Android Studio 3.0</code> 发布稳定版本,我们去新建一个</p>
-<p>示例,得到的都是<code>kotlin</code>语言编写的源码.由于我在最近一年多的时间</p>
-<p>内都在使用kotlin,对kotlin还算<code>手熟</code>.没有感到很多意外.</p>
-<p>后半年在<code>Java虚拟机</code>,<code>数据结构</code>,<code>算法</code>,<code>Android多线程</code>相关的</p>
-<p>知识在补课.后来又接触<code>Python</code>,<code>Go</code>.发现语言都是在向程序员友好</p>
-<p>方面发展.轻量级语言越来越多.</p>
-<p>Android虽然是一个操作系统,但是如果编写普通的Android应用,</p>
-<p>还是和前端差不多的,但是他所使用的语言却是Java这样的庞然大物.</p>
-<p>再加上kotlin正式<code>扶正</code>,kotlin这种面向对象+脚本的快捷语言,才是</p>
-<p>编写Android应用的利器.</p>
-<p>我就感到Android的发展方向,要有变化:</p>
-<pre><code>Android应用的未来,要改写了:
+            <p>2017,在学习Android系统架构服务的相关知识的阶段,走了一些弯路,成果很是不好,发现自己的知识预备不够充足,导致自己局限于某一个服务的具体实现逻辑里面,而不能以开阔的,或者更加高维的视角去学习.</p>
+<p>具体的来说,在学习一个特定的服务的时候,一直在追踪代码,这些代码是Java实现的,我也能够看明白关键的几句话是什么意思,但是该服务为什么这么实现?设计一个服务究竟根据的是什么?里面的思想一点也不明白,被蒙头带着走.然后再碰到本地实现,那就是望洋兴叹了.</p>
+<p>上一年,一整年的关于服务的学习的效果,基本可以忽略不计.但是由此得到的一些经验教训,不可以不记录在此,以飨后来.</p>
+<h4 id="书单"><a href="#书单" class="headerlink" title="书单"></a>书单</h4><ul>
+<li>《深入理解Java虚拟机：JVM高级特性与最佳实践》 </li>
+<li>《Efficient.Android.Threading 》</li>
+<li>《汇编语言_第2版》 王爽</li>
+<li>《深入理解计算机系统》</li>
+<li>《深入理解Android内核设计思想》</li>
+<li>《Java并发编程实战（中文版)》</li>
+<li><p>《Android Dalvik虚拟机结构及机制剖析》</p>
+<p>  这些书我列的很小的一方面,仅仅是我手头上有的.不一定要逐字逐句看完,可以选择自己需要的章节阅读,目的是要有大方向的概念.</p>
+</li>
+</ul>
+<h4 id="知识预备"><a href="#知识预备" class="headerlink" title="知识预备"></a>知识预备</h4><ul>
+<li>binder机制</li>
+<li>反编译</li>
+<li>类加载机制</li>
+<li>进程管理,通信</li>
+<li>线程调度</li>
+<li>内存管理</li>
+<li>反射</li>
+<li>注解</li>
+<li>Android虚拟机</li>
+<li>设计模式</li>
+</ul>
+<h4 id="自我总结的方法"><a href="#自我总结的方法" class="headerlink" title="自我总结的方法"></a>自我总结的方法</h4><ol>
+<li>针对某一系统服务,读官方文档,写一个示例</li>
+<li>写示例时思考,这个api这样调用,是出于一种什么样的设计?如果我来设计呢?</li>
+<li>跟踪对应文件的关键源码<ol>
+<li>读文件注释</li>
+<li>根据我们的实例,查看关键api的实现</li>
+<li>参考网上资源博客</li>
+</ol>
+</li>
+<li>对比自己的知识库,那些需要补充,重点补足</li>
+</ol>
+<h3 id="边研究边学习-而不是先学习上面的准备知识-后研究"><a href="#边研究边学习-而不是先学习上面的准备知识-后研究" class="headerlink" title="边研究边学习,而不是先学习上面的准备知识,后研究."></a><strong>边研究边学习,而不是先学习上面的准备知识,后研究.</strong></h3>
+          
+        
+      
+    </div>
 
-使用kotlin这种语言开发,然后配合成熟的hybrid框架,涉及核心
+    <div>
+      
+    </div>
 
-业务或者安全的代码由c/c++去封装.
-</code></pre><p>这些,都不是什么新东西.尤其是混合应用,从Android诞生,就开始提,</p>
-<p>但是到现在也没有成熟的方案.kotlin发布也有几年了,今年才刚刚扶正.</p>
-<p>我预测,以后的Android App还会有一个高潮期,kotlin会默默融入并</p>
-<p>替换,但不会太震动,真的让大部分普通app纷纷改头换面的,应该是hybrid</p>
-<p>成熟的框架诞生.现在应该已经有人在做,但是还没有出世.</p>
-<p>现在的app,像支付宝,淘宝,应该是h5显示UI,安全核心模块配以C/C++</p>
-<p>像微信,是C/C++的基础支撑库配合Java编写,也有部分h5.</p>
-<p>想阿里的这些应用,已经在尝试,可以说很艰难,说得难听一些,就是现在的</p>
-<p>混合应用难用的屎一样.</p>
-<p>未来一旦成熟的hybrid框架发布,那么许多app就要迎来春天了.</p>
-<p>后面:</p>
-<p>这些想法,从我入行,就已经听到有人不停的在提,有许多人在做许多的</p>
-<p>尝试,这令人敬佩他们的前瞻性.而我今天才想到这个道理,并且描述</p>
-<p>的磕磕绊绊,只能露出一个尴尬而不失礼貌的微笑了.</p>
-<p>写到这里,昨天还立志做一个算法工程师,今天貌似就要变成开发一个令人</p>
-<p>激动的hybrid框架了.这个… … 还是保持刚才的微笑吧!</p>
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/08/battery-historian-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/08/battery-historian-2/" itemprop="url">Android电量优化(使用Battery Historian)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-08T00:00:00Z">
+                2018-01-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h4><ul>
+<li>如何收集数据</li>
+<li>数据图表的含义</li>
+<li>如何分析并优化</li>
+</ul>
+<h4 id="收集数据"><a href="#收集数据" class="headerlink" title="收集数据"></a>收集数据</h4><ul>
+<li>手机连接USB,执行<code>adb shell dumpsys batterystats --reset</code>命令,清空电池的历史状态</li>
+<li>断开USB,打开目标应用,正常使用5分钟左右</li>
+<li>连接USB,执行<code>adb bugreport bugreport.zip</code>,可以到处zip文件到当前目录下</li>
+<li><p>浏览器进入<code>Battery Historian</code>,上传已生成的zip,然后会自动生成分析图表文件.</p>
+<p>  其实在收集数据时候,我们应该尽量正常使用手机,然后打开几个友商App,大概使用个10分钟左右,导出数据,先看系统电量状态,然后看这几个友商app的耗电情况,然后对比自家产品,看看可以优化的地方在哪里.</p>
+</li>
+</ul>
+<p>关于<code>Battery Historian</code>的使用:<a href="http://xusx1024.com/2018/01/04/battery-historian/" target="_blank" rel="external">传送</a></p>
+<h4 id="图表导览"><a href="#图表导览" class="headerlink" title="图表导览"></a>图表导览</h4><ul>
+<li>鉴于网上相关博客过多关于<code>Historian</code>的说明,我们的重点是新版<code>Historian V2</code></li>
+</ul>
+<p><img src="/images/battery_historian_file_info.png" alt="File Info"></p>
+<p><img src="/images/battery_historian_historian.png" alt="Historian"></p>
+<p>该图各个条目的意思,我们按照各个维度在图片左上右下的顺序来讲述,读者可以对比自己的图表,来查看如下的条目说明:</p>
+<h5 id="左"><a href="#左" class="headerlink" title="左"></a>左</h5><ul>
+<li>CPU running: CPU运行,从开始使用app到转储使用信息,CPU是持续耗电的,与之相似的是<code>Userspace wakelock</code>,<code>Screen</code></li>
+<li>Kernel only uptime: 仅内核运行时间.即:CPU运行,但是屏幕没有唤醒的情况.产生该维度是用来和<code>CPU running</code>,<code>Userspace wakelock</code>作比较,不会出现在电量日志记录里</li>
+<li>Userspace wakelock: 一般情况下,设备空闲,屏幕关闭,最后CPU停止运行,wake_lock可以阻止CPU休眠,比如后台持续下载.该维度只记录第一个使用wake_lock的app,如果需要记录所有的,使用<code>adb shell dumpsys batterystates --enable full-wake-history</code></li>
+<li><strong>Long Wakelocks</strong>: 如果这个维度出现了记录,说明持有wake_lock已经超过1分钟了,这样是极其不正常的</li>
+<li>Screen:屏幕维度<ul>
+<li>红色:亮屏</li>
+<li>白色:息屏</li>
+</ul>
+</li>
+<li><strong>Top app</strong>:耗电最高的应用,如果我们专注于使用测试目标app,那么该维度反而没有用了.其实在正常使用手机下测试,该维度很重要.</li>
+<li><strong>Activity Manager Proc</strong>: 活动管理者进程.在我们示例的图中,该进程被两次调起,一次是应用启动,一次是定位服务启动</li>
+<li><strong>Crashes(logcat)</strong>:crash耗电信息</li>
+<li><strong>JobScheduler</strong>: 任务调度器耗电信息</li>
+<li><strong>SyncManager</strong>:同步管理耗电信息.即账户管理器同步相关的.</li>
+<li>GPS:GPS定位<ul>
+<li>红色:开</li>
+<li>白色:关</li>
+</ul>
+</li>
+<li><strong>Bluetooth Scan(logcat)</strong>:蓝牙搜索耗电信息</li>
+<li>BLE scanning:Bluetooth Low Energy,又叫蓝牙4.0,区别于蓝牙3.0和之前的版本.<ul>
+<li>绿色:开</li>
+<li>白色:关</li>
+</ul>
+</li>
+<li>Mobile signal strength: 手机信号强度<ul>
+<li>白色:无信号</li>
+<li>红色:差</li>
+<li>橙色:略微好一些</li>
+<li>黄色:好</li>
+<li>绿色:棒棒</li>
+</ul>
+</li>
+<li>WiFi full lock:和wake lock机制相似,此锁是用于wifi的.<ul>
+<li>绿色:开</li>
+<li>白色:关</li>
+</ul>
+</li>
+<li>WiFi scan: wifi扫描</li>
+<li>Wifi supplicant:WiFi请求状态<br><img src="/images/wifi-supplicant.png" alt="wifi-supplicant"></li>
+<li>wifi radio:大概就是wifi是否一直连接.表面含义是wifi 广播.<ul>
+<li>绿色:开</li>
+<li>白色:关</li>
+</ul>
+</li>
+<li>wifi signal strength:wifi信号强度<ul>
+<li>白色:无信号</li>
+<li>红色:差</li>
+<li>橙色:略微好一些</li>
+<li>黄色:好</li>
+<li>绿色:棒棒</li>
+</ul>
+</li>
+<li>wifi multicast: wifi组播<ul>
+<li>绿色:开</li>
+<li>白色:关</li>
+</ul>
+</li>
+<li>wifi running:wifi是否一直运行<ul>
+<li>绿色:开</li>
+<li>白色:关</li>
+</ul>
+</li>
+<li>wifi on:wifi开关是否开启,开启后,如果由于故障,wifi模组不一定运行.<ul>
+<li>绿色:开</li>
+<li>白色:关</li>
+</ul>
+</li>
+<li>Audio:音频.我测试的app中是没有故意加音效的,但是出现了耗电的现象.<ul>
+<li>绿色:开</li>
+<li>白色:关</li>
+</ul>
+</li>
+<li>Foreground process:前台进程.</li>
+<li>Package active:活动的包,大概指的是运行中的,在前台的包(app)</li>
+<li>Battery level:统计电量时的耗电量</li>
+<li>Coulomb charge:库伦是电量单位,难道这是电费??</li>
+<li>Temperature:温度<br><img src="/images/battery_temperature.png" alt="Temperature"></li>
+<li>plugged:插电状态,在充电状态为关的这一段时间,是我们的手机的真实耗电时间<ul>
+<li>绿色:开</li>
+<li>白色:关</li>
+</ul>
+</li>
+<li>charging on:充电.如果100电量,就是关闭状态了.<ul>
+<li>绿色:开</li>
+<li>白色:关</li>
+</ul>
+</li>
+<li>Logcat misc:日志杂项.misc. = miscellaneous</li>
+<li>health:电池?手机健康状态?</li>
+<li>Plug:插头</li>
+<li>Voltage:电压</li>
+<li>charging status:充电状态</li>
+</ul>
+<h5 id="上"><a href="#上" class="headerlink" title="上"></a>上</h5><p>下面几个复选框,可以都试试,控制显示电量条和每个维度的耗电条的</p>
+<ul>
+<li>Add Metrics:增加度量项目</li>
+<li>show bars</li>
+<li>show level summaries</li>
+<li>show line overlay</li>
+<li>show rate of change</li>
+</ul>
+<h5 id="右"><a href="#右" class="headerlink" title="右"></a>右</h5><p>电量余量</p>
+<h5 id="下"><a href="#下" class="headerlink" title="下"></a>下</h5><p>东八区上海时间</p>
+<h5 id="app-selection"><a href="#app-selection" class="headerlink" title="app selection"></a>app selection</h5><p>详细数据,都在这个模块里面.读者可以先整体查看<code>System Stats</code>里面的数据,然后选定自家的app,看看是不是主因.再根据业务和本文下一个模块的优化建议,斟酌优化.<br>该功能虽然称为<code>Historian</code>,真正的只能有一个粗略的电量统计,在统计过程中,也要耗电.要综合考虑各种情况,慎重优化.</p>
+<h4 id="分析-优化建议"><a href="#分析-优化建议" class="headerlink" title="分析,优化建议"></a>分析,优化建议</h4><p>耗电大户:</p>
+<ul>
+<li>屏幕唤醒</li>
+<li>CPU唤醒</li>
+<li>蜂窝数据</li>
+<li>传感器</li>
+</ul>
+<p>优化建议:</p>
+<ul>
+<li>对业务要非常熟悉</li>
+<li>传感器的使用,比如gps,如果业务上非频繁使用并且要求精度不高,那么就在业务上优化定位时机和精度.</li>
+<li>如果业务上需要有长时间的service,那么要考虑到CPU weak lock,防止后台任务没有完成,但是cpu睡眠,或者任务已经完成,仍然持有weak lock</li>
+<li>我们也许会在手机充电时,做一些日志上传操作的定时任务,那么注意重试次数和成功后处理,防止用户一夜充电不到80%,然后手机厂商为我们背锅的情况</li>
+<li>已知屏幕唤醒是耗电大户,原因是屏幕渲染,绘制消耗资源,所以我们在自定义视图,布局的时候,要尽量做到Android性能优化里要求</li>
+<li>同理,各种优化,平时编码的习惯,都会影响我们脆弱的电量</li>
+<li></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/04/battery-historian/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/04/battery-historian/" itemprop="url">Android电量优化:Battery Historian 使用准备</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-04T00:00:00Z">
+                2018-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><a href="https://github.com/google/battery-historian" target="_blank" rel="external">battery-historian</a> 是google官方提供的,一款优秀的电量分析工具.</p>
+<p>在优化电量相关很是有用.</p>
+<p>鉴于国内网络条件,和多数开发人员的终端都是win平台,记录自己的研究过程.</p>
+<p>好了,废话到此为止.</p>
+<h4 id="docker安装"><a href="#docker安装" class="headerlink" title="docker安装"></a>docker安装</h4><ul>
+<li>有人说需要翻墙,其实不需要,千万千万不要打开代理,尤其是全局代理</li>
+<li>有人说只支持win10和mac,亲测win7可以使用</li>
+<li>使用<a href="https://docs.docker.com/toolbox/toolbox_install_windows/" target="_blank" rel="external">Docker Toolbox</a></li>
+</ul>
+<p>安装如下图:</p>
+<p><img src="/images/setup-docker-toolbox.png" alt="install"></p>
+<ul>
+<li>比如git,VirtualBox,如果有就不要勾选了</li>
+<li>Docker Compose for windows,kitematic forwindows 最好选用,挺好用的</li>
+</ul>
+<p>一路下一步,基本安装成功.</p>
+<h4 id="镜像环境"><a href="#镜像环境" class="headerlink" title="镜像环境"></a>镜像环境</h4><p>使用battery-historian需要go,Python,Java,git环境,这些在docker里可以获取一个已经配置好的镜像,非常方便.</p>
+<p>打开docker quickstart terminal,等待docker初始化成功,并获得一个IP.</p>
+<p>注意:</p>
+<ul>
+<li>不要使用github上的这个命令 <code>docker -- run -p &lt;port&gt;:9999 gcr.io/android-battery-historian/stable:3.0 --port 9999</code><ul>
+<li>命令陈旧,–run,–port都已经没有了</li>
+<li>–run 被run替代</li>
+<li>–port 可以使用 –publish代替</li>
+</ul>
+</li>
+<li>请使用:<code>docker pull bhaavan/battery-historian</code>,这是下载该img<ul>
+<li><code>docker run -d -p 9999:9999 bhaavan/battery-historian --publish 9999</code> 这是映射端口号</li>
+</ul>
+</li>
+</ul>
+<p>如果一切顺利,到此为止,在浏览器里输入<code>ip:端口号</code>应该是可以使用了,如图:<br><img src="/images/battery-historian-upload.png" alt="upload"></p>
+<h4 id="bugreport"><a href="#bugreport" class="headerlink" title="bugreport"></a>bugreport</h4><p>在导出bugreport文件时候:</p>
+<ul>
+<li>高于7.0Android系统 <code>$ adb bugreport bugreport.zip</code></li>
+<li>低于6.0Android系统 <code>$ adb bugreport &gt; bugreport.txt</code></li>
+</ul>
+<h4 id="Kitematic-Alpha"><a href="#Kitematic-Alpha" class="headerlink" title="Kitematic (Alpha)"></a>Kitematic (Alpha)</h4><ul>
+<li>可视化统一管理多个镜像</li>
+<li>注册登录千万不要用代理</li>
+<li>感觉比terminal慢了一点,但是好用</li>
+</ul>
+<h4 id="友情提示"><a href="#友情提示" class="headerlink" title="友情提示"></a>友情提示</h4><p>有的blog上,有使用<a href="https://github.com/google/battery-historian/tree/master/scripts" target="_blank" rel="external">historian.py</a>来可视化bugreport文件的,如下:</p>
+<pre><code>python historian.py -a bugreport.txt &gt; battery.html
+</code></pre><p>如果你有Python环境,会优先选择他,看似简单,实际上有些老旧,不建议使用.</p>
+<p>理由:</p>
+<ul>
+<li>Python 2.7写的,和现在的3.6语法大有不同,该文件在3.6环境下,print语句都需要添加<code>()</code>,有两个库没法导入(注:我就是在此折戟)</li>
+<li>Android7.0及其以上没法用,该文件分析的<code>.txt</code>,Android7.0导出的是<code>zip</code></li>
+<li>安装docker,不止可以使用google的这个分析库,还可以调试源码,模拟别的服务器环境等等,详见:<a href="https://hub.docker.com/" target="_blank" rel="external">Docker Hub</a></li>
+</ul>
 
           
         
@@ -601,7 +1062,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1009/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/new-year-about-android/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -620,7 +1081,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/25/pat-yi-1009/" itemprop="url">乙1009. 说反话 (20)</a></h1>
+                <a class="post-title-link" href="/2017/12/26/new-year-about-android/" itemprop="url">关于Android的感想</a></h1>
         
 
         <div class="post-meta">
@@ -632,8 +1093,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T00:00:00Z">
-                2017-12-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T00:00:00Z">
+                2017-12-26
               </time>
             
 
@@ -655,8 +1116,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
+                  <a href="/categories/Others/" itemprop="url" rel="index">
+                    <span itemprop="name">Others</span>
                   </a>
                 </span>
 
@@ -691,45 +1152,43 @@
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>给定一句英语，要求你编写程序，将句中所有单词的顺序颠倒输出。
+            <p>元旦在即.突发一些感悟.Android平台的开发的该何去何从?</p>
+<p>我本身从2012年实习就一直开发做Android.因为本身天资并不高,</p>
+<p>缺少很多顿悟的灵气,许多感悟都是自己撞破头,才得出来一点点.</p>
+<p>到现在突然有了一些感悟,就赶紧记下来.</p>
+<p>前一段时间,<code>Android Studio 3.0</code> 发布稳定版本,我们去新建一个</p>
+<p>示例,得到的都是<code>kotlin</code>语言编写的源码.由于我在最近一年多的时间</p>
+<p>内都在使用kotlin,对kotlin还算<code>手熟</code>.没有感到很多意外.</p>
+<p>后半年在<code>Java虚拟机</code>,<code>数据结构</code>,<code>算法</code>,<code>Android多线程</code>相关的</p>
+<p>知识在补课.后来又接触<code>Python</code>,<code>Go</code>.发现语言都是在向程序员友好</p>
+<p>方面发展.轻量级语言越来越多.</p>
+<p>Android虽然是一个操作系统,但是如果编写普通的Android应用,</p>
+<p>还是和前端差不多的,但是他所使用的语言却是Java这样的庞然大物.</p>
+<p>再加上kotlin正式<code>扶正</code>,kotlin这种面向对象+脚本的快捷语言,才是</p>
+<p>编写Android应用的利器.</p>
+<p>我就感到Android的发展方向,要有变化:</p>
+<pre><code>Android应用的未来,要改写了:
 
-输入格式：测试输入包含一个测试用例，在一行内给出总长度不超过80的字符串。
+使用kotlin这种语言开发,然后配合成熟的hybrid框架,涉及核心
 
-字符串由若干单词和若干空格组成，其中单词是由英文字母（大小写有区分）组成的字符串，
+业务或者安全的代码由c/c++去封装.
+</code></pre><p>这些,都不是什么新东西.尤其是混合应用,从Android诞生,就开始提,</p>
+<p>但是到现在也没有成熟的方案.kotlin发布也有几年了,今年才刚刚扶正.</p>
+<p>我预测,以后的Android App还会有一个高潮期,kotlin会默默融入并</p>
+<p>替换,但不会太震动,真的让大部分普通app纷纷改头换面的,应该是hybrid</p>
+<p>成熟的框架诞生.现在应该已经有人在做,但是还没有出世.</p>
+<p>现在的app,像支付宝,淘宝,应该是h5显示UI,安全核心模块配以C/C++</p>
+<p>像微信,是C/C++的基础支撑库配合Java编写,也有部分h5.</p>
+<p>想阿里的这些应用,已经在尝试,可以说很艰难,说得难听一些,就是现在的</p>
+<p>混合应用难用的屎一样.</p>
+<p>未来一旦成熟的hybrid框架发布,那么许多app就要迎来春天了.</p>
+<p>后面:</p>
+<p>这些想法,从我入行,就已经听到有人不停的在提,有许多人在做许多的</p>
+<p>尝试,这令人敬佩他们的前瞻性.而我今天才想到这个道理,并且描述</p>
+<p>的磕磕绊绊,只能露出一个尴尬而不失礼貌的微笑了.</p>
+<p>写到这里,昨天还立志做一个算法工程师,今天貌似就要变成开发一个令人</p>
+<p>激动的hybrid框架了.这个… … 还是保持刚才的微笑吧!</p>
 
-单词之间用1个空格分开，输入保证句子末尾没有多余的空格。
-
-输出格式：每个测试用例的输出占一行，输出倒序后的句子。
-
-输入样例：
-Hello World Here I Come
-输出样例：
-Come I Here World Hello
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-/**
- * No.1009. 说反话 (20)
- * 
- * @author sxx.xu
- *
- */
-public class No1009 {
-
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        String str = in.nextLine();
-        in.close();
-        String[] datas = str.split(&quot; &quot;);
-        for (int i = datas.length - 1; i &gt;= 0; i--) {
-            System.out.print(datas[i]);
-            if (i &gt;= 1) {
-                System.out.print(&quot; &quot;);
-            }
-        }
-
-    }
-
-}
-</code></pre>
           
         
       
@@ -1364,6 +1823,177 @@ public class No1007 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1009/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/25/pat-yi-1009/" itemprop="url">乙1009. 说反话 (20)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T00:00:00Z">
+                2017-12-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>给定一句英语，要求你编写程序，将句中所有单词的顺序颠倒输出。
+
+输入格式：测试输入包含一个测试用例，在一行内给出总长度不超过80的字符串。
+
+字符串由若干单词和若干空格组成，其中单词是由英文字母（大小写有区分）组成的字符串，
+
+单词之间用1个空格分开，输入保证句子末尾没有多余的空格。
+
+输出格式：每个测试用例的输出占一行，输出倒序后的句子。
+
+输入样例：
+Hello World Here I Come
+输出样例：
+Come I Here World Hello
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+/**
+ * No.1009. 说反话 (20)
+ * 
+ * @author sxx.xu
+ *
+ */
+public class No1009 {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String str = in.nextLine();
+        in.close();
+        String[] datas = str.split(&quot; &quot;);
+        for (int i = datas.length - 1; i &gt;= 0; i--) {
+            System.out.print(datas[i]);
+            if (i &gt;= 1) {
+                System.out.print(&quot; &quot;);
+            }
+        }
+
+    }
+
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/pat-yi-1006/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1534,639 +2164,11 @@ public class No1006 {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/pat-yi-1005/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/22/pat-yi-1005/" itemprop="url">乙1005. 继续(3n+1)猜想 (25)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T00:00:00Z">
-                2017-12-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>卡拉兹(Callatz)猜想已经在1001中给出了描述。在这个题目里，情况稍微有些复杂。
-
-当我们验证卡拉兹猜想的时候，为了避免重复计算，可以记录下递推过程中遇到的每一个数。例如对n=3进行验证的时候，
-
-我们需要计算3、5、8、4、2、1，则当我们对n=5、8、4、2进行验证的时候，就可以直接判定卡拉兹猜想的真伪，而不需要重复计算，
-
-因为这4个数已经在验证3的时候遇到过了，我们称5、8、4、2是被3“覆盖”的数。我们称一个数列中的某个数n为“关键数”，
-
-如果n不能被数列中的其他数字所覆盖。现在给定一系列待验证的数字，我们只需要验证其中的几个关键数，
-
-就可以不必再重复验证余下的数字。你的任务就是找出这些关键数字，并按从大到小的顺序输出它们。
-
-输入格式：每个测试输入包含1个测试用例，第1行给出一个正整数K(&lt;100)，
-
-第2行给出K个互不相同的待验证的正整数n(1&lt;n&lt;=100)的值，数字间用空格隔开。
-
-输出格式：每个测试用例的输出占一行，按从大到小的顺序输出关键数字。数字间用1个空格隔开，但一行中最后一个数字后没有空格。
-
-输入样例：
-6
-3 5 6 7 8 11
-输出样例：
-7 6
-</code></pre><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
-<li>首先要理解覆盖的概念,我的理解是,一个给定的数,在求得最终结果”1”的路径上,如果一个数可以被2整除,该数就被给定的数覆盖了.</li>
-<li>其次,我们默认输入的那组数,互相都没有覆盖,全部加入最终的输出容器</li>
-<li>然后,我们循环记录给定的数的path数,如果该数在结果容器里,那么从结果容器中移除</li>
-<li>最后,输入结果容器的记录</li>
-</ul>
-<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
-import java.util.TreeSet;
-
-/**
- * No.1005: 继续(3n+1)猜想 (25)
- * 
- * @author sxx.xu
- *
- */
-public class No1005 {
-
-    public static void main(String[] args) {
-        List&lt;Integer&gt; path = new ArrayList&lt;&gt;();
-        TreeSet&lt;Integer&gt; ans = new TreeSet&lt;&gt;(Collections.reverseOrder());
-        Scanner in = new Scanner(System.in);
-        int total = Integer.parseInt(in.nextLine());
-        String datas = in.nextLine();
-        in.close();
-        String[] split = datas.split(&quot; &quot;);
-        if (split.length == 1) {
-            System.out.println(split[0]);
-            return;
-        }
-        int num = 0;
-        for (int i = 0; i &lt; total; i++) {
-            num = Integer.parseInt(split[i]);
-            ans.add(num);
-        }
-
-        for (int i = 0; i &lt; total; i++) {
-            num = Integer.parseInt(split[i]);
-            while (num != 1) {
-                if (num % 2 == 0) {
-                    num = num / 2;
-                    path.add(num);
-                    if (ans.contains(num))
-                        ans.remove(num);
-                } else {
-                    num = 3 * num + 1;
-                }
-            }
-        }
-
-        StringBuilder sb = new StringBuilder();
-        for (int j : ans) {
-            sb.append(j).append(&quot; &quot;);
-        }
-        if (sb.toString().trim().isEmpty()) {
-            System.out.println(&quot;&quot;);
-        } else {
-            System.out.println(sb.toString().trim());
-        }
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1003/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1003/" itemprop="url">乙1003. 我要通过！(20)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
-                2017-12-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>“答案正确”是自动判题系统给出的最令人欢喜的回复。本题属于PAT的“答案正确”大派送 —— 只要读入的字符串满足下列条件，系统就输出“答案正确”，否则输出“答案错误”。
-
-得到“答案正确”的条件是：
-
-    1. 字符串中必须仅有P, A, T这三种字符，不可以包含其它字符；
-    2. 任意形如 xPATx 的字符串都可以获得“答案正确”，其中 x 或者是空字符串，或者是仅由字母 A 组成的字符串；
-    3. 如果 aPbTc 是正确的，那么 aPbATca 也是正确的，其中 a, b, c 均或者是空字符串，或者是仅由字母 A 组成的字符串。
-
-现在就请你为PAT写一个自动裁判程序，判定哪些字符串是可以获得“答案正确”的。
-输入格式： 每个测试输入包含1个测试用例。第1行给出一个自然数n (&lt;10)，是需要检测的字符串个数。接下来每个字符串占一行，字符串长度不超过100，且不包含空格。
-
-输出格式：每个字符串的检测结果占一行，如果该字符串可以获得“答案正确”，则输出YES，否则输出NO。
-
-输入样例：
-8
-PAT
-PAAT
-AAPATAA
-AAPAATAAAA
-xPATx
-PT
-Whatever
-APAAATAA
-输出样例：
-YES
-YES
-YES
-YES
-NO
-NO
-NO
-NO
-</code></pre><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
-<li>这是一道找规律题.发现,最后一个看着应该输出<code>YES</code>,为什么样例给出<code>NO</code>,从这里结合要求[3]找出A的个数的规律.可得:请拉倒页面底部看.</li>
-<li>PT,结合要求[1],得出判定条件.</li>
-</ul>
-<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-
-/**
- * NO.1003: 我要通过！(20)
- * 
- * @author sxx.xu
- *
- */
-public class No1003 {
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int num = Integer.parseInt(scanner.nextLine());
-        boolean[] res = new boolean[num];
-        char chars[];
-        int index = 0;
-        int pIndex = 0;
-        int tIndex = 0;
-        out: while (num &gt; 0) {
-            num--;
-            String str = scanner.nextLine();
-            chars = str.toCharArray();
-            in: for (char c : chars) {
-                if (c != &apos;P&apos; &amp;&amp; c != &apos;T&apos; &amp;&amp; c != &apos;A&apos;) {
-                    res[index] = false;
-                    index++;
-                    continue out;
-                }
-            }
-            pIndex = str.indexOf(&apos;P&apos;);
-            tIndex = str.indexOf(&apos;T&apos;);
-
-            if (tIndex &lt;= pIndex || str.length() &lt; 3) {
-                res[index] = false;
-                index++;
-                continue out;
-            }
-            if (pIndex * (tIndex - pIndex - 1) == str.length() - 1 - tIndex) {
-                res[index] = true;
-            } else {
-                res[index] = false;
-            }
-            index++;
-            continue out;
-        }
-
-        for (boolean b : res) {
-            System.out.println(b ? &quot;YES&quot; : &quot;NO&quot;);
-        }
-    }
-
-}
-</code></pre><h4 id="规律"><a href="#规律" class="headerlink" title="规律"></a>规律</h4><p>由:<code>如果 aPbTc 是正确的</code>,半句可得:b&gt;=1<br>由:<code>那么 aPbATca 也是正确的</code> 和 样例给出,可以得到: a x (b+1) = c + a (单位为A)<br>化简得: a x b = c</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1004/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1004/" itemprop="url">乙1004. 成绩排名 (20)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
-                2017-12-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入n名学生的姓名、学号、成绩，分别输出成绩最高和成绩最低学生的姓名和学号。
-
-输入格式：每个测试输入包含1个测试用例，格式为
-
-  第1行：正整数n
-  第2行：第1个学生的姓名 学号 成绩
-  第3行：第2个学生的姓名 学号 成绩
-  ... ... ...
-  第n+1行：第n个学生的姓名 学号 成绩
-其中姓名和学号均为不超过10个字符的字符串，成绩为0到100之间的一个整数，这里保证在一组测试用例中没有两个学生的成绩是相同的。
-输出格式：对每个测试用例输出2行，第1行是成绩最高学生的姓名和学号，第2行是成绩最低学生的姓名和学号，字符串间有1空格。
-
-输入样例：
-3
-Joe Math990112 89
-Mike CS991301 100
-Mary EE990830 95
-输出样例：
-Mike CS991301
-Joe Math990112
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-
-/**
- * No.1004: 成绩排名 (20)
- * 
- * @author sxx.xu
- *
- */
-public class No1004 {
-
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int num = Integer.parseInt(in.nextLine());
-        String maxStr = &quot;&quot;;
-        String minStr = &quot;&quot;;
-        int max = 0, min = Integer.MAX_VALUE;
-        while (num &gt; 0) {
-            num--;
-            String item = in.nextLine();
-            String[] split = item.split(&quot; &quot;);
-            if (max &lt; Integer.parseInt(split[2])) {
-                max = Integer.parseInt(split[2]);
-                maxStr = split[0] + &quot; &quot; + split[1];
-            }
-            if (min &gt; Integer.parseInt(split[2])) {
-                min = Integer.parseInt(split[2]);
-                minStr = split[0] + &quot; &quot; + split[1];
-            }
-        }
-        System.out.println(maxStr);
-        System.out.println(minStr);
-    }
-
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2211,7 +2213,7 @@ public class No1004 {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">109</span>
+                <span class="site-state-item-count">112</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
