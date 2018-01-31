@@ -267,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1007/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1010/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -286,7 +286,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/25/pat-yi-1007/" itemprop="url">乙1007. 素数对猜想 (20)</a></h1>
+                <a class="post-title-link" href="/2017/12/25/pat-yi-1010/" itemprop="url">乙1010. 一元多项式求导 (25)</a></h1>
         
 
         <div class="post-meta">
@@ -357,62 +357,68 @@
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>让我们定义 dn 为：dn = pn+1 - pn，其中 pi 是第i个素数。显然有 d1=1 且对于n&gt;1有 dn 是偶数。
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>设计函数求一元多项式的导数。（注：xn（n为整数）的一阶导数为n*xn-1。）
 
-“素数对猜想”认为“存在无穷多对相邻且差为2的素数”。
+输入格式：以指数递降方式输入多项式非零项系数和指数（绝对值均为不超过1000的整数）。数字间以空格分隔。
 
-现给定任意正整数N (&lt; 105)，请计算不超过N的满足猜想的素数对的个数。
+输出格式：以与输入相同的格式输出导数多项式非零项的系数和指数。数字间以空格分隔，但结尾不能有多余空格。
 
-输入格式：每个测试输入包含1个测试用例，给出正整数N。
-
-输出格式：每个测试用例的输出占一行，不超过N的满足猜想的素数对的个数。
+注意“零多项式”的指数和系数都是0，但是表示为“0 0”。
 
 输入样例：
-20
+3 4 -5 2 6 1 -2 0
 输出样例：
-4
+12 3 -10 1 6 0
 </code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
 
-/**
- * No.1007: 素数对猜想 (20)
- * 
- * @author sxx.xu
- *
- */
-public class No1007 {
+public class No1010 {
 
-    public static void main(String[] args) {
+    public static void mains(String[] args) {
         Scanner in = new Scanner(System.in);
-        int total = in.nextInt();
-        int times = 0;
+        String str = in.nextLine();
         in.close();
-
-        for (int i = 1; i &lt;= total - 2; i++) {
-            if (isSu(i) &amp;&amp; isSu(i + 2)) {
-                times++;
-            }
-        }
-        System.out.println(times);
-    }
-
-    static boolean isSu(int a) {
-        boolean flag = true;
-        if (a &lt; 2) {
-            return false;
-        } else {
-            for (int i = 2; i &lt;= Math.sqrt(a); i++) {
-                if (a % i == 0) {
-                    flag = false;
-                    break;
+        String[] datas = str.split(&quot; &quot;);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i &lt; datas.length; i += 2) {
+            if (i % 2 == 0 &amp;&amp; i &lt; datas.length - 1) {
+                int x = Integer.parseInt(datas[i]) * Integer.parseInt(datas[i + 1]);
+                if (Integer.parseInt(datas[i]) == 0 &amp;&amp; Integer.parseInt(datas[i + 1]) == 0) {
+                    sb.append(&quot;0 0 &quot;);
+                } else if (x == 0) {
+                    continue;
+                } else {
+                    sb.append(x).append(&quot; &quot;).append(Integer.parseInt(datas[i + 1]) - 1).append(&quot; &quot;);
                 }
             }
         }
-        return flag;
+        System.out.println(sb.toString().trim());
+    }
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        boolean isHaveOutput = false;
+        while (in.hasNext()) {
+            int expon = in.nextInt();
+            int coef = in.nextInt();
+            if (expon * coef != 0) {
+                if (isHaveOutput) {
+                    System.out.print(&quot; &quot;);
+                } else {
+                    isHaveOutput = true;
+                }
+                System.out.print(expon * coef + &quot; &quot; + (coef - 1));
+            }
+        }
+        in.close();
+
+        System.out.println(isHaveOutput);
+        if (!isHaveOutput) {
+            System.out.print(&quot;0 0&quot;);
+        }
     }
 }
-</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
-<li>Math不需要import语句</li>
-<li>求解素数,循环整除的上限是该数的平方根</li>
+</code></pre><h4 id="疑惑"><a href="#疑惑" class="headerlink" title="疑惑"></a>疑惑</h4><ul>
+<li>好多人的解法,如果结果为空,则输出”0 0”,不知道从何而来</li>
 </ul>
 
           
@@ -855,179 +861,6 @@ public class No1006 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1002/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1002/" itemprop="url">乙1002. 写出这个数 (20)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
-                2017-12-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入一个自然数n，计算其各位数字之和，用汉语拼音写出和的每一位数字。
-
-输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。这里保证n小于10100。
-
-输出格式：在一行内输出n的各位数字之和的每一位，拼音数字间有1 空格，但一行中最后一个拼音数字后没有空格。
-
-输入样例：
-1234567890987654321123456789
-输出样例：
-yi san wu
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-
-/**
- * NO.1002:写出这个数 (20)
- * 
- * @author sxx.xu
- *
- */
-public class No1002 {
-
-    public static void main(String[] args) {
-        String[] com = new String[] { &quot;ling &quot;, &quot;yi &quot;, &quot;er &quot;, &quot;san &quot;, &quot;si &quot;, &quot;wu &quot;, &quot;liu &quot;, &quot;qi &quot;, &quot;ba &quot;, &quot;jiu &quot; };
-        Scanner in = new Scanner(System.in);
-        String num = in.nextLine().trim();
-        char[] nums = num.toCharArray();
-        int ans = 0;
-        for (char c : nums) {
-            ans += Integer.parseInt(String.valueOf(c));
-        }
-
-        String res = String.valueOf(ans);
-        nums = res.toCharArray();
-        StringBuilder sb = new StringBuilder();
-        for (char c : nums) {
-            sb.append(com[Integer.parseInt(String.valueOf(c))]);
-        }
-        System.out.println(sb.toString().trim());
-    }
-
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1003/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1250,7 +1083,7 @@ public class No1003 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1004/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1002/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -1269,7 +1102,7 @@ public class No1003 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1004/" itemprop="url">乙1004. 成绩排名 (20)</a></h1>
+                <a class="post-title-link" href="/2017/12/21/pat-yi-1002/" itemprop="url">乙1002. 写出这个数 (20)</a></h1>
         
 
         <div class="post-meta">
@@ -1340,57 +1173,43 @@ public class No1003 {
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入n名学生的姓名、学号、成绩，分别输出成绩最高和成绩最低学生的姓名和学号。
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入一个自然数n，计算其各位数字之和，用汉语拼音写出和的每一位数字。
 
-输入格式：每个测试输入包含1个测试用例，格式为
+输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。这里保证n小于10100。
 
-  第1行：正整数n
-  第2行：第1个学生的姓名 学号 成绩
-  第3行：第2个学生的姓名 学号 成绩
-  ... ... ...
-  第n+1行：第n个学生的姓名 学号 成绩
-其中姓名和学号均为不超过10个字符的字符串，成绩为0到100之间的一个整数，这里保证在一组测试用例中没有两个学生的成绩是相同的。
-输出格式：对每个测试用例输出2行，第1行是成绩最高学生的姓名和学号，第2行是成绩最低学生的姓名和学号，字符串间有1空格。
+输出格式：在一行内输出n的各位数字之和的每一位，拼音数字间有1 空格，但一行中最后一个拼音数字后没有空格。
 
 输入样例：
-3
-Joe Math990112 89
-Mike CS991301 100
-Mary EE990830 95
+1234567890987654321123456789
 输出样例：
-Mike CS991301
-Joe Math990112
+yi san wu
 </code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
 
 /**
- * No.1004: 成绩排名 (20)
+ * NO.1002:写出这个数 (20)
  * 
  * @author sxx.xu
  *
  */
-public class No1004 {
+public class No1002 {
 
     public static void main(String[] args) {
+        String[] com = new String[] { &quot;ling &quot;, &quot;yi &quot;, &quot;er &quot;, &quot;san &quot;, &quot;si &quot;, &quot;wu &quot;, &quot;liu &quot;, &quot;qi &quot;, &quot;ba &quot;, &quot;jiu &quot; };
         Scanner in = new Scanner(System.in);
-        int num = Integer.parseInt(in.nextLine());
-        String maxStr = &quot;&quot;;
-        String minStr = &quot;&quot;;
-        int max = 0, min = Integer.MAX_VALUE;
-        while (num &gt; 0) {
-            num--;
-            String item = in.nextLine();
-            String[] split = item.split(&quot; &quot;);
-            if (max &lt; Integer.parseInt(split[2])) {
-                max = Integer.parseInt(split[2]);
-                maxStr = split[0] + &quot; &quot; + split[1];
-            }
-            if (min &gt; Integer.parseInt(split[2])) {
-                min = Integer.parseInt(split[2]);
-                minStr = split[0] + &quot; &quot; + split[1];
-            }
+        String num = in.nextLine().trim();
+        char[] nums = num.toCharArray();
+        int ans = 0;
+        for (char c : nums) {
+            ans += Integer.parseInt(String.valueOf(c));
         }
-        System.out.println(maxStr);
-        System.out.println(minStr);
+
+        String res = String.valueOf(ans);
+        nums = res.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        for (char c : nums) {
+            sb.append(com[Integer.parseInt(String.valueOf(c))]);
+        }
+        System.out.println(sb.toString().trim());
     }
 
 }
@@ -1560,6 +1379,193 @@ public class Main {
             num = 3 * num + 1;
         }
         return num;
+    }
+
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1004/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/21/pat-yi-1004/" itemprop="url">乙1004. 成绩排名 (20)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
+                2017-12-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入n名学生的姓名、学号、成绩，分别输出成绩最高和成绩最低学生的姓名和学号。
+
+输入格式：每个测试输入包含1个测试用例，格式为
+
+  第1行：正整数n
+  第2行：第1个学生的姓名 学号 成绩
+  第3行：第2个学生的姓名 学号 成绩
+  ... ... ...
+  第n+1行：第n个学生的姓名 学号 成绩
+其中姓名和学号均为不超过10个字符的字符串，成绩为0到100之间的一个整数，这里保证在一组测试用例中没有两个学生的成绩是相同的。
+输出格式：对每个测试用例输出2行，第1行是成绩最高学生的姓名和学号，第2行是成绩最低学生的姓名和学号，字符串间有1空格。
+
+输入样例：
+3
+Joe Math990112 89
+Mike CS991301 100
+Mary EE990830 95
+输出样例：
+Mike CS991301
+Joe Math990112
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+
+/**
+ * No.1004: 成绩排名 (20)
+ * 
+ * @author sxx.xu
+ *
+ */
+public class No1004 {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int num = Integer.parseInt(in.nextLine());
+        String maxStr = &quot;&quot;;
+        String minStr = &quot;&quot;;
+        int max = 0, min = Integer.MAX_VALUE;
+        while (num &gt; 0) {
+            num--;
+            String item = in.nextLine();
+            String[] split = item.split(&quot; &quot;);
+            if (max &lt; Integer.parseInt(split[2])) {
+                max = Integer.parseInt(split[2]);
+                maxStr = split[0] + &quot; &quot; + split[1];
+            }
+            if (min &gt; Integer.parseInt(split[2])) {
+                min = Integer.parseInt(split[2]);
+                minStr = split[0] + &quot; &quot; + split[1];
+            }
+        }
+        System.out.println(maxStr);
+        System.out.println(minStr);
     }
 
 }
