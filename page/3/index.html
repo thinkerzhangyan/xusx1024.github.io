@@ -267,6 +267,196 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1007/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/25/pat-yi-1007/" itemprop="url">乙1007. 素数对猜想 (20)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T00:00:00Z">
+                2017-12-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>让我们定义 dn 为：dn = pn+1 - pn，其中 pi 是第i个素数。显然有 d1=1 且对于n&gt;1有 dn 是偶数。
+
+“素数对猜想”认为“存在无穷多对相邻且差为2的素数”。
+
+现给定任意正整数N (&lt; 105)，请计算不超过N的满足猜想的素数对的个数。
+
+输入格式：每个测试输入包含1个测试用例，给出正整数N。
+
+输出格式：每个测试用例的输出占一行，不超过N的满足猜想的素数对的个数。
+
+输入样例：
+20
+输出样例：
+4
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+
+/**
+ * No.1007: 素数对猜想 (20)
+ * 
+ * @author sxx.xu
+ *
+ */
+public class No1007 {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int total = in.nextInt();
+        int times = 0;
+        in.close();
+
+        for (int i = 1; i &lt;= total - 2; i++) {
+            if (isSu(i) &amp;&amp; isSu(i + 2)) {
+                times++;
+            }
+        }
+        System.out.println(times);
+    }
+
+    static boolean isSu(int a) {
+        boolean flag = true;
+        if (a &lt; 2) {
+            return false;
+        } else {
+            for (int i = 2; i &lt;= Math.sqrt(a); i++) {
+                if (a % i == 0) {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        return flag;
+    }
+}
+</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li>Math不需要import语句</li>
+<li>求解素数,循环整除的上限是该数的平方根</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/pat-yi-1005/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -486,7 +676,7 @@ public class No1005 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1004/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/pat-yi-1006/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -505,7 +695,186 @@ public class No1005 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1004/" itemprop="url">乙1004. 成绩排名 (20)</a></h1>
+                <a class="post-title-link" href="/2017/12/22/pat-yi-1006/" itemprop="url">乙1006. 换个格式输出整数 (15)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T00:00:00Z">
+                2017-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>让我们用字母B来表示“百”、字母S表示“十”，用“12...n”来表示个位数字n（&lt;10），换个格式来输出任一个不超过3位的正整数。
+
+例如234应该被输出为BBSSS1234，因为它有2个“百”、3个“十”、以及个位的4。
+
+输入格式：每个测试输入包含1个测试用例，给出正整数n（&lt;1000）。
+
+输出格式：每个测试用例的输出占一行，用规定的格式输出n。
+
+输入样例1：
+234
+输出样例1：
+BBSSS1234
+输入样例2：
+23
+输出样例2：
+SS123
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+
+/**
+ * No.1006: 换个格式输出整数 (15)
+ * 
+ * @author sxx.xu
+ *
+ */
+public class No1006 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int num = in.nextInt();
+        in.close();
+        final String bai = &quot;B&quot;;
+        final String ten = &quot;S&quot;;
+        final String ge = &quot;123456789&quot;;
+        int a = num / 100;
+        int b = (num - a * 100) / 10;
+        int c = num - a * 100 - b * 10;
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i &lt; a; i++)
+            sb.append(bai);
+        for (int j = 0; j &lt; b; j++)
+            sb.append(ten);
+        sb.append(ge.substring(0, c));
+        System.out.println(sb.toString());
+
+    }
+}
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1002/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/21/pat-yi-1002/" itemprop="url">乙1002. 写出这个数 (20)</a></h1>
         
 
         <div class="post-meta">
@@ -576,57 +945,43 @@ public class No1005 {
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入n名学生的姓名、学号、成绩，分别输出成绩最高和成绩最低学生的姓名和学号。
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入一个自然数n，计算其各位数字之和，用汉语拼音写出和的每一位数字。
 
-输入格式：每个测试输入包含1个测试用例，格式为
+输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。这里保证n小于10100。
 
-  第1行：正整数n
-  第2行：第1个学生的姓名 学号 成绩
-  第3行：第2个学生的姓名 学号 成绩
-  ... ... ...
-  第n+1行：第n个学生的姓名 学号 成绩
-其中姓名和学号均为不超过10个字符的字符串，成绩为0到100之间的一个整数，这里保证在一组测试用例中没有两个学生的成绩是相同的。
-输出格式：对每个测试用例输出2行，第1行是成绩最高学生的姓名和学号，第2行是成绩最低学生的姓名和学号，字符串间有1空格。
+输出格式：在一行内输出n的各位数字之和的每一位，拼音数字间有1 空格，但一行中最后一个拼音数字后没有空格。
 
 输入样例：
-3
-Joe Math990112 89
-Mike CS991301 100
-Mary EE990830 95
+1234567890987654321123456789
 输出样例：
-Mike CS991301
-Joe Math990112
+yi san wu
 </code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
 
 /**
- * No.1004: 成绩排名 (20)
+ * NO.1002:写出这个数 (20)
  * 
  * @author sxx.xu
  *
  */
-public class No1004 {
+public class No1002 {
 
     public static void main(String[] args) {
+        String[] com = new String[] { &quot;ling &quot;, &quot;yi &quot;, &quot;er &quot;, &quot;san &quot;, &quot;si &quot;, &quot;wu &quot;, &quot;liu &quot;, &quot;qi &quot;, &quot;ba &quot;, &quot;jiu &quot; };
         Scanner in = new Scanner(System.in);
-        int num = Integer.parseInt(in.nextLine());
-        String maxStr = &quot;&quot;;
-        String minStr = &quot;&quot;;
-        int max = 0, min = Integer.MAX_VALUE;
-        while (num &gt; 0) {
-            num--;
-            String item = in.nextLine();
-            String[] split = item.split(&quot; &quot;);
-            if (max &lt; Integer.parseInt(split[2])) {
-                max = Integer.parseInt(split[2]);
-                maxStr = split[0] + &quot; &quot; + split[1];
-            }
-            if (min &gt; Integer.parseInt(split[2])) {
-                min = Integer.parseInt(split[2]);
-                minStr = split[0] + &quot; &quot; + split[1];
-            }
+        String num = in.nextLine().trim();
+        char[] nums = num.toCharArray();
+        int ans = 0;
+        for (char c : nums) {
+            ans += Integer.parseInt(String.valueOf(c));
         }
-        System.out.println(maxStr);
-        System.out.println(minStr);
+
+        String res = String.valueOf(ans);
+        nums = res.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        for (char c : nums) {
+            sb.append(com[Integer.parseInt(String.valueOf(c))]);
+        }
+        System.out.println(sb.toString().trim());
     }
 
 }
@@ -895,7 +1250,7 @@ public class No1003 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1002/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1004/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -914,7 +1269,7 @@ public class No1003 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1002/" itemprop="url">乙1002. 写出这个数 (20)</a></h1>
+                <a class="post-title-link" href="/2017/12/21/pat-yi-1004/" itemprop="url">乙1004. 成绩排名 (20)</a></h1>
         
 
         <div class="post-meta">
@@ -985,43 +1340,57 @@ public class No1003 {
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入一个自然数n，计算其各位数字之和，用汉语拼音写出和的每一位数字。
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入n名学生的姓名、学号、成绩，分别输出成绩最高和成绩最低学生的姓名和学号。
 
-输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。这里保证n小于10100。
+输入格式：每个测试输入包含1个测试用例，格式为
 
-输出格式：在一行内输出n的各位数字之和的每一位，拼音数字间有1 空格，但一行中最后一个拼音数字后没有空格。
+  第1行：正整数n
+  第2行：第1个学生的姓名 学号 成绩
+  第3行：第2个学生的姓名 学号 成绩
+  ... ... ...
+  第n+1行：第n个学生的姓名 学号 成绩
+其中姓名和学号均为不超过10个字符的字符串，成绩为0到100之间的一个整数，这里保证在一组测试用例中没有两个学生的成绩是相同的。
+输出格式：对每个测试用例输出2行，第1行是成绩最高学生的姓名和学号，第2行是成绩最低学生的姓名和学号，字符串间有1空格。
 
 输入样例：
-1234567890987654321123456789
+3
+Joe Math990112 89
+Mike CS991301 100
+Mary EE990830 95
 输出样例：
-yi san wu
+Mike CS991301
+Joe Math990112
 </code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
 
 /**
- * NO.1002:写出这个数 (20)
+ * No.1004: 成绩排名 (20)
  * 
  * @author sxx.xu
  *
  */
-public class No1002 {
+public class No1004 {
 
     public static void main(String[] args) {
-        String[] com = new String[] { &quot;ling &quot;, &quot;yi &quot;, &quot;er &quot;, &quot;san &quot;, &quot;si &quot;, &quot;wu &quot;, &quot;liu &quot;, &quot;qi &quot;, &quot;ba &quot;, &quot;jiu &quot; };
         Scanner in = new Scanner(System.in);
-        String num = in.nextLine().trim();
-        char[] nums = num.toCharArray();
-        int ans = 0;
-        for (char c : nums) {
-            ans += Integer.parseInt(String.valueOf(c));
+        int num = Integer.parseInt(in.nextLine());
+        String maxStr = &quot;&quot;;
+        String minStr = &quot;&quot;;
+        int max = 0, min = Integer.MAX_VALUE;
+        while (num &gt; 0) {
+            num--;
+            String item = in.nextLine();
+            String[] split = item.split(&quot; &quot;);
+            if (max &lt; Integer.parseInt(split[2])) {
+                max = Integer.parseInt(split[2]);
+                maxStr = split[0] + &quot; &quot; + split[1];
+            }
+            if (min &gt; Integer.parseInt(split[2])) {
+                min = Integer.parseInt(split[2]);
+                minStr = split[0] + &quot; &quot; + split[1];
+            }
         }
-
-        String res = String.valueOf(ans);
-        nums = res.toCharArray();
-        StringBuilder sb = new StringBuilder();
-        for (char c : nums) {
-            sb.append(com[Integer.parseInt(String.valueOf(c))]);
-        }
-        System.out.println(sb.toString().trim());
+        System.out.println(maxStr);
+        System.out.println(minStr);
     }
 
 }
@@ -1808,287 +2177,6 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/29/android-system-service-Activity-Manager/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/29/android-system-service-Activity-Manager/" itemprop="url">Android系统服务：ActivityManager</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-29T00:00:00Z">
-                2017-09-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android-System-Framework/" itemprop="url" rel="index">
-                    <span itemprop="name">Android System Framework</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="提要"><a href="#提要" class="headerlink" title="提要"></a>提要</h4><p>AMS作为重要的系统服务，涉及到的知识如下：</p>
-<ul>
-<li><a href="https://github.com/xusx1024/AndroidSystemServiceSample/blob/master/doc/Binder.md" target="_blank" rel="external">Binder机制</a></li>
-<li><a href="https://github.com/xusx1024/AndroidSystemServiceSample/blob/master/aidldemo/README.md" target="_blank" rel="external">AIDL机制</a></li>
-<li><a href="https://github.com/xusx1024/AndroidSystemServiceSample/blob/master/doc/zygot.md" target="_blank" rel="external">Zygote</a>机制，即系统启动过程，包括SystemServer的初始化</li>
-<li>应用程序启动过程</li>
-<li>Activity的启动过程</li>
-</ul>
-<p>AMS相关的应用：</p>
-<ul>
-<li>manifest文件中activity标签的所有属性    </li>
-<li>adb shell am * 相关的命令</li>
-<li>ActivityManager 相关的API使用</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/19/be-better/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/19/be-better/" itemprop="url">拂拭</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-19T00:00:00Z">
-                2017-09-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Others/" itemprop="url" rel="index">
-                    <span itemprop="name">Others</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="2017年9月19日"><a href="#2017年9月19日" class="headerlink" title="2017年9月19日"></a>2017年9月19日</h4><p> 夫君子之行：静以修身，俭以养德。非淡泊无以明志，非宁静无以致远。夫学需静也，才需学也，非学无以广才，非志无以成学。淫慢则不能励精，险燥则不能冶性。年与时驰，意与日去，遂成枯落，多不接世，悲守穷庐，将复何及！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2138,7 +2226,7 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">112</span>
+                <span class="site-state-item-count">114</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2160,7 +2248,7 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

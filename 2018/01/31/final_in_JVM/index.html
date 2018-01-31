@@ -1,0 +1,835 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JVM," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.jpg?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="最近用kotlin,配合anko,写Android非常舒服了.每次申请变量的时候,如果该变量在后续没有被重新赋值,而只是引用,kotlin此时会建议把变量标记为val的,即final的.  基础知识final可以修饰类,属性和方法.  表示类不可继承 对于基本类型,值和引用都不可变;对于引用类型,引用不可变,引用指向的对象是可变的 对于方法,表示该方法不允许重写  final的使用场景一:工具类">
+<meta name="keywords" content="JVM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM中的final">
+<meta property="og:url" content="http://yoursite.com/2018/01/31/final_in_JVM/index.html">
+<meta property="og:site_name" content="行次">
+<meta property="og:description" content="最近用kotlin,配合anko,写Android非常舒服了.每次申请变量的时候,如果该变量在后续没有被重新赋值,而只是引用,kotlin此时会建议把变量标记为val的,即final的.  基础知识final可以修饰类,属性和方法.  表示类不可继承 对于基本类型,值和引用都不可变;对于引用类型,引用不可变,引用指向的对象是可变的 对于方法,表示该方法不允许重写  final的使用场景一:工具类">
+<meta property="og:updated_time" content="2018-01-31T08:30:49.864Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM中的final">
+<meta name="twitter:description" content="最近用kotlin,配合anko,写Android非常舒服了.每次申请变量的时候,如果该变量在后续没有被重新赋值,而只是引用,kotlin此时会建议把变量标记为val的,即final的.  基础知识final可以修饰类,属性和方法.  表示类不可继承 对于基本类型,值和引用都不可变;对于引用类型,引用不可变,引用指向的对象是可变的 对于方法,表示该方法不允许重写  final的使用场景一:工具类">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/31/final_in_JVM/"/>
+
+
+
+
+
+  <title>JVM中的final | 行次</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">行次</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/31/final_in_JVM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JVM中的final</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-31T08:00:00+08:00">
+                2018-01-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA & kotlin</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近用<code>kotlin</code>,配合<code>anko</code>,写Android非常舒服了.每次申请变量的时候,如果该变量在后续没有被重新赋值,而只是引用,<code>kotlin</code>此时会建议把变量标记为<code>val</code>的,即<code>final</code>的. </p>
+<h4 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h4><pre><code>final可以修饰类,属性和方法.
+</code></pre><ul>
+<li>表示类不可继承</li>
+<li>对于基本类型,值和引用都不可变;对于引用类型,引用不可变,引用指向的对象是可变的</li>
+<li>对于方法,表示该方法不允许重写</li>
+</ul>
+<h4 id="final的使用场景"><a href="#final的使用场景" class="headerlink" title="final的使用场景"></a>final的使用场景</h4><p>一:工具类</p>
+<pre><code>public final class Tools {
+    private Tools() {
+    }
+
+    public static final void fun() {
+    }
+}
+</code></pre><p>同时在类和方法上使用了final,禁止此类的扩展,防止同事手误继承,防止反射回调.</p>
+<p>二:同步相关</p>
+<pre><code>public class Test {
+    public static int VAL = 1;
+}
+
+
+public class Demo {
+    void fun() {
+        final int temp = Test.VAL;
+    }
+}
+</code></pre><p>Demo类中的方法,引用了Test中的静态变量.多线程环境下,使用final修饰局部变量,保证同一个方法中,拿到的值是一致的.</p>
+<p>三:避免修改</p>
+<p>一个局部变量,如果不希望被修改,把他定义为final的.可以借助编译器的帮助,检测被修改(误改)的状态.</p>
+<h4 id="final在JVM中"><a href="#final在JVM中" class="headerlink" title="final在JVM中"></a>final在JVM中</h4><p>在能够通过编译的前提下,无论局部变量声明时带不带final关键字修饰,对其访问的效率都一样.<br>重复访问一个局部变量比重复访问一个成员或静态变量快,即便将其final修饰符去掉,效果也一样.</p>
+<p>如下代码:</p>
+<pre><code>class Fish{
+    static int foo() {
+      final int a = someValueA();
+     final int b = someValueB();
+      return a + b;  
+}
+static int someValueA(){return 1;}
+static int someValueB(){return 2;}
+}
+</code></pre><p>javac编译该类,使用<code>javap -c Fish</code>,查看其字节码文件,发现是一样的.</p>
+<pre><code>  Code:
+ 0: invokestatic  #2
+ 3: istore_0
+ 4: invokestatic  #3
+ 7: istore_1
+ 8: iload_0
+ 9: iload_1
+10: iadd
+11: ireturn
+</code></pre><p>所以,在局部变量需要计算得到结果的情况下,final的作用在编译阶段很小.</p>
+<p>考虑另一种情况,局部变量指向常量的情况:</p>
+<pre><code>class fish{
+    static int foo() {
+    int a =1;
+    int b = 2;
+      return a + b;  
+    }
+}
+</code></pre><p>字节码:</p>
+<pre><code>static int foo();
+Code:
+   0: iconst_1
+   1: istore_0
+   2: iconst_2
+   3: istore_1
+   4: iload_0
+   5: iload_1
+   6: iadd
+   7: ireturn
+</code></pre><hr>
+<pre><code>class fish{
+    static int foo() {
+      final int a =1;
+       final  int b = 2;
+      return a + b;  
+    }
+}
+</code></pre><p>字节码:<br>     static int foo();<br>       Code:<br>          0: iconst_3<br>          1: ireturn</p>
+<p>带有final的局部变量指向常量时,编译出的字节码,相当于如下代码的编译:</p>
+<pre><code>static int foo3() {
+  return 5;
+}
+</code></pre><p>在Java语言规范里,称为常量折叠.<a href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-4.html#jls-4.12.4" target="_blank" rel="external">详情</a>.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JVM/" rel="tag"># JVM</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/30/pat-yi-1018/" rel="next" title="乙1018. 锤子剪刀布 (20)">
+                <i class="fa fa-chevron-left"></i> 乙1018. 锤子剪刀布 (20)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/31/pat-yi-1019/" rel="prev" title="乙1019. 数字黑洞 (20)">
+                乙1019. 数字黑洞 (20) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/favicon.jpg"
+               alt="XuShengSing" />
+          <p class="site-author-name" itemprop="name">XuShengSing</p>
+           
+              <p class="site-description motion-element" itemprop="description">博观而约取，厚积而薄发。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">114</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xusx1024" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#基础知识"><span class="nav-number">1.</span> <span class="nav-text">基础知识</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#final的使用场景"><span class="nav-number">2.</span> <span class="nav-text">final的使用场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#final在JVM中"><span class="nav-number">3.</span> <span class="nav-text">final在JVM中</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">XuShengSing</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+<div class="theme-info">
+
+  <div class="powered-by"></div>
+
+<!-- <span class="post-count">博客共字</span> -->
+
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <!-- 背景动画 -->
+<script type="text/javascript" src="/js/src/particle.js"></script>
+
+</body>
+</html>
