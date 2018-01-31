@@ -3,7 +3,7 @@ layout: post
 title:  基于DC3算法实现后缀数组
 date:   2017-04-13
 categories: Algorithm
-tag: 算法
+tag: [算法,hotfix]
 ---
  
 

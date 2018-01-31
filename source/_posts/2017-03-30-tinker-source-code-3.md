@@ -3,7 +3,7 @@ layout: post
 title:  Tinker学习(三) 核心的算法BSDiff、BSPatch
 date:   2017-03-30
 categories: Android 
-tag: [android,算法]
+tag: [算法,hotfix]
 ---
  
 

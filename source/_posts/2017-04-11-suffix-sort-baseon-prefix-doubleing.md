@@ -3,7 +3,7 @@ layout: post
 title:  基于(前缀)倍增算法实现后缀数组
 date:   2017-04-11
 categories: Algorithm
-tag: 算法
+tag: [算法,hotfix]
 ---
  
 
