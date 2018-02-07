@@ -267,6 +267,196 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1007/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/25/pat-yi-1007/" itemprop="url">乙1007. 素数对猜想 (20)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T00:00:00Z">
+                2017-12-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>让我们定义 dn 为：dn = pn+1 - pn，其中 pi 是第i个素数。显然有 d1=1 且对于n&gt;1有 dn 是偶数。
+
+“素数对猜想”认为“存在无穷多对相邻且差为2的素数”。
+
+现给定任意正整数N (&lt; 105)，请计算不超过N的满足猜想的素数对的个数。
+
+输入格式：每个测试输入包含1个测试用例，给出正整数N。
+
+输出格式：每个测试用例的输出占一行，不超过N的满足猜想的素数对的个数。
+
+输入样例：
+20
+输出样例：
+4
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+
+/**
+ * No.1007: 素数对猜想 (20)
+ * 
+ * @author sxx.xu
+ *
+ */
+public class No1007 {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int total = in.nextInt();
+        int times = 0;
+        in.close();
+
+        for (int i = 1; i &lt;= total - 2; i++) {
+            if (isSu(i) &amp;&amp; isSu(i + 2)) {
+                times++;
+            }
+        }
+        System.out.println(times);
+    }
+
+    static boolean isSu(int a) {
+        boolean flag = true;
+        if (a &lt; 2) {
+            return false;
+        } else {
+            for (int i = 2; i &lt;= Math.sqrt(a); i++) {
+                if (a % i == 0) {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        return flag;
+    }
+}
+</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li>Math不需要import语句</li>
+<li>求解素数,循环整除的上限是该数的平方根</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1010/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -421,6 +611,185 @@ public class No1010 {
 <li>好多人的解法,如果结果为空,则输出”0 0”,不知道从何而来</li>
 </ul>
 
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/pat-yi-1006/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/22/pat-yi-1006/" itemprop="url">乙1006. 换个格式输出整数 (15)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T00:00:00Z">
+                2017-12-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>让我们用字母B来表示“百”、字母S表示“十”，用“12...n”来表示个位数字n（&lt;10），换个格式来输出任一个不超过3位的正整数。
+
+例如234应该被输出为BBSSS1234，因为它有2个“百”、3个“十”、以及个位的4。
+
+输入格式：每个测试输入包含1个测试用例，给出正整数n（&lt;1000）。
+
+输出格式：每个测试用例的输出占一行，用规定的格式输出n。
+
+输入样例1：
+234
+输出样例1：
+BBSSS1234
+输入样例2：
+23
+输出样例2：
+SS123
+</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+
+/**
+ * No.1006: 换个格式输出整数 (15)
+ * 
+ * @author sxx.xu
+ *
+ */
+public class No1006 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int num = in.nextInt();
+        in.close();
+        final String bai = &quot;B&quot;;
+        final String ten = &quot;S&quot;;
+        final String ge = &quot;123456789&quot;;
+        int a = num / 100;
+        int b = (num - a * 100) / 10;
+        int c = num - a * 100 - b * 10;
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i &lt; a; i++)
+            sb.append(bai);
+        for (int j = 0; j &lt; b; j++)
+            sb.append(ten);
+        sb.append(ge.substring(0, c));
+        System.out.println(sb.toString());
+
+    }
+}
+</code></pre>
           
         
       
@@ -682,7 +1051,7 @@ public class No1005 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/pat-yi-1006/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1002/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -701,7 +1070,7 @@ public class No1005 {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/22/pat-yi-1006/" itemprop="url">乙1006. 换个格式输出整数 (15)</a></h1>
+                <a class="post-title-link" href="/2017/12/21/pat-yi-1002/" itemprop="url">乙1002. 写出这个数 (20)</a></h1>
         
 
         <div class="post-meta">
@@ -713,8 +1082,8 @@ public class No1005 {
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T00:00:00Z">
-                2017-12-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
+                2017-12-21
               </time>
             
 
@@ -772,51 +1141,45 @@ public class No1005 {
       
         
           
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>让我们用字母B来表示“百”、字母S表示“十”，用“12...n”来表示个位数字n（&lt;10），换个格式来输出任一个不超过3位的正整数。
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入一个自然数n，计算其各位数字之和，用汉语拼音写出和的每一位数字。
 
-例如234应该被输出为BBSSS1234，因为它有2个“百”、3个“十”、以及个位的4。
+输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。这里保证n小于10100。
 
-输入格式：每个测试输入包含1个测试用例，给出正整数n（&lt;1000）。
+输出格式：在一行内输出n的各位数字之和的每一位，拼音数字间有1 空格，但一行中最后一个拼音数字后没有空格。
 
-输出格式：每个测试用例的输出占一行，用规定的格式输出n。
-
-输入样例1：
-234
-输出样例1：
-BBSSS1234
-输入样例2：
-23
-输出样例2：
-SS123
+输入样例：
+1234567890987654321123456789
+输出样例：
+yi san wu
 </code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
 
 /**
- * No.1006: 换个格式输出整数 (15)
+ * NO.1002:写出这个数 (20)
  * 
  * @author sxx.xu
  *
  */
-public class No1006 {
+public class No1002 {
+
     public static void main(String[] args) {
+        String[] com = new String[] { &quot;ling &quot;, &quot;yi &quot;, &quot;er &quot;, &quot;san &quot;, &quot;si &quot;, &quot;wu &quot;, &quot;liu &quot;, &quot;qi &quot;, &quot;ba &quot;, &quot;jiu &quot; };
         Scanner in = new Scanner(System.in);
-        int num = in.nextInt();
-        in.close();
-        final String bai = &quot;B&quot;;
-        final String ten = &quot;S&quot;;
-        final String ge = &quot;123456789&quot;;
-        int a = num / 100;
-        int b = (num - a * 100) / 10;
-        int c = num - a * 100 - b * 10;
+        String num = in.nextLine().trim();
+        char[] nums = num.toCharArray();
+        int ans = 0;
+        for (char c : nums) {
+            ans += Integer.parseInt(String.valueOf(c));
+        }
 
+        String res = String.valueOf(ans);
+        nums = res.toCharArray();
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i &lt; a; i++)
-            sb.append(bai);
-        for (int j = 0; j &lt; b; j++)
-            sb.append(ten);
-        sb.append(ge.substring(0, c));
-        System.out.println(sb.toString());
-
+        for (char c : nums) {
+            sb.append(com[Integer.parseInt(String.valueOf(c))]);
+        }
+        System.out.println(sb.toString().trim());
     }
+
 }
 </code></pre>
           
@@ -1041,179 +1404,6 @@ public class No1003 {
 }
 </code></pre><h4 id="规律"><a href="#规律" class="headerlink" title="规律"></a>规律</h4><p>由:<code>如果 aPbTc 是正确的</code>,半句可得:b&gt;=1<br>由:<code>那么 aPbATca 也是正确的</code> 和 样例给出,可以得到: a x (b+1) = c + a (单位为A)<br>化简得: a x b = c</p>
 
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/pat-yi-1002/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/21/pat-yi-1002/" itemprop="url">乙1002. 写出这个数 (20)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T00:00:00Z">
-                2017-12-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>读入一个自然数n，计算其各位数字之和，用汉语拼音写出和的每一位数字。
-
-输入格式：每个测试输入包含1个测试用例，即给出自然数n的值。这里保证n小于10100。
-
-输出格式：在一行内输出n的各位数字之和的每一位，拼音数字间有1 空格，但一行中最后一个拼音数字后没有空格。
-
-输入样例：
-1234567890987654321123456789
-输出样例：
-yi san wu
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-
-/**
- * NO.1002:写出这个数 (20)
- * 
- * @author sxx.xu
- *
- */
-public class No1002 {
-
-    public static void main(String[] args) {
-        String[] com = new String[] { &quot;ling &quot;, &quot;yi &quot;, &quot;er &quot;, &quot;san &quot;, &quot;si &quot;, &quot;wu &quot;, &quot;liu &quot;, &quot;qi &quot;, &quot;ba &quot;, &quot;jiu &quot; };
-        Scanner in = new Scanner(System.in);
-        String num = in.nextLine().trim();
-        char[] nums = num.toCharArray();
-        int ans = 0;
-        for (char c : nums) {
-            ans += Integer.parseInt(String.valueOf(c));
-        }
-
-        String res = String.valueOf(ans);
-        nums = res.toCharArray();
-        StringBuilder sb = new StringBuilder();
-        for (char c : nums) {
-            sb.append(com[Integer.parseInt(String.valueOf(c))]);
-        }
-        System.out.println(sb.toString().trim());
-    }
-
-}
-</code></pre>
           
         
       
@@ -2015,174 +2205,6 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/09/android-memory-leak/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/09/android-memory-leak/" itemprop="url">Android 内存泄露</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-09T00:00:00Z">
-                2017-11-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="什么是内存泄露"><a href="#什么是内存泄露" class="headerlink" title="什么是内存泄露"></a>什么是内存泄露</h4><p>jvm会根据可达性算法,计算每个对象是否可被回收,如果有对象被持有引用,即可达,并且该对象已经无用.此时对象不可被回收但是占用内存的这种状态成为内存泄露.如果内存泄露情况比较多,很有可能引起OOM异常.</p>
-<h4 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h4><ul>
-<li>根源在android组件的生命周期和底层Java对象的生命周期不是直接匹配的</li>
-<li>一个应用程序的启动分为三步:<ul>
-<li>复刻受精卵进程</li>
-<li>系统为该进程添加运行时执行环境</li>
-<li>运行时执行环境加载可执行文件,即调用onCreate()方法启动应用程序</li>
-</ul>
-</li>
-<li>应用程序的生命周期理想状态下,是在运行时调用onTerminate()方法是结束,但一般情况下都不会如此.应用程序的生命周期是从第一个的组件被创建到最后一个组件被销毁,很有可能在onTerminate()方法还没有调用,当前进程已经被回收掉了.即应用程序的存活时间小于了Java对象的存活时间.</li>
-<li>简单来说,就是长生命周期的对象引用了短生命周期的对象</li>
-<li>应用程序生命周期内,考虑多线程情况下,线程的存活时间取决于当前任务的长度,任务就是应用程序代码定义的,CPU有序顺序执行的指令,所以线程如果比所在组件生命长,很有可能是这样,往往容易引起内存泄露</li>
-</ul>
-<h4 id="常见情况及解决"><a href="#常见情况及解决" class="headerlink" title="常见情况及解决"></a>常见情况及解决</h4><table>
-<thead>
-<tr>
-<th style="text-align:center">情况</th>
-<th style="text-align:center">解决</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Thread + Handler</td>
-<td style="text-align:center">优先考虑静态成员类</td>
-</tr>
-<tr>
-<td style="text-align:center">数据库连接,IO,Socket连接,Bitmap</td>
-<td style="text-align:center">及时关闭,及时释放</td>
-</tr>
-<tr>
-<td style="text-align:center">静态容器,静态类,持有对短生命周期的对象</td>
-<td style="text-align:center">及时删除对象,使用弱引用,软引用</td>
-</tr>
-</tbody>
-</table>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2232,7 +2254,7 @@ SystemServer进程创建完成后，就会重新启动垃圾回收后台进程�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">114</span>
+                <span class="site-state-item-count">115</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

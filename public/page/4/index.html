@@ -267,6 +267,174 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/09/android-memory-leak/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/09/android-memory-leak/" itemprop="url">Android 内存泄露</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-09T00:00:00Z">
+                2017-11-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="什么是内存泄露"><a href="#什么是内存泄露" class="headerlink" title="什么是内存泄露"></a>什么是内存泄露</h4><p>jvm会根据可达性算法,计算每个对象是否可被回收,如果有对象被持有引用,即可达,并且该对象已经无用.此时对象不可被回收但是占用内存的这种状态成为内存泄露.如果内存泄露情况比较多,很有可能引起OOM异常.</p>
+<h4 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h4><ul>
+<li>根源在android组件的生命周期和底层Java对象的生命周期不是直接匹配的</li>
+<li>一个应用程序的启动分为三步:<ul>
+<li>复刻受精卵进程</li>
+<li>系统为该进程添加运行时执行环境</li>
+<li>运行时执行环境加载可执行文件,即调用onCreate()方法启动应用程序</li>
+</ul>
+</li>
+<li>应用程序的生命周期理想状态下,是在运行时调用onTerminate()方法是结束,但一般情况下都不会如此.应用程序的生命周期是从第一个的组件被创建到最后一个组件被销毁,很有可能在onTerminate()方法还没有调用,当前进程已经被回收掉了.即应用程序的存活时间小于了Java对象的存活时间.</li>
+<li>简单来说,就是长生命周期的对象引用了短生命周期的对象</li>
+<li>应用程序生命周期内,考虑多线程情况下,线程的存活时间取决于当前任务的长度,任务就是应用程序代码定义的,CPU有序顺序执行的指令,所以线程如果比所在组件生命长,很有可能是这样,往往容易引起内存泄露</li>
+</ul>
+<h4 id="常见情况及解决"><a href="#常见情况及解决" class="headerlink" title="常见情况及解决"></a>常见情况及解决</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">情况</th>
+<th style="text-align:center">解决</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Thread + Handler</td>
+<td style="text-align:center">优先考虑静态成员类</td>
+</tr>
+<tr>
+<td style="text-align:center">数据库连接,IO,Socket连接,Bitmap</td>
+<td style="text-align:center">及时关闭,及时释放</td>
+</tr>
+<tr>
+<td style="text-align:center">静态容器,静态类,持有对短生命周期的对象</td>
+<td style="text-align:center">及时删除对象,使用弱引用,软引用</td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/29/android-system-service-Activity-Manager/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -765,140 +933,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/17/raspbarry-first/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/17/raspbarry-first/" itemprop="url">Raspbarry first</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-17T00:00:00Z">
-                2017-08-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Others/" itemprop="url" rel="index">
-                    <span itemprop="name">Others</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>想要利用树莓派+DuerOS做一个可以人机交互的家用终端。<br>大概可以给讲故事，背诗词，报时，报天气。<br>车载大概可以导航，实时路况，广播之类。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/17/android-system-service-Account-Manager/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1219,6 +1253,140 @@
 <li>newChooseAccountIntent：提供给用户一个可选账户的列表</li>
 </ul>
 <h4 id="DEMO"><a href="#DEMO" class="headerlink" title="DEMO"></a>DEMO</h4><p><a href="https://github.com/xusx1024/AccountManagerDemo" target="_blank" rel="external">AccountManagerDemo</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/17/raspbarry-first/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/17/raspbarry-first/" itemprop="url">Raspbarry first</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-17T00:00:00Z">
+                2017-08-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Others/" itemprop="url" rel="index">
+                    <span itemprop="name">Others</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>想要利用树莓派+DuerOS做一个可以人机交互的家用终端。<br>大概可以给讲故事，背诗词，报时，报天气。<br>车载大概可以导航，实时路况，广播之类。</p>
 
           
         
@@ -1705,172 +1873,6 @@ public class TestRawType {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/03/uses-feature/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/03/uses-feature/" itemprop="url">AndroidManifest.xml中的uses-feature标签</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-03T00:00:00Z">
-                2017-07-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h4><p>如果你有一个装有android 1.5的设备，你可能会注意到一些高版本的应用没有在手机上的Android Market中显示。这必定是应用使用了<uses-feature>的结果。</uses-feature></p>
-<h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><pre><code>&lt;uses-feature
-  android:name=&quot;string&quot;
-  android:required=[&quot;true&quot; | &quot;false&quot;]
-  android:glEsVersion=&quot;integer&quot; /&gt;
-</code></pre><h5 id="android-name"><a href="#android-name" class="headerlink" title="android:name"></a>android:name</h5><p>以描述字符串形式指定应用使用的单一硬件或软件功能。详见:<a href="https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#features-reference" target="_blank" rel="external">HERE</a></p>
-<pre><code>&lt;uses-feature android:name=&quot;android.hardware.bluetooth&quot; /&gt;
-&lt;uses-feature android:name=&quot;android.hardware.camera&quot; /&gt;
-</code></pre><h5 id="android-required"><a href="#android-required" class="headerlink" title="android:required"></a>android:required</h5><ul>
-<li>android:required=”true”:当设备不具有该指定功能时，应用无法正常工作，或设计为无法正常工作</li>
-<li>android:required=”false”：如果设备具有该功能，应用会在必要时优先使用该功能，但应用设计为不使用该指定功能也可正常工作</li>
-<li><p>默认为true</p>
-<pre><code> &lt;uses-feature 
-android:name=&quot;android.hardware.camera&quot;
-android:required=false /&gt;
-</code></pre></li>
-</ul>
-<h5 id="android-glEsVersion"><a href="#android-glEsVersion" class="headerlink" title="android:glEsVersion"></a>android:glEsVersion</h5><p>应用需要的OpenGL ES版本。高16位表示主版本号，低16位表示次版本号。例如2.0 –&gt; 0x00020000;3.2 –&gt; 0x00030002</p>
-<pre><code>&lt;uses-feature android:glEsVersion=&quot;0x00020000&quot; required=&quot;true&quot;/&gt;
-</code></pre><ul>
-<li>如果指定多个，将使用数值最高的</li>
-<li>如果没有指定，系统假定只需要OpenGL ES 1.0</li>
-</ul>
-<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
-<li><uses-feature> 声明的用途是将您的应用依赖的硬件和软件功能集通知任何外部实体</uses-feature></li>
-<li>一般而言，您始终都应确保为应用需要的所有功能声明 <uses-feature> 元素</uses-feature></li>
-<li>Android 系统本身在安装应用前不会检查设备是否提供相应的功能支持</li>
-<li>其他服务（如 Google Play）或应用可能会在处理您的应用或与其交互的过程中检查它的 <uses-feature> 声明</uses-feature></li>
-<li>如果minSdkVersion&lt;=4或者targetSdkVersion&lt;=4,googlePlay将不对该标签做任何过滤</li>
-<li>蓝牙、相机、麦克风、定位、wifi、触屏、USB</li>
-<li>输入法、多媒体、屏幕界面(小控件、壁纸等)</li>
-</ul>
-<p><a href="https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required" target="_blank" rel="external">https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/03/net-work-day02/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2040,7 +2042,7 @@ android:required=false /&gt;
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/29/net-work-day01/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/03/uses-feature/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="XuShengSing">
@@ -2059,7 +2061,7 @@ android:required=false /&gt;
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/06/29/net-work-day01/" itemprop="url">《图解HTTP》第1、2章</a></h1>
+                <a class="post-title-link" href="/2017/07/03/uses-feature/" itemprop="url">AndroidManifest.xml中的uses-feature标签</a></h1>
         
 
         <div class="post-meta">
@@ -2071,8 +2073,8 @@ android:required=false /&gt;
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-29T00:00:00Z">
-                2017-06-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-03T00:00:00Z">
+                2017-07-03
               </time>
             
 
@@ -2094,8 +2096,8 @@ android:required=false /&gt;
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/NetWork/" itemprop="url" rel="index">
-                    <span itemprop="name">NetWork</span>
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
                   </a>
                 </span>
 
@@ -2130,40 +2132,39 @@ android:required=false /&gt;
       
         
           
-            <h4 id="tcp-ip的分层管理"><a href="#tcp-ip的分层管理" class="headerlink" title="tcp/ip的分层管理"></a>tcp/ip的分层管理</h4><ul>
-<li>应用层 http、ftp、dns</li>
-<li>传输层 tcp-提供可靠的字节流服务、udp</li>
-<li>网络层 ip协议，作用是把各种数据包传送给对方</li>
-<li>数据链路层 硬件相关</li>
+            <h4 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h4><p>如果你有一个装有android 1.5的设备，你可能会注意到一些高版本的应用没有在手机上的Android Market中显示。这必定是应用使用了<uses-feature>的结果。</uses-feature></p>
+<h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><pre><code>&lt;uses-feature
+  android:name=&quot;string&quot;
+  android:required=[&quot;true&quot; | &quot;false&quot;]
+  android:glEsVersion=&quot;integer&quot; /&gt;
+</code></pre><h5 id="android-name"><a href="#android-name" class="headerlink" title="android:name"></a>android:name</h5><p>以描述字符串形式指定应用使用的单一硬件或软件功能。详见:<a href="https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#features-reference" target="_blank" rel="external">HERE</a></p>
+<pre><code>&lt;uses-feature android:name=&quot;android.hardware.bluetooth&quot; /&gt;
+&lt;uses-feature android:name=&quot;android.hardware.camera&quot; /&gt;
+</code></pre><h5 id="android-required"><a href="#android-required" class="headerlink" title="android:required"></a>android:required</h5><ul>
+<li>android:required=”true”:当设备不具有该指定功能时，应用无法正常工作，或设计为无法正常工作</li>
+<li>android:required=”false”：如果设备具有该功能，应用会在必要时优先使用该功能，但应用设计为不使用该指定功能也可正常工作</li>
+<li><p>默认为true</p>
+<pre><code> &lt;uses-feature 
+android:name=&quot;android.hardware.camera&quot;
+android:required=false /&gt;
+</code></pre></li>
 </ul>
-<h4 id="tcp-ip通信传输流"><a href="#tcp-ip通信传输流" class="headerlink" title="tcp/ip通信传输流"></a>tcp/ip通信传输流</h4><p>利用TCP/IP协议进行网络通信时，会通过分层顺序与对方进行通信。发送端从应用层往下走，接收端从数据链路层往上走。假下如图是客户端想要看某个web页面的http请求：</p>
-<p><img src="/images/tcp-ip通信传输流.png" alt="通信传输流"></p>
-<ul>
-<li>在应用层，使用HTTP协议，发出请求，此处会先请求DNS服务，获取请求网址对应的IP地址</li>
-<li>在传输层(TCP协议)，把从应用层处收到的数据(HTTP请求报文)进行分割，并在各个报文段上打上标记序号及端口号后[可靠地]转发给网络层</li>
-<li>在网络层(IP协议)，增加做为通信目的地的MAC地址后转发给链路层，接收端的服务器在链路层收到数据，按序往上层发送直至应用层</li>
+<h5 id="android-glEsVersion"><a href="#android-glEsVersion" class="headerlink" title="android:glEsVersion"></a>android:glEsVersion</h5><p>应用需要的OpenGL ES版本。高16位表示主版本号，低16位表示次版本号。例如2.0 –&gt; 0x00020000;3.2 –&gt; 0x00030002</p>
+<pre><code>&lt;uses-feature android:glEsVersion=&quot;0x00020000&quot; required=&quot;true&quot;/&gt;
+</code></pre><ul>
+<li>如果指定多个，将使用数值最高的</li>
+<li>如果没有指定，系统假定只需要OpenGL ES 1.0</li>
 </ul>
-<p>发送端在层与层之间传输数据时，没经过一层必定会被打上一个该层所属的首部信息。在接收端则反之。</p>
-<h4 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手"></a>TCP三次握手</h4><ul>
-<li>发送端发送待遇SYN的数据包</li>
-<li>接收端接收到后，发送带有SYN/ACK标志的数据包表示确认信息</li>
-<li>发送端再回传一个带有ACK的数据包，代表“握手”结束</li>
-<li>如果在握手过程中某个阶段中断，TCP协议会再次以相同的顺序发送相同的数据包</li>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li><uses-feature> 声明的用途是将您的应用依赖的硬件和软件功能集通知任何外部实体</uses-feature></li>
+<li>一般而言，您始终都应确保为应用需要的所有功能声明 <uses-feature> 元素</uses-feature></li>
+<li>Android 系统本身在安装应用前不会检查设备是否提供相应的功能支持</li>
+<li>其他服务（如 Google Play）或应用可能会在处理您的应用或与其交互的过程中检查它的 <uses-feature> 声明</uses-feature></li>
+<li>如果minSdkVersion&lt;=4或者targetSdkVersion&lt;=4,googlePlay将不对该标签做任何过滤</li>
+<li>蓝牙、相机、麦克风、定位、wifi、触屏、USB</li>
+<li>输入法、多媒体、屏幕界面(小控件、壁纸等)</li>
 </ul>
-<h4 id="http-方法"><a href="#http-方法" class="headerlink" title="http 方法"></a>http 方法</h4><ul>
-<li>get</li>
-<li>post</li>
-<li>delete</li>
-<li>put</li>
-<li>header</li>
-<li>options</li>
-<li>trace</li>
-<li>connect</li>
-<li>link 1.0</li>
-<li>unlink 1.0</li>
-</ul>
-<h4 id="HTTP-持久链接"><a href="#HTTP-持久链接" class="headerlink" title="HTTP 持久链接"></a>HTTP 持久链接</h4><p><img src="/images/HTTP持久连接.png" alt="持久连接"></p>
-<p>keep-alive,只要任意一端没有明确提出断开连接，则保持TCP连接状态。<br>HTTP/1.1中，连接默认是持久连接<br>HTTP是无状态的协议，可以使用Cookie来保存状态</p>
+<p><a href="https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required" target="_blank" rel="external">https://developer.android.google.cn/guide/topics/manifest/uses-feature-element.html?hl=zh-cn#required</a></p>
 
           
         
@@ -2247,7 +2248,7 @@ android:required=false /&gt;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">114</span>
+                <span class="site-state-item-count">115</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
