@@ -267,6 +267,188 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/pat-yi-1013/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/22/pat-yi-1013/" itemprop="url">乙1013. 数素数 (20)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-22T00:00:00Z">
+                2018-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>令Pi表示第i个素数。现任给两个正整数M &lt;= N &lt;= 104，请输出PM到PN的所有素数。</p>
+<p>输入格式：</p>
+<p>输入在一行中给出M和N，其间以空格分隔。</p>
+<p>输出格式：</p>
+<p>输出从PM到PN的所有素数，每10个数字占1行，其间以空格分隔，但行末不得有多余空格。</p>
+<p>输入样例：<br>    5 27<br>输出样例：<br>    11 13 17 19 23 29 31 37 41 43<br>    47 53 59 61 67 71 73 79 83 89<br>    97 101 103</p>
+<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+
+public class No1013 {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int M = in.nextInt();
+        int N = in.nextInt();
+        in.close();
+        int current = 0;
+        int[] res = new int[N];
+        for (int i = 2; current &lt; N; i++) {
+            if (isSu(i)) {
+                res[current++] = i;
+                if (current &gt;= M) {
+                    System.out.print(i);
+                    if (current - M + 1 &gt;= 10 &amp;&amp; (current - M + 1) % 10 == 0) {
+                        System.out.println();
+                    } else {
+                        if (current != N)
+                            System.out.print(&quot; &quot;);
+                    }
+                }
+            }
+        }
+    }
+
+    static boolean isSu(int a) {
+        boolean flag = true;
+        for (int i = 2; i &lt;= Math.sqrt(a); i++) {
+            if (a % i == 0) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+}
+</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li>列出从0-N的素数,然后截取M-N个</li>
+<li>需要加强白板写代码的能力,尤其是在输出的时候,角标什么的老爱弄错,大脑一锅粥.</li>
+<li>IDE是个好东西,在此处,让人发懒了.</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/15/android-samples-index/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2714,196 +2896,6 @@ public class No1008 {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/pat-yi-1007/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/25/pat-yi-1007/" itemprop="url">乙1007. 素数对猜想 (20)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T00:00:00Z">
-                2017-12-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><pre><code>让我们定义 dn 为：dn = pn+1 - pn，其中 pi 是第i个素数。显然有 d1=1 且对于n&gt;1有 dn 是偶数。
-
-“素数对猜想”认为“存在无穷多对相邻且差为2的素数”。
-
-现给定任意正整数N (&lt; 105)，请计算不超过N的满足猜想的素数对的个数。
-
-输入格式：每个测试输入包含1个测试用例，给出正整数N。
-
-输出格式：每个测试用例的输出占一行，不超过N的满足猜想的素数对的个数。
-
-输入样例：
-20
-输出样例：
-4
-</code></pre><h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-
-/**
- * No.1007: 素数对猜想 (20)
- * 
- * @author sxx.xu
- *
- */
-public class No1007 {
-
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int total = in.nextInt();
-        int times = 0;
-        in.close();
-
-        for (int i = 1; i &lt;= total - 2; i++) {
-            if (isSu(i) &amp;&amp; isSu(i + 2)) {
-                times++;
-            }
-        }
-        System.out.println(times);
-    }
-
-    static boolean isSu(int a) {
-        boolean flag = true;
-        if (a &lt; 2) {
-            return false;
-        } else {
-            for (int i = 2; i &lt;= Math.sqrt(a); i++) {
-                if (a % i == 0) {
-                    flag = false;
-                    break;
-                }
-            }
-        }
-        return flag;
-    }
-}
-</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
-<li>Math不需要import语句</li>
-<li>求解素数,循环整除的上限是该数的平方根</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2953,7 +2945,7 @@ public class No1007 {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">114</span>
+                <span class="site-state-item-count">115</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
