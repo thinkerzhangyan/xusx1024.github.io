@@ -267,6 +267,328 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/07/git-command/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/07/git-command/" itemprop="url">Git使用笔记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-07T00:00:00Z">
+                2017-04-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Others/" itemprop="url" rel="index">
+                    <span itemprop="name">Others</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="git管理github"><a href="#git管理github" class="headerlink" title="git管理github"></a>git管理github</h4><p>1，需要有Githb账号，然后新建仓库，此时保留SSH，长这样：<code>git@github.com:xusx1024/codewars.git</code></p>
+<p>2，pc端安装git工具，<code>git --info-path</code>打印git所在路径；创建本地仓库；</p>
+<p>3，在本地文件中，右键点击 Git Bash Here，进入git命令行</p>
+<p>4，全局配置 <br><br>    <code>git config --global username &quot;此处定义你的名字&quot;</code><br><br>    <code>git config --global useremail xxxxxxx@gmail.com</code></p>
+<p>5，初始化本地仓库：<br>    <code>git init</code></p>
+<p>6，创建readme，并上传：<br><br>    <code>git add readme.txt</code><br><br>    <code>git commint -m &quot;upload readme&quot;</code><br></p>
+<p>7，生成SSH key，用来和Github连接：<br>    <code>ssh-keygen -C &#39;这里填你刚才配置的email地址&#39; -t rsa</code>然后一路点击enter，最后，得到usr/.ssh中的SSH key</p>
+<p>8，把SSH key配置到 GitHub中<br>    在用户名上，<code>setting -  SSH and GPG keys</code></p>
+<p>9，用到 第一步的那个串了<br><br>    <code>git remote add origin git@github.com:xusx1024/codewars.git</code><br><br>    <code>git push origin master</code><br></p>
+<p>10，以后如果添加的话：<br><br>    <code>git add sth</code><br><br>    <code>git commint -m &quot;文件说明&quot;</code><br><br>    <code>git push origin master</code><br></p>
+<p>11.<code>git add -A .</code><br>添加所有文件，注意后面有个点。</p>
+<p>12.<br><code>git pull</code>  抓取远程仓库所有分支更新并合并到本地</p>
+<p>13.<code>git config -l</code> 查看git的配置信息</p>
+<h4 id="git-提交空目录"><a href="#git-提交空目录" class="headerlink" title="git 提交空目录"></a>git 提交空目录</h4><p>git与svn不同，git只跟踪文件的变化，不跟踪目录，如果想要提交一个空目录，我们可以在该目录添加一个文件，命名为.gitignore，这是一个变通的方法。</p>
+<h4 id="git-克隆分支"><a href="#git-克隆分支" class="headerlink" title="git 克隆分支"></a>git 克隆分支</h4><p>多个分支的仓库，使用git clone的方法，只能把HEAD复制下来，如果有多个分支，可以考虑使用：</p>
+<p><code>git branch -r</code>来查看各个分支</p>
+<p><code>git checkout xxx</code>来clone指定的分支</p>
+<h4 id="filename-too-long"><a href="#filename-too-long" class="headerlink" title="filename too long"></a>filename too long</h4><p>文件夹的层级过多，导致在clone的时候，出现该提示，可以考虑使用：</p>
+<p><code>git config --system core.longpaths true</code></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/01/findbug-notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/01/findbug-notes/" itemprop="url">FindBugs常见错误提示及解决</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-01T00:00:00Z">
+                2017-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA & kotlin</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD"><a href="#ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD" class="headerlink" title="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"></a>ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD</h4><blockquote>
+<p>This instance method writes to a static field. This is tricky to get correct if multiple instances are being manipulated, and generally bad practice.<br>静态字段被实例方法修改。如果多个实例被操纵，这样获取正确的结果是滑头的，并且通常不是好的实践。</p>
+</blockquote>
+<p>原因：静态私有的成员变量不能在public类里面直接赋值，最好是通过get/set方法进行操作。直接通过类名.常量名获取的方式违背了封装的原则，findbugs不提倡使用。<br><br></p>
+<p>解决：通过get/set方法提供操作。</p>
+<h4 id="DM-BOXED-PRIMITIVE-FOR-PARSING"><a href="#DM-BOXED-PRIMITIVE-FOR-PARSING" class="headerlink" title="DM_BOXED_PRIMITIVE_FOR_PARSING"></a>DM_BOXED_PRIMITIVE_FOR_PARSING</h4><blockquote>
+<p>A boxed primitive is created from a String, just to extract the unboxed primitive value. It is more efficient to just call the static parseXXX method.<br>一个装箱的原语是由字符串创建，只是为了拆箱获取原始值。使用parseXXX方法更加有效。</p>
+</blockquote>
+<p>原因：</p>
+<ul>
+<li>static int parseInt(String s):       将字符串参数作为有符号的十进制整数进行分析，返回一个int值。</li>
+<li>static Integer valueOf(int i) :      返回一个表示指定的 int 值的 Integer 实例。</li>
+<li>static Integer valueOf(String s) :      返回保持指定的 String 的值的 Integer 对象（实例）。</li>
+</ul>
+<p>解决：parseXXX方法代替valueOf</p>
+<h4 id="SS-SHOULD-BE-STATIC"><a href="#SS-SHOULD-BE-STATIC" class="headerlink" title="SS_SHOULD_BE_STATIC"></a>SS_SHOULD_BE_STATIC</h4><blockquote>
+<p>This class contains an instance final field that is initialized to a compile-time static value. Consider making the field static.<br>类包含一个初始化于编译期静态值的不可变实例字段。考虑使用static修饰该字段。</p>
+</blockquote>
+<p>解决方法：final的字段可以定义为static类型</p>
+<h4 id="DLS-DEAD-LOCAL-STORE"><a href="#DLS-DEAD-LOCAL-STORE" class="headerlink" title="DLS_DEAD_LOCAL_STORE"></a>DLS_DEAD_LOCAL_STORE</h4><blockquote>
+<p>This instruction assigns a value to a local variable, but the value is not read or used in any subsequent instruction. Often, this indicates an error, because the value computed is never used.<br><br>Note that Sun’s javac compiler often generates dead stores for final local variables. Because FindBugs is a bytecode-based tool, there is no easy way to eliminate these false positives.<br>该指令把一个值分配给本地变量，但是值并没有被读取或使用。通常这表示错误，因为这个值从来没有被用到过。<br><br>请注意，Sun公司的javac编译器通常为本地final变量生成死存储。因为FindBugs是基于字节码的工具，因此没有简单的方法可以消除这些误报。</p>
+</blockquote>
+<p>解决方法：注释掉。</p>
+<h4 id="SF-SWITCH-NO-DEFAULT"><a href="#SF-SWITCH-NO-DEFAULT" class="headerlink" title="SF_SWITCH_NO_DEFAULT"></a>SF_SWITCH_NO_DEFAULT</h4><blockquote>
+<p>This method contains a switch statement where default case is missing. Usually you need to provide a default case.<br>Because the analysis only looks at the generated bytecode, this warning can be incorrect triggered if the default case is at the end of the switch statement and the switch statement doesn’t contain break statements for other cases.<br>此方法包含一个缺省情况下的switch语句。通常你需要提供一个默认的情况。<br><br><br>因为分析仅查看生成的字节码，这个警告可能会被错误除法。如果默认的情况下是switch语句结尾并且switch语句不包含其他情况的break语句。</p>
+</blockquote>
+<p>解决方法：加上default。</p>
+<h4 id="RV-RETURN-VALUE-IGNORED-BAD-PRACTICE"><a href="#RV-RETURN-VALUE-IGNORED-BAD-PRACTICE" class="headerlink" title="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"></a>RV_RETURN_VALUE_IGNORED_BAD_PRACTICE</h4><blockquote>
+<p>This method returns a value that is not checked.The return value should be checked since it can indicate an unusual or unexpected function. For example, the <code>File.delete()</code> method returns false if the file could not be successfully deleted(rather than throwing an Exception).if you don’t check the result, you won’t notice if the method invocation signals unexpected behavior by returning an a typical return value.<br>此方法返回了一个boolean，但没有去检查。这个值应该被检查，因为他可以指示异常或意外的功能。例如，<code>File.dlete()</code>方法返回false，如果这个文件可以被成功删除，而不是抛出异常。如果你没有检查，你就不会注意到这个方法通过返回一个典型错误，调用出现不可期的行为。</p>
+</blockquote>
+<h4 id="DC-DOUBLECHECK"><a href="#DC-DOUBLECHECK" class="headerlink" title="DC_DOUBLECHECK"></a>DC_DOUBLECHECK</h4><blockquote>
+<p>This method may contain an instance of double-checked locking. This idion is not correct according to the semantics of the Java memory model.</p>
+</blockquote>
+<p>see more:<a href="http://www.infoq.com/cn/articles/double-checked-locking-with-delay-initialization#" target="_blank" rel="external">双重检查锁定与延迟初始化</a></p>
+<h4 id="NM-METHOD-NAMING-CONVENTION"><a href="#NM-METHOD-NAMING-CONVENTION" class="headerlink" title="NM_METHOD_NAMING_CONVENTION"></a>NM_METHOD_NAMING_CONVENTION</h4><blockquote>
+<p>Methods should be verbs, in mixed case with the first letter lowercase, with the first letter of each internal word capitalized.<br>方法名开头要小写。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/01/android-study-path/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -477,176 +799,6 @@
 </tbody>
 </table>
 <h4 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h4><p><a href="https://www.diycode.cc/topics/122" target="_blank" rel="external">一个老鸟发的公司内部整理的 Android 学习路线图 Markdown 版本</a><br> <br><br><a href="https://www.diycode.cc/topics/117" target="_blank" rel="external">另一份 Android 开发学习路线图</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/01/findbug-notes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/04/01/findbug-notes/" itemprop="url">FindBugs常见错误提示及解决</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-01T00:00:00Z">
-                2017-04-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA-kotlin/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA & kotlin</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD"><a href="#ST-WRITE-TO-STATIC-FROM-INSTANCE-METHOD" class="headerlink" title="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"></a>ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD</h4><blockquote>
-<p>This instance method writes to a static field. This is tricky to get correct if multiple instances are being manipulated, and generally bad practice.<br>静态字段被实例方法修改。如果多个实例被操纵，这样获取正确的结果是滑头的，并且通常不是好的实践。</p>
-</blockquote>
-<p>原因：静态私有的成员变量不能在public类里面直接赋值，最好是通过get/set方法进行操作。直接通过类名.常量名获取的方式违背了封装的原则，findbugs不提倡使用。<br><br></p>
-<p>解决：通过get/set方法提供操作。</p>
-<h4 id="DM-BOXED-PRIMITIVE-FOR-PARSING"><a href="#DM-BOXED-PRIMITIVE-FOR-PARSING" class="headerlink" title="DM_BOXED_PRIMITIVE_FOR_PARSING"></a>DM_BOXED_PRIMITIVE_FOR_PARSING</h4><blockquote>
-<p>A boxed primitive is created from a String, just to extract the unboxed primitive value. It is more efficient to just call the static parseXXX method.<br>一个装箱的原语是由字符串创建，只是为了拆箱获取原始值。使用parseXXX方法更加有效。</p>
-</blockquote>
-<p>原因：</p>
-<ul>
-<li>static int parseInt(String s):       将字符串参数作为有符号的十进制整数进行分析，返回一个int值。</li>
-<li>static Integer valueOf(int i) :      返回一个表示指定的 int 值的 Integer 实例。</li>
-<li>static Integer valueOf(String s) :      返回保持指定的 String 的值的 Integer 对象（实例）。</li>
-</ul>
-<p>解决：parseXXX方法代替valueOf</p>
-<h4 id="SS-SHOULD-BE-STATIC"><a href="#SS-SHOULD-BE-STATIC" class="headerlink" title="SS_SHOULD_BE_STATIC"></a>SS_SHOULD_BE_STATIC</h4><blockquote>
-<p>This class contains an instance final field that is initialized to a compile-time static value. Consider making the field static.<br>类包含一个初始化于编译期静态值的不可变实例字段。考虑使用static修饰该字段。</p>
-</blockquote>
-<p>解决方法：final的字段可以定义为static类型</p>
-<h4 id="DLS-DEAD-LOCAL-STORE"><a href="#DLS-DEAD-LOCAL-STORE" class="headerlink" title="DLS_DEAD_LOCAL_STORE"></a>DLS_DEAD_LOCAL_STORE</h4><blockquote>
-<p>This instruction assigns a value to a local variable, but the value is not read or used in any subsequent instruction. Often, this indicates an error, because the value computed is never used.<br><br>Note that Sun’s javac compiler often generates dead stores for final local variables. Because FindBugs is a bytecode-based tool, there is no easy way to eliminate these false positives.<br>该指令把一个值分配给本地变量，但是值并没有被读取或使用。通常这表示错误，因为这个值从来没有被用到过。<br><br>请注意，Sun公司的javac编译器通常为本地final变量生成死存储。因为FindBugs是基于字节码的工具，因此没有简单的方法可以消除这些误报。</p>
-</blockquote>
-<p>解决方法：注释掉。</p>
-<h4 id="SF-SWITCH-NO-DEFAULT"><a href="#SF-SWITCH-NO-DEFAULT" class="headerlink" title="SF_SWITCH_NO_DEFAULT"></a>SF_SWITCH_NO_DEFAULT</h4><blockquote>
-<p>This method contains a switch statement where default case is missing. Usually you need to provide a default case.<br>Because the analysis only looks at the generated bytecode, this warning can be incorrect triggered if the default case is at the end of the switch statement and the switch statement doesn’t contain break statements for other cases.<br>此方法包含一个缺省情况下的switch语句。通常你需要提供一个默认的情况。<br><br><br>因为分析仅查看生成的字节码，这个警告可能会被错误除法。如果默认的情况下是switch语句结尾并且switch语句不包含其他情况的break语句。</p>
-</blockquote>
-<p>解决方法：加上default。</p>
-<h4 id="RV-RETURN-VALUE-IGNORED-BAD-PRACTICE"><a href="#RV-RETURN-VALUE-IGNORED-BAD-PRACTICE" class="headerlink" title="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE"></a>RV_RETURN_VALUE_IGNORED_BAD_PRACTICE</h4><blockquote>
-<p>This method returns a value that is not checked.The return value should be checked since it can indicate an unusual or unexpected function. For example, the <code>File.delete()</code> method returns false if the file could not be successfully deleted(rather than throwing an Exception).if you don’t check the result, you won’t notice if the method invocation signals unexpected behavior by returning an a typical return value.<br>此方法返回了一个boolean，但没有去检查。这个值应该被检查，因为他可以指示异常或意外的功能。例如，<code>File.dlete()</code>方法返回false，如果这个文件可以被成功删除，而不是抛出异常。如果你没有检查，你就不会注意到这个方法通过返回一个典型错误，调用出现不可期的行为。</p>
-</blockquote>
-<h4 id="DC-DOUBLECHECK"><a href="#DC-DOUBLECHECK" class="headerlink" title="DC_DOUBLECHECK"></a>DC_DOUBLECHECK</h4><blockquote>
-<p>This method may contain an instance of double-checked locking. This idion is not correct according to the semantics of the Java memory model.</p>
-</blockquote>
-<p>see more:<a href="http://www.infoq.com/cn/articles/double-checked-locking-with-delay-initialization#" target="_blank" rel="external">双重检查锁定与延迟初始化</a></p>
-<h4 id="NM-METHOD-NAMING-CONVENTION"><a href="#NM-METHOD-NAMING-CONVENTION" class="headerlink" title="NM_METHOD_NAMING_CONVENTION"></a>NM_METHOD_NAMING_CONVENTION</h4><blockquote>
-<p>Methods should be verbs, in mixed case with the first letter lowercase, with the first letter of each internal word capitalized.<br>方法名开头要小写。</p>
-</blockquote>
 
           
         
@@ -1948,144 +2100,6 @@ public Object clone() {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/design-patterns-builder-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/03/03/design-patterns-builder-2/" itemprop="url">建造者设计模式(二) Android中的应用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-03T00:00:00Z">
-                2017-03-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Design-Pattern/" itemprop="url" rel="index">
-                    <span itemprop="name">Design Pattern</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="AlertDialog-Builder"><a href="#AlertDialog-Builder" class="headerlink" title="AlertDialog.Builder"></a>AlertDialog.Builder</h4><p>如何应用窗口主题，各种参数合法性检查，上下文切换，窗口创建内部流程，我们都略过，只看其参数的构建即可。<br><br>那么AlertDialog中的参数，如何传递？<br></p>
-<p>AlertDialog 中有一个AlertController的实例。<br><br>AlertController中有个AlertParams的静态类。<br><br>在AlertDialog中有一个静态类Builder，该Builder中持有AlertParams的一个实例。<br><br>Builder中的方法都把属性传入了AlertParams。<br><br>在Builder的create()方法，调用了AlertParams的applay，把参数传回了AlertController中。而AlertController的实例被AlertDialog持有。<br></p>
-<p>示意图如下：</p>
-<p><img src="/images/alertDialog.png" alt="示例图"></p>
-<h4 id="Uri-Builder"><a href="#Uri-Builder" class="headerlink" title="Uri.Builder"></a>Uri.Builder</h4><p>Uri.Builder;<br>Notification.Builder;<br>ContentProviderOperation.Builder;</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2135,7 +2149,7 @@ public Object clone() {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">115</span>
+                <span class="site-state-item-count">116</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2146,7 +2160,7 @@ public Object clone() {
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2157,7 +2171,7 @@ public Object clone() {
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
