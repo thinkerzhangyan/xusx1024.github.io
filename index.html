@@ -267,6 +267,174 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/07/c++-lerarning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/07/c++-lerarning/" itemprop="url">C++学习</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-07T00:00:00Z">
+                2018-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程语言/" itemprop="url" rel="index">
+                    <span itemprop="name">编程语言</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>本计划根据<a href="http://blog.csdn.net/myan/article/details/3144661" target="_blank" rel="external">快速掌握一个语言最常用的50%</a>制定.</p>
+<p>本计划教材为《C++ Primer》第五版.</p>
+<h4 id="《C-Primer》-读书指南"><a href="#《C-Primer》-读书指南" class="headerlink" title="《C++ Primer》 读书指南"></a>《C++ Primer》 读书指南</h4><ul>
+<li>Part1,也就是前七章,除了6.6,6.7节,都要通读.尤其是第三章初步介绍了vector和string,简直就是新手福音,搞定这两个容器就能写一些简单的程序.</li>
+<li>Part2,基本就是数据结构和算法,如果有基础读起来很轻松.<br><br>9,11两章介绍容器,以及12.1节的智能指针要通读.多用智能指针和容器,远离segment fault.<br><br>第10章里的泛型算法可以慢慢读,读完以后可以写出高逼格的函数式风格C++.<br><br>12.2节讲了怎么用new和delete分配空间,作为新手,知道这种写法就行,写程序时尽量用容器代替原始数组,尤其是代码里最好不要有delete.</li>
+<li>Part3,是块硬骨头,标题就是Tools for Class Author. 作为一个”class user”,有些部分第一次是可以略过的.<br><br>13章很重要,要细读.初始化,赋值,复制,右值引用是C++里很微妙很重要的部分,别的语言对于这些概念很少有区分的这么细的.这一章不但要精度,还有完全掌握.<br><br>14章的操作符重载第一次可以观其大略;14.9节第一次可以跳过.<br>15章讲oop,重要性不言而喻.<br>16章讲泛型编程,第一次读16.1节,掌握最基本的函数模板和类模板就行了.</li>
+<li><p>Part4,更高档.很多内容第一次就算啃下来,长久不用又忘了.第一次读推荐把18.2节读懂,命名空间简单易用效果好.别的内容可以观其大略,用时再看.<br><br>17.1节的tuple可以读一读.17.3节的正则表达式和17.4节的随机数也许有用,可以读一读.如果需要读写文件,要读一下17.5.2节的raw I/O和17.5.3的random I/O.</p>
+<p>以上来自:<br><br>作者：dawnmist<br><br>链接：<a href="https://www.zhihu.com/question/32087709/answer/54936403" target="_blank" rel="external">https://www.zhihu.com/question/32087709/answer/54936403</a><br><br>来源：知乎<br><br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。<br></p>
+</li>
+</ul>
+<h4 id="快速掌握一个语言最常用的50"><a href="#快速掌握一个语言最常用的50" class="headerlink" title="快速掌握一个语言最常用的50%"></a>快速掌握一个语言最常用的50%</h4><ol>
+<li>首先了解该语言的基本数据类型，基本语法和主要语言构造，主要数学运算符和print函数的使用.</li>
+<li>其次掌握数组和其他集合类的使用，有基础的话可以理解一下泛型.</li>
+<li>简单字符串处理。所谓简单，就是Regex和Parser以下的内容，什么查找替换，截断去字串之类的。不过这个阶段有一个难点，就是字符编码问题.</li>
+<li>基本面向对象或者函数式编程的特征，无非是什么继承、多态、Lambda函数之类的.</li>
+<li>异常、错误处理、断言、日志和调试支持，对单元测试的支持.</li>
+<li>程序代码和可执行代码的组织机制，运行时模块加载、符号查找机制.</li>
+<li>基本输入输出和文件处理，输入输出流类的组织.到这个阶段可以写大部分控制台应用了.</li>
+<li>该语言如何进行callback方法调用，如何支持事件驱动编程模型.</li>
+<li>如果有必要，可在这时研究regex和XML处理问题.</li>
+<li>序列化和反序列化.</li>
+<li>如果必要，可了解一下线程、并发和异步调用机制，主要是为了读懂别人的代码，如果自己要写这类代码，必须专门花时间严肃认真系统地学习，严禁半桶水上阵.</li>
+<li>动态编程，反射和元数据编程，数据和程序之间的相互转化机制，运行时编译和执行的机制，有抱负的开发者在这块可以多下些功夫，能够使你对语言的认识高出一个层面.</li>
+<li>如果有必要，可研究一下该语言对于泛型的支持，不必花太多时间，只要能使用现成的泛型集合和泛型函数就可以了，可在以后闲暇时抽时间系统学习。需要注意的是，泛型技术跟多线程技术一样，用不好就成为万恶之源，必须系统学习，谨慎使用，否则不如不学不用.</li>
+<li>有必要的话，在工作的闲暇时间，可以着重考察两个问题，第一，这个语言有哪些惯用法和模式，第二，这个语言的编译/解释执行机制.</li>
+<li>以上提纲未设及内存模型。对于C/C++，这个问题很重要，要放在显著位置来考虑，但对于其他语言，这个问题被透明化了，除非你要做hardcore项目，否则不必太关注.</li>
+</ol>
+<p>变量定义<br>算术运算<br>for 循环语句，while 循环语句<br>函数定义，函数调用<br>递归<br>静态类型系统<br>类型推导<br>lambda 函数<br>面向对象<br>垃圾回收<br>指针算术<br>goto 语句</p>
+<p>由于程序员的工作最近几年比较容易找，工资还不错，所以很多程序员往往只看到自己的肚脐眼，</p>
+<p>看不到自己在整个社会里的位置其实并不是那么的关键和重要。很多程序员除了自己会的那点东西，几乎对其它领域和事情完全不感兴趣，看不起其他人。</p>
+<p>如果力学工程师犯了错误，飞机会坠毁；如果结构工程师犯了错误，大桥会垮塌；</p>
+<p>可是如果软件工程师犯了错误，大不了网站挂掉一小时，重启一下貌似又好了。</p>
+<p>所以所谓“软件工程师”，由于门槛太低，他们的工作严谨程度，其实是没法和力学工程，结构工程等真正的工程师相提并论的。</p>
+<p>实际上“软件工程”这个名词根本就是扯淡的，软件工程师也不能被叫做“工程师”。跟其他的工程不一样，软件工程并不是建立在科学的基础上的—计算机科学其实不是科学。</p>
+<p>不要提问，不要谦虚，不要恭维</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/05/reactive-native-pre/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -511,214 +679,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/31/pat-yi-1019/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/31/pat-yi-1019/" itemprop="url">乙1019. 数字黑洞 (20)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-31T00:00:00Z">
-                2018-01-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>给定任一个各位数字不完全相同的4位正整数，如果我们先把4个数字按非递增排序，再按非递减排序，然后用第1个数字减第2个数字，将得到一个新的数字。一直重复这样做，我们很快会停在有“数字黑洞”之称的6174，这个神奇的数字也叫Kaprekar常数。</p>
-<p>例如，我们从6767开始，将得到</p>
-<pre><code>7766 - 6677 = 1089
-9810 - 0189 = 9621
-9621 - 1269 = 8352
-8532 - 2358 = 6174
-7641 - 1467 = 6174
-... ...
-</code></pre><p>现给定任意4位正整数，请编写程序演示到达黑洞的过程。</p>
-<p>输入格式：</p>
-<p>输入给出一个(0, 10000)区间内的正整数N。</p>
-<p>输出格式：</p>
-<p>如果N的4位数字全相等，则在一行内输出“N - N = 0000”；否则将计算的每一步在一行内输出，直到6174作为差出现，输出格式见样例。注意每个数字按4位数格式输出。</p>
-<p>输入样例1：<br>    6767<br>输出样例1：<br>    7766 - 6677 = 1089<br>    9810 - 0189 = 9621<br>    9621 - 1269 = 8352<br>    8532 - 2358 = 6174<br>输入样例2：<br>    2222<br>输出样例2：<br>    2222 - 2222 = 0000</p>
-<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
-
-public class No1019 {
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int source = in.nextInt();
-        in.close();
-        if(source == 6174){
-            System.out.println(&quot;7641 - 1467 = 6174&quot;);
-        }
-        while (source != 6174) {
-            source = output(source);
-        }
-    }
-
-    static int output(int source) {
-        int[] val = { source % 10, (source / 10) % 10, (source / 100) % 10, (source / 1000) % 10 };
-        if (val[0] == val[1] &amp;&amp; val[1] == val[2] &amp;&amp; val[0] == val[3]) {
-            System.out.println(&quot;&quot; + val[0] + val[1] + val[2] + val[3] + &quot; - &quot; + val[0] + val[1] + val[2] + val[3]
-                    + &quot; = &quot; + &quot;0000&quot;);
-            return 6174;
-        }
-        val = incriseSort(val);
-        int max = val[0] * 1000 + val[1] * 100 + val[2] * 10 + val[3];
-        int min = val[3] * 1000 + val[2] * 100 + val[1] * 10 + val[0];
-        final int ans = max - min;
-        String minStr = min + &quot;&quot;;
-        String ansStr = ans + &quot;&quot;;
-
-        if (min &lt; 1000)
-            minStr = &quot;0&quot; + min;
-        if (min &lt; 100)
-            minStr = &quot;00&quot; + min;
-        if (min &lt; 10)
-            minStr = &quot;000&quot; + min;
-
-        if (ans &lt; 1000)
-            ansStr = &quot;0&quot; + ans;
-        if (ans &lt; 100)
-            ansStr = &quot;00&quot; + ans;
-        if (ans &lt; 10)
-            ansStr = &quot;000&quot; + ans;
-
-        System.out.println(max + &quot; - &quot; + minStr + &quot; = &quot; + ansStr);
-        return ans;
-    }
-
-    static int[] incriseSort(int[] val) {
-        int temp = val[0];
-        for (int i = 0; i &lt; val.length; i++) {
-            for (int j = i + 1; j &lt; val.length; j++) {
-                if (val[i] &lt; val[j]) {
-                    temp = val[i];
-                    val[i] = val[j];
-                    val[j] = temp;
-                }
-            }
-        }
-        return val;
-    }
-}
-</code></pre>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/31/final_in_JVM/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -895,6 +855,214 @@ Code:
 }
 </code></pre><p>在Java语言规范里,称为常量折叠.<a href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-4.html#jls-4.12.4" target="_blank" rel="external">详情</a>.</p>
 
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/31/pat-yi-1019/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/31/pat-yi-1019/" itemprop="url">乙1019. 数字黑洞 (20)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-31T00:00:00Z">
+                2018-01-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>给定任一个各位数字不完全相同的4位正整数，如果我们先把4个数字按非递增排序，再按非递减排序，然后用第1个数字减第2个数字，将得到一个新的数字。一直重复这样做，我们很快会停在有“数字黑洞”之称的6174，这个神奇的数字也叫Kaprekar常数。</p>
+<p>例如，我们从6767开始，将得到</p>
+<pre><code>7766 - 6677 = 1089
+9810 - 0189 = 9621
+9621 - 1269 = 8352
+8532 - 2358 = 6174
+7641 - 1467 = 6174
+... ...
+</code></pre><p>现给定任意4位正整数，请编写程序演示到达黑洞的过程。</p>
+<p>输入格式：</p>
+<p>输入给出一个(0, 10000)区间内的正整数N。</p>
+<p>输出格式：</p>
+<p>如果N的4位数字全相等，则在一行内输出“N - N = 0000”；否则将计算的每一步在一行内输出，直到6174作为差出现，输出格式见样例。注意每个数字按4位数格式输出。</p>
+<p>输入样例1：<br>    6767<br>输出样例1：<br>    7766 - 6677 = 1089<br>    9810 - 0189 = 9621<br>    9621 - 1269 = 8352<br>    8532 - 2358 = 6174<br>输入样例2：<br>    2222<br>输出样例2：<br>    2222 - 2222 = 0000</p>
+<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.util.Scanner;
+
+public class No1019 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int source = in.nextInt();
+        in.close();
+        if(source == 6174){
+            System.out.println(&quot;7641 - 1467 = 6174&quot;);
+        }
+        while (source != 6174) {
+            source = output(source);
+        }
+    }
+
+    static int output(int source) {
+        int[] val = { source % 10, (source / 10) % 10, (source / 100) % 10, (source / 1000) % 10 };
+        if (val[0] == val[1] &amp;&amp; val[1] == val[2] &amp;&amp; val[0] == val[3]) {
+            System.out.println(&quot;&quot; + val[0] + val[1] + val[2] + val[3] + &quot; - &quot; + val[0] + val[1] + val[2] + val[3]
+                    + &quot; = &quot; + &quot;0000&quot;);
+            return 6174;
+        }
+        val = incriseSort(val);
+        int max = val[0] * 1000 + val[1] * 100 + val[2] * 10 + val[3];
+        int min = val[3] * 1000 + val[2] * 100 + val[1] * 10 + val[0];
+        final int ans = max - min;
+        String minStr = min + &quot;&quot;;
+        String ansStr = ans + &quot;&quot;;
+
+        if (min &lt; 1000)
+            minStr = &quot;0&quot; + min;
+        if (min &lt; 100)
+            minStr = &quot;00&quot; + min;
+        if (min &lt; 10)
+            minStr = &quot;000&quot; + min;
+
+        if (ans &lt; 1000)
+            ansStr = &quot;0&quot; + ans;
+        if (ans &lt; 100)
+            ansStr = &quot;00&quot; + ans;
+        if (ans &lt; 10)
+            ansStr = &quot;000&quot; + ans;
+
+        System.out.println(max + &quot; - &quot; + minStr + &quot; = &quot; + ansStr);
+        return ans;
+    }
+
+    static int[] incriseSort(int[] val) {
+        int temp = val[0];
+        for (int i = 0; i &lt; val.length; i++) {
+            for (int j = i + 1; j &lt; val.length; j++) {
+                if (val[i] &lt; val[j]) {
+                    temp = val[i];
+                    val[i] = val[j];
+                    val[j] = temp;
+                }
+            }
+        }
+        return val;
+    }
+}
+</code></pre>
           
         
       
@@ -1174,172 +1342,6 @@ public class No1018 {
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/29/pat-yi-1017/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/29/pat-yi-1017/" itemprop="url">乙1017. A除以B (20)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-29T00:00:00Z">
-                2018-01-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>本题要求计算A/B，其中A是不超过1000位的正整数，B是1位正整数。你需要输出商数Q和余数R，使得A = B * Q + R成立。</p>
-<p>输入格式：</p>
-<p>输入在1行中依次给出A和B，中间以1空格分隔。</p>
-<p>输出格式：</p>
-<p>在1行中依次输出Q和R，中间以1空格分隔。</p>
-<p>输入样例：<br>    123456789050987654321 7<br>输出样例：<br>    17636684150141093474 3</p>
-<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.math.BigDecimal;
-import java.util.Scanner;
-
-/**
- * No.1017. A除以B (20)
- * 
- * @author sxx.xu
- *
- */
-public class No1017 {
-
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        String source = in.nextLine();
-        in.close();
-
-        String[] split = source.split(&quot; &quot;);
-        BigDecimal A = new BigDecimal(split[0]);
-        BigDecimal B = new BigDecimal(split[1]);
-
-        BigDecimal[] results = A.divideAndRemainder(B);
-        System.out.print(results[0] + &quot; &quot; + results[1]);
-    }
-}
-</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
-<li>参考Effective Java 第48条:如果需要精确的答案,避免使用float和double</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/29/pat-yi-1015/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1550,6 +1552,172 @@ class Stu implements Comparable&lt;Stu&gt; {
 <li>PAT有两个一直超时</li>
 </ul>
 <h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>如果去PAT考试,那么请选用C语言,多么痛的领悟!</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/29/pat-yi-1017/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="XuShengSing">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/favicon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="行次">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/29/pat-yi-1017/" itemprop="url">乙1017. A除以B (20)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-29T00:00:00Z">
+                2018-01-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>本题要求计算A/B，其中A是不超过1000位的正整数，B是1位正整数。你需要输出商数Q和余数R，使得A = B * Q + R成立。</p>
+<p>输入格式：</p>
+<p>输入在1行中依次给出A和B，中间以1空格分隔。</p>
+<p>输出格式：</p>
+<p>在1行中依次输出Q和R，中间以1空格分隔。</p>
+<p>输入样例：<br>    123456789050987654321 7<br>输出样例：<br>    17636684150141093474 3</p>
+<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.math.BigDecimal;
+import java.util.Scanner;
+
+/**
+ * No.1017. A除以B (20)
+ * 
+ * @author sxx.xu
+ *
+ */
+public class No1017 {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String source = in.nextLine();
+        in.close();
+
+        String[] split = source.split(&quot; &quot;);
+        BigDecimal A = new BigDecimal(split[0]);
+        BigDecimal B = new BigDecimal(split[1]);
+
+        BigDecimal[] results = A.divideAndRemainder(B);
+        System.out.print(results[0] + &quot; &quot; + results[1]);
+    }
+}
+</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
+<li>参考Effective Java 第48条:如果需要精确的答案,避免使用float和double</li>
+</ul>
 
           
         
@@ -2197,177 +2365,6 @@ public class No1012 {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/pat-yi-1011/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="XuShengSing">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/favicon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="行次">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/22/pat-yi-1011/" itemprop="url">乙1011. A+B和C (15)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-22T00:00:00Z">
-                2018-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h4><p>给定区间[-2<sup>31</sup>, 2<sup>31</sup>]内的3个整数A、B和C，请判断A+B是否大于C。</p>
-<p>输入格式：</p>
-<p>输入第1行给出正整数T(&lt;=10)，是测试用例的个数。随后给出T组测试用例，每组占一行，顺序给出A、B和C。整数间以空格分隔。</p>
-<p>输出格式：</p>
-<p>对每组测试用例，在一行中输出“Case #X: true”如果A+B&gt;C，否则输出“Case #X: false”，其中X是测试用例的编号（从1开始）。</p>
-<p>输入样例：<br>4<br>1 2 3<br>2 3 4<br>2147483647 0 2147483646<br>0 -2147483648 -2147483647<br>输出样例：<br>Case #1: false<br>Case #2: true<br>Case #3: true<br>Case #4: false    </p>
-<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><pre><code>import java.math.BigDecimal;
-import java.util.Scanner;
-
-public class No1011 {
-
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int num = Integer.parseInt(in.nextLine());
-        String originStr;
-        String[] split;
-        BigDecimal a;
-        BigDecimal b;
-        BigDecimal c;
-        boolean[] res = new boolean[num];
-        for (int i = 0; i &lt; num; i++) {
-            originStr = in.nextLine();
-            split = originStr.split(&quot; &quot;);
-            a = new BigDecimal(split[0]);
-            b = new BigDecimal(split[1]);
-            c = new BigDecimal(split[2]);
-            res[i] = (a.add(b).compareTo(c) == 1);
-        }
-        in.close();
-        for (int i = 0; i &lt; num; i++) {
-            System.out.println(&quot;Case #&quot; + (i+1) + &quot;: &quot; + res[i]);
-        }
-    }
-}
-</code></pre><h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ul>
-<li>整型可能会越界</li>
-<li>输出是从”1”开始</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2417,7 +2414,7 @@ public class No1011 {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">115</span>
+                <span class="site-state-item-count">116</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2428,7 +2425,7 @@ public class No1011 {
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -2439,7 +2436,7 @@ public class No1011 {
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
